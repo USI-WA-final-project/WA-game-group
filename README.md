@@ -1,2 +1,2 @@
-# WA-group-B
-Repository for group B's Web Atelier project
+# WA-group-A
+Repository for group A's Web Atelier project
