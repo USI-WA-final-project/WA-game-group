@@ -1,4 +1,7 @@
 // This file is the same as in the assignments: it looks through all the folders and makes a router for each.
+// Do we want to use it? I (Tereh) guess it makes the directory structure a bit simpler but it comes at the cost of
+// keeping a black box here.
+// We may just want to hardcode all the routers. We have to hardcode the linking in app.js anyway.
 
 const fs = require('fs');
 
