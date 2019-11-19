@@ -1,2 +1,2 @@
-# WA-group-A
-Repository for group A's Web Atelier project
+# WA-game-group
+Repository for the game group's Web Atelier project
