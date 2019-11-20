@@ -3,7 +3,7 @@ const express = require('express');
 // const path = require('path');
 const logger = require('morgan');
 // const bodyParser = require('body-parser');
-// const kleiDust = require('klei-dust');
+const dust = require('klei-dust');
 // const dustjsLinkedin = require('dustjs-linkedin');
 
 const app = express();
@@ -15,9 +15,9 @@ app.use(logger('dev'));
 // app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(__dirname + '/public'));
 
-// app.set('view engine', 'dust');
-// app.set('views', __dirname + '/views');
-// app.engine('dust', kleiDust.dust);
+app.set('view engine', 'dust');
+app.set('views', __dirname + '/views');
+app.engine('dust', dust.dust);
 
 
 // Initialize routers here
