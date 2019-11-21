@@ -7,3 +7,5 @@ Engine exposes some read-only constants:
 TICK_RATE is the number of times that the engine ticks per second
 WORLD_WIDTH is the width of the world
 WORLD_HEIGHT is the height of the world
+
+Engine.isRunning is true iff the engine is currently running

@@ -16,6 +16,8 @@ class Engine {
     get WORLD_WIDTH() {return WORLD_WIDTH;}
     get WORLD_HEIGHT() {return WORLD_HEIGHT;}
 
+    get isRunning() {return !!this.timer;}
+
     // Starts the engine
     init() {
         let tick_repeater = () => {
