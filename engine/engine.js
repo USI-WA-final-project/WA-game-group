@@ -32,7 +32,6 @@ class Engine {
     }
 
     get TICK_RATE() {return TICK_RATE;}
-    // TODO(anno): figure out and document the unit of these two measures
     get WORLD_WIDTH() {return WORLD_WIDTH;}
     get WORLD_HEIGHT() {return WORLD_HEIGHT;}
     get MOVE_SPEED() {return MOVE_SPEED;}
