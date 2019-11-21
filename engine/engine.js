@@ -4,33 +4,40 @@ const TICK_RATE = 30;
 const WORLD_WIDTH = 100;
 const WORLD_HEIGHT = 100;
 
-module.exports.TICK_RATE = TICK_RATE;
-// TODO(anno): figure out and document the unit of these two measures
-module.exports.WORLD_WIDTH = WORLD_WIDTH;
-module.exports.WORLD_HEIGHT = WORLD_HEIGHT;
+class Engine {
 
-let timer;
-let tick_num = 0;
-
-// Starts the engine
-function init() {
-    function tick_repeater() {
-        // Don't use setinterval to prevent skipping ticks.
-        timer = setTimeout(tick_repeater, 1000/TICK_RATE);
-        tick();
+    constructor() {
+        this.timer = null;
+        this.tick_num = 0;
     }
-    tick_repeater();
-}
-module.exports.init = init;
 
-// This function must be completely synchronous.
-function tick() {
-    tick_num++;
-}
+    get TICK_RATE() {return TICK_RATE;}
+    // TODO(anno): figure out and document the unit of these two measures
+    get WORLD_WIDTH() {return WORLD_WIDTH;}
+    get WORLD_HEIGHT() {return WORLD_HEIGHT;}
 
-function shutdown() {
-    if (timer) {
-        clearTimeout(timer);
+    // Starts the engine
+    init() {
+        let tick_repeater = () => {
+            // Don't use setinterval to prevent skipping ticks.
+            this.timer = setTimeout(tick_repeater, 1000/TICK_RATE);
+            this.tick();
+        };
+        tick_repeater();
     }
+
+    // shuts the engine down.
+    shutdown() {
+        if (this.timer) {
+            clearTimeout(this.timer);
+        }
+    }
+
+    // This function must be completely synchronous.
+    tick() {
+        this.tick_num++;
+    }
+
 }
-module.exports.shutdown = shutdown;
+
+module.exports = new Engine();
