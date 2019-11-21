@@ -1,0 +1,13 @@
+{
+  "body": {
+    "type": 0,
+    "faces": [null, null, null, null, null, {
+      "type": 0,
+      "faces": ["UNSERIALISABLE", null, null, null, {
+        "type": 1
+      }, {
+        "type": 2
+      }]
+    }]
+  }
+}
