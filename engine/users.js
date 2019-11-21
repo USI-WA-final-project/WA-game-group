@@ -1,3 +1,5 @@
+// THIS FILE IS LOCKED BY MARCO TEREH. ANYBODY ELSE PLEASE DO NOT COMMIT TO THIS FILE WITHOUT DISCUSSING IT FIRST.
+
 class Users {
     constructor() {
         this._users = [];
@@ -5,10 +7,11 @@ class Users {
     }
     get _newId() {return this._id++};
 
-    add() {
-        this._users.push({
-            id:  this._newId(),
-        });
+    add(x, y) {
+        this._users.push(new User(
+            this._newId(),
+            x, y
+        ));
     }
 
     remove(id) {
@@ -22,6 +25,28 @@ class Users {
         this._users.forEach(...params);
     }
 
+    with(id, cb) {
+        let found = this._users.find(elem => elem.id === id);
+        if (found){
+            cb(found)();
+        }
+    }
 }
 
 module.exports = Users;
+
+class User {
+    constructor(id, x, y) {
+        this.id = id;
+        this.nextActions = [];
+        this.x = x;
+        this.y = y;
+        this.movedV = false;
+        this.movedH = false;
+    }
+
+    tick_reset() {
+        this.movedH = false;
+        this.movedV = false;
+    }
+}
