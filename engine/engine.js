@@ -35,8 +35,8 @@ class Engine {
     // TODO(anno): figure out and document the unit of these two measures
     get WORLD_WIDTH() {return WORLD_WIDTH;}
     get WORLD_HEIGHT() {return WORLD_HEIGHT;}
-    get DIRECTION() {return DIRECTION;}
     get MOVE_SPEED() {return MOVE_SPEED;}
+    get DIRECTION() {return DIRECTION;}
 
 
     get tick_num() {return this._tick_num;}
@@ -68,6 +68,13 @@ class Engine {
         this._users.with(id, user => {
             user.nextActions.push({action: ACTION.MOVE, direction: direction});
         })
+    }
+
+    // creates a new user and returns its ID
+    create() {
+        let x = Math.random() * WORLD_WIDTH;
+        let y = Math.random() * WORLD_HEIGHT;
+        return this._users.add(x, y);
     }
 
     // This function must be completely synchronous.

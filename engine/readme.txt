@@ -24,6 +24,7 @@ Engine exposes an API composed of the following functions:
   direction must be one of the DIRECTION constants.
   When multiple moves are issued during the same tick, the result is undefined. It is, however, guaranteed that they
   will not move by more than MOVE_SPEED in any direction per tick.
+- create() creates a new player at random coordinates and returns their ID.
 
 All other fields, properties or functions which the class may or may not have are internal and may not be
 read or modified by the server.

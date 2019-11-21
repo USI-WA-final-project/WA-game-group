@@ -8,10 +8,12 @@ class Users {
     get _newId() {return this._id++};
 
     add(x, y) {
+        let newId = this._newId();
         this._users.push(new User(
-            this._newId(),
+            newId,
             x, y
         ));
+        return newId;
     }
 
     remove(id) {
