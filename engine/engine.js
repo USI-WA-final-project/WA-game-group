@@ -3,7 +3,7 @@ const WORLD_WIDTH = 100;
 const WORLD_HEIGHT = 100;
 
 module.exports.TICK_RATE = TICK_RATE;
-// TODO:  figure out and document the unit of these two measures
+// TODO(anno): figure out and document the unit of these two measures
 module.exports.WORLD_WIDTH = TICK_RATE;
 module.exports.WORLD_HEIGHT = TICK_RATE;
 
