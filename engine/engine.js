@@ -4,8 +4,8 @@ const WORLD_HEIGHT = 100;
 
 module.exports.TICK_RATE = TICK_RATE;
 // TODO(anno): figure out and document the unit of these two measures
-module.exports.WORLD_WIDTH = TICK_RATE;
-module.exports.WORLD_HEIGHT = TICK_RATE;
+module.exports.WORLD_WIDTH = WORLD_WIDTH;
+module.exports.WORLD_HEIGHT = WORLD_HEIGHT;
 
 let timer;
 let tick_num = 0;
