@@ -9,3 +9,6 @@ WORLD_WIDTH is the width of the world
 WORLD_HEIGHT is the height of the world
 
 Engine.isRunning is true iff the engine is currently running
+
+All other fields, properties or functions which the class may or may not have are internal and may not be
+read or modified by the server.
