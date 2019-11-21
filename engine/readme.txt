@@ -4,11 +4,26 @@ are internal to the engine and should not be used by the server.
 Server must call Engine.init() to start the world and Engine.shutdown() to shut it down.
 
 Engine exposes some read-only constants:
-TICK_RATE is the number of times that the engine ticks per second
-WORLD_WIDTH is the width of the world
-WORLD_HEIGHT is the height of the world
+- TICK_RATE is the number of times that the engine ticks per second
+- WORLD_WIDTH is the width of the world
+- WORLD_HEIGHT is the height of the world
+- DIRECTION is an enum of directions.
+  It contains all 8 cardinal directions in the format VERTICAL | HORIZONTAL | VERTICAL_HORIZONTAL
+  where VERTICAL is one of [UP, DOWN] and HORIZONTAL is one of [RIGHT, LEFT]. e.g. DIRECTION.UP_RIGHT or DIRECTION.LEFT
+- MOVE_SPEED is the speed at which players move
 
-Engine.isRunning is true iff the engine is currently running
+Engine exposes some read-only metadata:
+- isRunning is true iff the engine is currently running
+- tick_num is the sequential number of the current tick.
+- start_time is the timestamp at which the engine was started. This can be used together with tick_num to
+  figure out how much the engine has been delayed compared to the optimal frequency of TICK_RATE Hz
+
+Engine exposes an API composed of the following functions:
+- move(id: id, direction: DIRECTION) given a user id and a DIRECTION, registers that this player moved towards DIRECTION
+  in the current tick. Attempts to move an id that does not exist (or does not exist anymore) will be ignored.
+  direction must be one of the DIRECTION constants.
+  When multiple moves are issued during the same tick, the result is undefined. It is, however, guaranteed that they
+  will not move by more than MOVE_SPEED in any direction per tick.
 
 All other fields, properties or functions which the class may or may not have are internal and may not be
 read or modified by the server.
