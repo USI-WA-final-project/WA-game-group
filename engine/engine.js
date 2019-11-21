@@ -1,5 +1,7 @@
 // THIS FILE IS LOCKED BY MARCO TEREH. ANYBODY ELSE PLEASE DO NOT COMMIT TO THIS FILE WITHOUT DISCUSSING IT FIRST.
 
+const Users = require('./users');
+
 const TICK_RATE = 30;
 const WORLD_WIDTH = 100;
 const WORLD_HEIGHT = 100;
@@ -7,8 +9,10 @@ const WORLD_HEIGHT = 100;
 class Engine {
 
     constructor() {
+        // TODO(anno) maybe: refactor internal fields, properties and/or functions to start with an underscore
         this.timer = null;
         this.tick_num = 0;
+        this.users = new Users();
     }
 
     get TICK_RATE() {return TICK_RATE;}
