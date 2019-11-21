@@ -27,3 +27,7 @@ Engine exposes an API composed of the following functions:
 
 All other fields, properties or functions which the class may or may not have are internal and may not be
 read or modified by the server.
+
+
+The engine's internal representation of the map uses cardinal coordinates with the orgin at the top left.
+Any coordinates that may or may not be exposed by the engine are to be assumed in this format.
