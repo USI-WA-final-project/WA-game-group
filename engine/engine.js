@@ -145,6 +145,7 @@ class Engine {
             user.update();
         })
     }
+
 }
 
 module.exports = new Engine();
