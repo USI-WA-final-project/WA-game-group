@@ -33,6 +33,14 @@ class Users {
             cb(found)();
         }
     }
+
+    find(id) {
+        let found = this._users.find(elem => elem.id === id);
+        if (found){
+            return found;
+        }
+        return null;
+    }
 }
 
 module.exports = Users;

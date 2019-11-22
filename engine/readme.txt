@@ -25,6 +25,14 @@ Engine exposes an API composed of the following functions:
   When multiple moves are issued during the same tick, the result is undefined. It is, however, guaranteed that they
   will not move by more than MOVE_SPEED in any direction per tick.
 - create() creates a new player at random coordinates and returns their ID.
+- info(id) given a user id returns an object representing that player. If id is not a valid user id, returns null.
+  returned object has the following structure:
+    .id: user id of the player.
+    .position.x: x coordinate of the player's position
+    .position.y: y coordinate of the player's position
+  Note that this structure is both incomplete and non-final. I reserve the right to change it at any time (that said,
+  I'll try to keep existing fields close to these, and I'll never remove information completely)
+  Note that you should not call this every tick to update players - I'll add a callback-powered mechanism for that.
 
 All other fields, properties or functions which the class may or may not have are internal and may not be
 read or modified by the server.

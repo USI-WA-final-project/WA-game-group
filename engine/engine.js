@@ -76,6 +76,19 @@ class Engine {
         return this._users.add(x, y);
     }
 
+    // returns information about a user
+    info(id) {
+        let user = this._users.find(id);
+        if (!user) return null;
+        return  {
+            id: user.id,
+            position: {
+                x: user.x,
+                y: user.y
+            }
+        }
+    }
+
     // This function must be completely synchronous.
     tick() {
         this._tick_num++;
