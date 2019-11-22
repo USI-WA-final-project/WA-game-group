@@ -1,5 +1,10 @@
 // THIS FILE IS LOCKED BY MARCO TEREH. ANYBODY ELSE PLEASE DO NOT COMMIT TO THIS FILE WITHOUT DISCUSSING IT FIRST.
 
+const consts = require('./common_constants');
+const BODYPART_TYPE = consts.BODYPART_TYPE;
+const MAX_HEALTH = consts.MAX_HEALTH;
+const ACTION = consts.ACTION;
+
 class Users {
     constructor() {
         this._users = [];
@@ -56,6 +61,16 @@ class User {
         this.movedH = false;
 
         this.callbacks = [];
+
+
+        this.components = [
+            {
+                type: BODYPART_TYPE.CELL,
+                faces: [-1, -1, -1, -1, -1, -1],
+                health: MAX_HEALTH,
+            },
+        ];
+        this.rotation = 0;
     }
 
     tick_reset() {
@@ -81,5 +96,35 @@ class User {
                 y: this.y
             }
         }
+    }
+
+    act(action) {
+        this.nextActions.push(action);
+    }
+
+    damage(part, amt) {
+        let component = this.components[part];
+        switch(component.type) {
+            case BODYPART_TYPE.SPIKE:
+                // TODO(anno): component = component.parent
+            case BODYPART_TYPE.CELL:
+                component.health -= amt;
+                if (component.health <= 0) {
+                    this.shrink(part);
+                }
+                break;
+            case BODYPART_TYPE.SHIELD:
+                break;
+            case BODYPART_TYPE.BOUNCE:
+                // TODO(anno): decide on how to handle inflating
+                component.inflated = 0;
+                // TODO(anno) if it's already deflated, transmit to body
+                break;
+        }
+    }
+
+    shrink(part) {
+        delete this.components[part];
+        // TODO(anno): remove from other parts and, if killed, act(destroy)
     }
 }

@@ -1,11 +1,14 @@
 // THIS FILE IS LOCKED BY MARCO TEREH. ANYBODY ELSE PLEASE DO NOT COMMIT TO THIS FILE WITHOUT DISCUSSING IT FIRST.
 
 const Users = require('./users');
+const consts = require('./common_constants');
 
 const TICK_RATE = 30;
 const WORLD_WIDTH = 1000;
 const WORLD_HEIGHT = 1000;
 const MOVE_SPEED = 5;
+const MAX_HEALTH = consts.MAX_HEALTH;
+
 
 const DIRECTION = Object.freeze({
     UP: Symbol("UP"),
@@ -17,9 +20,7 @@ const DIRECTION = Object.freeze({
     LEFT: Symbol("LEFT"),
     UP_LEFT: Symbol("UP_LEFT"),
 });
-const ACTION = Object.freeze({
-    MOVE: Symbol("MOVE"),
-});
+const ACTION = consts.ACTION;
 
 class Engine {
 
@@ -35,8 +36,9 @@ class Engine {
     get WORLD_WIDTH() {return WORLD_WIDTH;}
     get WORLD_HEIGHT() {return WORLD_HEIGHT;}
     get MOVE_SPEED() {return MOVE_SPEED;}
-    get DIRECTION() {return DIRECTION;}
+    get MAX_HEALTH() {return MAX_HEALTH;}
 
+    get DIRECTION() {return DIRECTION;}
 
     get tick_num() {return this._tick_num;}
     get start_time() {return this._start_time;}
@@ -65,7 +67,7 @@ class Engine {
     // moves a user in DIRECTION
     move(id, direction) {
         this._users.with(id, user => {
-            user.nextActions.push({action: ACTION.MOVE, direction: direction});
+            user.act({action: ACTION.MOVE, direction: direction});
         })
     }
 

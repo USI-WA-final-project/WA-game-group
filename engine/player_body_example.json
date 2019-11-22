@@ -1,14 +1,19 @@
 {
-  "body": {
-    "type": 0,
-    "faces": [null, null, null, null, null, {
+  "components": [
+    {
       "type": 0,
-      "faces": ["UNSERIALISABLE", null, null, null, {
-        "type": 1
-      }, {
-        "type": 2
-      }]
-    }]
-  },
+      "faces": [-1, -1, -1, -1, -1, 1]
+    },
+    {
+      "type": 0,
+      "faces": [0, -1, -1, -1, 3, 4]
+    },
+    {
+      "type": 1
+    },
+    {
+      "type": 2
+    }
+  ],
   "rotation": 0
 }
