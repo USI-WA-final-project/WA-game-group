@@ -80,13 +80,14 @@ class Engine {
     info(id) {
         let user = this._users.find(id);
         if (!user) return null;
-        return  {
-            id: user.id,
-            position: {
-                x: user.x,
-                y: user.y
-            }
-        }
+        return user.export();
+    }
+
+    // registers a callback for updates on a user
+    register(id, cb) {
+        this._users.with(id, usr => {
+            usr.register(cb);
+        })
     }
 
     // This function must be completely synchronous.
@@ -94,6 +95,7 @@ class Engine {
         this._tick_num++;
         this._users.forEach(user => {
             user.tick_reset();
+
             user.nextActions.forEach(action => {
                 switch (action.action) {
                     case ACTION.MOVE:
@@ -139,6 +141,8 @@ class Engine {
                 }
             });
             user.nextActions = [];
+
+            user.update();
         })
     }
 

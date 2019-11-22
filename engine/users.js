@@ -49,14 +49,37 @@ class User {
     constructor(id, x, y) {
         this.id = id;
         this.nextActions = [];
+
         this.x = x;
         this.y = y;
         this.movedV = false;
         this.movedH = false;
+
+        this.callbacks = [];
     }
 
     tick_reset() {
         this.movedH = false;
         this.movedV = false;
+    }
+
+    register(cb) {
+        this.callbacks.push(cb);
+    }
+
+    update() {
+        this.callbacks.forEach(cb => {
+            cb(this.export());
+        })
+    }
+
+    export() {
+        return {
+            id: this.id,
+            position: {
+                x: this.x,
+                y: this.y
+            }
+        }
     }
 }
