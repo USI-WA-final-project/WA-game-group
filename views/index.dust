@@ -12,15 +12,18 @@
     <canvas id="canvas"></canvas>
     <!-- Enter Menu -->
     <div id="menu_enter" class="hidden">
+        <audio autoplay loop>
+            <source src="media/main_menu.mp3" type="audio/mpeg">
+        </audio>
     	<img id="logo" src="img/logo.svg" alt="The Legend of Ajax">
     	<div>
-    		<img src="img/favicon.ico" alt="favicon">
-    	    <input type="text" placeholder="Enter your name">
+    		<img id="logo_input" src="img/favicon.ico" alt="favicon">
+    	    <input type="text" minlength=3 maxlength=12 placeholder="Enter your name">
     	</div>
     	<button type="submit">Play</button>
     	<ul>
-    		<li><img src="img/joystick.png" alt="joystick">Rules & Controls</li>
-    		<li><img src="img/info.png" alt="info">Info</li>
+    		<li><img src="img/rules.svg" alt="joystick">Rules & Controls</li>
+    		<li><img src="img/info.svg" alt="info">Info</li>
     	</ul>
     </div>
     <script src="js/main.js" async></script>
