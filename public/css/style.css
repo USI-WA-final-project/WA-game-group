@@ -44,26 +44,33 @@ body {
 
 #menu_enter img {
 	max-width: 30px;
-	vertical-align: top;
+	vertical-align: middle;
 }
 #logo_input {
-	transition: 500ms ease-out;
-}
-
-#logo_input:hover {
-	transform: rotate(-180deg);
+	transition: 300ms ease-out;
 }
 
 #menu_enter li {
+	cursor:pointer;
 	list-style: none;
 	font-weight: 600;
+	transition:500ms;
 	/*text-decoration: none;*\*/
+}
+
+#menu_enter li:hover {
+	text-decoration: underline;
 }
 
 #menu_enter ul {
 	width: fit-content;
 	margin-left: auto;
 	text-align: left;
+}
+
+#menu_enter ul img {
+	padding-bottom:7px 0;
+	padding-right: 5px;
 }
 
 #menu_enter input {

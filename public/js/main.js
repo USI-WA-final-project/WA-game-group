@@ -1,7 +1,15 @@
 const menu_enter = document.getElementById("menu_enter");
 const play_button = document.querySelector("div[id=menu_enter] button");
 
-//play_button.addEventListener("click", init);
+let angle = 0;
+menu_enter.querySelector("div input").onkeyup = () => {
+	angle += 45;
+	document.getElementById("logo_input").style.transform = "rotate("+angle+"deg)";
+}
+
+window.onload = () => {
+	menu_enter.querySelector("div audio").play();
+}
 
 function assets() {
 	return new Promise(resolve => {
@@ -13,12 +21,13 @@ function assets() {
 	});
 }
 
-function init() {
+function connect() {
 	return new Promise(resolve => {
 		resolve();
 	});
 }
-Promise.all([assets(), init()]).then(() => {
+Promise.all([assets(), connect()]).then(() => {
+
 	play_button.onclick = () => {
 		console.log("START");
 		menu_enter.parentNode.removeChild(menu_enter);
