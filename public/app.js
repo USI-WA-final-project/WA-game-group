@@ -13,6 +13,8 @@ class App {
 	drawMap() {
 		const map = new Image();
 		map.src = 'img/bg.jpg';
-		this.ctx.drawImage(map,0 ,0);
+		map.onload = () => {
+			this.ctx.drawImage(map,0 ,0);
+		}
 	}
 }

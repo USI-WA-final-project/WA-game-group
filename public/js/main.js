@@ -39,7 +39,7 @@ Promise.all([assets(), connect()]).then(() => {
 
 	play_button.onclick = () => {
 		console.log("START");
-		init();
 		menu_enter.parentNode.removeChild(menu_enter);
+		init();
 	};
 });
