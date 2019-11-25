@@ -25,7 +25,7 @@ class App {
 	drawPlayer() {
 		const player = new Image();
 		player.src = 'img/cell.svg';
-		player.onload = () => {
+		player.onload = () => { 
 			this.ctx.drawImage(player, 
 							   this.width / 2 - player.width / 2,
         					   this.height / 2 - player.height / 2);
