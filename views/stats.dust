@@ -8,6 +8,10 @@
     </span>
 {:else}
     <span class="noResults">No statistics yet.</span>
+<<<<<<< HEAD
 {/result}
 
 {>"partials/footer" /}
+=======
+{/result}
+>>>>>>> b7e4d67d06507590dcf2d266495a68f26d7f72fe
