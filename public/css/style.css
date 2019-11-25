@@ -1,0 +1,106 @@
+/*------- GLOBAL ------*/
+* {
+	margin: 0;
+	padding: 0;
+	z-index: 0;
+}
+
+html, body {
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	min-width: 400px;
+	font-family: 'Calibri', sans-serif;
+}
+
+
+/*------- ID - CLASSES ------*/
+
+
+/*- menu_enter -*/
+#canvas {
+	width: 100%;
+	height: 100vh;
+}
+
+#menu_enter {
+	position:absolute;
+	right: 25%;
+	top: 20%;
+	width: 50%;
+	margin: auto;
+	text-align: center;
+	-webkit-box-shadow: 1px 1px 8px 2px rgba(143,143,143,1);
+	-moz-box-shadow: 1px 1px 8px 2px rgba(143,143,143,1);
+	box-shadow: 1px 1px 8px 2px rgba(143,143,143,1);
+	padding: 20px 40px;
+}
+
+#menu_enter #logo {
+	max-width:100%;
+}
+
+#menu_enter img {
+	max-width: 30px;
+	vertical-align: middle;
+}
+#logo_input {
+	transition: 300ms ease-out;
+}
+
+#menu_enter li {
+	cursor:pointer;
+	list-style: none;
+	font-weight: 600;
+	transition:500ms;
+	/*text-decoration: none;*\*/
+}
+
+#menu_enter li:hover {
+	text-decoration: underline;
+}
+
+#menu_enter ul {
+	width: fit-content;
+	margin-left: auto;
+	text-align: left;
+}
+
+#menu_enter ul img {
+	padding-bottom:7px 0;
+	padding-right: 5px;
+}
+
+#menu_enter input {
+	outline:none;
+	font-size: 15px;
+	padding: 4px 20px;
+	border: none;
+	border-bottom: 1px solid rgba(59, 64, 67, 1);
+}
+
+#menu_enter div {
+	margin:50px 0 10px 0;
+}
+
+#menu_enter button {
+	font-weight: 700;
+	letter-spacing: 1.5px;
+	cursor:pointer;
+	padding: 8px 30px;
+	margin: 50px;
+	border:none;
+	border-radius: 4px;
+	background-color: rgba(59, 64, 67, 1);
+	color: rgba(250, 251, 252, 1);
+	box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 1);
+	transition: 300ms;
+}
+
+#menu_enter button:hover {
+	border-radius: 4px;
+	background-color: rgba(187, 187, 188, 1);
+	color: rgba(59, 64, 67, 1);
+}
