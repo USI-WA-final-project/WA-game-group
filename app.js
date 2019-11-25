@@ -10,7 +10,13 @@ const mongoose = require('mongoose');
 const app = express();
 
 //DB Connection
-mongoose.connect('mongodb://localhost/loa', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost/loa', { useNewUrlParser: true, useUnifiedTopology: true })
+.then(() => {
+    console.log('Database connection successful');
+})
+.catch(err => {
+    console.error('Database connection error');
+});
 
 //configure app
 app.use(logger('dev'));
@@ -27,6 +33,7 @@ app.engine('dust', dust.dust);
 // Initialize routers here
 const routers = require(__dirname + '/routes/routers');
 app.use('/', routers.root);
+app.use('/stats', routers.stats);
 
 
 const server = app.listen(3000, function() {

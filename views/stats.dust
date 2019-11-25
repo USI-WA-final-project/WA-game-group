@@ -1,0 +1,11 @@
+{>"partials/header" /}
+
+{#result}
+    <span>
+        <span>Name: {username}</span>
+        <span>Score: {score}</span>
+        <span>Date started: {dateStarted}</span>
+    </span>
+{:else}
+    <span class="noResults">No statistics yet.</span>
+{/result}
