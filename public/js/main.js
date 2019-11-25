@@ -2,9 +2,17 @@ const menu_enter = document.getElementById("menu_enter");
 const play_button = document.querySelector("div[id=menu_enter] button");
 
 let angle = 0;
+
 menu_enter.querySelector("div input").onkeyup = () => {
 	angle += 45;
 	document.getElementById("logo_input").style.transform = "rotate("+angle+"deg)";
+}
+
+function init() {
+	// Create canvas app
+    const app = new App({ canvas: 'canvas' });
+
+    app.drawMap();
 }
 
 window.onload = () => {
@@ -26,10 +34,12 @@ function connect() {
 		resolve();
 	});
 }
+
 Promise.all([assets(), connect()]).then(() => {
 
 	play_button.onclick = () => {
 		console.log("START");
+		init();
 		menu_enter.parentNode.removeChild(menu_enter);
 	};
 });

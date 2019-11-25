@@ -26,10 +26,11 @@ body {
 }
 
 #menu_enter {
+	min-width: 400px;
 	position:absolute;
 	right: 25%;
-	top: 20%;
-	width: 50%;
+	top: calc(25% + 20px);
+	width: calc(50% - 80px);
 	margin: auto;
 	text-align: center;
 	-webkit-box-shadow: 1px 1px 8px 2px rgba(143,143,143,1);
@@ -69,7 +70,7 @@ body {
 }
 
 #menu_enter ul img {
-	padding-bottom:7px 0;
+	padding-bottom:7px;
 	padding-right: 5px;
 }
 
