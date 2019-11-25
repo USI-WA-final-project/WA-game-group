@@ -3,6 +3,8 @@
 const consts = require('./common_constants');
 const BODYPART_TYPE = consts.BODYPART_TYPE;
 const MAX_HEALTH = consts.MAX_HEALTH;
+const MAX_INFLATE = consts.MAX_INFLATE;
+const INFLATE_RATE = consts.INFLATE_RATE;
 const ACTION = consts.ACTION;
 
 class Users {
@@ -102,11 +104,24 @@ class User {
         this.nextActions.push(action);
     }
 
+    grow(part, face, type) {
+        //TODO: do
+        //...
+        let newComponent = {};
+        switch (type) {
+            case BODYPART_TYPE.BOUNCE:
+                newComponent.inflated = MAX_INFLATE;
+            case BODYPART_TYPE.SPIKE:
+                newComponent.body = part; // maybe? depends on how exactly part is passed
+        }
+        //...
+    }
+
     damage(part, amt) {
         let component = this.components[part];
         switch(component.type) {
             case BODYPART_TYPE.SPIKE:
-                // TODO(anno): component = component.parent
+                component = component.body;
             case BODYPART_TYPE.CELL:
                 component.health -= amt;
                 if (component.health <= 0) {
@@ -120,11 +135,27 @@ class User {
                 component.inflated = 0;
                 // TODO(anno) if it's already deflated, transmit to body
                 break;
+            default:
+                console.log('unknown bodypart encountered: ', component.type);
         }
     }
 
     shrink(part) {
+        if (part === 0) {
+            this.act({action: ACTION.DESTROY});
+            return;
+        }
         delete this.components[part];
-        // TODO(anno): remove from other parts and, if killed, act(destroy)
+        this.components.forEach(component => {
+            component.faces.map(val => {
+                if (val === part) {
+                    return -1;
+                }
+                return val;
+            })
+        })
+        // TODO(anno): remove no-longer-connected parts
+        // depth-first search through all the parts, starting from 0. Mark them as connected,
+        // then remove all non-connected parts
     }
 }
