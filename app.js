@@ -5,8 +5,12 @@ const logger = require('morgan');
 // const bodyParser = require('body-parser');
 const dust = require('klei-dust');
 // const dustjsLinkedin = require('dustjs-linkedin');
+const mongoose = require('mongoose');
 
 const app = express();
+
+//DB Connection
+mongoose.connect('mongodb://localhost/loa', { useNewUrlParser: true, useUnifiedTopology: true });
 
 //configure app
 app.use(logger('dev'));
@@ -24,4 +28,13 @@ app.engine('dust', dust.dust);
 const routers = require(__dirname + '/routes/routers');
 app.use('/', routers.root);
 
-app.listen(3000);
+
+const server = app.listen(3000, function() {
+    console.log('Express server listening on port ' + server.address().port);
+});
+
+const io = require('socket.io')(server);
+
+io.on('connection', function(socket){
+    console.log('Client connected');
+});
