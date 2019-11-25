@@ -17,7 +17,7 @@
     		<li><img src="img/info.svg" alt="info">Info</li>
     	</ul>
     </div>
-    <script src="js/main.js" async></script>
-    <script src="js/app.js"></script>
+    <script src="/js/main.js" async></script>
+    <script src="/app.js"></script>
 
 {> "partials/footer" /}
