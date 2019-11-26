@@ -47,7 +47,12 @@ const io = require('socket.io')(server);
 
 io.on('connection', function(socket){
     console.log('Client connected');
-    console.log(engine.create());
+    let id = engine.create();
+    console.log('Created player ', id);
+
+    socket.on('message', function() {
+        //do stuff, fun(id) etc
+    });
 
     socket.emit('message', "Welcome!");
 });
