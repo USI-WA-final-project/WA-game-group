@@ -15,7 +15,7 @@ class Users {
     get _newId() {return this._id++};
 
     add(x, y) {
-        let newId = this._newId();
+        let newId = this._newId;
         this._users.push(new User(
             newId,
             x, y
@@ -108,6 +108,7 @@ class User {
         //TODO: do
         //...
         let newComponent = {};
+        // noinspection FallThroughInSwitchStatementJS
         switch (type) {
             case BODYPART_TYPE.BOUNCE:
                 newComponent.inflated = MAX_INFLATE;
@@ -125,6 +126,7 @@ class User {
 
     damage(part, amt) {
         let component = this.components[part];
+        // noinspection FallThroughInSwitchStatementJS
         switch(component.type) {
             case BODYPART_TYPE.BOUNCE:
                 if (component.working) {
