@@ -138,7 +138,12 @@ class Engine {
                             }
                         }
                         break;
-                    // TODO: ACTION.DESTROY
+                    case ACTION.DESTROY:
+                        user.callbacks.forEach(cb => {
+                            cb(null);
+                        });
+                        this._users.remove(user.id);
+                        break;
                     default:
                         console.log('Unknown action encountered: ', action);
                 }

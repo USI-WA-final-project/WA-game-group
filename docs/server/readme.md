@@ -31,6 +31,7 @@ Engine exposes an API composed of the following functions:
 - `register(id: id, callback: function)` given a user id and a callback function, registers the callback so that it will be called
   every tick, given as parameter the object representation of the player with the given user id.
   Has no effect if user id does not exist.
+  Calls of the callback are not guaranteed to occur only once per tick or once every tick.
   When a player dies, all callbacks are unregistered. The last call to each callback will be passed null instead of
   a player object
 
