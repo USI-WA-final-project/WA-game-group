@@ -33,7 +33,7 @@ Engine exposes an API composed of the following functions:
   Has no effect if user id does not exist.
   Calls of the callback are not guaranteed to occur only once per tick or once every tick.
   When a player dies, all callbacks are unregistered. The last call to each callback will be passed null instead of
-  a player object
+  a player object.
 
 All other fields, properties or functions which the class may or may not have are internal and may not be
 read or modified by the server.

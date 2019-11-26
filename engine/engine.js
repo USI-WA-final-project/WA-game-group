@@ -116,8 +116,9 @@ class Engine {
                                 amount += MOVE_SPEED;
                             }
                             if (amount !== 0) {
-                                user.x += amount;
-                                if (user.x > WORLD_WIDTH) user.x = WORLD_WIDTH;
+                                user.y += amount;
+                                if (user.y > WORLD_WIDTH) user.y = WORLD_HEIGHT;
+                                if (user.y < 0) user.y = 0;
                                 user.movedV = true;
                             }
                         }
@@ -134,8 +135,9 @@ class Engine {
                                 amount += MOVE_SPEED;
                             }
                             if (amount !== 0) {
-                                user.y += amount;
-                                if (user.y > WORLD_WIDTH) user.y = WORLD_HEIGHT;
+                                user.x += amount;
+                                if (user.x > WORLD_WIDTH) user.x = WORLD_WIDTH;
+                                if (user.x < 0) user.x = 0;
                                 user.movedH = true;
                             }
                         }
