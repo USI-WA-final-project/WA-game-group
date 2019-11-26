@@ -31,4 +31,18 @@ class App {
         					   this.height / 2 - player.height / 2);
 		}
 	}
+
+	enableInput() {
+		console.log("enabled");
+		this.canvas.addEventListener("keydown", this.fnkeydown.bind(this), true);
+	}
+
+	disableInputs() {
+		console.log("disabled");
+		this.canvas.removeEventListener('keydown', this.fnkeydown);
+	}
+
+	fnkeydown(e) {
+		console.log("ciao");
+	}
 }

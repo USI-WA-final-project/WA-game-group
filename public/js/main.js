@@ -2,6 +2,7 @@ const menu_enter = document.getElementById("menu_enter");
 const play_button = document.querySelector("div[id=menu_enter] button");
 
 let angle = 0;
+let inGame = false;
 
 menu_enter.querySelector("div input").onkeyup = () => {
 	angle += 45;
@@ -12,6 +13,14 @@ function init() {
 	// Create canvas app
     const app = new App({ canvas: 'canvas' });
     app.drawMap();
+
+    if (!inGame) {
+    	app.enableInput();
+    	inGame = true;
+    } else {
+    	app.disableInput();
+    	inGame = false;
+    }
 }
 
 window.onload = () => {
@@ -34,21 +43,11 @@ function connect() {
 	});
 }
 
-function startInput() {
-
-}
-
-function stopInput() {
-	
-}
-
 Promise.all([assets(), connect()]).then(() => {
 
 	play_button.onclick = () => {
 		console.log("START");
 		menu_enter.parentNode.removeChild(menu_enter);
 		init();
-		startInput();
-		stopInput();
 	};
 });
