@@ -49,6 +49,9 @@ Engine exposes an API composed of the following functions:
   Calls of the callback are not guaranteed to occur only once per tick or once every tick.
   When a player dies, all callbacks are unregistered. The last call to each callback will be passed null instead of
   a player object.
+- `register_global(callback)` given a callback function, registers the callback so that it will be called every
+  tick, given as parameter an object representation of the world
+  - `.players`: array<player>, an array containing the object representation of all players in the world
 
 All other fields, properties or functions which the class may or may not have are internal and may not be
 read or modified by the server.
