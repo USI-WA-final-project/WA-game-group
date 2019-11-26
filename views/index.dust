@@ -51,7 +51,7 @@
     </div>
     <script src="/js/hexagon/canvas_interface.js"></script>
     <script src="/js/hexagon/composer.js"></script>
-    <script src="/js/hexagon/color.js"></script>
+    <script src="/js/hexagon/colors.js"></script>
     <script src="/js/main.js" async></script>
     <script src="/js/editor.js"></script>
     <script src="/app.js"></script>
