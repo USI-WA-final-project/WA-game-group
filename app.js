@@ -65,7 +65,7 @@ io.on('connection', function(socket){
         let x = data.position.x;
         let y = data.position.y;
 
-        let players;
+        let players = [];
 
         worldState.players.forEach(function(el) {
             if (Math.abs(el.position.x - x) < RENDER_DISTANCE && 
@@ -74,7 +74,7 @@ io.on('connection', function(socket){
             }            
         });
 
-        let resources;
+        let resources = [];
 
         /* worldState.resources.forEach(function(el) {
             if (Math.abs(el.position.x - x) < RENDER_DISTANCE && 
@@ -83,7 +83,7 @@ io.on('connection', function(socket){
             }
         }); */
 
-        let structures;
+        let structures = [];
 
         /* worldState.structures.forEach(function(el) {
             if (Math.abs(el.position.x - x) < RENDER_DISTANCE && 
