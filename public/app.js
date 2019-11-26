@@ -16,6 +16,7 @@ class App {
 	}
 
 	drawMap(data) {
+		this.clearCanvas();
 		console.log(data);
 		data.players.forEach((elem) => {
 
@@ -27,6 +28,12 @@ class App {
 		// TODO: cambio colore
 		const color  = { core: "#35b27d", child: "#6ee6ad" };
 		this.composer.build(playerBody, color, position);
+	}
+
+	clearCanvas() {
+		const ctx = this.canvas.getContext('2d');
+		const rect = this.canvas.getBoundingClientRect();
+		ctx.clearRect(0, 0, rect.width, rect.height);
 	}
 
 	enableInput() {
