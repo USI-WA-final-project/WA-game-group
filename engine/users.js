@@ -111,8 +111,13 @@ class User {
         switch (type) {
             case BODYPART_TYPE.BOUNCE:
                 newComponent.inflated = MAX_INFLATE;
+                newComponent.working = true;
             case BODYPART_TYPE.SPIKE:
                 newComponent.body = part; // maybe? depends on how exactly part is passed
+                break;
+            case BODYPART_TYPE.CELL:
+                newComponent.health = MAX_HEALTH;
+                break;
         }
         //...
     }
@@ -120,6 +125,12 @@ class User {
     damage(part, amt) {
         let component = this.components[part];
         switch(component.type) {
+            case BODYPART_TYPE.BOUNCE:
+                if (component.working) {
+                    component.inflated = 0;
+                    component.working = false;
+                    break;
+                }
             case BODYPART_TYPE.SPIKE:
                 component = component.body;
             case BODYPART_TYPE.CELL:
@@ -129,11 +140,6 @@ class User {
                 }
                 break;
             case BODYPART_TYPE.SHIELD:
-                break;
-            case BODYPART_TYPE.BOUNCE:
-                // TODO(anno): decide on how to handle inflating
-                component.inflated = 0;
-                // TODO(anno) if it's already deflated, transmit to body
                 break;
             default:
                 console.log('unknown bodypart encountered: ', component.type);
