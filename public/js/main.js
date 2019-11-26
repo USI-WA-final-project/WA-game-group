@@ -6,20 +6,22 @@ info.onclick = () => {
 
 };
 
+let socket = undefined;
+
 let angle = 0;
 let inGame = false;
 
 menu_enter.querySelector("div input").onkeyup = () => {
 	angle += 45;
 	document.getElementById("logo_input").style.transform = "rotate("+angle+"deg)";
-}
+};
 
 function init() {
 	// Create canvas app
     const app = new App({ canvas: 'canvas' });
 
     //initialize socket
-    socket = io();
+	socket = io();
 
     if (!inGame) {
     	app.enableInput();
@@ -35,11 +37,9 @@ function init() {
 
     socket.on('drawWorld', function(data) {
     	//console.log(data);
-    	//console.log("main", data);
     	app.drawMap(data);
 
     });
-
 }
 
 window.onload = () => {

@@ -16,24 +16,11 @@ class App {
 	}
 
 	drawMap(data) {
-		// for(let i=0;i<8;i++){
-		// 	for(let j=0;j<8;j++) {
-		// 		this.ctx.moveTo(0,35*j);
-		// 		this.ctx.lineTo(280,35*j);
-		// 		this.ctx.stroke();
-				 
-		// 		this.ctx.moveTo(35*i,0);
-		// 		this.ctx.lineTo(35*i,280);
-		// 		this.ctx.stroke();
-		// 	}
-		// }
 		console.log(data);
 		data.players.forEach((elem) => {
 
 		 	this.drawPlayer(elem.bodyparts, elem.position);
 		});
-		//this.ctx.drawImage(,0 ,0);
-			
 	}
 
 	drawPlayer(playerBody, position) {
@@ -45,35 +32,35 @@ class App {
 	enableInput() {
 		console.log("enabled");
 		this.canvas.focus();
-		this.canvas.addEventListener("keydown", this.fnkeydown.bind(this));
+		this.canvas.addEventListener("keydown", this.onKeyDown.bind(this));
 	}
 
-	disableInputs() {
+	disableInput() {
 		console.log("disabled");
 		this.canvas.blur();
-		this.canvas.removeEventListener('keydown', this.fnkeydown);
+		this.canvas.removeEventListener('keydown', this.onKeyDown);
 	}
 
-	fnkeydown(e) {
+	onKeyDown(e) {
 		console.log(e);
 
 		// W A S D
-		if (e.code == "KeyW") {
+		if (e.code === "KeyW") {
 			//console.log("W");
 			socket.emit('move', 0);
 		}
 
-		if (e.code == "keyA") {
-			socket.emit('move', 6);
+		if (e.code === "keyA") {
 			//console.log("A");
+			socket.emit('move', 6);
 		}
 
-		if (e.code == "KeyS") {
+		if (e.code === "KeyS") {
 			socket.emit('move', 4);
 			//console.log("S");
 		}
 
-		if (e.code == "KeyD") {
+		if (e.code === "KeyD") {
 			socket.emit('move',2);
 			//console.log("D");
 		}
