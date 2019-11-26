@@ -4,11 +4,11 @@
         <source src="media/audio_game.mp3" type="audio/mpeg">
     </audio> -->
     <canvas id="canvas" tabindex="1"></canvas>
-    <div id="editor">
+    <div id="editor" class="hidden">
         {>"partials/editor" /}
     </div>
     <!-- Enter Menu -->
-    <div id="menu_enter" class="hidden">
+    <div id="menu_enter">
         <audio autoplay loop>
             <source src="media/main_menu.mp3" type="audio/mpeg">
         </audio>

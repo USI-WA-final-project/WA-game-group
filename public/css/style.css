@@ -43,6 +43,9 @@ input, button {
 
 /*------- ID - CLASSES ------*/
 
+.hidden {
+	display: none;
+}
 
 /*- menu_enter -*/
 #canvas {
