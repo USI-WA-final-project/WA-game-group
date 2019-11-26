@@ -7,6 +7,8 @@ const dust = require('klei-dust');
 // const dustjsLinkedin = require('dustjs-linkedin');
 const mongoose = require('mongoose');
 
+const engine = require('./engine/engine.js');
+
 const app = express();
 
 //DB Connection
@@ -38,10 +40,14 @@ app.use('/stats', routers.stats);
 
 const server = app.listen(3000, function() {
     console.log('Express server listening on port ' + server.address().port);
+    engine.init();
 });
 
 const io = require('socket.io')(server);
 
 io.on('connection', function(socket){
     console.log('Client connected');
+    console.log(engine.create());
+
+    socket.emit('message', "Welcome!");
 });
