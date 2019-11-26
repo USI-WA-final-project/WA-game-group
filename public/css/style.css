@@ -1,8 +1,28 @@
+<<<<<<< HEAD
 @font-face {
 	font-family: Charlemagne;
 	src: url('/font/Charlemagne.ttf');
 }
 
+=======
+/*------- FONT --------*/
+@font-face {
+  font-family: 'Inter';
+  font-style:  normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("Inter-Bold.woff2?v=3.11") format("woff2"),
+       url("Inter-Bold.woff?v=3.11") format("woff");
+}
+@font-face {
+  font-family: 'Inter';
+  font-style:  normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("Inter-Regular.woff2?v=3.11") format("woff2"),
+       url("Inter-Regular.woff?v=3.11") format("woff");
+}
+>>>>>>> b7e4d67d06507590dcf2d266495a68f26d7f72fe
 /*------- GLOBAL ------*/
 * {
 	margin: 0;
@@ -17,11 +37,15 @@ html, body {
 
 body {
 	min-width: 400px;
+<<<<<<< HEAD
 	font-family: 'Charlemagne', 'Calibri', sans-serif;
 }
 
 input, button {
 	font-family: 'Charlemagne', 'Calibri', sans-serif;
+=======
+	font-family: 'Inter', sans-serif;
+>>>>>>> b7e4d67d06507590dcf2d266495a68f26d7f72fe
 }
 
 

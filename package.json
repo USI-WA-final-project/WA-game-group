@@ -13,6 +13,7 @@
     "klei-dust": "^1.0.0",
     "mongoose": "^5.7.12",
     "morgan": "^1.9.1",
+    "nodemon": "^2.0.1",
     "socket.io": "^2.3.0"
   },
   "author": "Marco Tereh, Joey Bevilacqua, Gianmarco De Vita, Andrea Brites Marto, Stefano Taillefert, Tommaso Rodolfo Masera"

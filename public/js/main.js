@@ -11,7 +11,6 @@ menu_enter.querySelector("div input").onkeyup = () => {
 function init() {
 	// Create canvas app
     const app = new App({ canvas: 'canvas' });
-
     app.drawMap();
 }
 
@@ -35,11 +34,21 @@ function connect() {
 	});
 }
 
+function startInput() {
+
+}
+
+function stopInput() {
+	
+}
+
 Promise.all([assets(), connect()]).then(() => {
 
 	play_button.onclick = () => {
 		console.log("START");
 		menu_enter.parentNode.removeChild(menu_enter);
 		init();
+		startInput();
+		stopInput();
 	};
 });
