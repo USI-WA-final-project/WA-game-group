@@ -46,6 +46,7 @@ class Composer {
     drawHexagonChild(obj, index, side, ctx, begin, center) {
         if (index < 0) return;
         const type = obj[index].type;
+        console.log("hello ", index);
 
         if (type === CHILD_TYPE_FREE) return;
         if (type === CHILD_TYPE_CELL) {
@@ -109,13 +110,15 @@ class Composer {
         ctx.lineTo(begin.x + 24, begin.y + 14); // l 8 -14
         ctx.lineTo(begin.x + 16, begin.y); // l -8 -14
         ctx.lineTo(begin.x, begin.y); // l -16 0
+        ctx.closePath();
         ctx.fill();
 
         if (isCore) {
             // "Core circle"
             ctx.beginPath();
-            ctx.fillStyle.fillStyle = this.colors.cell.child; // 30% white
+            ctx.fillStyle = this.colors.cell.child; // 30% white
             ctx.arc(center.x, center.y, 5, 0, 360)
+            ctx.closePath();
             ctx.fill();
         }
 
@@ -123,6 +126,7 @@ class Composer {
     }
 
     drawHexagon1(obj, index, ctx, begin, center) {
+        console.log("1 hello ", index);
         ctx.beginPath();
         ctx.fillStyle = this.colors.cell.child;
 
@@ -133,12 +137,14 @@ class Composer {
         ctx.lineTo(begin.x, begin.y + 28); // l 16 0
         ctx.lineTo(begin.x + 8, begin.y + 14); // l 8 -14
         ctx.lineTo(begin.x, begin.y); // l -8 -14
+        ctx.closePath();
         ctx.fill();
 
         this.drawHexagonFaces(obj, index, ctx, begin, center);
     }
 
     drawHexagon2(obj, index, ctx, begin, center) {
+       console.log("2 hello ", index);
         ctx.beginPath();
         ctx.fillStyle = this.colors.cell.child;
 
@@ -149,12 +155,14 @@ class Composer {
         ctx.lineTo(begin.x - 24, begin.y + 14); // l 8 14
         ctx.lineTo(begin.x - 8, begin.y + 14); // l 16 0
         ctx.lineTo(begin.x, begin.y); // l 8 -14
+        ctx.closePath();
         ctx.fill();
 
         this.drawHexagonFaces(obj, index, ctx, begin, center);
     }
 
     drawHexagon3(obj, index, ctx, begin, center) {
+        console.log("3 hello ", index);
         ctx.beginPath();
         ctx.fillStyle = this.colors.cell.child;
 
@@ -165,6 +173,7 @@ class Composer {
         ctx.lineTo(begin.x - 24, begin.y - 14); // l -8 14
         ctx.lineTo(begin.x - 16, begin.y); // l 8 14
         ctx.lineTo(begin.x, begin.y); // l 16 0
+        ctx.closePath();
         ctx.fill();
 
         this.drawHexagonFaces(obj, index, ctx, begin, center);
@@ -181,6 +190,7 @@ class Composer {
         ctx.lineTo(begin.x, begin.y - 28); // l -16 0
         ctx.lineTo(begin.x - 8, begin.y - 14); // l -8 14
         ctx.lineTo(begin.x, begin.y); // l 8 14
+        ctx.closePath();
         ctx.fill();
 
         this.drawHexagonFaces(obj, index, ctx, begin, center);
@@ -197,12 +207,14 @@ class Composer {
         ctx.lineTo(begin.x + 24, begin.y - 14); // l -8 -14
         ctx.lineTo(begin.x + 8, begin.y - 14); // l -16 0
         ctx.lineTo(begin.x, begin.y); // l -8 14
+        ctx.closePath();
         ctx.fill();
 
         this.drawHexagonFaces(obj, index, ctx, begin, center);
     }
 
     drawHexagonFaces(obj, index, ctx, begin, center) {
+        console.log("FACE ", index, " OF ", center);
         if (!obj[index].faces) return;
 
         for (let i = 0; i < 6; i++) {
@@ -225,6 +237,7 @@ class Composer {
         ctx.lineTo(begin.x - 8, begin.y + 14); // l -8 14
         ctx.lineTo(begin.x - 21, begin.y - 3); // l -13 -17
         ctx.lineTo(begin.x, begin.y); // l 21 3
+        ctx.closePath();
         ctx.fill();
     }
 
@@ -237,6 +250,7 @@ class Composer {
         ctx.lineTo(begin.x - 16, begin.y); // l -16 0
         ctx.lineTo(begin.x - 8, begin.y - 16); // l 8 -16
         ctx.lineTo(begin.x, begin.y); // l 8 16
+        ctx.closePath();
         ctx.fill();
     }
 
@@ -248,6 +262,7 @@ class Composer {
         ctx.lineTo(begin.x - 8, begin.y - 14); // l -8 -14
         ctx.lineTo(begin.x + 13, begin.y - 17); // l 21 -3
         ctx.lineTo(begin.x, begin.y); // l -13 17
+        ctx.closePath();
         ctx.fill();
     }
 
@@ -259,6 +274,7 @@ class Composer {
         ctx.lineTo(begin.x + 8, begin.y - 14); // l 8 -14
         ctx.lineTo(begin.x + 21, begin.y + 3); // l 13 17
         ctx.lineTo(begin.x, begin.y); // l -21 -3
+        ctx.closePath();
         ctx.fill();
     }
 
@@ -270,7 +286,7 @@ class Composer {
         ctx.lineTo(begin.x + 16, begin.y); // l 16 0
         ctx.lineTo(begin.x + 8, begin.y - 14); // l -8 14
         ctx.lineTo(begin.x, begin.y); // l -8 -14
-
+        ctx.closePath();
         ctx.fill();
     }
 
@@ -282,7 +298,7 @@ class Composer {
         ctx.lineTo(begin.x + 8, begin.y + 14); // l 8 14
         ctx.lineTo(begin.x - 13, begin.y + 17); // l -21 3
         ctx.lineTo(begin.x, begin.y); // l 13 -17
-
+        ctx.closePath();
         ctx.fill();
     }
 
@@ -297,6 +313,7 @@ class Composer {
         ctx.lineTo(begin.x - 9.75, begin.y + 13); // l -1.75 -1
         ctx.lineTo(begin.x - 1.75, begin.y - 1); // l 8 -14
         ctx.lineTo(begin.x, begin.y); // l 1.75 1
+        ctx.closePath();
         ctx.fill();
     }
 
@@ -309,6 +326,7 @@ class Composer {
         ctx.moveTo(begin.x - 16, begin.y - 2); // l -16 0
         ctx.moveTo(begin.x - 16, begin.y); // l 0 2
         ctx.moveTo(begin.x, begin.y); // l 16 0
+        ctx.closePath();
         ctx.fill();
     }
 
@@ -321,6 +339,7 @@ class Composer {
         ctx.lineTo(begin.x - 6.25, begin.y - 15); // l -8 -14
         ctx.lineTo(begin.x - 8, begin.y - 14); // l -1.75 1
         ctx.lineTo(begin.x, begin.y); // l 8 14
+        ctx.closePath();
         ctx.fill();
     }
 
@@ -333,6 +352,7 @@ class Composer {
         ctx.lineTo(begin.x + 9.75, begin.y - 13); // l 8 -14
         ctx.lineTo(begin.x + 8, begin.y - 14); // l -1.75 -1
         ctx.lineTo(begin.x, begin.y); // l -8 14
+        ctx.closePath();
         ctx.fill();
     }
 
@@ -345,6 +365,7 @@ class Composer {
         ctx.lineTo(begin.x + 16, begin.y + 2); // l 16 0
         ctx.lineTo(begin.x + 16, begin.y); // l 0 -2
         ctx.lineTo(begin.x, begin.y); // l -16 0
+        ctx.closePath();
         ctx.fill();
     }
 
@@ -357,6 +378,7 @@ class Composer {
         ctx.lineTo(begin.x + 6.75, begin.y + 15); // l 8 14
         ctx.lineTo(begin.x + 8, begin.y + 14); // l 1.75 -1
         ctx.lineTo(begin.x, begin.y); // l -8 -14
+        ctx.closePath();
         ctx.fill();
     }
 
@@ -399,5 +421,3 @@ class Composer {
         }
     }
 }
-
-module.exports = new Composer();

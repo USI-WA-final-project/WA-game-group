@@ -4,7 +4,7 @@ class CanvasInterface {
             throw "Argument is not a Canvas";
         }
 
-        this.internalCanvas = canvas.transferControlToOffscreen();
+        this.internalCanvas = canvas;
     }
 
     getContext() {
