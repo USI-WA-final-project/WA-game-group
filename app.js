@@ -45,14 +45,59 @@ const server = app.listen(3000, function() {
 
 const io = require('socket.io')(server);
 
+const RENDER_DISTANCE = 2000;
+
 io.on('connection', function(socket){
     console.log('Client connected');
 
     let id = engine.create();
     console.log('Created player ', id);
 
+    let worldState;
+
+    //Retrieve whole world data once per tick
+    engine.register_global(function(data) {
+        worldState = data;
+    });
+
+    //Send to each player its customized view (based on RENDER_DISTANCE)
     engine.register(id, function(data) {
-        socket.emit('drawWorld', data);
+        let x = data.position.x;
+        let y = data.position.y;
+
+        let players;
+
+        worldState.players.forEach(function(el) {
+            if (Math.abs(el.position.x - x) < RENDER_DISTANCE && 
+                Math.abs(el.position.y - y) < RENDER_DISTANCE) {
+                players.push(el);
+            }            
+        });
+
+        let resources;
+
+        /* worldState.resources.forEach(function(el) {
+            if (Math.abs(el.position.x - x) < RENDER_DISTANCE && 
+                Math.abs(el.position.y - y) < RENDER_DISTANCE) {
+                resources.push(el);
+            }
+        }); */
+
+        let structures;
+
+        /* worldState.structures.forEach(function(el) {
+            if (Math.abs(el.position.x - x) < RENDER_DISTANCE && 
+                Math.abs(el.position.y - y) < RENDER_DISTANCE) {
+                structures.push(el);
+            }
+        }); */
+
+        let serializedData = {
+            players: players,
+            resources: resources,
+            structures: structures
+        }
+        socket.emit('drawWorld', serializedData);
     });
 
     socket.on('move', function(direction) {
