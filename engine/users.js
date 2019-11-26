@@ -117,6 +117,7 @@ class User {
                 break;
             case BODYPART_TYPE.CELL:
                 newComponent.health = MAX_HEALTH;
+                newComponent.faces = [-1, -1, -1, -1, -1, -1];
                 break;
         }
         //...
@@ -159,9 +160,30 @@ class User {
                 }
                 return val;
             })
+        });
+
+        this.mark(0);
+        this.components.forEach((component, index) => {
+            if (!component.isVisited) {
+                delete this.components[index];
+            }
+        });
+        this.mark(0, true);
+    }
+
+    mark(root = 0, unmark = false) {
+        if (!unmark) {
+            this.components[root].isVisited = true;
+        } else {
+            delete this.components[root].isVisited;
+        }
+        if(!this.components[root].faces) return;
+
+        this.components[root].faces.forEach(face => {
+            if (face === -1) return;
+            if(!this.components[face].isVisited) {
+                this.mark(face, unmark);
+            }
         })
-        // TODO(anno): remove no-longer-connected parts
-        // depth-first search through all the parts, starting from 0. Mark them as connected,
-        // then remove all non-connected parts
     }
 }

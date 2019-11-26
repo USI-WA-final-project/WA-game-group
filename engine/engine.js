@@ -138,11 +138,19 @@ class Engine {
                             }
                         }
                         break;
+                    case ACTION.DESTROY:
+                        user.callbacks.forEach(cb => {
+                            cb(null);
+                        });
+                        this._users.remove(user.id);
+                        break;
                     default:
                         console.log('Unknown action encountered: ', action);
                 }
             });
             user.nextActions = [];
+
+            // TODO: process on-tick bodyparts (e.g. inflate bouncers)
 
             user.update();
         })
