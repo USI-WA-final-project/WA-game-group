@@ -4,7 +4,7 @@
         <source src="media/audio_game.mp3" type="audio/mpeg">
     </audio> -->
     <canvas id="canvas" tabindex="1"></canvas>
-    <div id="editor" class="hidden">
+    <div id="editor" class="hidden" class="editor">
         {>"partials/editor" /}
     </div>
     <!-- Enter Menu -->

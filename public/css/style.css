@@ -47,6 +47,11 @@ input, button {
 	display: none;
 }
 
+.editor {
+	text-align: center; 
+	padding: 1em; 
+}
+
 /*- menu_enter -*/
 #canvas {
 	width: 100%;
