@@ -47,11 +47,46 @@ const io = require('socket.io')(server);
 
 io.on('connection', function(socket){
     console.log('Client connected');
+
     let id = engine.create();
     console.log('Created player ', id);
 
-    socket.on('message', function() {
-        //do stuff, fun(id) etc
+    engine.register(id, function(data) {
+        socket.emit('drawWorld', data);
+    });
+
+    socket.on('move', function(direction) {
+        let dirEnum;
+
+        switch(direction) {
+            case 0:
+                dirEnum = engine.DIRECTION.UP;
+            break;
+            case 1:
+                dirEnum = engine.DIRECTION.UP_RIGHT;
+            break;
+            case 2:
+                dirEnum = engine.DIRECTION.RIGHT;
+            break;
+            case 3:
+                dirEnum = engine.DIRECTION.DOWN_RIGHT;
+            break;
+            case 4:
+                dirEnum = engine.DIRECTION.DOWN;
+            break;
+            case 5:
+                dirEnum = engine.DIRECTION.DOWN_LEFT;
+            break;
+            case 6:
+                dirEnum = engine.DIRECTION.LEFT;
+            break;
+            case 7:
+                dirEnum = engine.DIRECTION.UP_LEFT;
+            break;
+        }
+        
+        engine.move(id, dirEnum);
+        console.log('Player ', id, ' moved ', dirEnum);
     });
 
     socket.emit('message', "Welcome!");
