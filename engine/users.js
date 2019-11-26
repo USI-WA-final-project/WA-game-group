@@ -38,7 +38,7 @@ class Users {
     with(id, cb) {
         let found = this._users.find(elem => elem.id === id);
         if (found){
-            cb(found)();
+            cb(found);
         }
     }
 
