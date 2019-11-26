@@ -1,6 +1,8 @@
 {>"partials/header" /}
-
-   <canvas id="canvas"></canvas>
+<!--     <audio id="audio_game" autoplay loop>
+        <source src="media/audio_game.mp3" type="audio/mpeg">
+    </audio> -->
+    <canvas id="canvas" tabindex="1"></canvas>
     <!-- Enter Menu -->
     <div id="menu_enter" class="hidden">
         <audio autoplay loop>
@@ -12,10 +14,29 @@
     	    <input type="text" minlength=3 maxlength=12 placeholder="Enter your name">
     	</div>
     	<button type="submit">Play</button>
+
+<!--         {?audio}
+        <button formaction="" value="false">
+            Play Sound
+        </button>
+        {:else}
+        <button formaction="" value="true">
+            Mute
+        </button>
+        {/audio} -->
+
     	<ul>
-    		<li><img src="img/rules.svg" alt="joystick">Rules & Controls</li>
-    		<li><img src="img/info.svg" alt="info">Info</li>
+    		<li id="rules"><img src="img/rules.svg" alt="joystick">Rules & Controls</li>
+    		<li id="info"><img src="img/info.svg" alt="info">Info</li>
     	</ul>
+    </div>
+    <div id="menu_rules" class="hidden">
+        <p>Lorem Ipsum</p>
+        <img id="exit" src="img/back.svg" alt="back"> <!-- Put image of back-arrow -->
+    </div>
+    <div id="menu_info" class="hidden">
+        <p>Lorem Ipsum</p>
+        <img id="exit" src="img/back.svg" alt="back"> <!-- Put image of back-arrow -->
     </div>
     <script src="/js/main.js" async></script>
     <script src="/app.js"></script>
