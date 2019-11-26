@@ -7,6 +7,11 @@ Engine exposes some read-only constants:
 - `DIRECTION` is an enum of directions.
   It contains all 8 cardinal directions in the format `VERTICAL` | `HORIZONTAL` | `VERTICAL_HORIZONTAL`
   where `VERTICAL` is one of [`UP`, `DOWN`] and `HORIZONTAL` is one of [`RIGHT`, `LEFT`]. e.g. `DIRECTION.UP_RIGHT` or `DIRECTION.LEFT`
+- `BODYPART_TYPE` is an enum of bodypart types:
+  - `CELL`
+  - `SPIKE`
+  - `SHIELD`
+  - `BOUNCE`
 - `MOVE_SPEED` is the speed at which players move
 
 Engine exposes some read-only metadata:
@@ -24,9 +29,19 @@ Engine exposes an API composed of the following functions:
 - `create()` creates a new player at random coordinates and returns their `ID`.
 - `info(id: id)` given a user id returns an object representing that player. If id is not a valid user id, returns null.
   returned object has the following structure:
-    `.id`: id, user id of the player.
-    `.position.x`: number, x coordinate of the player's position
-    `.position.y`: number, y coordinate of the player's position
+    - `.id`: id, user id of the player.
+    - `.position.x`: number, x coordinate of the player's position
+    - `.position.y`: number, y coordinate of the player's position
+    - `.rotation`: number, the angle in radians of the player's orientation
+    - `.bodyparts`: array, an array of bodyparts
+        - Each bodypart has
+        - `.type`: BODYPART_TYPE, the type of this part
+        - `.health`: number, the health of this part. CELL only.
+        - `.faces`: array<number>: the index in this array of the connected bodyparts. CELL only.
+        - `.body`: number: the index in this array of the cell this bodypart is connected to. SPIKE and BOUNCE only.
+        - `.inflated`: number, the degree of inflation of this bodypart. BOUNCE only.
+        - `.working`: number, whether this bodypart is active or not. BOUNCE only.
+        
   Note that this structure is both incomplete and non-final.
 - `register(id: id, callback: function)` given a user id and a callback function, registers the callback so that it will be called
   every tick, given as parameter the object representation of the player with the given user id.

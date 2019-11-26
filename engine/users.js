@@ -110,9 +110,9 @@ class User {
         this.callbacks.push(cb);
     }
 
-    update() {
+    update(content) {
         this.callbacks.forEach(cb => {
-            cb(this.export());
+            cb(content);
         })
     }
 
@@ -122,7 +122,9 @@ class User {
             position: {
                 x: this.x,
                 y: this.y
-            }
+            },
+            rotation: this.rotation,
+            bodyparts: this.components.slice(),
         }
     }
 

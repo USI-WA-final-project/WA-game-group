@@ -39,6 +39,7 @@ class Engine {
     get MAX_HEALTH() {return MAX_HEALTH;}
 
     get DIRECTION() {return DIRECTION;}
+    get BODYPART_TYPE() {return consts.BODYPART_TYPE;}
 
     get tick_num() {return this._tick_num;}
     get start_time() {return this._start_time;}
@@ -154,9 +155,7 @@ class Engine {
             });
             user.nextActions = [];
 
-            // TODO: process on-tick bodyparts (e.g. inflate bouncers)
-
-            user.update();
+            user.update(user.export());
         })
     }
 }
