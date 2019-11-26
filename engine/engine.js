@@ -98,6 +98,8 @@ class Engine {
         this._users.forEach(user => {
             user.tick_reset();
 
+            user.tick_parts();
+
             user.nextActions.forEach(action => {
                 switch (action.action) {
                     case ACTION.MOVE:

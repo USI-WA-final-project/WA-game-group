@@ -5,6 +5,7 @@ const BODYPART_TYPE = consts.BODYPART_TYPE;
 const MAX_HEALTH = consts.MAX_HEALTH;
 const MAX_INFLATE = consts.MAX_INFLATE;
 const INFLATE_RATE = consts.INFLATE_RATE;
+const REGEN_RATE = consts.REGEN_RATE;
 const ACTION = consts.ACTION;
 
 class Users {
@@ -78,6 +79,31 @@ class User {
     tick_reset() {
         this.movedH = false;
         this.movedV = false;
+    }
+
+    tick_parts() {
+        this.components.forEach(component => {
+            switch (component.type) {
+                case BODYPART_TYPE.BOUNCE:
+                    component.inflated += INFLATE_RATE;
+                    if (component.inflated >= MAX_INFLATE) {
+                        component.inflated = MAX_INFLATE;
+                        component.working = true;
+                    }
+                    break;
+                case BODYPART_TYPE.CELL:
+                    component.health += REGEN_RATE;
+                    if (component.health === MAX_HEALTH) {
+                        component.health = MAX_HEALTH;
+                    }
+                    break;
+                case BODYPART_TYPE.SHIELD:
+                case BODYPART_TYPE.SPIKE:
+                    break;
+                default:
+                    console.log('unknown bodypart type encountered')
+            }
+        })
     }
 
     register(cb) {
