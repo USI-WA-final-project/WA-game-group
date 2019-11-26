@@ -138,11 +138,14 @@ class Engine {
                             }
                         }
                         break;
+                    // TODO: ACTION.DESTROY
                     default:
                         console.log('Unknown action encountered: ', action);
                 }
             });
             user.nextActions = [];
+
+            // TODO: process on-tick bodyparts (e.g. inflate bouncers)
 
             user.update();
         })
