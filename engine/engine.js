@@ -30,6 +30,7 @@ class Engine {
 
         this._timer = null;
         this._users = new Users();
+        this._callbacks = [];
     }
 
     get TICK_RATE() {return TICK_RATE;}
@@ -93,6 +94,19 @@ class Engine {
         })
     }
 
+    register_global(cb) {
+        this._callbacks.push(cb);
+
+
+        let plrs_array = [];
+        this._users.forEach(plr => {
+            plrs_array.push(plr.export());
+        });
+        cb({
+            players: plrs_array
+        })
+    }
+
     // This function must be completely synchronous.
     tick() {
         this._tick_num++;
@@ -144,9 +158,7 @@ class Engine {
                         }
                         break;
                     case ACTION.DESTROY:
-                        user.callbacks.forEach(cb => {
-                            cb(null);
-                        });
+                        user.update(null);
                         this._users.remove(user.id);
                         break;
                     default:
@@ -154,6 +166,16 @@ class Engine {
                 }
             });
             user.nextActions = [];
+
+            this._callbacks.forEach(cb => {
+                let plrs_array = [];
+                this._users.forEach(plr => {
+                    plrs_array.push(plr.export());
+                });
+                cb({
+                    players: plrs_array
+                })
+            });
 
             user.update(user.export());
         })
