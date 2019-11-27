@@ -1,4 +1,5 @@
 Server must call `Engine.init()` to start the world and `Engine.shutdown()` to shut it down.
+Invoking any other method before `.init()` or after `.shutdown()` is undefined behavior.
 
 Engine exposes some read-only constants:
 - `TICK_RATE` is the number of times that the engine ticks per second

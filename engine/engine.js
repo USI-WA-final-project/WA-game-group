@@ -29,7 +29,7 @@ class Engine {
         this._start_time = null;
 
         this._timer = null;
-        this._users = new Users();
+        this._users = null;
         this._callbacks = [];
     }
 
@@ -54,6 +54,8 @@ class Engine {
             this.tick();
         };
 
+        this._users = new Users();
+        this._tick_num = 0;
         this._start_time = Date.now();
         tick_repeater();
     }
@@ -64,6 +66,8 @@ class Engine {
             clearTimeout(this._timer);
         }
         this._start_time = null;
+        this._callbacks = [];
+        this._users = null;
     }
 
     // moves a user in DIRECTION
