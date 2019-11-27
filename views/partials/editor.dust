@@ -1,14 +1,13 @@
- {! style="text-align: center; padding: 1em" !}
-    <img src="../img/money.svg" width="80px" height="80px" style="margin: 2em">
+    <img src="img/money.svg" width="80px" height="80px" style="margin: 2em">
     <button type="button" id="cell" name="cell">
-         <img src="../img/cell.svg" width="80px" height="80px" style="margin: 2em">
+         <img src="img/cell.svg" id="cell-edit" width="80px" height="80px" style="margin: 2em">
      </button>
     <button type="button" id="spike" name="spike">
-        <img src="" width="80px" height="80px" style="margin: 2em">
+        <img src="" id="spike-edit" width="80px" height="80px" style="margin: 2em">
     </button>
     <button type="button" id="shield" name="shield">
-        <img src="../img/shield.svg" width="80px" height="80px" style="margin: 2em">
+        <img src="img/shield.svg" id="shield-edit" width="80px" height="80px" style="margin: 2em">
     </button>
     <button type="button" id="bounce" name="bounce">
-        <img src="" width="80px" height="80px" style="margin: 2em">
+        <img src="" id="bounce-edit" width="80px" height="80px" style="margin: 2em">
     </button>
