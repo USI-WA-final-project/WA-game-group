@@ -69,8 +69,15 @@ class User {
         this.components = [
             {
                 type: BODYPART_TYPE.CELL,
-                faces: [-1, -1, -1, -1, -1, -1],
+                faces: [1, -1, -1, 2, -1, -1],
                 health: MAX_HEALTH,
+            },
+            {
+                type: BODYPART_TYPE.SPIKE,
+                body: 0
+            },
+            {
+                type: BODYPART_TYPE.SHIELD,
             },
         ];
         this.rotation = 0;
