@@ -23,11 +23,15 @@ Engine exposes some read-only metadata:
 
 Engine exposes an API composed of the following functions:
 - `move(id: id, direction: DIRECTION)` given a user id and a `DIRECTION`, registers that this player moved towards `DIRECTION`
-  in the current tick. Attempts to move an id that does not exist (or does not exist anymore) will be ignored.
-  direction must be one of the `DIRECTION` constants.
+  in the current tick. 
+  
+  Attempts to move an id that does not exist (or does not exist anymore) will be ignored.
+  Direction must be one of the `DIRECTION` constants.
+  
   When multiple moves are issued during the same tick, the result is undefined. It is, however, guaranteed that they
   will not move by more than `MOVE_SPEED` in any direction per tick.
 - `create()` creates a new player at random coordinates and returns their `ID`.
+- `remove(id: id)` removes the player with the given user id. Has no effect if id is not a valid user id.
 - `info(id: id)` given a user id returns an object representing that player. If id is not a valid user id, returns null.
   returned object has the following structure:
     - `.id`: id, user id of the player.
