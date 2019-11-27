@@ -93,7 +93,7 @@ class User {
                     break;
                 case BODYPART_TYPE.CELL:
                     component.health += REGEN_RATE;
-                    if (component.health === MAX_HEALTH) {
+                    if (component.health >= MAX_HEALTH) {
                         component.health = MAX_HEALTH;
                     }
                     break;
@@ -138,6 +138,8 @@ class User {
         if (this.components[part].faces[face] !== -1) return -2;
 
         let newComponent = {};
+        let idx = this.components.push(newComponent) - 1;
+
         newComponent.type = type;
         // noinspection FallThroughInSwitchStatementJS
         switch (type) {
@@ -150,10 +152,133 @@ class User {
             case BODYPART_TYPE.CELL:
                 newComponent.health = MAX_HEALTH;
                 newComponent.faces = [-1, -1, -1, -1, -1, -1];
+
+                let connect = (part, root_face, dist, angle) => {
+                    this.components[part].isVisited = true;
+                    if (angle < 0) angle += 6 * dist;
+                    let isAxle = angle % dist === 0;
+
+                    let adj_dist = [99, 99, 99, 99, 99, 99];
+                    let adj_angle = [99, 99, 99, 99, 99, 99];
+                    if (isAxle) {
+                        adj_dist[(root_face + 0) % 6] = dist - 1;
+                        adj_dist[(root_face + 1) % 6] = dist;
+                        adj_dist[(root_face + 2) % 6] = dist + 1;
+                        adj_dist[(root_face + 3) % 6] = dist + 1;
+                        adj_dist[(root_face + 4) % 6] = dist + 1;
+                        adj_dist[(root_face + 5) % 6] = dist;
+
+                        adj_angle[(root_face + 0) % 6] = angle * (dist-1) / dist;
+                        adj_angle[(root_face + 1) % 6] = angle - 1;
+                        adj_angle[(root_face + 2) % 6] = angle * (dist + 1) / dist - 1;
+                        adj_angle[(root_face + 3) % 6] = angle * (dist + 1) / dist;
+                        adj_angle[(root_face + 4) % 6] = angle * (dist + 1) / dist + 1;
+                        adj_angle[(root_face + 5) % 6] = angle + 1;
+
+                    } else {
+                        adj_dist[(root_face + 0) % 6] = dist - 1;
+                        adj_dist[(root_face + 1) % 6] = dist;
+                        adj_dist[(root_face + 2) % 6] = dist + 1;
+                        adj_dist[(root_face + 3) % 6] = dist + 1;
+                        adj_dist[(root_face + 4) % 6] = dist;
+                        adj_dist[(root_face + 5) % 6] = dist - 1;
+
+                        adj_angle[(root_face + 0) % 6] = (angle - (angle%dist)) * (dist-1) / dist + (angle % dist) - 1;
+                        adj_angle[(root_face + 1) % 6] = angle - 1;
+                        adj_angle[(root_face + 2) % 6] = (angle - (angle%dist)) * (dist+1) / dist + (angle % dist);
+                        adj_angle[(root_face + 3) % 6] = (angle - (angle%dist)) * (dist+1) / dist + (angle % dist) + 1;
+                        adj_angle[(root_face + 4) % 6] = angle + 1;
+                        adj_angle[(root_face + 5) % 6] = (angle - (angle%dist)) * (dist-1) / dist + (angle % dist);
+                    }
+                    for (let i = 0; i < 6; ++i) {
+                        if (adj_dist[i] === 0) {
+                            this.components[part].faces[i] = idx;
+                            // only the first layer can do this
+                            newComponent.faces[angle] = part;
+                            continue;
+                        }
+                        if (this.components[part].faces[i] === -1) continue;
+                        let other_part = this.components[this.components[part].faces[i]];
+                        if (other_part.type !== BODYPART_TYPE.CELL) continue;
+                        if (other_part.isVisited) continue;
+
+                        let rel_face = other_part.faces.findIndex(part);
+                        if (rel_face === -1) {console.log('impossible body graph'); continue;}
+
+                        let rel_root_face_diff;
+                        if (isAxle) {
+                            if ((i + 6 - root_face) % 6 === 0) {
+                                rel_root_face_diff = 3;
+                            } else if ((i + 6 - root_face) % 6 === 1) {
+                                rel_root_face_diff = dist === 1 ? 1 : 2;
+                            } else if ((i + 6 - root_face) % 6 === 2) {
+                                rel_root_face_diff = 1;
+                            } else if ((i + 6 - root_face) % 6 === 3) {
+                                rel_root_face_diff = 0;
+                            } else if ((i + 6 - root_face) % 6 === 4) {
+                                rel_root_face_diff = 0;
+                            } else if ((i + 6 - root_face) % 6 === 5) {
+                                rel_root_face_diff = 5;
+                            }
+                        } else {
+                            if (!adj_angle[i] % adj_dist[i] === 0) {
+                                if ((i + 6 - root_face) % 6 === 0) {
+                                    rel_root_face_diff = 2;
+                                } else if ((i + 6 - root_face) % 6 === 1) {
+                                    rel_root_face_diff = 1;
+                                } else if ((i + 6 - root_face) % 6 === 2) {
+                                    console.log('The universe broke');
+                                    rel_root_face_diff = 1; // IMPOSSIBLE
+                                } else if ((i + 6 - root_face) % 6 === 3) {
+                                    console.log('The universe broke');
+                                    rel_root_face_diff = 0; // IMPOSSIBLE
+                                } else if ((i + 6 - root_face) % 6 === 4) {
+                                    rel_root_face_diff = 5;
+                                } else if ((i + 6 - root_face) % 6 === 5) {
+                                    rel_root_face_diff = 4;
+                                }
+                            } else {
+                                if ((i + 6 - root_face) % 6 === 0) {
+                                    rel_root_face_diff = 3;
+                                } else if ((i + 6 - root_face) % 6 === 1) {
+                                    rel_root_face_diff = 2;
+                                } else if ((i + 6 - root_face) % 6 === 2) {
+                                    rel_root_face_diff = 1;
+                                } else if ((i + 6 - root_face) % 6 === 3) {
+                                    rel_root_face_diff = 0;
+                                } else if ((i + 6 - root_face) % 6 === 4) {
+                                    rel_root_face_diff = 5;
+                                } else if ((i + 6 - root_face) % 6 === 5) {
+                                    rel_root_face_diff = 4;
+                                }
+                            }
+                        }
+
+                        connect(this.components[part].faces[i],
+                            (rel_face + rel_root_face_diff) % 6,
+                            adj_dist[i], adj_angle[i]);
+                    }
+                };
+                let unmark = (part) => {
+                    if (!this.components[part].isVisited) return;
+                    delete this.components[part].isVisited;
+                    if(!this.components[part].faces) return;
+
+                    this.components[part].faces.forEach(face => {
+                        if (face === -1) return;
+                        if(this.components[face].isVisited) {
+                            unmark(face);
+                        }
+                    })
+                };
+
+                connect(part, face, 1, 6);
+                unmark(part);
+
                 break;
         }
 
-        this.components[part].faces[face] = this.components.push(newComponent) - 1;
+        this.components[part].faces[face] = idx;
         return 0;
     }
 
@@ -216,7 +341,7 @@ class User {
 
         this.components[root].faces.forEach(face => {
             if (face === -1) return;
-            if(!this.components[face].isVisited) {
+            if(!this.components[face].isVisited ^ unmark) {
                 this.mark(face, unmark);
             }
         })
