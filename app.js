@@ -55,9 +55,8 @@ io.on('connection', function(socket){
 
     socket.on('registerUser', function(user) {
         username = user;
+        console.log('Created player ', id, ' - ', username);
     });
-
-    console.log('Created player ', id, ' - ', username);
 
     let worldState;
 
