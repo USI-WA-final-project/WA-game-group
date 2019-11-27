@@ -26,11 +26,7 @@ class App {
 		let pos;
 		data.players.forEach((elem) => {
 			console.log(elem);
-			pos = elem.position;
-			if(elem.isPlayer) {
-				pos = undefined;
-			} 
-			this.drawPlayer(elem.bodyparts, elem.color, pos);
+			this.drawPlayer(elem.components, elem.color, elem.position);
 		});
 	}
 
