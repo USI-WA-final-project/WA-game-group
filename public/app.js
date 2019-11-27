@@ -20,9 +20,9 @@ class App {
 
 	drawMap(data) {
 		this.clearCanvas();
-		console.log(data);
+		//console.log(data);
 		data.players.forEach((elem) => {
-
+			
 		 	this.drawPlayer(elem.bodyparts, elem.position);
 		});
 	}
@@ -57,39 +57,29 @@ class App {
 
 		console.log("KEYDOWN", e);
 
-		if (e.code === "KeyW") {
-			this.keys[e.code] = true;
-		}
+		this.keys[e.code] = true;
 
-		if (e.code === "KeyD") {
-			this.keys[e.code] = true;
-		}
-
-		if (e.code === "KeyS") {
-			this.keys[e.code] = true;
-		}
-
-		if (e.code === "KeyA") {
-			this.keys[e.code] = true;
-		}
-
-		//WD DS SA AW
-		if (this.keys["KeyW"] == true && this.keys["KeyD"] == true) {
+		//WD DS SA AW || UPRIGHT RIGHTDOWN DOWNLEFT LEFTUP
+		if (this.keys["KeyW"] == true && this.keys["KeyD"] == true || 
+			this.keys["ArrowUp"] == true && this.keys["ArrowRight"] == true) {
 			//console.log("W");
 			socket.emit('move', 1);
 		}
 
-		if (this.keys["KeyD"] == true && this.keys["KeyS"] == true) {
+		if (this.keys["KeyD"] == true && this.keys["KeyS"] == true || 
+			this.keys["ArrowRight"] == true && this.keys["ArrowDown"] == true) {
 			//console.log("A");
 			socket.emit('move', 3);
 		}
 
-		if (this.keys["KeyS"] == true && this.keys["KeyA"] == true) {
+		if (this.keys["KeyS"] == true && this.keys["KeyA"] == true || 
+			this.keys["ArrowDown"] == true && this.keys["ArrowLeft"] == true) {
 			socket.emit('move', 5);
 			//console.log("S");
 		}
 
-		if (this.keys["KeyA"] == true && this.keys["KeyW"] == true) {
+		if (this.keys["KeyA"] == true && this.keys["KeyW"] == true || 
+			this.keys["ArrowLeft"] == true && this.keys["ArrowUp"] == true) {
 			socket.emit('move',7);
 			//console.log("D");
 		}
@@ -115,25 +105,33 @@ class App {
 			socket.emit('move', 6);
 		}
 
+		// UP RIGHT DOWN LEFT
+		if (this.keys["ArrowUp"] == true) {
+			//console.log("W");
+			socket.emit('move', 0);
+		}
+
+		if (this.keys["ArrowRight"] == true) {
+			socket.emit('move',2);
+			//console.log("D");
+		}
+
+		if (this.keys["ArrowDown"] == true) {
+			socket.emit('move', 4);
+			//console.log("S");
+		}
+
+		if (this.keys["ArrowLeft"] == true) {
+			//console.log("A");
+			socket.emit('move', 6);
+		}
+
 	}
 
 
 	onKeyUp(e) {
 		console.log("KEYUP", e);
-		if (e.code === "KeyW") {
-			this.keys[e.code] = false;
-		}
 
-		if (e.code === "KeyD") {
-			this.keys[e.code] = false;
-		}
-
-		if (e.code === "KeyS") {
-			this.keys[e.code] = false;
-		}
-
-		if (e.code === "KeyA") {
-			this.keys[e.code] = false;
-		}
+		this.keys[e.code] = false;
 	}
 }
