@@ -22,21 +22,18 @@ class App {
 		this.clearCanvas();
 		//console.log(data);
 		data.players.forEach((elem) => {
-			
-		 	this.drawPlayer(elem.bodyparts, elem.position);
+		 	this.drawPlayer(elem.bodyparts, elem.color, elem.position);
 		});
 	}
 
-	drawPlayer(playerBody, position) {
-		// TODO: cambio colore
-		const color  = { core: "#35b27d", child: "#6ee6ad" };
+	drawPlayer(playerBody, colorIndex, position) {
+		const color  = PLAYER_COLORS[colorIndex];
 		this.composer.build(playerBody, color, position);
 	}
 
 	clearCanvas() {
 		const ctx = this.canvas.getContext('2d');
-		const rect = this.canvas.getBoundingClientRect();
-		ctx.clearRect(0, 0, rect.width, rect.height);
+		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	}
 
 	enableInput() {

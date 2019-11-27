@@ -67,9 +67,15 @@ io.on('connection', function(socket){
 
         let players = [];
 
+        //note: object is shallow-copied so only modify immediate properties
         worldState.players.forEach(function(el) {
             if (Math.abs(el.position.x - x) < RENDER_DISTANCE && 
                 Math.abs(el.position.y - y) < RENDER_DISTANCE) {
+                if (el.id == id) {
+                    el.isPlayer = true;
+                } else {
+                    el.isPlayer = false;
+                }
                 players.push(el);
             }            
         });
@@ -96,7 +102,7 @@ io.on('connection', function(socket){
             players: players,
             resources: resources,
             structures: structures
-        }
+        };
         socket.emit('drawWorld', serializedData);
     });
 
@@ -131,8 +137,11 @@ io.on('connection', function(socket){
         }
         
         engine.move(id, dirEnum);
-        console.log('Player ', id, ' moved ', dirEnum);
+        //console.log('Player ', id, ' moved ', dirEnum);
     });
 
-    socket.emit('message', "Welcome!");
+    socket.on('disconnect', function(){
+        console.log('Client disconnected');
+        //TODO delete player
+    });
 });
