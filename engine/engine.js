@@ -84,6 +84,14 @@ class Engine {
         return this._users.add(x, y);
     }
 
+    attach(id, type, part, face) {
+        let ret = -3;
+        this._users.with(id, user => {
+            ret = user.grow(part, face, type);
+        });
+        return ret;
+    }
+
     // returns information about a user
     info(id) {
         let user = this._users.find(id);

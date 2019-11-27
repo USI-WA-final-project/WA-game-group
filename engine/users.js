@@ -133,9 +133,11 @@ class User {
     }
 
     grow(part, face, type) {
-        //TODO: do
-        //...
+        if (this.components[part].type !== BODYPART_TYPE.CELL) return -1;
+        if (this.components[part].faces[face] !== -1) return -2;
+
         let newComponent = {};
+        newComponent.type = type;
         // noinspection FallThroughInSwitchStatementJS
         switch (type) {
             case BODYPART_TYPE.BOUNCE:
@@ -149,7 +151,9 @@ class User {
                 newComponent.faces = [-1, -1, -1, -1, -1, -1];
                 break;
         }
-        //...
+
+        this.components[part].faces[face] = this.components.push(newComponent) - 1;
+        return 0;
     }
 
     damage(part, amt) {

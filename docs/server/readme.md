@@ -47,12 +47,20 @@ Engine exposes an API composed of the following functions:
 - `register(id: id, callback: function)` given a user id and a callback function, registers the callback so that it will be called
   every tick, given as parameter the object representation of the player with the given user id.
   Has no effect if user id does not exist.
+  
   Calls of the callback are not guaranteed to occur only once per tick or once every tick.
   When a player dies, all callbacks are unregistered. The last call to each callback will be passed null instead of
   a player object.
 - `register_global(callback)` given a callback function, registers the callback so that it will be called every
   tick, given as parameter an object representation of the world
   - `.players`: array<player>, an array containing the object representation of all players in the world
+- `attach(id: id, type: BODYPART_TYPE, part: number, face: number)` adds a bodypart with the given type to the user with
+  the given id by attaching it to the bodypart at the given index at the given face.
+  
+  Returns 0 on success, 
+  -1 if bodypart at given index is not a CELL, 
+  -2 if face at the given index is not free,
+  -3 if user id does not exist
 
 All other fields, properties or functions which the class may or may not have are internal and may not be
 read or modified by the server.
