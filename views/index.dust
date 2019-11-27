@@ -8,31 +8,33 @@
         {>"partials/editor" /}
     </div>
     <!-- Enter Menu -->
-    <div id="menu_enter">
-        <audio autoplay loop>
-            <source src="media/main_menu.mp3" type="audio/mpeg">
-        </audio>
-    	<img id="logo" src="img/logo.svg" alt="The Legend of Ajax">
-    	<div>
-    		<img id="logo_input" src="img/favicon.ico" alt="favicon">
-    	    <input type="text" minlength=3 maxlength=12 placeholder="Enter your name">
-    	</div>
-    	<button type="submit">Play</button>
-<!-- 
-        {?audio}
-        <button formaction="" value="false">
-            <img src="img/music-off.svg" alt="music_off">
-        </button>
-        {:else}
-        <button formaction="" value="true">
-            <img src="img/music-on.svg" alt="music_on">
-        </button>
-        {/audio}
- -->
-    	<ul>
-    		<li id="rules"><img src="img/rules.svg" alt="joystick">Rules & Controls</li>
-    		<li id="info"><img src="img/info.svg" alt="info">Info</li>
-    	</ul>
+    <div id="menu">
+        <div id="menu_enter">
+            <audio autoplay loop>
+                <source src="media/main_menu.mp3" type="audio/mpeg">
+            </audio>
+        	<img id="logo" src="img/logo.svg" alt="The Legend of Ajax">
+        	<div>
+        		<img id="logo_input" src="img/favicon.ico" alt="favicon">
+        	    <input type="text" minlength=3 maxlength=12 placeholder="Enter your name">
+        	</div>
+        	<button type="submit">Play</button>
+<!--     
+            {?audio}
+            <button formaction="" value="false">
+                <img src="img/music-off.svg" alt="music_off">
+            </button>
+            {:else}
+            <button formaction="" value="true">
+                <img src="img/music-on.svg" alt="music_on">
+            </button>
+            {/audio}
+     -->
+        	<ul>
+        		<li id="rules"><img src="img/rules.svg" alt="joystick">Rules & Controls</li>
+        		<li id="info"><img src="img/info.svg" alt="info">Info</li>
+        	</ul>
+        </div>
     </div>
     <div id="menu_rules" class="hidden">
         <p>Lorem Ipsum</p>
