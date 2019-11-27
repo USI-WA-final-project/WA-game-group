@@ -11,6 +11,9 @@ const btn_info = document.getElementById("info");
 const btn_rules = document.getElementById("rules");
 // const btn_back = document.querySelector("#menu back");
 
+//name
+let name = '';
+
 
 
 btn_info.onclick = () => {
@@ -52,9 +55,10 @@ menu_enter.querySelector("div input").onkeyup = () => {
 	document.getElementById("logo_input").style.transform = "rotate("+angle+"deg)";
 };
 
-function init() {
+function init(name) {
+    console.log(name);
 	// Create canvas app
-    const app = new App({ canvas: 'canvas' });
+    const app = new App({ canvas: 'canvas', inputs: { shield: 'shield', bounce: 'bounce', spike: 'spike', cell: 'cell' } });
 
     //initialize socket
 	socket = io();
@@ -67,6 +71,9 @@ function init() {
     	inGame = false;
     }
 
+    // set name
+    app.setName(name);
+
     socket.on('message', function(msg){
     	//console.log(msg);
     });
@@ -76,14 +83,14 @@ function init() {
     	app.drawMap(data);
 
     });
+
 }
 
 window.onload = () => {
 	menu_enter.querySelector("div audio").play();
+    play_button.onclick = () => {
+        name = document.getElementById("username").value;
+        menu.parentNode.remove();
+        init(name);
+    };
 }
-
-play_button.onclick = () => {
-	console.log("START", menu.parentNode);
-	menu.parentNode.remove();
-	init();
-};

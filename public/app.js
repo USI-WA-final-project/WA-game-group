@@ -15,9 +15,45 @@ class App {
 
 		this.keys = {};
 
+		//editor
+		this.editor = new Editor(0);
+
+		//inputs
+		this.cell = document.getElementById(object.inputs.cell);
+		this.shield = document.getElementById(object.inputs.shield);
+		this.spike = document.getElementById(object.inputs.spike);
+		this.bounce = document.getElementById(object.inputs.bounce);
+
 		window.addEventListener('resize', (e) => {
 			this.composer = new Composer(new CanvasInterface(this.canvas));
 		});
+
+
+		
+		this.cell.addEventListener('click', this.setEdit.bind(this));
+		this.shield.addEventListener('click', this.setEdit.bind(this));
+		this.spike.addEventListener('click', this.setEdit.bind(this));
+		this.bounce.addEventListener('click', this.setEdit.bind(this));
+	}
+
+	setEdit(e){
+		let edit = 0
+		if (e.target == "cell") {
+			edit = 1;
+		} 
+
+		if (e.target == "spike") {
+			edit = 2;
+		} 
+
+		if (e.target == "shield") {
+			edit = 3;
+		} 
+
+		if (e.target == "bounce") {
+			edit = 4;
+		} 
+		this.editor =  new Editor(edit);
 	}
 
 	drawMap(data) {
@@ -131,8 +167,15 @@ class App {
 
 
 	onKeyUp(e) {
-		console.log("KEYUP", e);
+		//console.log("KEYUP", e);
 
 		this.keys[e.code] = false;
 	}
+
+	setName(name) {
+		console.log(name);
+		socket.emit('registerUser',  name);
+	}
+
+
 }
