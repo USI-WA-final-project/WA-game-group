@@ -77,6 +77,73 @@ class Editor {
         const image = document.getElementById('bounce-edit');
         this.ctx.drawImage(image, e.offsetX - 10, e.offsetY - 10);
     }
+
+    // searches the cell object for the next item of type cell starting from the
+    // index startIndex
+    findNextCell(cell, startIndex) {
+        for (let i = startIndex; i < cell.components.length; i++) {
+            if (cell.components[i].type == 0) {
+                return cell.components[i];
+            }
+        }
+        console.log("Next cell not found.");
+        return null;
+    }
+
+    // searches the cell object for the previous item of type cell starting from
+    // the index startIndex
+    findPrevCell(cell, startIndex) {
+        for (let i = startIndex; i >= 0; i--) {
+            if (cell.components[i].type == 0) {
+                return cell.components[i];
+            }
+        }
+        console.log("Previous cell not found.");
+        return null;
+    }
+
+    /*
+     * Adds a new cell of type 'type', at face 'face' of cell 'cell' to the
+     * player object
+     * @param {player} the player object
+     * @param {face} the face number given by the player. Number from 1 to 6
+     * @param {type} the type passed into the editor object
+     * @param {cell} the cell selected by the user navigating the object through
+     * the findNextCell and findPrevCell functions
+     * @returns the updated player object
+     */
+    setCell(player, face, type, cell) {
+        newCell = {
+            "type": type,
+            "faces": [-1, -1, -1, -1, -1, -1]
+        };
+        newCell.faces[oppositeFace(face) - 1] = player.components.indexOf(cell);
+        player.components.push({
+            "type": type,
+            "faces": [-1, -1, -1, -1, -1, -1]
+        });
+        cell.faces[face] = player.components.indexOf(newCell);
+
+
+        return player;
+    }
+
+    setSpike(face, type, cell) {
+
+    }
+
+    setShield(face, type, cell) {
+
+    }
+
+    setBounce(face, type, cell) {
+
+    }
+
+    // given the number of a face, returns the opposite one
+    oppositeFace(face) {
+        return [null,4,5,6,1,2,3][face];
+    }
 }
 
 
