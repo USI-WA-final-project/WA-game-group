@@ -79,10 +79,9 @@ class Engine {
 
     // creates a new user and returns its ID
     create() {
-        let color = Math.floor(Math.random() * 8);
         let x = Math.ceil(Math.random() * WORLD_WIDTH);
         let y = Math.ceil(Math.random() * WORLD_HEIGHT);
-        return this._users.add(color, x, y);
+        return this._users.add(x, y);
     }
 
     attach(id, type, part, face) {

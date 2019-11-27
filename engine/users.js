@@ -15,11 +15,10 @@ class Users {
     }
     get _newId() {return this._id++};
 
-    add(color, x, y) {
+    add(x, y) {
         let newId = this._newId;
         this._users.push(new User(
             newId,
-            color,
             x, y
         ));
         return newId;
@@ -55,7 +54,7 @@ class Users {
 module.exports = Users;
 
 class User {
-    constructor(id, color, x, y) {
+    constructor(id, x, y) {
         this.id = id;
         this.nextActions = [];
 
@@ -65,7 +64,7 @@ class User {
         this.movedH = false;
 
         this.callbacks = [];
-        this.color = color;
+        this.color = Math.floor(Math.random() * 8);
 
         this.components = [
             {
