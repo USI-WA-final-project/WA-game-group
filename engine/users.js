@@ -321,7 +321,7 @@ class User {
         }
         delete this.components[part];
         this.components.forEach(component => {
-            component.faces.map(val => {
+            component.faces = component.faces.map(val => {
                 if (val === part) {
                     return -1;
                 }
