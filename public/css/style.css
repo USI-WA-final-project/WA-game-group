@@ -43,10 +43,6 @@ input, button {
 
 /*------- ID - CLASSES ------*/
 
-.hidden {
-	display: none;
-}
-
 .editor {
 	text-align: center; 
 	padding: 1em; 
@@ -58,18 +54,23 @@ input, button {
 	height: 100vh;
 }
 
-#menu {
+.menu_enter {
+	display: flex;
+    flex-direction: column;
 	min-width: 400px;
 	position:absolute;
 	right: 25%;
 	top: calc(25% + 20px);
 	width: calc(50% - 80px);
+	height: calc(50% - 80px);
 	margin: auto;
 	text-align: center;
 	-webkit-box-shadow: 1px 1px 8px 2px rgba(143,143,143,1);
 	-moz-box-shadow: 1px 1px 8px 2px rgba(143,143,143,1);
 	box-shadow: 1px 1px 8px 2px rgba(143,143,143,1);
 	padding: 20px 40px;
+    align-items: center;
+    overflow: scroll;
 }
 
 #menu_enter #logo {
@@ -137,4 +138,10 @@ input, button {
 	border-radius: 4px;
 	background-color: rgba(187, 187, 188, 1);
 	color: rgba(59, 64, 67, 1);
+}
+
+/* ------ CLASSES -------*/
+
+.hidden {
+	display: none;
 }
