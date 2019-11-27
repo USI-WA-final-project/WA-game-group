@@ -23,8 +23,14 @@ class App {
 	drawMap(data) {
 		this.clearCanvas();
 		//console.log(data);
+		let pos;
 		data.players.forEach((elem) => {
-		 	this.drawPlayer(elem.bodyparts, elem.color, elem.position);
+			console.log(elem);
+			pos = elem.position;
+			if(elem.isPlayer) {
+				pos = undefined;
+			} 
+			this.drawPlayer(elem.bodyparts, elem.color, pos);
 		});
 	}
 
