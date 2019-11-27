@@ -51,7 +51,12 @@ io.on('connection', function(socket){
     console.log('Client connected');
 
     let id = engine.create();
-    console.log('Created player ', id);
+    let username;
+
+    socket.on('registerUser', function(user) {
+        username = user;
+        console.log('Created player ', id, ' - ', username);
+    });
 
     let worldState;
 
@@ -67,16 +72,45 @@ io.on('connection', function(socket){
 
         let players = [];
 
-        //note: object is shallow-copied so only modify immediate properties
-        worldState.players.forEach(function(el) {
+        //delta = strangerPos - playerPos
+        //strangerPos = playerPosCanvas + (strangerPos - playerPos)
+
+        //type: 0 cell, 1 spike, 2 shield
+
+        worldState.players.forEach(function(el) {            
             if (Math.abs(el.position.x - x) < RENDER_DISTANCE && 
                 Math.abs(el.position.y - y) < RENDER_DISTANCE) {
-                if (el.id == id) {
-                    el.isPlayer = true;
-                } else {
-                    el.isPlayer = false;
+                let player = {
+                    color: el.color,
+                    rotation: el.rotation,
+                    components: el.bodyparts.map(function(item) {
+                        let newItem = Object.assign({}, item);
+                        switch(item.type) {
+                            case engine.BODYPART_TYPE.CELL:
+                                newItem.type = 0;
+                            break;
+                            case engine.BODYPART_TYPE.SPIKE:
+                                newItem.type = 1;
+                            break;
+                            case engine.BODYPART_TYPE.SHIELD:
+                                newItem.type = 2;
+                            break;
+                            case engine.BODYPART_TYPE.BOUNCE:
+                                newItem.type = 3;
+                            break;
+                        }
+                        return newItem;
+                    })
+                };
+
+                if (el.id != id) {
+                    player.position = {
+                        x: el.position.x - x,
+                        y: el.position.y - y
+                    }
                 }
-                players.push(el);
+
+                players.push(player);
             }            
         });
 
@@ -140,8 +174,32 @@ io.on('connection', function(socket){
         //console.log('Player ', id, ' moved ', dirEnum);
     });
 
+    socket.on('attachPart', function(data) {
+        let res;
+        let type;
+        switch(data.type) {
+            case 0:
+                type = engine.BODYPART_TYPE.CELL;
+            break;
+            case 1:
+                type = engine.BODYPART_TYPE.SPIKE;
+            break;
+            case 2:
+                type = engine.BODYPART_TYPE.SHIELD;
+            break;
+            case 3:
+                type = engine.BODYPART_TYPE.BOUNCE;
+            break;
+        }
+        res = engine.attach(id, type, data.part, data.face);
+        if (res != 0) {
+            console.log("Error attaching part ", data);
+        }
+    });
+
     socket.on('disconnect', function(){
         console.log('Client disconnected');
+        //TODO save player in DB
         //TODO delete player
     });
 });
