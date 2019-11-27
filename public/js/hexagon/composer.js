@@ -32,14 +32,16 @@ class Composer {
         const ctx = this.canvasInterface.getContext();
         const screenCenter = this.canvasInterface.getCenter();
         const center = deltaPosition ? {
-            x: screenCenter + deltaPosition.x,
-            y: screenCenter + deltaPosition.y
+            x: screenCenter.x + deltaPosition.x,
+            y: screenCenter.y + deltaPosition.y
         } : screenCenter;
 
         const begin = {
             x: center.x - 8,
             y: center.y - 14
         };
+
+        console.log("Drawing player at", center);
 
         this.drawHexagon0(obj, 0, ctx, begin, center, true);
         ctx.fillStyle = color.body;
