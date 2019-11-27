@@ -52,6 +52,16 @@ io.on('connection', function(socket){
 
     let id = engine.create();
     console.log('Created player ', id);
+    console.log(engine.info(id));
+
+    //Test, remove later
+    let res;
+
+    res = engine.attach(id, engine.BODYPART_TYPE.SPIKE, 0, 0);
+    console.log("status: ", res, engine.info(id));
+
+    res = engine.attach(id, engine.BODYPART_TYPE.SHIELD, 0, 2);
+    console.log("status: ", res, engine.info(id));
 
     let worldState;
 
@@ -67,16 +77,45 @@ io.on('connection', function(socket){
 
         let players = [];
 
-        //note: object is shallow-copied so only modify immediate properties
-        worldState.players.forEach(function(el) {
+        //delta = strangerPos - playerPos
+        //strangerPos = playerPosCanvas + (strangerPos - playerPos)
+
+        //type: 0 cell, 1 spike, 2 shield
+
+        worldState.players.forEach(function(el) {            
             if (Math.abs(el.position.x - x) < RENDER_DISTANCE && 
                 Math.abs(el.position.y - y) < RENDER_DISTANCE) {
-                if (el.id == id) {
-                    el.isPlayer = true;
-                } else {
-                    el.isPlayer = false;
+                let player = {
+                    color: el.color,
+                    rotation: el.rotation,
+                    components: el.bodyparts.map(function(item) {
+                        let newItem = Object.assign({}, item);
+                        switch(item.type) {
+                            case engine.BODYPART_TYPE.CELL:
+                                newItem.type = 0;
+                            break;
+                            case engine.BODYPART_TYPE.SPIKE:
+                                newItem.type = 1;
+                            break;
+                            case engine.BODYPART_TYPE.SHIELD:
+                                newItem.type = 2;
+                            break;
+                            case engine.BODYPART_TYPE.BOUNCE:
+                                newItem.type = 3;
+                            break;
+                        }
+                        return newItem;
+                    })
+                };
+
+                if (el.id != id) {
+                    player.position = {
+                        x: el.position.x - x,
+                        y: el.position.y - y
+                    }
                 }
-                players.push(el);
+
+                players.push(player);
             }            
         });
 
