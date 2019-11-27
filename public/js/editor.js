@@ -1,80 +1,87 @@
 class Editor {
+    constructor(statusNum) {
+        this.canvas = document.getElementById('canvas');
+        this.ctx = this.canvas.getContext('2d');
 
-    constructor() {
+        // will draw the current icon at the mouse position
+        // To be discussed as drawing on the client might be too heavy
+        switch (statusNum) {
+            case 0:
+            this.start();
+                break;
+            case 1:
+                this.start();
+                this.canvas.addEventListener('mousemove', (e) => {
+                    this.drawCell(e);
+                });
+                break;
+            case 2:
+                this.start();
+                this.canvas.addEventListener('mousemove', (e) => {
+                    this.drawSpike(e);
+                });
+                break;
+            case 3:
+                this.start();
+                this.canvas.addEventListener('mousemove', (e) => {
+                    this.drawShield(e);
+                });
+                break;
+            case 4:
+                this.start();
+                this.canvas.addEventListener('mousemove', (e) => {
+                    this.drawBounce(e);
+                });
+                break;
+        }
+    }
 
-        var isDrawingCell = false;
-        var isDrawingSpike = false;
-        var isDrawingShield = false;
-        var isDrawingBounce = false;
-
-        // events to handle buying and selling
-        const bodyBtn = document.getElementById('cell');
-        console.log(bodyBtn);
-        bodyBtn.addEventListener('click', () => {
-            // TODO call editing functions
-            // unavailable until the editing functions are done
-
-            // check if any other buttons have been pressed and reset their
-            // status
-            if (isDrawingSpike) isDrawingSpike = false;
-            if (isDrawingShield) isDrawingShield = false;
-            if (isDrawingBounce) isDrawingBounce = false;
-
-            toggleBoolean(isDrawingCell);
-            console.log(isDrawingCell);
+    // clear function to remove previous event listeners
+    start() {
+        console.log('CLEARING LISTENERS');
+        this.canvas.removeEventListener('mousemove', (e) => {
+             this.drawCell(e);
+         });
+        this.canvas.removeEventListener('mousemove', (e) => {
+            this.drawSpike(e);
         });
-
-        const spikeBtn = document.getElementById('spike');
-        spikeBtn.addEventListener('click', () => {
-            // TODO call editing functions
-            // unavailable until the editing functions are done
-
-            // check if any other buttons have been pressed and reset their
-            // status
-            if (isDrawingCell) isDrawingCell = false;
-            if (isDrawingShield) isDrawingShield = false;
-            if (isDrawingBounce) isDrawingBounce = false;
-
-            isDrawingSpike = toggleBoolean(isDrawingSpike);
-            console.log(isDrawingSpike);
+        this.canvas.removeEventListener('mousemove', (e) => {
+            this.drawShield(e);
         });
-
-        const shieldBtn = document.getElementById('shield');
-        shieldBtn.addEventListener('click', () => {
-            // TODO call editing functions
-            // unavailable until the editing functions are done
-
-            // check if any other buttons have been pressed and reset their
-            // status
-            if (isDrawingCell) isDrawingCell = false;
-            if (isDrawingSpike) isDrawingSpike = false;
-            if (isDrawingBounce) isDrawingBounce = false;
-
-            toggleBoolean(isDrawingShield);
-            console.log(isDrawingShield);
-        });
-
-        const bounceBtn = document.getElementById('bounce');
-        bounceBtn.addEventListener('click', () => {
-            // TODO call editing functions
-            // unavailable until the editing functions are done
-
-            // check if any other buttons have been pressed and reset their
-            // status
-            if (isDrawingCell) isDrawingCell = false;
-            if (isDrawingSpike) isDrawingSpike = false;
-            if (isDrawingShield) isDrawingShield = false;
-
-            toggleBoolean(isDrawingBounce);
-            console.log(isDrawingBounce);
+        this.canvas.removeEventListener('mousemove', (e) => {
+            this.drawBounce(e);
         });
     }
 
-    toggleBooleans(bool) {
-        return bool ? false : true;
+    // draws image at cursor position
+    drawCell(e) {
+        console.log('DRAWING CELL');
+        const image = document.getElementById('cell-edit');
+        this.ctx.drawImage(image, e.offsetX - 10, e.offsetY - 10);
     }
 
-    buildCell() {
+    drawSpike(e) {
+        console.log('DRAWING SPIKE');
+        const image = document.getElementById('spike-edit');
+        this.ctx.drawImage(image, e.offsetX - 10, e.offsetY - 10);
+    }
 
+    drawShield(e) {
+        console.log('DRAWING SHIELD');
+        const image = document.getElementById('shield-edit');
+        this.ctx.drawImage(image, e.offsetX - 10, e.offsetY - 10);
+    }
+
+    drawBounce(e) {
+        console.log('DRAWING BOUNCE');
+        const image = document.getElementById('bounce-edit');
+        this.ctx.drawImage(image, e.offsetX - 10, e.offsetY - 10);
     }
 }
+
+
+
+
+
+// initialize editor
+const editor = new Editor();

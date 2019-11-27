@@ -1,10 +1,10 @@
-const menu_enter = document.getElementById("menu_enter");
+
 const play_button = document.querySelector("div[id=menu_enter] button");
 
 // popup
 const info = document.getElementById("menu_info");
 const rules = document.getElementById("menu_rules");
-const menu = document.getElementById("menu_enter");
+const menu_enter = document.getElementById("menu_enter");
 
 //buttons
 const btn_info = document.getElementById("info");
@@ -27,37 +27,6 @@ let socket = undefined;
 
 let angle = 0;
 let inGame = false;
-
-function init(name) {
-    console.log(name);
-	// Create canvas app
-    const app = new App({ canvas: 'canvas', inputs: { shield: 'shield', bounce: 'bounce', spike: 'spike', cell: 'cell' } });
-
-    //initialize socket
-	socket = io();
-
-    if (!inGame) {
-    	app.enableInput();
-    	inGame = true;
-    } else {
-    	app.disableInput();
-    	inGame = false;
-    }
-
-    // set name
-    app.setName(name);
-
-    socket.on('message', function(msg){
-    	//console.log(msg);
-    });
-
-    socket.on('drawWorld', function(data) {
-    	//console.log(data);
-    	app.drawMap(data);
-
-    });
-
-}
 
 window.onload = () => {
     //main page
@@ -90,7 +59,40 @@ window.onload = () => {
     //init game
     play_button.onclick = () => {
         let name = document.getElementById("username").value;
-        menu.parentNode.remove();
+        console.log(menu_enter.parentNode, menu_enter);
+        menu_enter.parentNode.removeChild(menu_enter);
         init(name);
     };
+}
+
+function init(name) {
+    console.log(name);
+    // Create canvas app
+    console.log(document.getElementById("canvas"));
+    const app = new App({ canvas: 'canvas', inputs: { shield: 'shield', bounce: 'bounce', spike: 'spike', cell: 'cell' } });
+
+    //initialize socket
+    socket = io();
+
+    if (!inGame) {
+        app.enableInput();
+        inGame = true;
+    } else {
+        app.disableInput();
+        inGame = false;
+    }
+
+    // set name
+    app.setName(name);
+
+    socket.on('message', function(msg){
+        //console.log(msg);
+    });
+
+    socket.on('drawWorld', function(data) {
+        //console.log(data);
+        app.drawMap(data);
+
+    });
+
 }
