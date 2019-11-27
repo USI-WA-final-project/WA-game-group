@@ -145,3 +145,67 @@ input, button {
 .hidden {
 	display: none;
 }
+
+.back {
+	position: absolute;
+	top: 10px;
+	right: 20px;
+	max-height: 20px;
+	max-width: 20px;
+}
+
+/* Style for personal stats (or in-game menu) */
+ul#stats > li{
+  float: right;
+  list-style-type:none;
+  position: absolute;
+  top: 15px;
+  right: 100px;
+  padding:0 18px 0 12px;
+  vertical-align: middle;
+}
+
+ul#stats img{
+  padding: 2px 15px 2px 2px;
+}
+
+label{
+  position:relative;
+  display:block;
+  padding:0 20px 0 15px;
+  line-height:3em;
+  transition:background 0.3s;
+  cursor:pointer;
+}
+
+input:checked ~ label:after{
+  transition:border-top .1s, border-bottom .1s .1s;
+}
+
+input:checked ~ ul.personal{
+  max-height:600px;
+  transition:max-height 0.5s ease-in;
+}
+
+ul.personal{
+  max-height:0;
+  padding: 0;
+  overflow: hidden;
+  list-style-type: none;
+  background: #fff;
+  position: absolute;
+  min-width: 100%;
+}
+
+ul.personal li {
+  display:block;
+  padding: 8px;
+  color: #000000;
+  text-decoration:none;
+  transition:background .3s;
+  white-space: nowrap;
+}
+
+.tools:hover{
+  background:rgba(0,0,0,.3);
+}

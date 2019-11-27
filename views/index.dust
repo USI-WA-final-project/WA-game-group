@@ -1,9 +1,32 @@
 {>"partials/header" /}
     <!-- Main Game -->
-<!--     <audio id="audio_game" autoplay loop>
+<!--     Audio of the Game
+    <audio id="audio_game" autoplay loop>
         <source src="media/audio_game.mp3" type="audio/mpeg">
     </audio> -->
     <canvas id="canvas" tabindex="1"></canvas>
+
+    <ul id="stats" class="hidden">
+<!--         Toggle it when clicking on Play
+ -->        <li>
+            <input id="check" type="checkbox" name="stats" class="hidden"/>
+            <label for="check">@Username</label>
+            <ul class="personal">
+                <li><img src="img/cell.svg">cells</li>
+                <li><img src="img/spike.svg" width="24" height="20">spikes</li>
+                <li><img src="img/shield.svg">shields</li>
+                <li>time</li>
+                <li><img src="img/money.svg"></li>
+                <li><img src="img/score.svg"></li>
+                <li class="tools"><img src="img/leaderboard.svg">Leaderboard</li>
+                <li class="tools"><img src="img/imgur.svg">Share this moment</li>
+                <li class="tools"><img src="img/shop.svg">Shop</li>
+                <li class="tools"><img src="img/help.svg">Help</li>
+            </ul>
+            </ul>
+        </li>
+    </ul>
+
     <div id="editor" class="hidden" class="editor">
         {>"partials/editor" /}
     </div>
@@ -15,7 +38,7 @@
         <img id="logo" src="img/logo.svg" alt="The Legend of Ajax">
         <div>
             <img id="logo_input" src="img/favicon.ico" alt="favicon">
-            <input id="username" type="text" minlength=3 maxlength=12 placeholder="Enter your name">
+            <input id="username" type="text" minlength=3 maxlength=14 placeholder="Enter your name">
         </div>
         <button type="submit">Play</button>
 <!--     
