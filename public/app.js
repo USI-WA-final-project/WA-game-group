@@ -11,11 +11,13 @@ class App {
 		this.width = this.canvas.width;
 		this.height = this.canvas.height;
 
-		const canvasInterface = new CanvasInterface(this.canvas);
-		this.composer = new Composer(canvasInterface);
+		this.composer = new Composer(new CanvasInterface(this.canvas));
 
 		this.keys = {};
 
+		window.addEventListener('resize', (e) => {
+			this.composer = new Composer(new CanvasInterface(this.canvas));
+		});
 	}
 
 	drawMap(data) {

@@ -117,7 +117,7 @@ class Composer {
             // "Core circle"
             ctx.beginPath();
             ctx.fillStyle = this.colors.cell.child; // 30% white
-            ctx.arc(center.x, center.y, 5, 0, 360)
+            ctx.arc(center.x, center.y, 10, 0, 360)
             ctx.closePath();
             ctx.fill();
         }
