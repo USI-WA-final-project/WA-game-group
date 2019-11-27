@@ -25,12 +25,16 @@ class Composer {
      *
      * @param obj the object that represents the character
      * @param color the color of the character
-     * @param initialPosition the initial position to start drawing the character
+     * @param deltaPosition the delta of the position from the center
      */
-    build(obj, color, initialPosition = undefined) {
+    build(obj, color, deltaPosition = undefined) {
         this.colors.cell = color;
         const ctx = this.canvasInterface.getContext();
-        const center = initialPosition ? initialPosition : this.canvasInterface.getCenter();
+        const screenCenter = this.canvasInterface.getCenter();
+        const center = deltaPosition ? {
+            x: screenCenter + deltaPosition.x,
+            y: screenCenter + deltaPosition.y
+        } : screenCenter;
 
         const begin = {
             x: center.x - 8,
@@ -117,7 +121,7 @@ class Composer {
             // "Core circle"
             ctx.beginPath();
             ctx.fillStyle = this.colors.cell.child; // 30% white
-            ctx.arc(center.x, center.y, 5, 0, 360)
+            ctx.arc(center.x, center.y, 10, 0, 360)
             ctx.closePath();
             ctx.fill();
         }

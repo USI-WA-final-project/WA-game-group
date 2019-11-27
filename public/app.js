@@ -11,32 +11,31 @@ class App {
 		this.width = this.canvas.width;
 		this.height = this.canvas.height;
 
-		const canvasInterface = new CanvasInterface(this.canvas);
-		this.composer = new Composer(canvasInterface);
+		this.composer = new Composer(new CanvasInterface(this.canvas));
 
 		this.keys = {};
 
+		window.addEventListener('resize', (e) => {
+			this.composer = new Composer(new CanvasInterface(this.canvas));
+		});
 	}
 
 	drawMap(data) {
 		this.clearCanvas();
-		console.log(data);
+		//console.log(data);
 		data.players.forEach((elem) => {
-
-		 	this.drawPlayer(elem.bodyparts, elem.position);
+		 	this.drawPlayer(elem.bodyparts, elem.color, elem.position);
 		});
 	}
 
-	drawPlayer(playerBody, position) {
-		// TODO: cambio colore
-		const color  = { core: "#35b27d", child: "#6ee6ad" };
+	drawPlayer(playerBody, colorIndex, position) {
+		const color  = PLAYER_COLORS[colorIndex];
 		this.composer.build(playerBody, color, position);
 	}
 
 	clearCanvas() {
 		const ctx = this.canvas.getContext('2d');
-		const rect = this.canvas.getBoundingClientRect();
-		ctx.clearRect(0, 0, rect.width, rect.height);
+		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	}
 
 	enableInput() {
@@ -57,39 +56,29 @@ class App {
 
 		console.log("KEYDOWN", e);
 
-		if (e.code === "KeyW") {
-			this.keys[e.code] = true;
-		}
+		this.keys[e.code] = true;
 
-		if (e.code === "KeyD") {
-			this.keys[e.code] = true;
-		}
-
-		if (e.code === "KeyS") {
-			this.keys[e.code] = true;
-		}
-
-		if (e.code === "KeyA") {
-			this.keys[e.code] = true;
-		}
-
-		//WD DS SA AW
-		if (this.keys["KeyW"] == true && this.keys["KeyD"] == true) {
+		//WD DS SA AW || UPRIGHT RIGHTDOWN DOWNLEFT LEFTUP
+		if (this.keys["KeyW"] == true && this.keys["KeyD"] == true || 
+			this.keys["ArrowUp"] == true && this.keys["ArrowRight"] == true) {
 			//console.log("W");
 			socket.emit('move', 1);
 		}
 
-		if (this.keys["KeyD"] == true && this.keys["KeyS"] == true) {
+		if (this.keys["KeyD"] == true && this.keys["KeyS"] == true || 
+			this.keys["ArrowRight"] == true && this.keys["ArrowDown"] == true) {
 			//console.log("A");
 			socket.emit('move', 3);
 		}
 
-		if (this.keys["KeyS"] == true && this.keys["KeyA"] == true) {
+		if (this.keys["KeyS"] == true && this.keys["KeyA"] == true || 
+			this.keys["ArrowDown"] == true && this.keys["ArrowLeft"] == true) {
 			socket.emit('move', 5);
 			//console.log("S");
 		}
 
-		if (this.keys["KeyA"] == true && this.keys["KeyW"] == true) {
+		if (this.keys["KeyA"] == true && this.keys["KeyW"] == true || 
+			this.keys["ArrowLeft"] == true && this.keys["ArrowUp"] == true) {
 			socket.emit('move',7);
 			//console.log("D");
 		}
@@ -115,25 +104,33 @@ class App {
 			socket.emit('move', 6);
 		}
 
+		// UP RIGHT DOWN LEFT
+		if (this.keys["ArrowUp"] == true) {
+			//console.log("W");
+			socket.emit('move', 0);
+		}
+
+		if (this.keys["ArrowRight"] == true) {
+			socket.emit('move',2);
+			//console.log("D");
+		}
+
+		if (this.keys["ArrowDown"] == true) {
+			socket.emit('move', 4);
+			//console.log("S");
+		}
+
+		if (this.keys["ArrowLeft"] == true) {
+			//console.log("A");
+			socket.emit('move', 6);
+		}
+
 	}
 
 
 	onKeyUp(e) {
 		console.log("KEYUP", e);
-		if (e.code === "KeyW") {
-			this.keys[e.code] = false;
-		}
 
-		if (e.code === "KeyD") {
-			this.keys[e.code] = false;
-		}
-
-		if (e.code === "KeyS") {
-			this.keys[e.code] = false;
-		}
-
-		if (e.code === "KeyA") {
-			this.keys[e.code] = false;
-		}
+		this.keys[e.code] = false;
 	}
 }
