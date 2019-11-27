@@ -96,7 +96,7 @@ io.on('connection', function(socket){
             players: players,
             resources: resources,
             structures: structures
-        }
+        };
         socket.emit('drawWorld', serializedData);
     });
 
