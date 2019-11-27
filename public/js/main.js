@@ -1,4 +1,5 @@
-const menu_enter = document.getElementById("menu_enter");
+const menu = document.getElementById("menu_enter");
+const menu_enter = document.getElementById("menu");
 const play_button = document.querySelector("div[id=menu_enter] button");
 
 // popup
@@ -18,7 +19,7 @@ btn_info.onclick = () => {
 	parent.removeChild(menu_enter);
     console.log("INFO", info);
     console.log("PARENT", parent);
-	parent.innerHTML = info.innerHTML;
+	parent.innerHTML = "<div class='menu_info'>" + info.innerHTML + "</div>";
     console.log("PARENT", parent);
 };
 
@@ -37,7 +38,7 @@ btn_rules.onclick = () => {
     parent.removeChild(menu_enter);
     console.log("INFO", rules);
     console.log("PARENT", parent);
-    parent.innerHTML = rules.innerHTML;
+    parent.innerHTML = "<div class='menu_rules'>" + rules.innerHTML + "</div>";
     console.log("PARENT", parent);
 };
 
@@ -79,11 +80,10 @@ function init() {
 
 window.onload = () => {
 	menu_enter.querySelector("div audio").play();
-    console.log("BUTTON BACK", btn_back);
 }
 
 play_button.onclick = () => {
-	console.log("START");
-	menu_enter.parentNode.removeChild(menu_enter);
+	console.log("START", menu.parentNode);
+	menu.parentNode.remove();
 	init();
 };

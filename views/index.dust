@@ -16,7 +16,7 @@
         	<img id="logo" src="img/logo.svg" alt="The Legend of Ajax">
         	<div>
         		<img id="logo_input" src="img/favicon.ico" alt="favicon">
-        	    <input type="text" minlength=3 maxlength=12 placeholder="Enter your name">
+        	    <input id="username" type="text" minlength=3 maxlength=12 placeholder="Enter your name">
         	</div>
         	<button type="submit">Play</button>
 <!--     
