@@ -52,7 +52,9 @@ Engine exposes an API composed of the following functions:
   When a player dies, all callbacks are unregistered. The last call to each callback will be passed null instead of
   a player object.
 - `register_global(callback)` given a callback function, registers the callback so that it will be called every
-  tick, given as parameter an object representation of the world
+  tick, given as parameter an object representation of the world.
+  The passed object is *read-only*, however, the `players` array is copied and may be freely modified.
+  This applies *only* to the array, not its components.
   - `.players`: array<player>, an array containing the object representation of all players in the world
 - `attach(id: id, type: BODYPART_TYPE, part: number, face: number)` adds a bodypart with the given type to the user with
   the given id by attaching it to the bodypart at the given index at the given face.

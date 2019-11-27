@@ -1,8 +1,8 @@
 const BODYPART_TYPE =  Object.freeze({
     CELL: Symbol("CELL"),
-    SPIKE: Symbol("CELL"),
-    SHIELD: Symbol("CELL"),
-    BOUNCE: Symbol("CELL"),
+    SPIKE: Symbol("SPIKE"),
+    SHIELD: Symbol("SHIELD"),
+    BOUNCE: Symbol("BOUNCE"),
 });
 module.exports.BODYPART_TYPE = BODYPART_TYPE;
 
