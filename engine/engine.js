@@ -84,6 +84,12 @@ class Engine {
         return this._users.add(x, y);
     }
 
+    remove(id) {
+        this._users.with(id, usr => {
+            usr.act({action: ACTION.DESTROY})
+        })
+    }
+
     attach(id, type, part, face) {
         let ret = -3;
         this._users.with(id, user => {
