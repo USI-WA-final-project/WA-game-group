@@ -51,17 +51,13 @@ io.on('connection', function(socket){
     console.log('Client connected');
 
     let id = engine.create();
-    console.log('Created player ', id);
-    console.log(engine.info(id));
+    let username;
 
-    //Test, remove later
-    let res;
+    socket.on('registerUser', function(user) {
+        username = user;
+    });
 
-    res = engine.attach(id, engine.BODYPART_TYPE.SPIKE, 0, 0);
-    console.log("status: ", res, engine.info(id));
-
-    res = engine.attach(id, engine.BODYPART_TYPE.SHIELD, 0, 2);
-    console.log("status: ", res, engine.info(id));
+    console.log('Created player ', id, ' - ', username);
 
     let worldState;
 
@@ -179,8 +175,32 @@ io.on('connection', function(socket){
         //console.log('Player ', id, ' moved ', dirEnum);
     });
 
+    socket.on('attachPart', function(data) {
+        let res;
+        let type;
+        switch(data.type) {
+            case 0:
+                type = engine.BODYPART_TYPE.CELL;
+            break;
+            case 1:
+                type = engine.BODYPART_TYPE.SPIKE;
+            break;
+            case 2:
+                type = engine.BODYPART_TYPE.SHIELD;
+            break;
+            case 3:
+                type = engine.BODYPART_TYPE.BOUNCE;
+            break;
+        }
+        res = engine.attach(id, type, data.part, data.face);
+        if (res != 0) {
+            console.log("Error attaching part ", data);
+        }
+    });
+
     socket.on('disconnect', function(){
         console.log('Client disconnected');
+        //TODO save player in DB
         //TODO delete player
     });
 });
