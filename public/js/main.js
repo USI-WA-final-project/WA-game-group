@@ -1,59 +1,32 @@
-const menu = document.getElementById("menu_enter");
-const menu_enter = document.getElementById("menu");
+const menu_enter = document.getElementById("menu_enter");
 const play_button = document.querySelector("div[id=menu_enter] button");
 
 // popup
 const info = document.getElementById("menu_info");
 const rules = document.getElementById("menu_rules");
+const menu = document.getElementById("menu_enter");
 
 //buttons
 const btn_info = document.getElementById("info");
 const btn_rules = document.getElementById("rules");
-// const btn_back = document.querySelector("#menu back");
+const btn_back = document.querySelectorAll(".back");
 
-//name
-let name = '';
-
-
-
-btn_info.onclick = () => {
-	//console.log(info);
-	let parent = menu_enter.parentNode;
-	parent.removeChild(menu_enter);
-    console.log("INFO", info);
-    console.log("PARENT", parent);
-	parent.innerHTML = "<div class='menu_info'>" + info.innerHTML + "</div>";
-    console.log("PARENT", parent);
-};
-
-// btn_back.onclick = () => {
-//     //console.log(info);
-//     console.log("CLICKED");
-//     let parent = btn_back.parentNode;
-//     parent.innerHTML = menu_enter.innerHTML;
-//     console.log("PARENT", parent);
-//     // info.classList.toggle("hidden");
-// };
-
-btn_rules.onclick = () => {
-    //console.log(info);
-    let parent = menu_enter.parentNode;
-    parent.removeChild(menu_enter);
-    console.log("INFO", rules);
-    console.log("PARENT", parent);
-    parent.innerHTML = "<div class='menu_rules'>" + rules.innerHTML + "</div>";
-    console.log("PARENT", parent);
-};
+btn_back.forEach((el) => {
+    el.addEventListener('click', () => {
+        document.querySelectorAll(".menu_enter").forEach((el) => {
+            if (el.id != "menu_enter" ) {
+                el.classList.add("hidden");
+            } else {
+                el.classList.remove("hidden");
+            }
+        });
+    });
+});
 
 let socket = undefined;
 
 let angle = 0;
 let inGame = false;
-
-menu_enter.querySelector("div input").onkeyup = () => {
-	angle += 45;
-	document.getElementById("logo_input").style.transform = "rotate("+angle+"deg)";
-};
 
 function init(name) {
     console.log(name);
@@ -87,9 +60,36 @@ function init(name) {
 }
 
 window.onload = () => {
+    //main page
 	menu_enter.querySelector("div audio").play();
+    menu_enter.querySelector("div input").onkeyup = () => {
+        angle += 45;
+        document.getElementById("logo_input").style.transform = "rotate("+angle+"deg)";
+    };
+
+    btn_info.onclick = () => {
+        document.querySelectorAll(".menu_enter").forEach((el) => {
+            if (el.id != "menu_info" ) {
+                el.classList.add("hidden");
+            } else {
+                el.classList.remove("hidden");
+            }
+        });
+    };
+
+    btn_rules.onclick = () => {
+        document.querySelectorAll(".menu_enter").forEach((el) => {
+            if (el.id != "menu_rules" ) {
+                el.classList.add("hidden");
+            } else {
+                el.classList.remove("hidden");
+            }
+        });
+    };
+
+    //init game
     play_button.onclick = () => {
-        name = document.getElementById("username").value;
+        let name = document.getElementById("username").value;
         menu.parentNode.remove();
         init(name);
     };
