@@ -146,7 +146,7 @@ class User {
                 newComponent.inflated = MAX_INFLATE;
                 newComponent.working = true;
             case BODYPART_TYPE.SPIKE:
-                newComponent.body = part; // maybe? depends on how exactly part is passed
+                newComponent.body = part;
                 break;
             case BODYPART_TYPE.CELL:
                 newComponent.health = MAX_HEALTH;
