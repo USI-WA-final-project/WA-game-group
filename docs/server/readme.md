@@ -30,6 +30,8 @@ Engine exposes an API composed of the following functions:
   
   When multiple moves are issued during the same tick, the result is undefined. It is, however, guaranteed that they
   will not move by more than `MOVE_SPEED` in any direction per tick.
+- `rotate(id: id, angle: number)` given a user id and an angle in radians, rotates the user with the given id to face
+  the given angle.
 - `create()` creates a new player at random coordinates and returns their `ID`.
 - `remove(id: id)` removes the player with the given user id. Has no effect if id is not a valid user id.
 - `info(id: id)` given a user id returns an object representing that player. If id is not a valid user id, returns null.

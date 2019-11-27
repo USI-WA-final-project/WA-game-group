@@ -70,10 +70,17 @@ class Engine {
         this._users = null;
     }
 
-    // moves a user in DIRECTION
+    // moves a user in a DIRECTION
     move(id, direction) {
         this._users.with(id, user => {
             user.act({action: ACTION.MOVE, direction: direction});
+        })
+    }
+
+    // rotates a user
+    rotate(id, angle) {
+        this._users.with(id, user => {
+            user.rotation = angle;
         })
     }
 
