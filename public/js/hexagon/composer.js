@@ -50,7 +50,6 @@ class Composer {
     drawHexagonChild(obj, index, side, ctx, begin, center) {
         if (index < 0) return;
         const type = obj[index].type;
-        console.log("hello ", index);
 
         if (type === CHILD_TYPE_FREE) return;
         if (type === CHILD_TYPE_CELL) {
@@ -218,7 +217,6 @@ class Composer {
     }
 
     drawHexagonFaces(obj, index, ctx, begin, center) {
-        console.log("FACE ", index, " OF ", center);
         if (!obj[index].faces) return;
 
         for (let i = 0; i < 6; i++) {
@@ -226,8 +224,8 @@ class Composer {
             if (childIndex < 0) continue;
 
             const nextCenter = this.getNextCenter(center, i);
-            const nextBegin = this.getNextBegin(nextCenter, i);
-            this.drawHexagonChild(obj, childIndex, ctx, nextCenter, nextBegin);
+            const nextBegin = this.getNextBegin(center, i);
+            this.drawHexagonChild(obj, childIndex, i, ctx, nextBegin, nextCenter);
         }
     }
 
@@ -409,16 +407,22 @@ class Composer {
     getNextBegin(center, newSide) {
         switch (newSide) {
             case 0:
+                // [16, 16] -> [8, 2]
                 return {x: center.x - 8, y: center.y - 14};
             case 1:
+                // [16, 16] -> [24, 2]
                 return {x: center.x + 8, y: center.y - 14};
             case 2:
+                // [16, 16] -> [32, 16]
                 return {x: center.x + 16, y: center.y};
             case 3:
+                // [16, 16] -> [24, 30]
                 return {x: center.x + 8, y: center.y + 14};
             case 4:
+                // [16, 16] -> [8, 30]
                 return {x: center.x - 8, y: center.y + 14};
             case 5:
+                // [16, 16] -> [0, 16]
                 return {x: center.x - 16, y: center.y};
             default:
                 return center;
