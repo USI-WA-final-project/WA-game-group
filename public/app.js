@@ -128,10 +128,9 @@ class App {
 
 	drawMap(data) {
 		this.clearCanvas();
-		//console.log(data);
 		this.move();
 		//console.log(data);
-		//this.updateInfo(data.player[0].health);
+		this.updateInfo(data.players[0].health);
 		data.players.forEach((elem) => {
 			this.playerBody = elem.components;
 			this.drawPlayer(elem.components, elem.color, elem.position);
@@ -139,8 +138,10 @@ class App {
 	}
 
 	updateInfo(life) {
-		let health = (life / 85) * 100;
-		document.getElementById("life").style.background = "linear-gradient(left, green "+health+"%, white "+(100 - health)+"%)";
+		//console.log("linear-gradient(left, green "+life+"%, white "+(100 - life)+"%)");
+		//let health = (life / 85) * 100;
+		document.getElementById("life").style.background = "-webkit-linear-gradient(left, green "+life+"%, white "+(100 - life)+"%)";
+		document.getElementById("life").style.width = "100%";
 	}
 
 	drawPlayer(playerBody, colorIndex, position) {
@@ -242,13 +243,9 @@ class App {
 		this.keys[e.code] = undefined;
 	}
 
-	setName(name) {
-		let user_name = "Ajax";
-		if (name != "" && /\S/.test(name)) {
-			user_name = name;
-		} 
-		console.log(user_name);
-		socket.emit('registerUser',  user_name);
+	setName(name) { 
+		//console.log(user_name);
+		socket.emit('registerUser',  name);
 	}
 
 
