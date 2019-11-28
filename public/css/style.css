@@ -130,14 +130,14 @@ input, button {
 	border-radius: 4px;
 	background-color: rgba(59, 64, 67, 1);
 	color: rgba(250, 251, 252, 1);
-	box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 1);
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 1);
 	transition: 300ms;
 }
 
 #menu_enter button:hover {
 	border-radius: 4px;
-	background-color: rgba(187, 187, 188, 1);
-	color: rgba(59, 64, 67, 1);
+	background-color: var(--white-dark);
+	color: var(--ui-dark-dark);
 }
 
 /* ------ CLASSES -------*/
@@ -234,4 +234,41 @@ input:unchecked ~ .personal{
   border-radius: 4px;
   box-shadow: -1px 2px 7.5px 0 rgba(0, 0, 0, 0.3);
   background-color: #ffffff;
+}
+
+.players_header {
+	font-family: 'Inter', sans-serif;
+	font-size: 72px;
+	font-weight: bold;
+	color: #000000;
+	margin: 4rem 0;
+	text-align: center;
+	width: 100%;
+}
+
+.players_item {
+	height: 8rem;
+	width: 100%;
+	padding: 0 20vw;
+}
+
+.players_item h2 {
+	font-family: 'Inter', sans-serif;
+	font-size: 30px;
+	color: var(--ui-dark-dark);
+	display: inline;
+	padding-left: 1rem;
+}
+
+.players_item .badge {
+	display: inline-block;
+	font-family: 'Inter', sans-serif;
+	font-size: 15px;
+	font-weight: bold;
+	text-align: center;
+	border-radius: 50%;
+	padding: 1rem;
+	height: 1rem;
+	width: 1rem;
+	color: var(--white);
 }

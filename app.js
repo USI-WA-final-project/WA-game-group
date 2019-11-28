@@ -9,6 +9,7 @@ const app = express();
 //Our custom game engine and API
 const engine = require('./engine/engine.js');
 const database = require('./database.js');
+const playerColors = require('./colors.js');
 
 const RENDER_DISTANCE = 2000;
 
@@ -60,6 +61,9 @@ io.on('connection', function(socket){
         spawnPos: {}
     };
 
+    app.locals.playerColors = playerColors;
+    socket.emit('playerColors', playerColors);
+
     //Register user in engine and DB
     socket.on('registerUser', function(user) {
         let playerInfo = engine.info(player.id);
@@ -82,7 +86,7 @@ io.on('connection', function(socket){
         if (data == null) {
             return;
         }
-        
+
         let x = data.position.x;
         let y = data.position.y;            
 
@@ -146,7 +150,7 @@ io.on('connection', function(socket){
         let serializedData = {
             players: players,
             resources: resources,
-            structures: structures
+            structures: structures,
         };
 
         socket.emit('drawWorld', serializedData);

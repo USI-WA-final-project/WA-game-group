@@ -139,7 +139,9 @@ class App {
 	}
 
 	drawPlayer(playerBody, colorIndex, position) {
-		const color  = PLAYER_COLORS[colorIndex];
+		if (!this.playerColors) return;
+
+		const color  = this.playerColors[colorIndex];
 		this.composer.build(playerBody, color, position);
 	}
 
