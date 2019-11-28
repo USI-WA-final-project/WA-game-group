@@ -9,8 +9,23 @@
     <ul id="stats" class="hidden">
 <!--         Toggle it when clicking on Play
  -->        <li>
-            <input id="check" type="checkbox" name="stats" class="hidden"/>
-            <label for="check">@Username</label>
+            <p>@Username</p>
+            <table>
+                <tr>
+                <img src="img/cell.svg">cells
+                <img src="img/spike.svg" width="24" height="20">spikes
+                <img src="img/shield.svg">shields
+                </tr>
+                <br>
+                <tr>
+                <img src="img/score.svg">score
+                <img src="img/heart-rate.svg" width="24" height="20">shields
+                </tr>
+                <tr>
+                <input id="check" type="checkbox" name="stats" class="hidden"/>
+            <label for="check">More  <img src="img/caret-down.svg" width="24" height="20"></label>
+                </tr>
+            </table>
             <ul class="personal">
                 <li><img src="img/cell.svg">cells</li>
                 <li><img src="img/spike.svg" width="24" height="20">spikes</li>
@@ -18,11 +33,11 @@
                 <li>time</li>
                 <li><img src="img/money.svg"></li>
                 <li><img src="img/score.svg"></li>
+                <canvas></canvas>
                 <li class="tools"><img src="img/leaderboard.svg">Leaderboard</li>
                 <li class="tools"><img src="img/imgur.svg">Share this moment</li>
                 <li class="tools"><img src="img/shop.svg">Shop</li>
                 <li class="tools"><img src="img/help.svg">Help</li>
-            </ul>
             </ul>
         </li>
     </ul>
