@@ -5,11 +5,19 @@ const play_button = document.querySelector("div[id=menu_enter] button");
 const info = document.getElementById("menu_info");
 const rules = document.getElementById("menu_rules");
 const menu_enter = document.getElementById("menu_enter");
+let playback = false;
 
 //buttons
 const btn_info = document.getElementById("info");
 const btn_rules = document.getElementById("rules");
 const btn_back = document.querySelectorAll(".back");
+
+var start_audio = function(e) {
+    if (!playback) {
+        menu_enter.querySelector("div audio").play();
+        playback = true;
+    }
+}
 
 btn_back.forEach((el) => {
     el.addEventListener('click', () => {
@@ -30,7 +38,7 @@ let inGame = false;
 
 window.onload = () => {
     //main page
-    menu_enter.querySelector("div audio").play();
+    this.addEventListener("mousemove", start_audio);
     menu_enter.querySelector("div input").onkeyup = () => {
         angle += 45;
         document.getElementById("logo_input").style.transform = "rotate("+angle+"deg)";
