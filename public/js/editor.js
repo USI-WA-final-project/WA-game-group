@@ -6,24 +6,7 @@ class Editor {
         } else {
             this.currentCell = this.player[0];
         }
-        this.type = undefined;
-
-        switch (statusNum) {
-            case 0:
-                break;
-            case 1:
-                this.type = 0;
-                break;
-            case 2:
-                this.type = 1;
-                break;
-            case 3:
-                this.type = 2;
-                break;
-            case 4:
-                this.type = 3;
-                break;
-        }
+        this.type = statusNum;
     }
 
     // searches the player object for the next item of type cell starting from
@@ -57,9 +40,11 @@ class Editor {
         // as the first element of the components will always be the
         // core cell of the player
         current = this.player.components[0];
+        this.currentCell = current;
         return this.player.components[0];
     }
 
+    // creates a new cell element to be passed
     setCell() {
         newCell = {
             "type": this.type,
@@ -69,6 +54,7 @@ class Editor {
         return newCell;
     }
 
+    // creates a new leaf element to be passed
     setElement() {
         newElement = {
             "type": this.type
