@@ -4,7 +4,6 @@ class Editor {
         if (!this.player) {
             this.currentCell = undefined;
         } else {
-
             this.currentCell = this.player[0];
         }
         this.type = undefined;
@@ -27,32 +26,28 @@ class Editor {
         }
     }
 
-    findFaces() {
-
-    }
-
     // searches the player object for the next item of type cell starting from
     // the index startIndex
-    findNextCell(player) {
+    findNextCell() {
         let current;
-        for (let i = player.indexOf(currentCell); i < player.length; i++) {
-            if (player[i].type == 0) {
-                current = player[i];
+        for (let i = this.player.indexOf(currentCell); i < this.player.length; i++) {
+            if (this.player[i].type == 0) {
+                current = this.player[i];
                 this.currentCell = current;
                 return current;
             }
         }
         // if there is no next cell, the last element of the array of type cell
         // will be returned instead
-        return findPrevCell(player);
+        return findPrevCell();
     }
 
     // searches the player object for the previous item of type cell starting
     // from the index startIndex
-    findPrevCell(player) {
+    findPrevCell() {
         let current;
-        for (let i = player.indexOf(currentCell); i >= 0; i--) {
-            if (player[i].type == 0) {
+        for (let i = this.player.indexOf(currentCell); i >= 0; i--) {
+            if (this.player[i].type == 0) {
                 current = player[i];
                 this.currentCell = current;
                 return current;
@@ -61,8 +56,8 @@ class Editor {
         // the function should never actually terminate outside of the loop
         // as the first element of the components will always be the
         // core cell of the player
-        current = player.components[0];
-        return player.components[0];
+        current = this.player.components[0];
+        return this.player.components[0];
     }
 
     /*
