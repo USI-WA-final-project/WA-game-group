@@ -72,12 +72,14 @@ window.onload = () => {
         document.getElementById("stats").classList.toggle("hidden");
         document.getElementById("more").addEventListener('click', () => {
             document.getElementById("more").classList.toggle("hidden");
-            document.getElementById("minimal").classList.toggle("hidden");
+            document.getElementById("less").classList.toggle("hidden");
+            // document.getElementById("minimal").classList.toggle("hidden");
         });
 
         document.getElementById("less").addEventListener('click', () => {
+            document.getElementById("less").classList.toggle("hidden");
             document.getElementById("more").classList.toggle("hidden");
-            document.getElementById("minimal").classList.toggle("hidden");
+            // document.getElementById("minimal").classList.toggle("hidden");
         });
 
         // document.getElementById("audiogame").innerHTML = "<source src='media/audio_game.mp3' type='audio/mpeg'>";

@@ -9,19 +9,12 @@
     </audio>
     <canvas id="canvas" tabindex="1"></canvas>
    
-    <div id="life"></div>
     <div id="stats" class="hidden sidebar">
 <!--         Toggle it when clicking on Play
  -->        <div>
             <p>@Username</p>
             <div id="minimal">
                 <table>
-                    <tr>
-                    <img src="img/cell.svg">2
-                    <img src="img/spike.svg" width="24" height="20">5
-                    <img src="img/shield.svg">4
-                    </tr>
-                    <br>
                     <tr>
                     <img src="img/score.svg">3
                     <img src="img/heart-rate.svg" width="24" height="20">Good
@@ -30,6 +23,7 @@
             </div>
             <input id="check" type="checkbox" name="stats" class="hidden"/>
             <label id="more" for="check">More  <img src="img/caret-down.svg" width="24" height="20"></label>
+            <label id="less" for="check" class="hidden">Less  <img src="img/caret-up.svg" width="24" height="20"></label>
             <div class="personal">
                 <div><img src="img/cell.svg">cells</div>
                 <div><img src="img/spike.svg" width="24" height="20">spikes</div>
@@ -37,13 +31,14 @@
                 <div><img src="img/time.svg">time</div>
                 <div><img src="img/money.svg"></div>
                 <div><img src="img/score.svg"></div>
-<!--                 <canvas width="10px"></canvas>
+<!--                <canvas width="10px"></canvas>
+                    <div id="life"></div>
  -->                <div class="tools"><img src="img/leaderboard.svg">Leaderboard</div>
                 <div class="tools"><img src="img/imgur.svg">Share this moment</div>
                 <div class="tools"><img src="img/edit.svg">Shop</div>
                 <div class="tools"><img src="img/help.svg">Help</div>
-                <label id="less" for="check">Less  <img src="img/caret-up.svg" width="24" height="20"></label>
-            </div>
+<!--                 <label id="less" for="check">Less  <img src="img/caret-up.svg" width="24" height="20"></label>
+ -->            </div>
         </div>
     </div>
 
