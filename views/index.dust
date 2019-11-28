@@ -10,22 +10,22 @@
 <!--         Toggle it when clicking on Play
  -->        <li>
             <p>@Username</p>
-            <table>
-                <tr>
-                <img src="img/cell.svg">cells
-                <img src="img/spike.svg" width="24" height="20">spikes
-                <img src="img/shield.svg">shields
-                </tr>
-                <br>
-                <tr>
-                <img src="img/score.svg">score
-                <img src="img/heart-rate.svg" width="24" height="20">shields
-                </tr>
-                <tr>
-                <input id="check" type="checkbox" name="stats" class="hidden"/>
-            <label for="check">More  <img src="img/caret-down.svg" width="24" height="20"></label>
-                </tr>
-            </table>
+            <div id="minimal">
+                <table>
+                    <tr>
+                    <img src="img/cell.svg">cells
+                    <img src="img/spike.svg" width="24" height="20">spikes
+                    <img src="img/shield.svg">shields
+                    </tr>
+                    <br>
+                    <tr>
+                    <img src="img/score.svg">score
+                    <img src="img/heart-rate.svg" width="24" height="20">shields
+                    </tr>
+                </table>
+            </div>
+            <input id="check" type="checkbox" name="stats" class="hidden"/>
+            <label id="more" for="check">More  <img src="img/caret-down.svg" width="24" height="20"></label>
             <ul class="personal">
                 <li><img src="img/cell.svg">cells</li>
                 <li><img src="img/spike.svg" width="24" height="20">spikes</li>
@@ -38,6 +38,7 @@
                 <li class="tools"><img src="img/imgur.svg">Share this moment</li>
                 <li class="tools"><img src="img/shop.svg">Shop</li>
                 <li class="tools"><img src="img/help.svg">Help</li>
+                <label for="check">Less  <img src="img/caret-up.svg" width="24" height="20"></label>
             </ul>
         </li>
     </ul>
