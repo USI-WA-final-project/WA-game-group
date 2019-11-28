@@ -47,14 +47,13 @@ const io = require('socket.io')(server);
 io.on('connection', function(socket){
     console.log('Client connected');
 
-    let id;
+    let id = engine.create();
     let username;
     let worldState;
 
     //Register user in engine and DB
     socket.on('registerUser', function(user) {
-        username = user;
-        id = engine.create();              
+        username = user;                     
         database.add(id, username);
         console.log('Created player ', id, ' - ', username);
     });
