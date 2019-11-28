@@ -1,9 +1,12 @@
 {>"partials/header" /}
 
+<h1>Players list</h1>
+
 {#result}
-    <div style="margin-bottom:10px;">
+    <div style="margin:20px;">
         <div>id: {id}</div>
         <div>Name: {username}</div>
+        <div>Color: {color}</div>
         <div>Date started: {dateStarted}</div>
         {?active}
             <div>Currently in game</div>
@@ -12,7 +15,7 @@
         {/active}
     </div>
 {:else}
-    <div class="noResults">No statistics yet.</div>
+    <div style="margin:20px;">No statistics yet.</div>
 {/result}
 
 {>"partials/footer" /}

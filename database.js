@@ -25,10 +25,11 @@ var database = {
     },
 
     //Adds a player to the DB
-    add: function(id, username) {
+    add: function(id, player) {
         let newPlayer = new Player({
-            id: id,
-            username: username
+            id: player.id,
+            color: player.color,
+            username: player.username
         });
 
         newPlayer.save().then(function(saved) {
