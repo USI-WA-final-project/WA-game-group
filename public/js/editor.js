@@ -7,7 +7,6 @@ class Editor {
         } else {
             this.currentCell = this.player[0];
         }
-        this.type = statusNum;
     }
 
     // searches the player object for the next item of type cell starting from
@@ -21,12 +20,8 @@ class Editor {
                 if (this.currentCell != this.player[0]) {
                     this.counter++;
                 }
-                return current;
             }
         }
-        // if there is no next cell, the last element of the array of type cell
-        // will be returned instead
-        return this.currentCell;
     }
 
     // searches the player object for the previous item of type cell starting
@@ -38,7 +33,6 @@ class Editor {
                 current = this.player[i];
                 this.currentCell = current;
                 this.counter--;
-                return current;
             }
         }
         // the function should never actually terminate outside of the loop
@@ -47,28 +41,7 @@ class Editor {
         current = this.player.components[0];
         this.currentCell = current;
         this.counter = 0;
-        return this.player.components[0];
     }
-
-    // creates a new cell element to be passed
-    setCell() {
-        newCell = {
-            "type": this.type,
-            "faces": [-1, -1, -1, -1, -1, -1]
-        };
-
-        return newCell;
-    }
-
-    // creates a new leaf element to be passed
-    setElement() {
-        newElement = {
-            "type": this.type
-        };
-
-        return newElement;
-    }
-
 }
 
 // initialize editor
