@@ -40,6 +40,11 @@ app.use('/players', routers.players);
 const server = app.listen(3000, function() {
     console.log('Express server listening on port ' + server.address().port);
     engine.init();
+
+    //Clear the database - TODO remove in production
+    mongoose.connection.collections['players'].drop(function(err) {
+        console.log('DB cleared');
+    });
 });
 const io = require('socket.io')(server);
 
@@ -65,72 +70,75 @@ io.on('connection', function(socket){
 
     //Send to each player its customized view (based on RENDER_DISTANCE)
     engine.register(id, function(data) {
-        let x = data.position.x;
-        let y = data.position.y;
+        try {
+            let x = data.position.x;
+            let y = data.position.y;
+            
 
-        let players = [];
+            let players = [];
 
-        worldState.players.forEach(function(el) {            
-            if (Math.abs(el.position.x - x) < RENDER_DISTANCE && 
-                Math.abs(el.position.y - y) < RENDER_DISTANCE) {
-                let player = {
-                    color: el.color,
-                    rotation: el.rotation,
-                    components: el.bodyparts.map(function(item) {
-                        let newItem = Object.assign({}, item);
-                        switch(item.type) {
-                            case engine.BODYPART_TYPE.CELL:
-                                newItem.type = 0;
-                            break;
-                            case engine.BODYPART_TYPE.SPIKE:
-                                newItem.type = 1;
-                            break;
-                            case engine.BODYPART_TYPE.SHIELD:
-                                newItem.type = 2;
-                            break;
-                            case engine.BODYPART_TYPE.BOUNCE:
-                                newItem.type = 3;
-                            break;
+            worldState.players.forEach(function(el) {            
+                if (Math.abs(el.position.x - x) < RENDER_DISTANCE && 
+                    Math.abs(el.position.y - y) < RENDER_DISTANCE) {
+                    let player = {
+                        color: el.color,
+                        rotation: el.rotation,
+                        components: el.bodyparts.map(function(item) {
+                            let newItem = Object.assign({}, item);
+                            switch(item.type) {
+                                case engine.BODYPART_TYPE.CELL:
+                                    newItem.type = 0;
+                                break;
+                                case engine.BODYPART_TYPE.SPIKE:
+                                    newItem.type = 1;
+                                break;
+                                case engine.BODYPART_TYPE.SHIELD:
+                                    newItem.type = 2;
+                                break;
+                                case engine.BODYPART_TYPE.BOUNCE:
+                                    newItem.type = 3;
+                                break;
+                            }
+                            return newItem;
+                        })
+                    };
+
+                    if (el.id != id) {
+                        player.position = {
+                            x: el.position.x - x,
+                            y: el.position.y - y
                         }
-                        return newItem;
-                    })
-                };
-
-                if (el.id != id) {
-                    player.position = {
-                        x: el.position.x - x,
-                        y: el.position.y - y
                     }
+
+                    players.push(player);
+                }            
+            });
+
+            let resources = [];
+
+            /* worldState.resources.forEach(function(el) {
+                if (Math.abs(el.position.x - x) < RENDER_DISTANCE && 
+                    Math.abs(el.position.y - y) < RENDER_DISTANCE) {
+                    resources.push(el);
                 }
+            }); */
 
-                players.push(player);
-            }            
-        });
+            let structures = [];
 
-        let resources = [];
+            /* worldState.structures.forEach(function(el) {
+                if (Math.abs(el.position.x - x) < RENDER_DISTANCE && 
+                    Math.abs(el.position.y - y) < RENDER_DISTANCE) {
+                    structures.push(el);
+                }
+            }); */
 
-        /* worldState.resources.forEach(function(el) {
-            if (Math.abs(el.position.x - x) < RENDER_DISTANCE && 
-                Math.abs(el.position.y - y) < RENDER_DISTANCE) {
-                resources.push(el);
-            }
-        }); */
-
-        let structures = [];
-
-        /* worldState.structures.forEach(function(el) {
-            if (Math.abs(el.position.x - x) < RENDER_DISTANCE && 
-                Math.abs(el.position.y - y) < RENDER_DISTANCE) {
-                structures.push(el);
-            }
-        }); */
-
-        let serializedData = {
-            players: players,
-            resources: resources,
-            structures: structures
-        };
-        socket.emit('drawWorld', serializedData);
+            let serializedData = {
+                players: players,
+                resources: resources,
+                structures: structures
+            };
+            socket.emit('drawWorld', serializedData);
+        } catch(Exception) {}
     });
 
     socket.on('move', function(direction) {
@@ -192,7 +200,7 @@ io.on('connection', function(socket){
     socket.on('disconnect', function(){
         console.log('Client disconnected');
         database.terminate(id);
+        engine.remove(id);
         console.log('Archived player ', id, ' - ', username);
-        //TODO delete player from engine
     });
 });
