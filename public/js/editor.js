@@ -1,5 +1,6 @@
 class Editor {
     constructor(statusNum, player) {
+        this.counter = 0;
         this.player = player;
         if (!this.player) {
             this.currentCell = undefined;
@@ -13,10 +14,11 @@ class Editor {
     // the index startIndex
     findNextCell() {
         let current;
-        for (let i = this.player.indexOf(this.currentCell); i < this.player.length; i++) {
+        for (let i = this.counter; i < this.player.length; i++) {
             if (this.player[i].type == 0) {
                 current = this.player[i];
                 this.currentCell = current;
+                this.counter++;
                 return current;
             }
         }
@@ -29,10 +31,11 @@ class Editor {
     // from the index startIndex
     findPrevCell() {
         let current;
-        for (let i = this.player.indexOf(this.currentCell); i >= 0; i--) {
+        for (let i = this.counter; i >= 0; i--) {
             if (this.player[i].type == 0) {
                 current = this.player[i];
                 this.currentCell = current;
+                this.counter--;
                 return current;
             }
         }
@@ -41,6 +44,7 @@ class Editor {
         // core cell of the player
         current = this.player.components[0];
         this.currentCell = current;
+        this.counter = 0;
         return this.player.components[0];
     }
 
