@@ -1,11 +1,4 @@
 <div class="editor-bar">
-    <div class="editor-element">
-        <span>Resources: </span>
-        <label for="resources"></label>
-        <img src="img/coin.svg" width="80px" height="80px" style="margin: 2em">
-        <br>
-        <span id="display-resources">0</span>
-    </div>
 
     <div class="editor-element">
         <label for="Buy New Cell">Buy Cell</label>
@@ -41,5 +34,11 @@
             <img src="img/cancel-circle.svg" id="bounce-edit" width="80px" height="80px" style="margin: 2em">
         </button>
 
+    </div>
+
+    <div class="editor-element">
+        <span id="display-resources">Resources: 0</span>
+        <img src="img/coin.svg" width="80px" height="80px" style="margin: 2em">
+        <br>
     </div>
 </div>
