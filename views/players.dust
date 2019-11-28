@@ -1,0 +1,18 @@
+{>"partials/header" /}
+
+{#result}
+    <div style="margin-bottom:10px;">
+        <div>id: {id}</div>
+        <div>Name: {username}</div>
+        <div>Date started: {dateStarted}</div>
+        {?active}
+            <div>Currently in game</div>
+        {:else}
+            <div>Date ended: {dateEnded}</div>
+        {/active}
+    </div>
+{:else}
+    <div class="noResults">No statistics yet.</div>
+{/result}
+
+{>"partials/footer" /}

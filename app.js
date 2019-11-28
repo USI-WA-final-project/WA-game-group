@@ -1,15 +1,16 @@
-// We're not using the commented modules but may want to later on.
-const express = require('express');
-// const path = require('path');
-const logger = require('morgan');
 // const bodyParser = require('body-parser');
-const dust = require('klei-dust');
 // const dustjsLinkedin = require('dustjs-linkedin');
+const express = require('express');
+const logger = require('morgan');
+const dust = require('klei-dust');
 const mongoose = require('mongoose');
-
-const engine = require('./engine/engine.js');
-
 const app = express();
+
+//Our custom game engine and API
+const engine = require('./engine/engine.js');
+const database = require('./database.js');
+
+const RENDER_DISTANCE = 2000;
 
 //DB Connection
 mongoose.connect('mongodb://localhost/loa', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -20,7 +21,6 @@ mongoose.connect('mongodb://localhost/loa', { useNewUrlParser: true, useUnifiedT
     console.error('Database connection error');
 });
 
-//configure app
 app.use(logger('dev'));
 // app.use(bodyParser.json({strict: false}));
 // app.use(bodyParser.text());
@@ -31,34 +31,33 @@ app.set('view engine', 'dust');
 app.set('views', __dirname + '/views');
 app.engine('dust', dust.dust);
 
-
-// Initialize routers here
+//Routers initialization
 const routers = require(__dirname + '/routes/routers');
 app.use('/', routers.root);
-app.use('/stats', routers.stats);
+app.use('/players', routers.players);
 
-
+//Server start-up
 const server = app.listen(3000, function() {
     console.log('Express server listening on port ' + server.address().port);
     engine.init();
 });
-
 const io = require('socket.io')(server);
 
-const RENDER_DISTANCE = 2000;
-
+//Socket communication
 io.on('connection', function(socket){
     console.log('Client connected');
 
-    let id = engine.create();
+    let id;
     let username;
+    let worldState;
 
+    //Register user in engine and DB
     socket.on('registerUser', function(user) {
         username = user;
+        id = engine.create();              
+        database.add(id, username);
         console.log('Created player ', id, ' - ', username);
     });
-
-    let worldState;
 
     //Retrieve whole world data once per tick
     engine.register_global(function(data) {
@@ -71,11 +70,6 @@ io.on('connection', function(socket){
         let y = data.position.y;
 
         let players = [];
-
-        //delta = strangerPos - playerPos
-        //strangerPos = playerPosCanvas + (strangerPos - playerPos)
-
-        //type: 0 cell, 1 spike, 2 shield
 
         worldState.players.forEach(function(el) {            
             if (Math.abs(el.position.x - x) < RENDER_DISTANCE && 
@@ -171,7 +165,6 @@ io.on('connection', function(socket){
         }
         
         engine.move(id, dirEnum);
-        //console.log('Player ', id, ' moved ', dirEnum);
     });
 
     socket.on('attachPart', function(data) {
@@ -193,13 +186,13 @@ io.on('connection', function(socket){
         }
         res = engine.attach(id, type, data.part, data.face);
         if (res != 0) {
-            console.log("Error attaching part ", data);
+            console.log("Error (code ", res, ") attaching part ", data);
         }
     });
 
     socket.on('disconnect', function(){
         console.log('Client disconnected');
-        //TODO save player in DB
+        database.terminate(id);
         //TODO delete player
     });
 });
