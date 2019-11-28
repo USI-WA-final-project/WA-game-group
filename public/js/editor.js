@@ -18,7 +18,9 @@ class Editor {
             if (this.player[i].type == 0) {
                 current = this.player[i];
                 this.currentCell = current;
-                this.counter++;
+                if (this.currentCell != player[0]) {
+                    this.counter++;
+                }
                 return current;
             }
         }
