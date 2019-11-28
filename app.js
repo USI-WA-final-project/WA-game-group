@@ -97,6 +97,7 @@ io.on('connection', function(socket){
                 Math.abs(el.position.y - y) < RENDER_DISTANCE) {
                 let player = {
                     color: el.color,
+                    health: el.bodyparts[0].health,
                     rotation: el.rotation,
                     components: el.bodyparts.map(function(item) {
                         let newItem = Object.assign({}, item);
