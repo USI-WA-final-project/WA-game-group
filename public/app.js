@@ -17,13 +17,13 @@ class App {
 		this.movementKeys = ["KeyW", "KeyD", "KeyS", "KeyA"];
 
 		//array keys chose edit
-		this.editKeys = ["49", "50", "51", "52"];
+		this.editKeys = ["Digit1", "Digit2", "Digit3", "Digit4"];
 
 		//array keys search cell
 		this.searchCellKeys = ["ArrowRight", "ArrowLeft"];
 
 		//array keys to take face of cell
-		this.searchFaceKeys = ["49", "50", "51", "52", "53", "54"];
+		this.searchFaceKeys = ["Digit1", "Digit2", "Digit3", "Digit4", "Digit5", "Digit6"];
 
 		this.keys = {};
 
@@ -47,26 +47,27 @@ class App {
 
 	}
 
-	setEdit(e){
+	setEdit(code){
 		let edit = undefined;
-		if (e.code == "49") {
+		if (code == "Digit1") {
 			edit = 0;
 		} 
 
-		if (e.target == "50") {
+		if (code == "Digit2") {
 			edit = 1;
 		} 
 
-		if (e.target == "51") {
+		if (code == "Digit3") {
 			edit = 2;
 		} 
 
-		if (e.target == "52") {
+		if (code == "Digit4") {
 			edit = 3;
 		} 
 
 		if (edit != undefined) {
 			this.editor =  new Editor(edit, this.playerBody);
+			console.log(this.editor.type);
 		}
 	}
 
@@ -88,35 +89,36 @@ class App {
 		}
 	}
 
-	searchFace() {
+	searchFace(code) {
 		if (this.editor != undefined) {
-			if (e.code == "49") {
+			if (code == "Digit1") {
 				this.cellEdited.face = 0;
 			}
 
-			if (e.code == "50") {
+			if (code == "Digit2") {
 				this.cellEdited.face = 1;
 			}
 
-			if (e.code == "51") {
+			if (code == "Digit3") {
 				this.cellEdited.face = 2;
 			}
 
-			if (e.code == "52") {
+			if (code == "Digit4") {
 				this.cellEdited.face = 3;
 			}
 
-			if (e.code == "53") {
+			if (code == "Digit5") {
 				this.cellEdited.face = 4;
 			}
 
-			if (e.code == "54") {
+			if (code == "Digit6") {
 				this.cellEdited.face = 5;
 			}
 
 			if (this.cellEdited.cell != undefined && this.cellEdited.face != undefined) {
-				socket.emit('attachPart', { type: this.cellEdited.cell.type, 
-											part: this.playerBody.indexOf(this.editor.currentCell), 
+				console.log(this.editor.type);
+				socket.emit('attachPart', { type: this.editor.type, 
+											part: this.editor.counter, 
 											face: this.cellEdited.face });
 			}
 		}
@@ -162,16 +164,18 @@ class App {
 			this.keys[e.code] = true;
 		}
 
-		if (this.editKeys.includes(e.code) && this.editor == undefined) {
-			setEdit(e);
-		}
-
 		if (this.searchCellKeys.includes(e.code) && this.editor != undefined) {
-			searchCell(e);
+			this.searchCell(e);
 		} 
 
-		if (this.searchFaceKeys.includes(e.code) && this.editor != undefined) {
-			searchFace();
+		if (this.editKeys.includes(e.code) || this.searchFaceKeys.includes(e.code)) {
+			if (this.editor == undefined) {
+				console.log("edit")
+				this.setEdit(e.code);
+			} else {
+				console.log("face");
+				this.searchFace(e.code);
+			}
 		}
 	}
 

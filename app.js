@@ -206,6 +206,7 @@ io.on('connection', function(socket){
         if (res != 0) {
             console.log("Error (code ", res, ") attaching part ", data);
         }
+        console.log(JSON.stringify(engine.info(player.id)));
     });
 
     socket.on('disconnect', function(){
