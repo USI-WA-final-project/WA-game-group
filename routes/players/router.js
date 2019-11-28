@@ -13,23 +13,16 @@ const Player = mongoose.model('Player');
 
 //Display all players
 router.get('/', function(req, res) {
-    let result; //= database.getAll();
-
-    //TODO replace with API function
-    Player.find({}).then(function(found) {
-        result = found;
-
+    database.getAll()
+    .then(function(result) {
         if (req.accepts("html")){
             res.render("players", { result });
         } else if (req.accepts("json")){
             res.json(result);
         } else {
             res.status(406).end();    //Not acceptable
-        }
-    }).catch(function(err) {
-        console.log(err.message);
-        return false;
-    });    
+        } 
+    });      
 });
 
 /** router for /players */

@@ -5,7 +5,7 @@ const Player = mongoose.model('Player');
 
 var database = {
     getAll: function() {
-        Player.find({}).then(function(found) {
+        return Player.find({}).then(function(found) {
             return found;
         }).catch(function(err) {
             console.log(err.message);
