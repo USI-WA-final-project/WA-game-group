@@ -39,7 +39,7 @@ class Editor {
         }
         // if there is no next cell, the last element of the array of type cell
         // will be returned instead
-        return findPrevCell();
+        return this.currentCell;
     }
 
     // searches the player object for the previous item of type cell starting
@@ -48,7 +48,7 @@ class Editor {
         let current;
         for (let i = this.player.indexOf(currentCell); i >= 0; i--) {
             if (this.player[i].type == 0) {
-                current = player[i];
+                current = this.player[i];
                 this.currentCell = current;
                 return current;
             }
@@ -60,51 +60,23 @@ class Editor {
         return this.player.components[0];
     }
 
-    /*
-     * Adds a new cell of type 'this.type', at face 'face' of 'this.currentCell'
-     * to 'this.player'
-     * @param {player} the player object
-     * @param {face} the face number given by the player. Number from 1 to 6
-     * @returns the updated player object
-     */
-    setCell(player, face) {
+    setCell() {
         newCell = {
-            "type": type,
+            "type": this.type,
             "faces": [-1, -1, -1, -1, -1, -1]
         };
-        // "face - 1" is simply due to the fact that the user will input a
-        // number between 1 and 6 while the indexes go from 0 to 5
 
-        // connect newCell face to cell face
-        newCell.faces[oppositeFace(face) - 1] = this.player.indexOf(cell);
-        this.player.push(newCell);
-        // connect cell face to newCell face
-        this.currentCell.faces[face - 1] = player.indexOf(newCell);
-
-        return this.player;
+        return newCell;
     }
 
-    /*
-     * Adds a new leaf element of type 'this.type', at face 'face' of
-     * 'this.currentCell' to 'this.player'
-     * @param {player} the player object
-     * @param {face} the face number given by the player. Number from 1 to 6
-     * @returns the updated player object
-     */
-    setElement(player, face) {
+    setElement() {
         newElement = {
             "type": this.type
         };
-        player.push(newElement);
-        cell.faces[face - 1] = player.indexOf(newElement);
 
-        return this.player;
+        return newElement;
     }
 
-    // given the number of a face, returns the opposite face
-    oppositeFace(face) {
-        return [null,4,5,6,1,2,3][face];
-    }
 }
 
 // initialize editor
