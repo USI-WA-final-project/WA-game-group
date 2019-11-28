@@ -4,44 +4,46 @@
     <audio id="audio_game" autoplay loop>
         <source src="media/audio_game.mp3" type="audio/mpeg">
     </audio> -->
+    <audio id="audio_game" loop>
+        <source src="media/audio_game.mp3" type="audio/mpeg">
+    </audio>
     <canvas id="canvas" tabindex="1"></canvas>
-
-    <ul id="stats" class="hidden">
+    <div id="stats" class="hidden sidebar">
 <!--         Toggle it when clicking on Play
- -->        <li>
+ -->        <div>
             <p>@Username</p>
             <div id="minimal">
                 <table>
                     <tr>
-                    <img src="img/cell.svg">cells
-                    <img src="img/spike.svg" width="24" height="20">spikes
-                    <img src="img/shield.svg">shields
+                    <img src="img/cell.svg">2
+                    <img src="img/spike.svg" width="24" height="20">5
+                    <img src="img/shield.svg">4
                     </tr>
                     <br>
                     <tr>
-                    <img src="img/score.svg">score
-                    <img src="img/heart-rate.svg" width="24" height="20">shields
+                    <img src="img/score.svg">3
+                    <img src="img/heart-rate.svg" width="24" height="20">Good
                     </tr>
                 </table>
             </div>
             <input id="check" type="checkbox" name="stats" class="hidden"/>
             <label id="more" for="check">More  <img src="img/caret-down.svg" width="24" height="20"></label>
-            <ul class="personal">
-                <li><img src="img/cell.svg">cells</li>
-                <li><img src="img/spike.svg" width="24" height="20">spikes</li>
-                <li><img src="img/shield.svg">shields</li>
-                <li>time</li>
-                <li><img src="img/money.svg"></li>
-                <li><img src="img/score.svg"></li>
-                <canvas></canvas>
-                <li class="tools"><img src="img/leaderboard.svg">Leaderboard</li>
-                <li class="tools"><img src="img/imgur.svg">Share this moment</li>
-                <li class="tools"><img src="img/shop.svg">Shop</li>
-                <li class="tools"><img src="img/help.svg">Help</li>
+            <div class="personal">
+                <div><img src="img/cell.svg">cells</div>
+                <div><img src="img/spike.svg" width="24" height="20">spikes</div>
+                <div><img src="img/shield.svg">shields</div>
+                <div><img src="img/time.svg">time</div>
+                <div><img src="img/money.svg"></div>
+                <div><img src="img/score.svg"></div>
+                <canvas width="10px"></canvas>
+                <div class="tools"><img src="img/leaderboard.svg">Leaderboard</div>
+                <div class="tools"><img src="img/imgur.svg">Share this moment</div>
+                <div class="tools"><img src="img/edit.svg">Shop</div>
+                <div class="tools"><img src="img/help.svg">Help</div>
                 <label id="less" for="check">Less  <img src="img/caret-up.svg" width="24" height="20"></label>
-            </ul>
-        </li>
-    </ul>
+            </div>
+        </div>
+    </div>
 
     <div id="editor" class="hidden" class="editor">
         {>"partials/editor" /}
@@ -69,7 +71,7 @@
         {/audio}
  -->
         <ul>
-            <li id="rules"><img src="img/rules.svg" alt="joystick">Rules & Controls</li>
+            <li id="rules"><img src="img/controls.svg" alt="joystick">Rules & Controls</li>
             <li id="info"><img src="img/info.svg" alt="info">Info</li>
         </ul>
     </div>

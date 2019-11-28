@@ -30,7 +30,7 @@ let inGame = false;
 
 window.onload = () => {
     //main page
-	menu_enter.querySelector("div audio").play();
+	// menu_enter.querySelector("div audio").play();
     menu_enter.querySelector("div input").onkeyup = () => {
         angle += 45;
         document.getElementById("logo_input").style.transform = "rotate("+angle+"deg)";
@@ -71,6 +71,11 @@ window.onload = () => {
             document.getElementById("more").classList.toggle("hidden");
             document.getElementById("minimal").classList.toggle("hidden");
         });
+
+        // document.getElementById("audiogame").innerHTML = "<source src='media/audio_game.mp3' type='audio/mpeg'>";
+        // console.log(document.getElementById("audiogame").innerHTML);
+        document.getElementById("audio_game").play();
+
         init(name);
     };
 }

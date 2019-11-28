@@ -156,11 +156,7 @@ input, button {
 
 /* Style for personal stats (or in-game menu) */
 ul#stats > li{
-  float: right;
   list-style-type:none;
-  position: absolute;
-  top: 15px;
-  right: 100px;
   padding:0 18px 0 12px;
   vertical-align: middle;
 }
@@ -182,28 +178,38 @@ input:checked ~ label:after{
   transition:border-top .1s, border-bottom .1s .1s;
 }
 
-input:checked ~ ul.personal{
+input:checked ~ .personal{
   max-height:700px;
   transition:max-height 0.5s ease-in;
 }
 
-ul.personal{
-  max-height:0;
-  padding: 0;
-  overflow: hidden;
-  list-style-type: none;
-  background: #fff;
-  position: absolute;
-  min-width: 100%;
+/*input:checked ~ .sidebar{
+  max-height:700px;
+  transition:max-height 0.5s ease-in;
 }
 
-ul.personal li {
+input:unchecked ~ .personal{
+  max-height:300px;
+  transition:max-height 0.5s ease-in;
+}*/
+
+.personal{
+  max-height:0;
+  padding: 0;
+  max-width: 260px;
+  overflow: hidden;
+  list-style-type: none;
+/*  background: #fff;
+  position: absolute;
+*/}
+
+.personal div {
   display:block;
   padding: 8px;
   color: #000000;
   text-decoration:none;
-  transition:background .3s;
-  white-space: nowrap;
+/*  transition:background .3s;
+*/  white-space: nowrap;
 }
 
 .tools:hover{
@@ -218,4 +224,14 @@ ul.personal li {
 .editor-element {
 	display: flex;
 	flex-direction: column;
+}
+
+.sidebar {
+  width: 265px;
+  position: absolute;
+  top: 15px;
+  right: 80px;
+  border-radius: 4px;
+  box-shadow: -1px 2px 7.5px 0 rgba(0, 0, 0, 0.3);
+  background-color: #ffffff;
 }
