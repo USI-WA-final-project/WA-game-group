@@ -75,8 +75,6 @@ class App {
 	}
 
 	searchCell(e){
-		// UP RIGHT DOWN LEFT
-		console.log(this.editor);
 		if (e.code == "ArrowRight") {
 			this.editor.findNextCell();
 
@@ -118,7 +116,7 @@ class App {
 			}
 
 			if (this.cellEdited.type != undefined && this.cellEdited.face != undefined) {
-				console.log(this.cellEdited.type);
+				console.log(this.cellEdited.type, this.editor.counter, this.cellEdited.face);
 				socket.emit('attachPart', { type: this.cellEdited.type, 
 											part: this.editor.counter, 
 											face: this.cellEdited.face });
@@ -132,10 +130,17 @@ class App {
 		this.clearCanvas();
 		//console.log(data);
 		this.move();
+		//console.log(data);
+		//this.updateInfo(data.player[0].health);
 		data.players.forEach((elem) => {
 			this.playerBody = elem.components;
 			this.drawPlayer(elem.components, elem.color, elem.position);
 		});
+	}
+
+	updateInfo(life) {
+		let health = (life / 85) * 100;
+		document.getElementById("life").style.background = "linear-gradient(left, green "+health+"%, white "+(100 - health)+"%)";
 	}
 
 	drawPlayer(playerBody, colorIndex, position) {
@@ -172,16 +177,14 @@ class App {
 		}
 		//RIGHT LEFT
 		if (this.searchCellKeys.includes(e.code) && this.editor.player != undefined) {
-			console.log(this.editor);
+			//console.log(this.editor);
 			this.searchCell(e);
 		} 
 		//number 1-4 type, 1-6 face
 		if (this.editKeys.includes(e.code) || this.searchFaceKeys.includes(e.code)) {
 			if (this.editor == undefined) {
-				console.log("edit")
 				this.setEdit(e.code);
 			} else {
-				console.log("face");
 				this.searchFace(e.code);
 			}
 		}
@@ -241,9 +244,10 @@ class App {
 
 	setName(name) {
 		let user_name = "Ajax";
-		if (name != "" || !/\S/.test(name)) {
+		if (name != "" && /\S/.test(name)) {
 			user_name = name;
 		} 
+		console.log(user_name);
 		socket.emit('registerUser',  user_name);
 	}
 
