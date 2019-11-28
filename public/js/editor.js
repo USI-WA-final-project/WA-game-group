@@ -1,7 +1,12 @@
 class Editor {
     constructor(statusNum, player) {
         this.player = player;
-        this.currentCell = this.player[0];
+        if (!this.player) {
+            this.currentCell = undefined;
+        } else {
+
+            this.currentCell = this.player[0];
+        }
         this.type = undefined;
 
         switch (statusNum) {
