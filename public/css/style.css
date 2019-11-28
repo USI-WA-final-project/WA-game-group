@@ -172,6 +172,9 @@ label{
   line-height:3em;
   transition:background 0.3s;
   cursor:pointer;
+  display: flex;
+  align-items: center;
+  text-align: center;
 }
 
 input:checked ~ label:after{
@@ -204,6 +207,7 @@ input:checked ~ .personal{
 #minimal {
 	align-items: center;
 	text-align: center;
+	display: flex;
 }
 
 .tools:hover{
