@@ -14,11 +14,16 @@ const Player = mongoose.model('Player');
 //Display all players
 router.get('/', function(req, res) {
     database.getAll()
-    .then(function(result) {
-        if (req.accepts("html")){
-            res.render("players", { result });
+    .then(function(results) {
+        if (req.accepts("html")) {
+            for (let i = 0; i < results.length; i++) {
+                console.log(results[i].color);
+                results[i].playerColor = req.app.locals.playerColors[results[i].color].core;
+                console.log(req.app.locals.playerColors[results[i].color]);
+            }
+            res.render("players", { result: results });
         } else if (req.accepts("json")){
-            res.json(result);
+            res.json(results);
         } else {
             res.status(406).end();    //Not acceptable
         } 

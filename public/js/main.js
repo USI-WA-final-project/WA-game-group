@@ -78,12 +78,11 @@ window.onload = () => {
 
         init(name);
     };
-}
+};
 
 function init(name) {
     console.log(name);
     // Create canvas app
-    console.log(document.getElementById("canvas"));
     const app = new App({ canvas: 'canvas', inputs: { shield: 'shield', bounce: 'bounce', spike: 'spike', cell: 'cell' } });
 
     //initialize socket
@@ -100,6 +99,10 @@ function init(name) {
     // set name
     app.setName(name);
 
+    socket.on('playerColors', function (msg) {
+        app.playerColors = msg;
+    });
+
     socket.on('message', function(msg){
         //console.log(msg);
     });
@@ -107,7 +110,5 @@ function init(name) {
     socket.on('drawWorld', function(data) {
         //console.log(data);
         app.drawMap(data);
-
     });
-
 }

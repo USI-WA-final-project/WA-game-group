@@ -1,22 +1,14 @@
 {>"partials/header" /}
 
-<h1>Players list</h1>
+<h1 class="players_header">Leader Board</h1>
 
 {#result}
-    <div style="margin:20px;">
-        <div>id: {id}</div>
-        <div>Name: {username}</div>
-        <div>Color: {color}</div>
-        <div>Spawn position: ({spawnPos.x}, {spawnPos.y})</div>
-        <div>Date started: {dateStarted}</div>
-        {?active}
-            <div>Currently in game</div>
-        {:else}
-            <div>Date ended: {dateEnded}</div>
-        {/active}
+    <div class="players_item">
+        <div class="badge" style="background-color: {playerColor}">1</div>
+        <h2>@{username}</h2>
     </div>
 {:else}
-    <div style="margin:20px;">No statistics yet.</div>
+    <div style="margin:20px;">Nobody played so far</div>
 {/result}
 
 {>"partials/footer" /}
