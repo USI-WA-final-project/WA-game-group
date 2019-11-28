@@ -19,11 +19,11 @@
                 <br>
                 <tr>
                 <img src="img/score.svg">score
-                <img src="img/shield.svg">shields
+                <img src="img/heart-rate.svg" width="24" height="20">shields
                 </tr>
                 <tr>
                 <input id="check" type="checkbox" name="stats" class="hidden"/>
-            <label for="check">More</label>
+            <label for="check">More  <img src="img/caret-down.svg" width="24" height="20"></label>
                 </tr>
             </table>
             <ul class="personal">
