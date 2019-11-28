@@ -61,6 +61,11 @@ window.onload = () => {
         let name = document.getElementById("username").value;
         console.log(menu_enter.parentNode, menu_enter);
         menu_enter.parentNode.removeChild(menu_enter);
+        document.getElementById("stats").classList.toggle("hidden");
+        document.getElementById("more").addEventListener('click', () => {
+            document.getElementById("more").classList.toggle("hidden");
+            document.getElementById("minimal").classList.toggle("hidden");
+        });
         init(name);
     };
 }
