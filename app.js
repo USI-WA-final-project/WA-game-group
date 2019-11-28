@@ -193,6 +193,7 @@ io.on('connection', function(socket){
     socket.on('disconnect', function(){
         console.log('Client disconnected');
         database.terminate(id);
-        //TODO delete player
+        console.log('Archived player ', id, ' - ', username);
+        //TODO delete player from engine
     });
 });

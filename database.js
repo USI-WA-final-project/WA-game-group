@@ -61,8 +61,6 @@ var database = {
         const filter = { id: id };
 
         Player.find(filter).then(function(found) {
-
-            console.log("found ", found);
             found[0].dateEnded = Date.now();
             found[0].active = false;
 

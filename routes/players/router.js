@@ -7,7 +7,6 @@ const router = express.Router();
 const database = require('../../database.js');
 
 const mongoose = require('mongoose');
-
 require('../../models/Player');
 const Player = mongoose.model('Player');
 
@@ -16,8 +15,8 @@ const Player = mongoose.model('Player');
 router.get('/', function(req, res) {
     let result; //= database.getAll();
 
+    //TODO replace with API function
     Player.find({}).then(function(found) {
-        console.log(found);
         result = found;
 
         if (req.accepts("html")){
@@ -30,9 +29,7 @@ router.get('/', function(req, res) {
     }).catch(function(err) {
         console.log(err.message);
         return false;
-    });
-
-    
+    });    
 });
 
 /** router for /players */
