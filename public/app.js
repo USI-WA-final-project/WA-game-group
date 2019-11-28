@@ -13,10 +13,27 @@ class App {
 
 		this.composer = new Composer(new CanvasInterface(this.canvas));
 
+		//array keys movement
+		this.movementKeys = ["KeyW", "KeyD", "KeyS", "KeyA"];
+
+		//array keys chose edit
+		this.editKeys = ["49", "50", "51", "52"];
+
+		//array keys search cell
+		this.searchCellKeys = ["ArrowRight", "ArrowLeft"];
+
+		//array keys to take face of cell
+		this.searchFaceKeys = ["49", "50", "51", "52", "53", "54"];
+
 		this.keys = {};
 
+		this.playerBody = undefined;
+
 		//editor
-		this.editor = new Editor(0);
+		this.editor = undefined;
+
+		//current cell and face to edit
+		this.cellEdited = {cell: undefined, face: undefined};
 
 		//inputs
 		this.cell = document.getElementById(object.inputs.cell);
@@ -28,32 +45,81 @@ class App {
 			this.composer = new Composer(new CanvasInterface(this.canvas));
 		});
 
-
-		
-		this.cell.addEventListener('click', this.setEdit.bind(this));
-		this.shield.addEventListener('click', this.setEdit.bind(this));
-		this.spike.addEventListener('click', this.setEdit.bind(this));
-		this.bounce.addEventListener('click', this.setEdit.bind(this));
 	}
 
 	setEdit(e){
-		let edit = 0
-		if (e.target == "cell") {
+		let edit = undefined;
+		if (e.code == "49") {
+			edit = 0;
+		} 
+
+		if (e.target == "50") {
 			edit = 1;
 		} 
 
-		if (e.target == "spike") {
+		if (e.target == "51") {
 			edit = 2;
 		} 
 
-		if (e.target == "shield") {
+		if (e.target == "52") {
 			edit = 3;
 		} 
 
-		if (e.target == "bounce") {
-			edit = 4;
-		} 
-		this.editor =  new Editor(edit);
+		if (edit != undefined) {
+			this.editor =  new Editor(edit, this.playerBody);
+		}
+	}
+
+	searchCell(e){
+		let cell = undefined;
+		// UP RIGHT DOWN LEFT
+
+		if (e.code == "ArrowRight") {
+			this.cellEdited.cell = this.editor.findNextCell();
+
+		 	//socket.emit('move',2);
+		 	//console.log("D");
+		}
+
+		if (this.keys["ArrowLeft"]) {
+			this.cellEdited.cell = this.editor.findPrevCell();
+			//console.log("A");
+			//socket.emit('move', 6);
+		}
+	}
+
+	searchFace() {
+		if (this.editor != undefined) {
+			if (e.code == "49") {
+				this.cellEdited.face = 0;
+			}
+
+			if (e.code == "50") {
+				this.cellEdited.face = 1;
+			}
+
+			if (e.code == "51") {
+				this.cellEdited.face = 2;
+			}
+
+			if (e.code == "52") {
+				this.cellEdited.face = 3;
+			}
+
+			if (e.code == "53") {
+				this.cellEdited.face = 4;
+			}
+
+			if (e.code == "54") {
+				this.cellEdited.face = 5;
+			}
+
+			if (this.cellEdited.cell != undefined && this.cellEdited.face != undefined) {
+				socket.emit('attachPart', { type: this.cellEdited.cell.type, 
+											part: this.playerBody.indexOf(this.editor.currentCell), 
+											face: this.cellEdited.face });
+			}
+		}
 	}
 
 	drawMap(data) {
@@ -61,7 +127,7 @@ class App {
 		//console.log(data);
 		this.move();
 		data.players.forEach((elem) => {
-			console.log(elem);
+			this.playerBody = elem.components;
 			this.drawPlayer(elem.components, elem.color, elem.position);
 		});
 	}
@@ -92,39 +158,45 @@ class App {
 
 	onKeyDown(e) {
 		e.preventDefault();
-		this.keys[e.code] = true;
+		if (this.movementKeys.includes(e.code)) {
+			this.keys[e.code] = true;
+		}
+
+		if (this.editKeys.includes(e.code) && this.editor == undefined) {
+			setEdit(e);
+		}
+
+		if (this.searchCellKeys.includes(e.code) && this.editor != undefined) {
+			searchCell(e);
+		} 
+
+		if (this.searchFaceKeys.includes(e.code) && this.editor != undefined) {
+			searchFace();
+		}
 	}
 
 	move() {
 		//WD DS SA AW || UPRIGHT RIGHTDOWN DOWNLEFT LEFTUP
 		if (this.keys["KeyW"] &&
-			this.keys["KeyD"] ||
-			this.keys["ArrowUp"] &&
-			this.keys["ArrowRight"]) {
+			this.keys["KeyD"]) {
 			//console.log("W");
 			socket.emit('move', 1);
 		}
 
 		if (this.keys["KeyD"] &&
-			this.keys["KeyS"] ||
-			this.keys["ArrowRight"] &&
-			this.keys["ArrowDown"]) {
+			this.keys["KeyS"]) {
 			//console.log("A");
 			socket.emit('move', 3);
 		}
 
 		if (this.keys["KeyS"] &&
-			this.keys["KeyA"] ||
-			this.keys["ArrowDown"] &&
-			this.keys["ArrowLeft"]) {
+			this.keys["KeyA"]) {
 			//console.log("S");
 			socket.emit('move', 5);
 		}
 
 		if (this.keys["KeyA"] &&
-			this.keys["KeyW"] ||
-			this.keys["ArrowLeft"] &&
-			this.keys["ArrowUp"]) {
+			this.keys["KeyW"]) {
 			socket.emit('move',7);
 			//console.log("D");
 		}
@@ -150,26 +222,26 @@ class App {
 			socket.emit('move', 6);
 		}
 
-		// UP RIGHT DOWN LEFT
-		if (this.keys["ArrowUp"]) {
-			//console.log("W");
-			socket.emit('move', 0);
-		}
+		// // UP RIGHT DOWN LEFT
+		// if (this.keys["ArrowUp"]) {
+		// 	//console.log("W");
+		// 	socket.emit('move', 0);
+		// }
 
-		if (this.keys["ArrowRight"]) {
-			socket.emit('move',2);
-			//console.log("D");
-		}
+		// if (this.keys["ArrowRight"]) {
+		// 	socket.emit('move',2);
+		// 	//console.log("D");
+		// }
 
-		if (this.keys["ArrowDown"]) {
-			socket.emit('move', 4);
-			//console.log("S");
-		}
+		// if (this.keys["ArrowDown"]) {
+		// 	socket.emit('move', 4);
+		// 	//console.log("S");
+		// }
 
-		if (this.keys["ArrowLeft"]) {
-			//console.log("A");
-			socket.emit('move', 6);
-		}
+		// if (this.keys["ArrowLeft"]) {
+		// 	//console.log("A");
+		// 	socket.emit('move', 6);
+		// }
 	}
 
 	onKeyUp(e) {

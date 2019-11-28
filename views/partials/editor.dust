@@ -1,13 +1,52 @@
-    <img src="img/money.svg" width="80px" height="80px" style="margin: 2em">
-    <button type="button" id="cell" name="cell">
-         <img src="img/cell.svg" id="cell-edit" width="80px" height="80px" style="margin: 2em">
-     </button>
-    <button type="button" id="spike" name="spike">
-        <img src="img/spike.svg" id="spike-edit" width="80px" height="80px" style="margin: 2em">
-    </button>
-    <button type="button" id="shield" name="shield">
-        <img src="img/shield.svg" id="shield-edit" width="80px" height="80px" style="margin: 2em">
-    </button>
-    <button type="button" id="bounce" name="bounce">
-        <img src="img/bouncer.svg" id="bounce-edit" width="80px" height="80px" style="margin: 2em">
-    </button>
+<div class="editor-bar">
+    <div class="editor-element">
+        <span>Resources: </span>
+        <label for="resources"></label>
+        <img src="img/coin.svg" width="80px" height="80px" style="margin: 2em">
+        <br>
+        <span id="display-resources">0</span>
+    </div>
+
+    <div class="editor-element">
+        <label for="Buy New Cell">Buy Cell</label>
+        <button type="button" id="cell" name="cell">
+            <img src="img/cell.svg" id="cell-edit" width="80px" height="80px" style="margin: 2em">
+        </button>
+    </div>
+
+    <div class="editor-element">
+        <label for="spike">Buy Spike</label>
+        <button type="button" id="spike" name="spike">
+            <img src="img/spike.svg" id="spike-edit" width="80px" height="80px" style="margin: 2em">
+        </button>
+    </div>
+
+    <div class="editor-element">
+        <label for="shield">Buy Shield</label>
+        <button type="button" id="shield" name="shield">
+            <img src="img/shield.svg" id="shield-edit" width="80px" height="80px" style="margin: 2em">
+        </button>
+    </div>
+
+    <div class="editor-element">
+        <label for="bounce">Buy Bouncer</label>
+        <button type="button" id="bounce" name="bounce">
+            <img src="img/bouncer.svg" id="bounce-edit" width="80px" height="80px" style="margin: 2em">
+        </button>
+    </div>
+
+    <div class="editor-element">
+        <label for="remove">Remove</label>
+        <button type="button" id="remove" name="remove">
+            <img src="img/remove.svg" id="bounce-edit" width="80px" height="80px" style="margin: 2em">
+        </button>
+    </div>
+
+    <div class="editor-element">
+        <label for="cancel">Cancel Action</label>
+        <button type="button" id="cancel" name="cancel">
+            <img src="img/cancel-circle.svg" id="bounce-edit" width="80px" height="80px" style="margin: 2em">
+        </button>
+
+    </div>
+</div>

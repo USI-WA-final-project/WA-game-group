@@ -1,0 +1,22 @@
+{>"partials/header" /}
+
+<h1>Players list</h1>
+
+{#result}
+    <div style="margin:20px;">
+        <div>id: {id}</div>
+        <div>Name: {username}</div>
+        <div>Color: {color}</div>
+        <div>Spawn position: ({spawnPos.x}, {spawnPos.y})</div>
+        <div>Date started: {dateStarted}</div>
+        {?active}
+            <div>Currently in game</div>
+        {:else}
+            <div>Date ended: {dateEnded}</div>
+        {/active}
+    </div>
+{:else}
+    <div style="margin:20px;">No statistics yet.</div>
+{/result}
+
+{>"partials/footer" /}
