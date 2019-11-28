@@ -30,7 +30,10 @@ class App {
 		this.playerBody = undefined;
 
 		//editor
-		this.editor = new Editor(0, this.playerBody);
+		this.editor = undefined;
+
+		//current cell and face to edit
+		this.cellEdited = {cell: undefined, face: undefined};
 
 		//inputs
 		this.cell = document.getElementById(object.inputs.cell);
@@ -42,63 +45,80 @@ class App {
 			this.composer = new Composer(new CanvasInterface(this.canvas));
 		});
 
-
-		// //events set Editor
-		// this.canvas.addEventListener('keydown', this.setEdit.bind(this));
-
-		// //events set search cells
-		// this.canvas.addEventListener('keydown', this.searchCell.bind(this));
-
 	}
 
 	setEdit(e){
-		let edit = 0;
+		let edit = undefined;
 		if (e.code == "49") {
-			edit = 1;
+			edit = 0;
 		} 
 
 		if (e.target == "50") {
-			edit = 2;
+			edit = 1;
 		} 
 
 		if (e.target == "51") {
-			edit = 3;
+			edit = 2;
 		} 
 
 		if (e.target == "52") {
-			edit = 4;
+			edit = 3;
 		} 
 
-		this.
-
-		this.editor =  new Editor(edit, this.playerBody);
+		if (edit != undefined) {
+			this.editor =  new Editor(edit, this.playerBody);
+		}
 	}
 
 	searchCell(e){
 		let cell = undefined;
 		// UP RIGHT DOWN LEFT
-		if (e.code == "ArrowUp") {
-			
-			//console.log("W");
-			//socket.emit('move', 0);
-		}
 
 		if (e.code == "ArrowRight") {
-			cell = this.editor.findNextCell();
+			this.cellEdited.cell = this.editor.findNextCell();
 
 		 	//socket.emit('move',2);
 		 	//console.log("D");
 		}
 
-		if (this.keys["ArrowDown"]) {
-		 	//socket.emit('move', 4);
-		 	//console.log("S");
-		}
-
 		if (this.keys["ArrowLeft"]) {
-			cell = this.editor.findPrevCell();
+			this.cellEdited.cell = this.editor.findPrevCell();
 			//console.log("A");
 			//socket.emit('move', 6);
+		}
+	}
+
+	searchFace() {
+		if (this.editor != undefined) {
+			if (e.code == "49") {
+				this.cellEdited.face = 0;
+			}
+
+			if (e.code == "50") {
+				this.cellEdited.face = 1;
+			}
+
+			if (e.code == "51") {
+				this.cellEdited.face = 2;
+			}
+
+			if (e.code == "52") {
+				this.cellEdited.face = 3;
+			}
+
+			if (e.code == "53") {
+				this.cellEdited.face = 4;
+			}
+
+			if (e.code == "54") {
+				this.cellEdited.face = 5;
+			}
+
+			if (this.cellEdited.cell != undefined && this.cellEdited.face != undefined) {
+				socket.emit('attachPart', { type: this.cellEdited.cell.type, 
+											part: this.playerBody.indexOf(this.editor.currentCell), 
+											face: this.cellEdited.face });
+			}
 		}
 	}
 
@@ -138,8 +158,21 @@ class App {
 
 	onKeyDown(e) {
 		e.preventDefault();
-		
-		this.keys[e.code] = true;
+		if (this.movementKeys.includes(e.code)) {
+			this.keys[e.code] = true;
+		}
+
+		if (this.editKeys.includes(e.code) && this.editor == undefined) {
+			setEdit(e);
+		}
+
+		if (this.searchCellKeys.includes(e.code) && this.editor != undefined) {
+			searchCell(e);
+		} 
+
+		if (this.searchFaceKeys.includes(e.code) && this.editor != undefined) {
+			searchFace();
+		}
 	}
 
 	move() {
