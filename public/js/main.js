@@ -66,6 +66,11 @@ window.onload = () => {
             document.getElementById("more").classList.toggle("hidden");
             document.getElementById("minimal").classList.toggle("hidden");
         });
+
+        document.getElementById("less").addEventListener('click', () => {
+            document.getElementById("more").classList.toggle("hidden");
+            document.getElementById("minimal").classList.toggle("hidden");
+        });
         init(name);
     };
 }

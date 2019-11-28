@@ -38,7 +38,7 @@
                 <li class="tools"><img src="img/imgur.svg">Share this moment</li>
                 <li class="tools"><img src="img/shop.svg">Shop</li>
                 <li class="tools"><img src="img/help.svg">Help</li>
-                <label for="check">Less  <img src="img/caret-up.svg" width="24" height="20"></label>
+                <label id="less" for="check">Less  <img src="img/caret-up.svg" width="24" height="20"></label>
             </ul>
         </li>
     </ul>
