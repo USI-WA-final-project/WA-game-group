@@ -1,6 +1,7 @@
 // TODO: clientside app
 class App {
 	constructor(object) {
+		//canvas
 		this.canvas = document.getElementById(object.canvas);
 
 		if (this.canvas.tagName !== 'CANVAS') {
@@ -10,7 +11,7 @@ class App {
 		this.ctx = this.canvas.getContext('2d');
 		this.width = this.canvas.width;
 		this.height = this.canvas.height;
-
+		//graphic interface
 		this.composer = new Composer(new CanvasInterface(this.canvas));
 
 		//array keys movement
@@ -25,15 +26,17 @@ class App {
 		//array keys to take face of cell
 		this.searchFaceKeys = ["Digit1", "Digit2", "Digit3", "Digit4", "Digit5", "Digit6"];
 
+		//current movement key
 		this.keys = {};
 
+		//player structure
 		this.playerBody = undefined;
 
 		//editor
 		this.editor = undefined;
 
-		//current cell and face to edit
-		this.cellEdited = {cell: undefined, face: undefined};
+		//current type and face to edit
+		this.cellEdited = {type: undefined, face: undefined};
 
 		//inputs
 		this.cell = document.getElementById(object.inputs.cell);
@@ -66,8 +69,8 @@ class App {
 		} 
 
 		if (edit != undefined) {
-			this.editor =  new Editor(edit, this.playerBody);
-			console.log(this.editor.type);
+			this.editor =  new Editor(this.playerBody);
+			this.cellEdited.type = edit;
 		}
 	}
 
@@ -76,14 +79,14 @@ class App {
 		// UP RIGHT DOWN LEFT
 
 		if (e.code == "ArrowRight") {
-			this.cellEdited.cell = this.editor.findNextCell();
+			this.editor.findNextCell();
 
 		 	//socket.emit('move',2);
 		 	//console.log("D");
 		}
 
 		if (this.keys["ArrowLeft"]) {
-			this.cellEdited.cell = this.editor.findPrevCell();
+			this.editor.findPrevCell();
 			//console.log("A");
 			//socket.emit('move', 6);
 		}
@@ -116,10 +119,12 @@ class App {
 			}
 
 			if (this.cellEdited.cell != undefined && this.cellEdited.face != undefined) {
-				console.log(this.editor.type);
-				socket.emit('attachPart', { type: this.editor.type, 
+				console.log(this.cellEdited.type);
+				socket.emit('attachPart', { type: this.cellEdited.type, 
 											part: this.editor.counter, 
 											face: this.cellEdited.face });
+				//stop edit
+				this.editor = undefined;
 			}
 		}
 	}
@@ -160,14 +165,15 @@ class App {
 
 	onKeyDown(e) {
 		e.preventDefault();
+		//wasd
 		if (this.movementKeys.includes(e.code)) {
 			this.keys[e.code] = true;
 		}
-
+		//RIGHT LEFT
 		if (this.searchCellKeys.includes(e.code) && this.editor != undefined) {
 			this.searchCell(e);
 		} 
-
+		//number 1-4 type, 1-6 face
 		if (this.editKeys.includes(e.code) || this.searchFaceKeys.includes(e.code)) {
 			if (this.editor == undefined) {
 				console.log("edit")
@@ -225,27 +231,6 @@ class App {
 			//console.log("A");
 			socket.emit('move', 6);
 		}
-
-		// // UP RIGHT DOWN LEFT
-		// if (this.keys["ArrowUp"]) {
-		// 	//console.log("W");
-		// 	socket.emit('move', 0);
-		// }
-
-		// if (this.keys["ArrowRight"]) {
-		// 	socket.emit('move',2);
-		// 	//console.log("D");
-		// }
-
-		// if (this.keys["ArrowDown"]) {
-		// 	socket.emit('move', 4);
-		// 	//console.log("S");
-		// }
-
-		// if (this.keys["ArrowLeft"]) {
-		// 	//console.log("A");
-		// 	socket.emit('move', 6);
-		// }
 	}
 
 	onKeyUp(e) {
@@ -253,8 +238,11 @@ class App {
 	}
 
 	setName(name) {
-		console.log(name);
-		socket.emit('registerUser',  name);
+		let user_name = "Ajax";
+		if (name != "" || !/\S/.test(name)) {
+			user_name = name;
+		} 
+		socket.emit('registerUser',  user_name);
 	}
 
 
