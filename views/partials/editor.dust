@@ -2,7 +2,7 @@
     <div class="editor-element">
         <span>Resources: </span>
         <label for="resources"></label>
-        <img src="img/money.svg" width="80px" height="80px" style="margin: 2em">
+        <img src="img/coin.svg" width="80px" height="80px" style="margin: 2em">
         <br>
         <span id="display-resources">0</span>
     </div>
@@ -12,11 +12,6 @@
         <button type="button" id="cell" name="cell">
             <img src="img/cell.svg" id="cell-edit" width="80px" height="80px" style="margin: 2em">
         </button>
-        <form>
-            <label for="face-number">Face Number: </label>
-            <input type="number" name="face-number"><br>
-            <button type="submit">Add New Cell</button>
-        </form>
     </div>
 
     <div class="editor-element">
@@ -24,11 +19,6 @@
         <button type="button" id="spike" name="spike">
             <img src="img/spike.svg" id="spike-edit" width="80px" height="80px" style="margin: 2em">
         </button>
-        <form>
-            <label for="face-number">Face Number: </label>
-            <input type="number" name="face-number"><br>
-            <button type="submit">Add New Spike</button>
-        </form>
     </div>
 
     <div class="editor-element">
@@ -36,11 +26,6 @@
         <button type="button" id="shield" name="shield">
             <img src="img/shield.svg" id="shield-edit" width="80px" height="80px" style="margin: 2em">
         </button>
-        <form>
-            <label for="face-number">Face Number: </label>
-            <input type="number" name="face-number"><br>
-            <button type="submit">Add New Shield</button>
-        </form>
     </div>
 
     <div class="editor-element">
@@ -48,23 +33,13 @@
         <button type="button" id="bounce" name="bounce">
             <img src="img/bouncer.svg" id="bounce-edit" width="80px" height="80px" style="margin: 2em">
         </button>
-        <form>
-            <label for="face-number">Face Number: </label>
-            <input type="number" name="face-number"><br>
-            <button type="submit">Add New Bouncer</button>
-        </form>
     </div>
 
     <div class="editor-element">
-        <label for="remove">Remove Element</label>
+        <label for="remove">Remove</label>
         <button type="button" id="remove" name="remove">
             <img src="img/remove.svg" id="bounce-edit" width="80px" height="80px" style="margin: 2em">
         </button>
-        <form>
-            <label for="face-number">Face Number: </label>
-            <input type="number" name="face-number"><br>
-            <button type="submit">Remove Element</button>
-        </form>
     </div>
 
     <div class="editor-element">
