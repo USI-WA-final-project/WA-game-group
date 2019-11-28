@@ -44,8 +44,8 @@ input, button {
 /*------- ID - CLASSES ------*/
 
 .editor {
-	text-align: center; 
-	padding: 1em; 
+	text-align: center;
+	padding: 1em;
 }
 
 /*- menu_enter -*/
@@ -208,4 +208,13 @@ ul.personal li {
 
 .tools:hover{
   background:rgba(0,0,0,.3);
+}
+
+.editor-bar {
+	display: flex;
+	flex-direction: row;
+}
+
+.editor-element > img {
+	display: block;
 }
