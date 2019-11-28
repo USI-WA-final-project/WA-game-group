@@ -183,7 +183,7 @@ input:checked ~ label:after{
 }
 
 input:checked ~ ul.personal{
-  max-height:600px;
+  max-height:700px;
   transition:max-height 0.5s ease-in;
 }
 
