@@ -13,10 +13,24 @@ class App {
 
 		this.composer = new Composer(new CanvasInterface(this.canvas));
 
+		//array keys movement
+		this.movementKeys = ["KeyW", "KeyD", "KeyS", "KeyA"];
+
+		//array keys chose edit
+		this.editKeys = ["49", "50", "51", "52"];
+
+		//array keys search cell
+		this.searchCellKeys = ["ArrowRight", "ArrowLeft"];
+
+		//array keys to take face of cell
+		this.searchFaceKeys = ["49", "50", "51", "52", "53", "54"];
+
 		this.keys = {};
 
+		this.playerBody = undefined;
+
 		//editor
-		this.editor = new Editor(0);
+		this.editor = new Editor(0, this.playerBody);
 
 		//inputs
 		this.cell = document.getElementById(object.inputs.cell);
@@ -29,31 +43,63 @@ class App {
 		});
 
 
-		
-		this.cell.addEventListener('click', this.setEdit.bind(this));
-		this.shield.addEventListener('click', this.setEdit.bind(this));
-		this.spike.addEventListener('click', this.setEdit.bind(this));
-		this.bounce.addEventListener('click', this.setEdit.bind(this));
+		// //events set Editor
+		// this.canvas.addEventListener('keydown', this.setEdit.bind(this));
+
+		// //events set search cells
+		// this.canvas.addEventListener('keydown', this.searchCell.bind(this));
+
 	}
 
 	setEdit(e){
-		let edit = 0
-		if (e.target == "cell") {
+		let edit = 0;
+		if (e.code == "49") {
 			edit = 1;
 		} 
 
-		if (e.target == "spike") {
+		if (e.target == "50") {
 			edit = 2;
 		} 
 
-		if (e.target == "shield") {
+		if (e.target == "51") {
 			edit = 3;
 		} 
 
-		if (e.target == "bounce") {
+		if (e.target == "52") {
 			edit = 4;
 		} 
-		this.editor =  new Editor(edit);
+
+		this.
+
+		this.editor =  new Editor(edit, this.playerBody);
+	}
+
+	searchCell(e){
+		let cell = undefined;
+		// UP RIGHT DOWN LEFT
+		if (e.code == "ArrowUp") {
+			
+			//console.log("W");
+			//socket.emit('move', 0);
+		}
+
+		if (e.code == "ArrowRight") {
+			cell = this.editor.findNextCell();
+
+		 	//socket.emit('move',2);
+		 	//console.log("D");
+		}
+
+		if (this.keys["ArrowDown"]) {
+		 	//socket.emit('move', 4);
+		 	//console.log("S");
+		}
+
+		if (this.keys["ArrowLeft"]) {
+			cell = this.editor.findPrevCell();
+			//console.log("A");
+			//socket.emit('move', 6);
+		}
 	}
 
 	drawMap(data) {
@@ -61,7 +107,7 @@ class App {
 		//console.log(data);
 		this.move();
 		data.players.forEach((elem) => {
-			console.log(elem);
+			this.playerBody = elem.components;
 			this.drawPlayer(elem.components, elem.color, elem.position);
 		});
 	}
@@ -92,39 +138,32 @@ class App {
 
 	onKeyDown(e) {
 		e.preventDefault();
+		
 		this.keys[e.code] = true;
 	}
 
 	move() {
 		//WD DS SA AW || UPRIGHT RIGHTDOWN DOWNLEFT LEFTUP
 		if (this.keys["KeyW"] &&
-			this.keys["KeyD"] ||
-			this.keys["ArrowUp"] &&
-			this.keys["ArrowRight"]) {
+			this.keys["KeyD"]) {
 			//console.log("W");
 			socket.emit('move', 1);
 		}
 
 		if (this.keys["KeyD"] &&
-			this.keys["KeyS"] ||
-			this.keys["ArrowRight"] &&
-			this.keys["ArrowDown"]) {
+			this.keys["KeyS"]) {
 			//console.log("A");
 			socket.emit('move', 3);
 		}
 
 		if (this.keys["KeyS"] &&
-			this.keys["KeyA"] ||
-			this.keys["ArrowDown"] &&
-			this.keys["ArrowLeft"]) {
+			this.keys["KeyA"]) {
 			//console.log("S");
 			socket.emit('move', 5);
 		}
 
 		if (this.keys["KeyA"] &&
-			this.keys["KeyW"] ||
-			this.keys["ArrowLeft"] &&
-			this.keys["ArrowUp"]) {
+			this.keys["KeyW"]) {
 			socket.emit('move',7);
 			//console.log("D");
 		}
@@ -150,26 +189,26 @@ class App {
 			socket.emit('move', 6);
 		}
 
-		// UP RIGHT DOWN LEFT
-		if (this.keys["ArrowUp"]) {
-			//console.log("W");
-			socket.emit('move', 0);
-		}
+		// // UP RIGHT DOWN LEFT
+		// if (this.keys["ArrowUp"]) {
+		// 	//console.log("W");
+		// 	socket.emit('move', 0);
+		// }
 
-		if (this.keys["ArrowRight"]) {
-			socket.emit('move',2);
-			//console.log("D");
-		}
+		// if (this.keys["ArrowRight"]) {
+		// 	socket.emit('move',2);
+		// 	//console.log("D");
+		// }
 
-		if (this.keys["ArrowDown"]) {
-			socket.emit('move', 4);
-			//console.log("S");
-		}
+		// if (this.keys["ArrowDown"]) {
+		// 	socket.emit('move', 4);
+		// 	//console.log("S");
+		// }
 
-		if (this.keys["ArrowLeft"]) {
-			//console.log("A");
-			socket.emit('move', 6);
-		}
+		// if (this.keys["ArrowLeft"]) {
+		// 	//console.log("A");
+		// 	socket.emit('move', 6);
+		// }
 	}
 
 	onKeyUp(e) {
