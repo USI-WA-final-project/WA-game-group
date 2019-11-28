@@ -38,19 +38,24 @@ class Editor {
 
     // clear function to remove previous event listeners
     start() {
-        console.log('CLEARING LISTENERS');
-        this.canvas.removeEventListener('mousemove', (e) => {
-             this.drawCell(e);
-         });
-        this.canvas.removeEventListener('mousemove', (e) => {
-            this.drawSpike(e);
-        });
-        this.canvas.removeEventListener('mousemove', (e) => {
-            this.drawShield(e);
-        });
-        this.canvas.removeEventListener('mousemove', (e) => {
-            this.drawBounce(e);
-        });
+        try {
+            console.log('CLEARING LISTENERS');
+            this.canvas.removeEventListener('mousemove', (e) => {
+                 this.drawCell(e);
+             });
+            this.canvas.removeEventListener('mousemove', (e) => {
+                this.drawSpike(e);
+            });
+            this.canvas.removeEventListener('mousemove', (e) => {
+                this.drawShield(e);
+            });
+            this.canvas.removeEventListener('mousemove', (e) => {
+                this.drawBounce(e);
+            });
+        } catch(e) {
+            console.error(e);
+            throw new Error(e);
+        }
     }
 
     // draws image at cursor position
@@ -78,28 +83,31 @@ class Editor {
         this.ctx.drawImage(image, e.offsetX - 10, e.offsetY - 10);
     }
 
-    // searches the cell object for the next item of type cell starting from the
-    // index startIndex
-    findNextCell(cell, startIndex) {
-        for (let i = startIndex; i < cell.components.length; i++) {
-            if (cell.components[i].type == 0) {
-                return cell.components[i];
+    // searches the player object for the next item of type cell starting from
+    // the index startIndex
+    findNextCell(player, startIndex) {
+        for (let i = startIndex; i < player.components.length; i++) {
+            if (player.components[i].type == 0) {
+                return player.components[i];
             }
         }
-        console.log("Next cell not found.");
-        return null;
+        // if there is no next cell, the last element of the array of type cell
+        // will be returned instead
+        return findPrevCell(player, player.components.length - 1)
     }
 
-    // searches the cell object for the previous item of type cell starting from
-    // the index startIndex
-    findPrevCell(cell, startIndex) {
+    // searches the player object for the previous item of type cell starting
+    // from the index startIndex
+    findPrevCell(player, startIndex) {
         for (let i = startIndex; i >= 0; i--) {
-            if (cell.components[i].type == 0) {
-                return cell.components[i];
+            if (player.components[i].type == 0) {
+                return player.components[i];
             }
         }
-        console.log("Previous cell not found.");
-        return null;
+        // the function should never actually terminate outside of the loop
+        // as the first element of the components will always be the
+        // core cell of the player
+        return player.components[0];
     }
 
     /*
@@ -117,38 +125,43 @@ class Editor {
             "type": type,
             "faces": [-1, -1, -1, -1, -1, -1]
         };
-        newCell.faces[oppositeFace(face) - 1] = player.components.indexOf(cell);
-        player.components.push({
-            "type": type,
-            "faces": [-1, -1, -1, -1, -1, -1]
-        });
-        cell.faces[face] = player.components.indexOf(newCell);
+        // "face - 1" is simply due to the fact that the user will input a
+        // number between 1 and 6 while the indexes go from 0 to 5
 
+        // connect newCell face to cell face
+        newCell.faces[oppositeFace(face) - 1] = player.components.indexOf(cell);
+        player.components.push(newCell);
+        // connect cell face to newCell face
+        cell.faces[face - 1] = player.components.indexOf(newCell);
 
         return player;
     }
 
-    setSpike(face, type, cell) {
+    /*
+     * Adds a new leaf element of type 'type', at face 'face' of cell 'cell' to
+     * the player object
+     * @param {player} the player object
+     * @param {face} the face number given by the player. Number from 1 to 6
+     * @param {type} the type passed into the editor object
+     * @param {cell} the cell selected by the user navigating the object through
+     * the findNextCell and findPrevCell functions
+     * @returns the updated player object
+     */
+    setElement(player, face, type, cell) {
+        newElement = {
+            "type": type;
+        };
+        player.components.push(newElement);
+        cell.faces[face - 1] = player.components.indexOf(newElement);
 
+        return player;
     }
 
-    setShield(face, type, cell) {
-
-    }
-
-    setBounce(face, type, cell) {
-
-    }
-
-    // given the number of a face, returns the opposite one
+    // given the number of a face, returns the opposite face
     oppositeFace(face) {
         return [null,4,5,6,1,2,3][face];
     }
 }
-
-
-
-
 
 // initialize editor
 const editor = new Editor();
