@@ -13,7 +13,7 @@ class Editor {
     // the index startIndex
     findNextCell() {
         let current;
-        for (let i = this.player.indexOf(currentCell); i < this.player.length; i++) {
+        for (let i = this.player.indexOf(this.currentCell); i < this.player.length; i++) {
             if (this.player[i].type == 0) {
                 current = this.player[i];
                 this.currentCell = current;
@@ -29,7 +29,7 @@ class Editor {
     // from the index startIndex
     findPrevCell() {
         let current;
-        for (let i = this.player.indexOf(currentCell); i >= 0; i--) {
+        for (let i = this.player.indexOf(this.currentCell); i >= 0; i--) {
             if (this.player[i].type == 0) {
                 current = this.player[i];
                 this.currentCell = current;
