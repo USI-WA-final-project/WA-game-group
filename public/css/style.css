@@ -155,13 +155,13 @@ input, button {
 }
 
 /* Style for personal stats (or in-game menu) */
-ul#stats > li{
+#stats > li{
   list-style-type:none;
   padding:0 18px 0 12px;
   vertical-align: middle;
 }
 
-ul#stats img{
+#stats img{
   padding: 2px 15px 2px 2px;
 }
 
@@ -183,33 +183,27 @@ input:checked ~ .personal{
   transition:max-height 0.5s ease-in;
 }
 
-/*input:checked ~ .sidebar{
-  max-height:700px;
-  transition:max-height 0.5s ease-in;
-}
-
-input:unchecked ~ .personal{
-  max-height:300px;
-  transition:max-height 0.5s ease-in;
-}*/
-
-.personal{
+.personal { 
   max-height:0;
   padding: 0;
   max-width: 260px;
   overflow: hidden;
   list-style-type: none;
-/*  background: #fff;
-  position: absolute;
-*/}
+}
 
 .personal div {
   display:block;
   padding: 8px;
   color: #000000;
   text-decoration:none;
-/*  transition:background .3s;
-*/  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+#minimal {
+	align-items: center;
+	text-align: center;
 }
 
 .tools:hover{
@@ -272,4 +266,10 @@ input:unchecked ~ .personal{
 	height: 1rem;
 	width: 1rem;
 	color: var(--white);
+}
+
+hr {
+	margin: 10px 0;
+	border: 0.8px solid black;
+	border-radius: 5px;
 }

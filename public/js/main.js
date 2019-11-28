@@ -67,26 +67,29 @@ window.onload = () => {
     //init game
     play_button.onclick = () => {
         let name = document.getElementById("username").value;
+        let user_name = "Ajax";
+        if (name != "" && /\S/.test(name)) {
+            user_name = name;
+        }
+        document.getElementById("usname").innerHTML = user_name;
         console.log(menu_enter.parentNode, menu_enter);
         menu_enter.parentNode.removeChild(menu_enter);
         document.getElementById("stats").classList.toggle("hidden");
         document.getElementById("more").addEventListener('click', () => {
             document.getElementById("more").classList.toggle("hidden");
             document.getElementById("less").classList.toggle("hidden");
-            // document.getElementById("minimal").classList.toggle("hidden");
         });
 
         document.getElementById("less").addEventListener('click', () => {
             document.getElementById("less").classList.toggle("hidden");
             document.getElementById("more").classList.toggle("hidden");
-            // document.getElementById("minimal").classList.toggle("hidden");
         });
 
         // document.getElementById("audiogame").innerHTML = "<source src='media/audio_game.mp3' type='audio/mpeg'>";
         // console.log(document.getElementById("audiogame").innerHTML);
         document.getElementById("audio_game").play();
 
-        init(name);
+        init(user_name);
     };
 };
 

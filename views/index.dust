@@ -11,16 +11,14 @@
    
     <div id="stats" class="hidden sidebar">
 <!--         Toggle it when clicking on Play
- -->        <div>
-            <p>@Username</p>
+ -->        <div style="padding: 25px">
+                <p id="usname">Username</p>
+            <hr>
             <div id="minimal">
-                <table>
-                    <tr>
                     <img src="img/score.svg">3
                     <img src="img/heart-rate.svg" width="24" height="20">Good
-                    </tr>
-                </table>
             </div>
+            <hr>
             <input id="check" type="checkbox" name="stats" class="hidden"/>
             <label id="more" for="check">More  <img src="img/caret-down.svg" width="24" height="20"></label>
             <label id="less" for="check" class="hidden">Less  <img src="img/caret-up.svg" width="24" height="20"></label>
