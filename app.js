@@ -150,7 +150,7 @@ io.on('connection', function(socket){
         let serializedData = {
             players: players,
             resources: resources,
-            structures: structures,
+            structures: structures
         };
 
         socket.emit('drawWorld', serializedData);
@@ -210,7 +210,6 @@ io.on('connection', function(socket){
         if (res != 0) {
             console.log("Error (code ", res, ") attaching part ", data);
         }
-        console.log(JSON.stringify(engine.info(player.id)));
     });
 
     socket.on('disconnect', function(){

@@ -3,7 +3,7 @@ Repository for Legend of Ajax, Web Atelier final project
 
 ## Official website
 
-[legendofajax.fun](http://legendofajax.fun)
+[legendofajax.fun](https://legendofajax.fun)
 
 ## Resources
 
