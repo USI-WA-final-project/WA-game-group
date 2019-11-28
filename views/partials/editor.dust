@@ -36,13 +36,6 @@
     </div>
 
     <div class="editor-element">
-        <label for="remove">Remove</label>
-        <button type="button" id="remove" name="remove">
-            <img src="img/remove.svg" id="bounce-edit" width="80px" height="80px" style="margin: 2em">
-        </button>
-    </div>
-
-    <div class="editor-element">
         <label for="cancel">Cancel Action</label>
         <button type="button" id="cancel" name="cancel">
             <img src="img/cancel-circle.svg" id="bounce-edit" width="80px" height="80px" style="margin: 2em">
