@@ -6,11 +6,6 @@ const router = express.Router();
 
 const database = require('../../database.js');
 
-const mongoose = require('mongoose');
-require('../../models/Player');
-const Player = mongoose.model('Player');
-
-
 //Display all players
 router.get('/', function(req, res) {
     database.getAll()

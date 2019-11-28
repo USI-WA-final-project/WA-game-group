@@ -1,11 +1,11 @@
 {>"partials/header" /}
 
-<h1 class="players_header">Leader Board</h1>
+<h1 class="players_header">Leaderboard</h1>
 
 {#result}
     <div class="players_item">
-        <div class="badge" style="background-color: {playerColor}">1</div>
-        <h2>@{username}</h2>
+        <div class="badge" style="background-color: {playerColor}">#</div>
+        <h2>@{username}</h2> {?active}In game{/active}
     </div>
 {:else}
     <div style="margin:20px;">Nobody played so far</div>
