@@ -56,13 +56,18 @@ io.on('connection', function(socket){
     let player = {
         id: engine.create(),
         username: null,
-        color: null
+        color: null, 
+        spawnPos: {}
     };
 
     //Register user in engine and DB
     socket.on('registerUser', function(user) {
+        let playerInfo = engine.info(player.id);
         player.username = user;
-        player.color = engine.info(player.id).color;
+        player.color = playerInfo.color;
+        player.spawnPos.x = playerInfo.position.x;
+        player.spawnPos.y = playerInfo.position.y;
+
         database.add(player.id, player);
         console.log('Created player ', player.id, ' - ', player.username);
     });

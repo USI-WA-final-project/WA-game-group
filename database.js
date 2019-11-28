@@ -29,7 +29,8 @@ var database = {
         let newPlayer = new Player({
             id: player.id,
             color: player.color,
-            username: player.username
+            username: player.username,
+            spawnPos: player.spawnPos
         });
 
         newPlayer.save().then(function(saved) {
