@@ -50,13 +50,13 @@
     </div>
     <!-- Enter Menu -->
     <div id="menu_enter" class="menu_enter">
-        <audio autoplay loop>
+        <audio loop>
             <source src="media/main_menu.mp3" type="audio/mpeg">
         </audio>
         <img id="logo" src="img/logo.svg" alt="The Legend of Ajax">
         <div>
             <img id="logo_input" src="img/favicon.ico" alt="favicon">
-            <input id="username" type="text" minlength=3 maxlength=14 placeholder="Enter your name">
+            <input id="username" type="text" minlength=3 maxlength=14 placeholder="Enter your name" value="Ajax">
         </div>
         <button type="submit">Play</button>
 <!--     

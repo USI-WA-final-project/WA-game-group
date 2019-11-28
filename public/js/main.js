@@ -30,7 +30,7 @@ let inGame = false;
 
 window.onload = () => {
     //main page
-	// menu_enter.querySelector("div audio").play();
+    menu_enter.querySelector("div audio").play();
     menu_enter.querySelector("div input").onkeyup = () => {
         angle += 45;
         document.getElementById("logo_input").style.transform = "rotate("+angle+"deg)";
