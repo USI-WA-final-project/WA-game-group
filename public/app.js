@@ -75,9 +75,8 @@ class App {
 	}
 
 	searchCell(e){
-		let cell = undefined;
 		// UP RIGHT DOWN LEFT
-
+		console.log(this.editor);
 		if (e.code == "ArrowRight") {
 			this.editor.findNextCell();
 
@@ -118,7 +117,7 @@ class App {
 				this.cellEdited.face = 5;
 			}
 
-			if (this.cellEdited.cell != undefined && this.cellEdited.face != undefined) {
+			if (this.cellEdited.type != undefined && this.cellEdited.face != undefined) {
 				console.log(this.cellEdited.type);
 				socket.emit('attachPart', { type: this.cellEdited.type, 
 											part: this.editor.counter, 
@@ -170,7 +169,8 @@ class App {
 			this.keys[e.code] = true;
 		}
 		//RIGHT LEFT
-		if (this.searchCellKeys.includes(e.code) && this.editor != undefined) {
+		if (this.searchCellKeys.includes(e.code) && this.editor.player != undefined) {
+			console.log(this.editor);
 			this.searchCell(e);
 		} 
 		//number 1-4 type, 1-6 face
