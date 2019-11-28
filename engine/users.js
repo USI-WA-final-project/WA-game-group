@@ -141,6 +141,7 @@ class User {
     }
 
     grow(part, face, type) {
+        // TODO(anno): make sure the space is unobstructed
         if (this.components[part].type !== BODYPART_TYPE.CELL) return -1;
         if (this.components[part].faces[face] !== -1) return -2;
 
@@ -162,11 +163,12 @@ class User {
 
                 let connect = (part, root_face, dist, angle) => {
                     this.components[part].isVisited = true;
+
                     if (angle < 0) angle += 6 * dist;
                     let isAxle = angle % dist === 0;
 
-                    let adj_dist = [99, 99, 99, 99, 99, 99];
-                    let adj_angle = [99, 99, 99, 99, 99, 99];
+                    let adj_dist = [];
+                    let adj_angle = [];
                     if (isAxle) {
                         adj_dist[(root_face + 0) % 6] = dist - 1;
                         adj_dist[(root_face + 1) % 6] = dist;
@@ -209,7 +211,7 @@ class User {
                         if (other_part.type !== BODYPART_TYPE.CELL) continue;
                         if (other_part.isVisited) continue;
 
-                        let rel_face = other_part.faces.findIndex(part);
+                        let rel_face = other_part.faces.findIndex(face => face === part); // problem?
                         if (rel_face === -1) {console.log('impossible body graph'); continue;}
 
                         let rel_root_face_diff;
