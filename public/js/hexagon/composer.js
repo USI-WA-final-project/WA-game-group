@@ -41,8 +41,6 @@ class Composer {
             y: center.y - 14
         };
 
-        console.log("Drawing player at", center);
-
         this.drawHexagon0(obj, 0, ctx, begin, center, true);
         ctx.fillStyle = color.body;
     }
@@ -249,7 +247,6 @@ class Composer {
         ctx.beginPath();
         ctx.fillStyle = this.colors.spike;
 
-        ctx.moveTo(begin.x, begin.y);
         ctx.moveTo(begin.x, begin.y); // M 24 2
         ctx.lineTo(begin.x - 16, begin.y); // l -16 0
         ctx.lineTo(begin.x - 8, begin.y - 16); // l 8 -16
@@ -288,7 +285,7 @@ class Composer {
 
         ctx.moveTo(begin.x, begin.y); // M 8 30
         ctx.lineTo(begin.x + 16, begin.y); // l 16 0
-        ctx.lineTo(begin.x + 8, begin.y - 14); // l -8 14
+        ctx.lineTo(begin.x + 8, begin.y + 14); // l -8 14
         ctx.lineTo(begin.x, begin.y); // l -8 -14
         ctx.closePath();
         ctx.fill();
@@ -326,10 +323,10 @@ class Composer {
         ctx.fillStyle = this.colors.shield;
 
         ctx.moveTo(begin.x, begin.y); // M 24 2
-        ctx.moveTo(begin.x, begin.y - 2); // l 0 -2
-        ctx.moveTo(begin.x - 16, begin.y - 2); // l -16 0
-        ctx.moveTo(begin.x - 16, begin.y); // l 0 2
-        ctx.moveTo(begin.x, begin.y); // l 16 0
+        ctx.lineTo(begin.x, begin.y - 2); // l 0 -2
+        ctx.lineTo(begin.x - 16, begin.y - 2); // l -16 0
+        ctx.lineTo(begin.x - 16, begin.y); // l 0 2
+        ctx.lineTo(begin.x, begin.y); // l 16 0
         ctx.closePath();
         ctx.fill();
     }

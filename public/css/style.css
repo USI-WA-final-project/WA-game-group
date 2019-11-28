@@ -217,6 +217,7 @@ input:unchecked ~ .personal{
 }
 
 .editor-bar {
+	text-align: center;
 	display: flex;
 	flex-direction: row;
 }
