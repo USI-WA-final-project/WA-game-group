@@ -84,7 +84,6 @@ function moveCursorToEnd(el) {
     }
 }
 
-<<<<<<< HEAD
 function startGame(e) {
     console.log(e.code);
     if (e.code == "Enter" || e.code ==  undefined) {
@@ -104,25 +103,6 @@ function startGame(e) {
             document.getElementById("more").classList.toggle("hidden");
             document.getElementById("less").classList.toggle("hidden");
         });
-=======
-function startGame() {
-    let name = input_name.value;
-    let bg = document.querySelector(".hero");
-    let user_name = "Ajax";
-
-    if (name != "" && /\S/.test(name)) {
-        user_name = name;
-    }
-
-    document.getElementById("usname").innerHTML = "@" + user_name;
-    console.log(menu_enter.parentNode, menu_enter);
-    menu_enter.parentNode.removeChild(menu_enter);
-    document.getElementById("stats").classList.toggle("hidden");
-    document.getElementById("more").addEventListener('click', () => {
-        document.getElementById("more").classList.toggle("hidden");
-        document.getElementById("less").classList.toggle("hidden");
-    });
->>>>>>> 331f11c1c2da0097356260bbc1a6ddb75cd6a393
 
         document.getElementById("less").addEventListener('click', () => {
             document.getElementById("less").classList.toggle("hidden");
