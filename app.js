@@ -73,7 +73,6 @@ io.on('connection', function(socket){
         player.spawnPos.y = playerInfo.position.y;
 
         database.add(player);
-        console.log('Created player ', player.id, ' - ', player.username);
     });
 
     //Retrieve whole world data once per tick
@@ -84,6 +83,9 @@ io.on('connection', function(socket){
     //Send to each player its customized view (based on RENDER_DISTANCE)
     engine.register(player.id, function(data) {
         if (data == null) {
+            //Either game over or disconnection
+            database.terminate(player.id);
+            socket.emit('gameOver');
             return;
         }
 
@@ -215,8 +217,6 @@ io.on('connection', function(socket){
 
     socket.on('disconnect', function(){
         console.log('Client disconnected');
-        database.terminate(player.id);
         engine.remove(player.id);
-        console.log('Archived player ', player.id, ' - ', player.username);
     });
 });

@@ -25,7 +25,7 @@ var database = {
     getById: function(id) {
         const filter = { id: id };
 
-        Player.find(filter).then(function(found) {
+        return Player.find(filter).then(function(found) {
             return found;
         }).catch(function(err) {
             console.log(err.message);
@@ -46,6 +46,7 @@ var database = {
         });
 
         newPlayer.save().then(function(saved) {
+            console.log('Created player ', saved.id, ' - ', saved.username);
             return true;
         }).catch(function(err) {
             console.log(err.message);
@@ -62,6 +63,7 @@ var database = {
 
         Player.find(filter).then(function(found) {
             found.remove().then(function(removed) {
+                console.log('Removed player ', removed.id, ' - ', removed.username);
                 return true;
             }).catch(function(err) {
                 console.log(err.message);
@@ -86,6 +88,7 @@ var database = {
             found[0].active = false;
 
             found[0].save().then(function(saved) {
+                console.log('Archived player ', saved.id, ' - ', saved.username);
                 return true;
             }).catch(function(err) {
                 console.log(err.message);
@@ -98,15 +101,22 @@ var database = {
     },
 
     /**
-     * Updates the player data
+     * Updates the player data (TODO)
      * @param {Number} id The player id
      * @param {Object} newPlayer The new player object
      */
     update: function(id, newPlayer) {
         const filter = { id: id };
 
-        Player.find(filter).then(function(found) {
+        Player.find(filter).then(function(found) {   
             //TODO
+            found[0].save().then(function(saved) {
+                console.log('Updated player ', saved.id, ' - ', saved.username);
+                return true;
+            }).catch(function(err) {
+                console.log(err.message);
+                return false;
+            });
             return true;
         }).catch(function(err) {
             console.log(err.message);
