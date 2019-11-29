@@ -23,7 +23,6 @@ const DIRECTION = Object.freeze({
 const ACTION = consts.ACTION;
 
 class Engine {
-
     constructor() {
         this._tick_num = 0;
         this._start_time = null;
@@ -33,17 +32,25 @@ class Engine {
         this._callbacks = [];
     }
 
+    /** @type {number} */
     get TICK_RATE() {return TICK_RATE;}
+    /** @type {number} */
     get WORLD_WIDTH() {return WORLD_WIDTH;}
+    /** @type {number} */
     get WORLD_HEIGHT() {return WORLD_HEIGHT;}
+    /** @type {number} */
     get MOVE_SPEED() {return MOVE_SPEED;}
+    /** @type {number} */
     get MAX_HEALTH() {return MAX_HEALTH;}
 
     get DIRECTION() {return DIRECTION;}
     get BODYPART_TYPE() {return consts.BODYPART_TYPE;}
 
+    /** @type {number} */
     get tick_num() {return this._tick_num;}
+    /** @type {number} */
     get start_time() {return this._start_time;}
+    /** @type {boolean} */
     get isRunning() {return !!this._timer;}
 
     /**
