@@ -241,6 +241,7 @@ class App {
 	}
 
 	setName(name) { 
+		localStorage.setItem('user_name', name);
 		//console.log(user_name);
 		socket.emit('registerUser',  name);
 	}

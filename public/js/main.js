@@ -74,6 +74,7 @@ window.onload = () => {
 
 //pos starting cursor
 function moveCursorToEnd(el) {
+    input_name.value = localStorage.getItem('user_name');
     if (typeof el.selectionStart == "number") {
         el.selectionStart = el.selectionEnd = el.value.length;
     } else if (typeof el.createTextRange != "undefined") {
