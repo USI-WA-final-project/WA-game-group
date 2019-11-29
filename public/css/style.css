@@ -66,6 +66,7 @@
 	  padding: 20px 40px;
 	  align-items: center;
 	  overflow: scroll;
+	  background: #ffff
   }
   
   #menu_enter #logo {
