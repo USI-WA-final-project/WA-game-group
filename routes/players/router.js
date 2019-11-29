@@ -12,9 +12,7 @@ router.get('/', function(req, res) {
     .then(function(results) {
         if (req.accepts("html")) {
             for (let i = 0; i < results.length; i++) {
-                console.log(results[i].color);
                 results[i].playerColor = req.app.locals.playerColors[results[i].color].core;
-                console.log(req.app.locals.playerColors[results[i].color]);
             }
             res.render("players", { result: results });
         } else if (req.accepts("json")){
