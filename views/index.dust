@@ -31,11 +31,11 @@
             <label id="more" for="check">More <img src="img/caret-down.svg" width="24" height="20"></label>
             <label id="less" for="check" class="hidden">Less <img src="img/caret-up.svg" width="24" height="20"></label>
             <div class="personal">
-                <div class="personal_item"><img src="img/cell.svg">cells</div>
-                <div class="personal_item"><img src="img/spike.svg" width="24" height="20">spikes</div>
-                <div><img src="img/shield.svg">shields</div>
-                <div><img src="img/time.svg">time</div>
-                <div><img src="img/money.svg"></div>
+                <div class="personal_item"><img src="img/cell.svg"><div id="info_cells"></div> cells</div>
+                <div class="personal_item"><img src="img/spike.svg" width="24" height="20"><div id="info_spikes"></div> spikes</div>
+                <div><img src="img/shield.svg"><div id="info_shields"></div> shields</div>
+                <div><img src="img/time.svg"><div id="info_time"></div></div>
+                <div><img src="img/money.svg"><div id="info_money"></div></div>
                 <hr>
                 <div class="tools"><img src="img/leaderboard.svg">Leaderboard</div>
                 <div class="tools"><img src="img/photos.svg">Share this moment</div>
