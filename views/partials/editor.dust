@@ -36,9 +36,8 @@
 
     </div>
 
-    <div class="editor-element">
-        <span id="display-resources">Resources: 0</span>
+    <div class="editor-element" style="margin-top: 19.5px; margin-bottom: auto;">
+        <span id="display-resources" style="margin-top: -4px; height: 23.5px;">Resources: 0</span>
         <img src="img/coin.svg" width="80px" height="80px" style="margin: 2em">
-        <br>
     </div>
 </div>
