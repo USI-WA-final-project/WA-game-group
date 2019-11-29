@@ -4,9 +4,9 @@ const Users = require('./users');
 const consts = require('./common_constants');
 
 const TICK_RATE = 30;
-const WORLD_WIDTH = 5000;
-const WORLD_HEIGHT = 5000;
-const MOVE_SPEED = 5;
+const WORLD_WIDTH = 1000;
+const WORLD_HEIGHT = 1000;
+const MOVE_SPEED = 1;
 const MAX_HEALTH = consts.MAX_HEALTH;
 
 
@@ -46,7 +46,9 @@ class Engine {
     get start_time() {return this._start_time;}
     get isRunning() {return !!this._timer;}
 
-    // Starts the engine
+    /**
+     * starts the engine. May not be called again while engine is still running.
+     */
     init() {
         let tick_repeater = () => {
             // Don't use setinterval to prevent skipping ticks.
@@ -60,7 +62,9 @@ class Engine {
         tick_repeater();
     }
 
-    // shuts the engine down.
+    /**
+     * shuts the engine down. May not be called while the engine is not running
+     */
     shutdown() {
         if (this._timer) {
             clearTimeout(this._timer);
@@ -70,27 +74,42 @@ class Engine {
         this._users = null;
     }
 
-    // moves a user in a DIRECTION
+    /**
+     * moves a given user into a given direction. Has no effect if given id is invalid
+     * @param id {number} the id of the user to move
+     * @param direction {DIRECTION} the direction to move the user towards
+     */
     move(id, direction) {
         this._users.with(id, user => {
             user.act({action: ACTION.MOVE, direction: direction});
         })
     }
 
-    // rotates a user
+    /**
+     * rotates a given user to face a given angle. Has no effect if given id is invalid
+     * @param id {number} the id of the user to move
+     * @param angle {number} the angle in radiance the user should face
+     */
     rotate(id, angle) {
         this._users.with(id, user => {
             user.rotation = angle;
         })
     }
 
-    // creates a new user and returns its ID
+    /**
+     * creates a new user and returns its ID
+     * @returns {number} the id of the new user
+     */
     create() {
         let x = Math.ceil(Math.random() * WORLD_WIDTH);
         let y = Math.ceil(Math.random() * WORLD_HEIGHT);
         return this._users.add(x, y);
     }
 
+    /**
+     * removes (kills) the user with the given ID. Has no effect if given id is invalid
+     * @param id
+     */
     remove(id) {
         this._users.with(id, usr => {
             usr.act({action: ACTION.DESTROY})
