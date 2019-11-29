@@ -46,7 +46,7 @@ var database = {
         });
 
         newPlayer.save().then(function(saved) {
-            console.log('Created player ', saved.id, ' - ', saved.username);
+            console.log('Created player', saved.id, '-', saved.username);
             return true;
         }).catch(function(err) {
             console.log(err.message);
@@ -63,7 +63,7 @@ var database = {
 
         Player.find(filter).then(function(found) {
             found.remove().then(function(removed) {
-                console.log('Removed player ', removed.id, ' - ', removed.username);
+                console.log('Removed player', removed.id, '-', removed.username);
                 return true;
             }).catch(function(err) {
                 console.log(err.message);
@@ -88,7 +88,7 @@ var database = {
             found[0].active = false;
 
             found[0].save().then(function(saved) {
-                console.log('Archived player ', saved.id, ' - ', saved.username);
+                console.log('Archived player', saved.id, '-', saved.username);
                 return true;
             }).catch(function(err) {
                 console.log(err.message);
@@ -111,7 +111,7 @@ var database = {
         Player.find(filter).then(function(found) {   
             //TODO
             found[0].save().then(function(saved) {
-                console.log('Updated player ', saved.id, ' - ', saved.username);
+                console.log('Updated player', saved.id, '-', saved.username);
                 return true;
             }).catch(function(err) {
                 console.log(err.message);

@@ -39,7 +39,7 @@ app.use('/players', routers.players);
 
 //Server start-up
 const server = app.listen(3000, function() {
-    console.log('Express server listening on port ' + server.address().port);
+    console.log('Express server listening on port', server.address().port);
     engine.init();
 
     //Clear the database - TODO remove in production
@@ -211,7 +211,7 @@ io.on('connection', function(socket){
         }
         res = engine.attach(player.id, type, data.part, data.face);
         if (res != 0) {
-            console.log("Error (code ", res, ") attaching part ", data);
+            console.log("Error (code", res, ") attaching part", data, "player", player.id, "-", player.username);
         }
     });
 
