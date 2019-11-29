@@ -130,7 +130,7 @@ class App {
 		this.clearCanvas();
 		this.move();
 		//console.log(data);
-		this.updateInfo(data.players[0].health);
+		//this.updateInfo(data.players[0].health);
 		data.players.forEach((elem) => {
 			this.playerBody = elem.components;
 			this.drawPlayer(elem.components, elem.color, elem.position);
@@ -138,10 +138,7 @@ class App {
 	}
 
 	updateInfo(life) {
-		//console.log("linear-gradient(left, green "+life+"%, white "+(100 - life)+"%)");
-		//let health = (life / 85) * 100;
-		document.getElementById("life").style.background = "-webkit-linear-gradient(left, green "+life+"%, white "+(100 - life)+"%)";
-		document.getElementById("life").style.width = "100%";
+		
 	}
 
 	drawPlayer(playerBody, colorIndex, position) {

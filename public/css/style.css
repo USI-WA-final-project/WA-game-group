@@ -277,3 +277,84 @@ hr {
 	border: 0.8px solid black;
 	border-radius: 5px;
 }
+
+/*/////////////////*/
+.hero {
+	position: absolute;
+	height: 100vh;
+}
+.hex {
+  	position: relative;
+  	width: 10px; 
+  	height: 5.77px;
+  	background-color: #64C7CC;
+	margin: 2.89px 0;
+	transform-origin: top left;
+	transform: scale(0) rotate(0deg) translate(-50%, -50%);
+	animation: cube 12s ease-in forwards infinite;
+}
+
+.hex:before,
+.hex:after {
+  	content: "";
+  	position: absolute;
+  	width: 0;
+  	border-left: 5px solid transparent;
+  	border-right: 5px solid transparent;
+}
+
+.hex:before {
+  	bottom: 100%;
+  	border-bottom: 2.89px solid #64C7CC;
+}
+
+.hex:after {
+  	top: 100%;
+  	width: 0;
+  	border-top: 2.89px solid #64C7CC;
+}
+
+.hex:nth-child(2n) {
+	border-color: #0051f4;
+}
+
+.hex:nth-child(2) {
+	animation-delay: 2s;
+	left: 25vw;
+	top: 40vh;
+}
+
+.hex:nth-child(3) {
+	animation-delay: 4s;
+	left: 75vw;
+	top: 50vh;
+}
+
+.hex:nth-child(4) {
+	animation-delay: 6s;
+	left: 90vw;
+	top: 10vh;
+}
+
+.hex:nth-child(5) {
+	animation-delay: 8s;
+	left: 10vw;
+	top: 85vh;
+}
+
+.hex:nth-child(6) {
+	animation-delay: 10s;
+	left: 50vw;
+	top: 10vh;
+}
+@keyframes cube {
+ 	from {
+	 	transform: scale(0) rotate(0deg) translate(-50%, -50%);
+	 	opacity: 1;
+	}
+
+ 	to {
+	 	transform: scale(20) rotate(960deg) translate(-50%, -50%);
+	 	opacity: 0;
+	}
+}

@@ -1,4 +1,12 @@
 {>"partials/header" /}
+    <div class="hero"> 
+      <div class="hex"></div>
+      <div class="hex"></div>
+      <div class="hex"></div>
+      <div class="hex"></div>
+      <div class="hex"></div>
+      <div class="hex"></div>
+    </div>
     <!-- Main Game -->
 <!--     Audio of the Game
     <audio id="audio_game" autoplay loop>

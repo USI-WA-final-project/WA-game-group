@@ -67,6 +67,7 @@ window.onload = () => {
     //init game
     play_button.onclick = () => {
         let name = document.getElementById("username").value;
+        let bg = document.querySelector(".hero");
         let user_name = "Ajax";
         if (name != "" && /\S/.test(name)) {
             user_name = name;
@@ -84,6 +85,8 @@ window.onload = () => {
             document.getElementById("less").classList.toggle("hidden");
             document.getElementById("more").classList.toggle("hidden");
         });
+
+        bg.parentNode.removeChild(bg);
 
         // document.getElementById("audiogame").innerHTML = "<source src='media/audio_game.mp3' type='audio/mpeg'>";
         // console.log(document.getElementById("audiogame").innerHTML);
