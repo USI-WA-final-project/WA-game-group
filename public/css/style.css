@@ -158,6 +158,7 @@ input, button {
 
 #stats img{
   padding: 2px 15px 2px 2px;
+  max-width: 24px;
 }
 
 label{
@@ -221,6 +222,7 @@ input:checked ~ .personal{
 
 .tools:hover{
   background: var(--white-dark);
+  cursor: pointer;
 }
 
 .editor-bar {
