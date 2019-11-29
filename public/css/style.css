@@ -183,6 +183,7 @@
   
   #usname {
 	  margin: 0.5rem 1rem;
+	  word-break: break-word;
   }
   
   #stats div #check {
