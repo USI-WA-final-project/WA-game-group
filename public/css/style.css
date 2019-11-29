@@ -258,7 +258,7 @@ input:checked ~ .personal{
 	display: flex;
 	flex-direction: row;
 	height: 5rem;
-	width: 60vw;
+	width: 55vw;
 	padding: 0 20vw;
 }
 
