@@ -74,7 +74,12 @@ window.onload = () => {
 
 //pos starting cursor
 function moveCursorToEnd(el) {
-    input_name.value = localStorage.getItem('user_name');
+    if (localStorage.getItem('user_name') != undefined) {
+        input_name.value = localStorage.getItem('user_name');
+    } else {
+        input_name.value = "Ajax";
+    }
+
     if (typeof el.selectionStart == "number") {
         el.selectionStart = el.selectionEnd = el.value.length;
     } else if (typeof el.createTextRange != "undefined") {
@@ -86,7 +91,6 @@ function moveCursorToEnd(el) {
 }
 
 function startGame(e) {
-    console.log(e.code);
     if (e.code == "Enter" || e.code ==  undefined) {
         let name = input_name.value;
         let bg = document.querySelector(".hero");
@@ -97,7 +101,6 @@ function startGame(e) {
         }
 
         document.getElementById("usname").innerHTML = "@" + user_name;
-        console.log(menu_enter.parentNode, menu_enter);
         menu_enter.parentNode.removeChild(menu_enter);
         document.getElementById("stats").classList.toggle("hidden");
         document.getElementById("more").addEventListener('click', () => {
@@ -121,9 +124,11 @@ function startGame(e) {
 }
 
 function init(name) {
-    console.log(name);
     // Create canvas app
-    const app = new App({ canvas: 'canvas', inputs: { shield: 'shield', bounce: 'bounce', spike: 'spike', cell: 'cell' } });
+    const app = new App({ canvas: 'canvas', 
+                          inputs: { cell: 'cell', spike: 'spike', shield: 'shield', bounce: 'bounce' },
+                          info: {cell: 'info_cells', spike: 'info_spikes', shield: 'info_shields', time: 'info_time' },
+                          time: new Date() });
 
     //initialize socket
     socket = io();

@@ -11,6 +11,7 @@ class App {
 		this.ctx = this.canvas.getContext('2d');
 		this.width = this.canvas.width;
 		this.height = this.canvas.height;
+
 		//graphic interface
 		this.composer = new Composer(new CanvasInterface(this.canvas));
 
@@ -44,6 +45,17 @@ class App {
 		this.spike = document.getElementById(object.inputs.spike);
 		this.bounce = document.getElementById(object.inputs.bounce);
 
+		//info Player parts
+		this.infoCell = document.getElementById(object.info.cell);
+		this.infoSpike = document.getElementById(object.info.spike);
+		this.infoShield = document.getElementById(object.info.shield);
+		//this.infoBounce = document.getElementById(object.info.bounce);
+
+		this.time = document.getElementById(object.info.time);
+
+		//value inital time
+		this.valueTime = object.time;
+
 		window.addEventListener('resize', (e) => {
 			this.composer = new Composer(new CanvasInterface(this.canvas));
 		});
@@ -69,7 +81,7 @@ class App {
 		} 
 
 		if (edit != undefined) {
-			this.editor =  new Editor(edit, this.playerBody);
+			this.editor =  new Editor(this.playerBody);
 			this.cellEdited.type = edit;
 		}
 	}
@@ -130,15 +142,39 @@ class App {
 		this.clearCanvas();
 		this.move();
 		//console.log(data);
-		//this.updateInfo(data.players[0].health);
 		data.players.forEach((elem) => {
-			this.playerBody = elem.components;
+			if (elem.position.x == 0 && elem.position.y == 0) {
+				this.playerBody = elem.components;
+				this.updateInfo(this.playerBody);
+			}
+
 			this.drawPlayer(elem.components, elem.color, elem.position);
 		});
 	}
 
-	updateInfo(life) {
-		
+	updateInfo(elems) {
+		let info = {cell: 0, spike: 0, shield: 0 };
+		let factor = 60000;
+		let currentTime = new Date(Date.now() - this.valueTime.getTime() + factor * this.valueTime.getTimezoneOffset());
+		//console.log(currentTime);
+		elems.forEach((part) => {
+			if (part.type == 0) {
+				info.cell++;
+			}
+
+			if (part.type == 1) {
+				info.spike++;
+			}
+
+			if (part.type == 2) {
+				info.shield++;
+			}
+		});
+
+		this.infoCell.innerHTML = info.cell + "&nbsp;";
+		this.infoSpike.innerHTML = info.spike + "&nbsp;";
+		this.infoShield.innerHTML = info.shield + "&nbsp;";
+		this.time.innerHTML = currentTime.getHours() + ":" + currentTime.getMinutes() + ":" + currentTime.getSeconds();
 	}
 
 	drawPlayer(playerBody, colorIndex, position) {
@@ -174,7 +210,7 @@ class App {
 			this.keys[e.code] = true;
 		}
 		//RIGHT LEFT
-		if (this.searchCellKeys.includes(e.code) && this.playerBody != undefined) {
+		if (this.searchCellKeys.includes(e.code) && this.editor != undefined) {
 			//console.log(this.editor);
 			this.searchCell(e);
 		} 
