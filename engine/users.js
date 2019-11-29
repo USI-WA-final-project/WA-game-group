@@ -8,6 +8,8 @@ const INFLATE_RATE = consts.INFLATE_RATE;
 const REGEN_RATE = consts.REGEN_RATE;
 const ACTION = consts.ACTION;
 
+const CELL_INNER_RADIUS = 14;
+
 class Users {
     constructor() {
         this._users = [];
@@ -204,7 +206,7 @@ class User {
                         if (other_part.type !== BODYPART_TYPE.CELL) continue;
                         if (other_part.isVisited) continue;
 
-                        let rel_face = other_part.faces.findIndex(face => face === part); // problem?
+                        let rel_face = other_part.faces.findIndex(face => face === part);
                         if (rel_face === -1) {console.log('impossible body graph'); continue;}
 
                         let rel_root_face_diff;
@@ -261,23 +263,15 @@ class User {
                             adj_dist[i], adj_angle[i]);
                     }
                 };
-                let unmark = (part) => {
-                    if (!this.components[part].isVisited) return;
-                    delete this.components[part].isVisited;
-                    if(!this.components[part].faces) return;
-
-                    this.components[part].faces.forEach(face => {
-                        if (face === -1) return;
-                        if(this.components[face].isVisited) {
-                            unmark(face);
-                        }
-                    })
-                };
 
                 connect(part, face, 1, 6);
-                unmark(part);
+                this.unmark(part);
 
                 break;
+            case BODYPART_TYPE.SHIELD:
+                break;
+            default:
+                console.log('invalid bodypart type');
         }
 
         this.components[part].faces[face] = idx;
@@ -330,22 +324,69 @@ class User {
                 delete this.components[index];
             }
         });
-        this.mark(0, true);
+        this.unmark(0);
     }
 
-    mark(root = 0, unmark = false) {
-        if (!unmark) {
-            this.components[root].isVisited = true;
-        } else {
-            delete this.components[root].isVisited;
-        }
+    mark(root = 0, cb) {
+        if (this.components[root].isVisited) return;
+        this.components[root].isVisited = true;
+        cb ? cb(this.components[root]) : 0;
         if(!this.components[root].faces) return;
 
         this.components[root].faces.forEach(face => {
             if (face === -1) return;
-            if(!this.components[face].isVisited ^ unmark) {
-                this.mark(face, unmark);
-            }
+            this.mark(face, cb);
         })
+    }
+
+    unmark (part = 0, cb) {
+        if (!this.components[part].isVisited) return;
+        delete this.components[part].isVisited;
+        cb ? cb(this.components[part]) : 0;
+        if(!this.components[part].faces) return;
+
+        this.components[part].faces.forEach(face => {
+            if (face === -1) return;
+            this.unmark(face, cb);
+        })
+    };
+
+    collides_with_user(user) {
+        //TODO(anno): this
+        if (this.distance_to_user(user) > this.size() + user.size()) return false;
+
+        let setPos = (part, pos) => {
+            if (this.components[part].isVisited) return;
+            this.components[part].isVisited = true;
+
+            if (this.components[part].type === BODYPART_TYPE.SHIELD
+             || this.components[part].type === BODYPART_TYPE.BOUNCE) {
+                this.components[part].position = {x: pos.flat.x, y: pos.flat.y};
+            } else {
+                this.components[part].position = {x: pos.x, y: pos.y};
+            }
+
+            if (this.components[part].type !== BODYPART_TYPE.CELL) return;
+            this.components[part].faces.forEach(face => {
+                if (face === -1) return;
+
+                //TODO(anno): calculate new position
+
+                setPos(face, {});
+            })
+        }
+    }
+
+    get size() {
+        // TODO(anno): maybe make a more exact calculation. For now it returns the largest possible size for these
+        // body parts
+        return this.components.reduce((acc, part) => {
+            if (part.type !== BODYPART_TYPE.CELL) return acc;
+            return acc + CELL_INNER_RADIUS * 2;
+        }, 0) + CELL_INNER_RADIUS * 2;
+    }
+
+    distance_to_user(user) {
+        return Math.abs(Math.sqrt((this.x - user.x) * (this.y - user.y)));
     }
 }
