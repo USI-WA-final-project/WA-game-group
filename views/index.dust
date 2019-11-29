@@ -36,9 +36,9 @@
                 <div><img src="img/shield.svg">shields</div>
                 <div><img src="img/time.svg">time</div>
                 <div><img src="img/money.svg"></div>
-                <div id="life"></div>
+                <hr>
                 <div class="tools"><img src="img/leaderboard.svg">Leaderboard</div>
-                <div class="tools"><img src="img/imgur.svg">Share this moment</div>
+                <div class="tools"><img src="img/photos.svg">Share this moment</div>
                 <div class="tools"><img src="img/edit.svg">Shop</div>
                 <div class="tools"><img src="img/help.svg">Help</div>
             </div>
@@ -56,7 +56,7 @@
         <img id="logo" src="img/logo.svg" alt="The Legend of Ajax">
         <div>
             <img id="logo_input" src="img/favicon.ico" alt="favicon">
-            <input id="username" type="text" minlength=3 maxlength=14 placeholder="Enter your name" value="Ajax">
+            <input id="username" type="text" minlength=3 maxlength=14 placeholder="Enter your name" value="Ajax" autofocus>
         </div>
         <button type="submit">Play</button>
 <!--     

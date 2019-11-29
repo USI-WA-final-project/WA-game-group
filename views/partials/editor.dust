@@ -33,7 +33,13 @@
         <button type="button" id="cancel" name="cancel">
             <img src="img/cancel-circle.svg" id="bounce-edit" width="80px" height="80px" style="margin: 2em">
         </button>
+    </div>
 
+     <div class="editor-element">
+        <label for="pic">Take pic</label>
+        <button type="button" id="pic" name="pic">
+            <img src="img/imgur.svg" id="pic-edit" width="80px" height="80px" style="margin: 2em">
+        </button>
     </div>
 
     <div class="editor-element" style="margin-top: 19.5px; margin-bottom: auto;">
