@@ -84,36 +84,39 @@ function moveCursorToEnd(el) {
     }
 }
 
-function startGame() {
-    let name = input_name.value;
-    let bg = document.querySelector(".hero");
-    let user_name = "Ajax";
+function startGame(e) {
+    console.log(e.code);
+    if (e.code == "Enter" || e.code ==  undefined) {
+        let name = input_name.value;
+        let bg = document.querySelector(".hero");
+        let user_name = "Ajax";
 
-    if (name != "" && /\S/.test(name)) {
-        user_name = name;
+        if (name != "" && /\S/.test(name)) {
+            user_name = name;
+        }
+
+        document.getElementById("usname").innerHTML = user_name;
+        console.log(menu_enter.parentNode, menu_enter);
+        menu_enter.parentNode.removeChild(menu_enter);
+        document.getElementById("stats").classList.toggle("hidden");
+        document.getElementById("more").addEventListener('click', () => {
+            document.getElementById("more").classList.toggle("hidden");
+            document.getElementById("less").classList.toggle("hidden");
+        });
+
+        document.getElementById("less").addEventListener('click', () => {
+            document.getElementById("less").classList.toggle("hidden");
+            document.getElementById("more").classList.toggle("hidden");
+        });
+
+        bg.parentNode.removeChild(bg);
+
+        // document.getElementById("audiogame").innerHTML = "<source src='media/audio_game.mp3' type='audio/mpeg'>";
+        // console.log(document.getElementById("audiogame").innerHTML);
+        document.getElementById("audio_game").play();
+
+        init(user_name);
     }
-
-    document.getElementById("usname").innerHTML = user_name;
-    console.log(menu_enter.parentNode, menu_enter);
-    menu_enter.parentNode.removeChild(menu_enter);
-    document.getElementById("stats").classList.toggle("hidden");
-    document.getElementById("more").addEventListener('click', () => {
-        document.getElementById("more").classList.toggle("hidden");
-        document.getElementById("less").classList.toggle("hidden");
-    });
-
-    document.getElementById("less").addEventListener('click', () => {
-        document.getElementById("less").classList.toggle("hidden");
-        document.getElementById("more").classList.toggle("hidden");
-    });
-
-    bg.parentNode.removeChild(bg);
-
-    // document.getElementById("audiogame").innerHTML = "<source src='media/audio_game.mp3' type='audio/mpeg'>";
-    // console.log(document.getElementById("audiogame").innerHTML);
-    document.getElementById("audio_game").play();
-
-    init(user_name);
 }
 
 function init(name) {
