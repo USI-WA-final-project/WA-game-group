@@ -2,6 +2,7 @@ class Editor {
     constructor(player) {
         this.counter = 0;
         this.player = player;
+        this.face = undefined;
         if (!this.player) {
             this.currentCell = undefined;
         } else {
@@ -9,8 +10,10 @@ class Editor {
         }
     }
 
-    // searches the player object for the next item of type cell starting from
-    // the index startIndex
+    /*
+     * Searches the player for the next item of type cell starting from
+     * this.counter
+     */
     findNextCell() {
         let current;
         for (let i = this.counter; i < this.player.length; i++) {
@@ -24,8 +27,10 @@ class Editor {
         }
     }
 
-    // searches the player object for the previous item of type cell starting
-    // from the index startIndex
+    /*
+     * Searches the player for the previous item of type cell starting from
+     * this.counter
+     */
     findPrevCell() {
         let current;
         for (let i = this.counter; i >= 0; i--) {
