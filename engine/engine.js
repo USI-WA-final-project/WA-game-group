@@ -75,8 +75,12 @@ class Engine {
     }
 
     /**
+     * @typedef {number} playerid
+     */
+
+    /**
      * moves a given user into a given direction. Has no effect if given id is invalid
-     * @param id {number} the id of the user to move
+     * @param id {playerid} the id of the user to move
      * @param direction {DIRECTION} the direction to move the user towards
      */
     move(id, direction) {
@@ -87,7 +91,7 @@ class Engine {
 
     /**
      * rotates a given user to face a given angle. Has no effect if given id is invalid
-     * @param id {number} the id of the user to move
+     * @param id {playerid} the id of the user to move
      * @param angle {number} the angle in radiance the user should face
      */
     rotate(id, angle) {
@@ -98,7 +102,7 @@ class Engine {
 
     /**
      * creates a new user and returns its ID
-     * @returns {number} the id of the new user
+     * @returns {playerid} the id of the new user
      */
     create() {
         let x = Math.ceil(Math.random() * WORLD_WIDTH);
@@ -116,6 +120,14 @@ class Engine {
         })
     }
 
+    /**
+     * attaches a new bodypart of the given type to the given user by adding it to the given face of the given bodypart
+     * @param id {playerid} the id of the user to modify
+     * @param type {BODYPART_TYPE} the type of the bodypart to add
+     * @param part {number} the index of the bodypart to add the new part to
+     * @param face the face on the bodypart to add the new part to
+     * @returns {number} -3 if user does not exist, -2 if face is occupied, -1 if bodypart is not of type CELL
+     */
     attach(id, type, part, face) {
         let ret = -3;
         this._users.with(id, user => {
@@ -124,20 +136,77 @@ class Engine {
         return ret;
     }
 
-    // returns information about a user
+    /**
+     * A bodypart of type {@link BODYPART_TYPE.CELL}
+     * @typedef {Object} cell
+     * @property type {BODYPART_TYPE.CELL} the type of this bodypart
+     * @property faces {number[]} the faces of this cell. Each face contains the index of the bodypart connected to it
+     *                            or -1 if it is empty
+     * @property health {number} the current health of this cell.
+     */
+    /**
+     * A bodypart of type {@link BODYPART_TYPE.SPIKE}
+     * @typedef {Object} spike
+     * @property type {BODYPART_TYPE.SPIKE} the type of this bodypart
+     * @property body {number} the index of the {@link cell} that this spike is connected to
+     */
+    /**
+     * A bodypart of type {@link BODYPART_TYPE.BOUNCE}
+     * @typedef {Object} bounce
+     * @property type {BODYPART_TYPE.BOUNCE} the type of this bodypart
+     * @property body {number} the index of the {@link cell} that this bounce is connected to
+     * @property inflated {number} the degree to which this bounce is inflated
+     * @property working {boolean} whether this bounce is working or not (pierced/damaged)
+     */
+    /**
+     * A bodypart of type {@link BODYPART_TYPE.SHIELD}
+     * @typedef {Object} shield
+     * @property type {BODYPART_TYPE.SHIELD} the type of this bodypart
+     */
+
+    /**
+     * A bodypart
+     * @typedef {cell | spike | bounce | shield} bodypart
+     */
+
+    /**
+     * A player
+     * @typedef {Object} player
+     * @property color {number} the color of this player (0-8)
+     * @property rotation {number} the angle in radians at which this player is rotated
+     * @property bodyparts {bodypart[]} the bodyparts of this player
+     * @property id {playerid} the id of this player
+     * @property position {{x: number, y: number}} the coordinates of the position of this player
+     */
+
+    /**
+     * returns information about a user
+     * @param id {playerid} the id of the user to retrieve information of
+     * @returns {player | null} an object representing the requested player or null if no user exists with that id
+     */
     info(id) {
         let user = this._users.find(id);
         if (!user) return null;
         return user.export();
     }
 
-    // registers a callback for updates on a user
+    /**
+     * Registers a callback for subscription to the user with the given id
+     * @param id {playerid} the id of the user to register for
+     * @param cb {function(player | null)} the callback that will be called every tick with the subscribed-to player or
+     *                                     null if that user has been destroyed.
+     */
     register(id, cb) {
         this._users.with(id, usr => {
             usr.register(cb);
         })
     }
 
+    /**
+     * Registers a callback for subscription to the world
+     * @param cb {function({players: player[]})} the callback that will be called every tick with information
+     *                                           about the world. Currently only an array with all the players.
+     */
     register_global(cb) {
         this._callbacks.push(cb);
 
