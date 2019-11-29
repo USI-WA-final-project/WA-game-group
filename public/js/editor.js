@@ -1,5 +1,5 @@
 class Editor {
-    constructor(statusNum, player) {
+    constructor(player) {
         this.counter = 0;
         this.player = player;
         if (!this.player) {
