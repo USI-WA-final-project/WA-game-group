@@ -95,7 +95,7 @@ function startGame(e) {
             user_name = name;
         }
 
-        document.getElementById("usname").innerHTML = user_name;
+        document.getElementById("usname").innerHTML = "@" + user_name;
         console.log(menu_enter.parentNode, menu_enter);
         menu_enter.parentNode.removeChild(menu_enter);
         document.getElementById("stats").classList.toggle("hidden");
