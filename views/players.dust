@@ -5,7 +5,12 @@
 {#result}
     <div class="players_item">
         <div class="badge" style="background-color: {playerColor}">#</div>
-        <h2>@{username}</h2> {?active}In game{/active}
+        <div class="player_info">
+            <h2>@{username}</h2>
+            {?active}
+                <p>Playing</p>
+            {/active}
+        </div>
     </div>
 {:else}
     <div style="margin:20px;">Nobody played so far</div>

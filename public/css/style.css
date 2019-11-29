@@ -167,7 +167,6 @@ input, button {
 
 label{
   position:relative;
-  display:block;
   padding:0 20px 0 15px;
   line-height:3em;
   transition:background 0.3s;
@@ -195,7 +194,6 @@ input:checked ~ .personal{
 }
 
 .personal div {
-  display:block;
   padding: 8px;
   color: #000000;
   text-decoration:none;
@@ -246,17 +244,31 @@ input:checked ~ .personal{
 }
 
 .players_item {
-	height: 8rem;
-	width: 100%;
+	display: flex;
+	flex-direction: row;
+	height: 5rem;
+	width: 60vw;
 	padding: 0 20vw;
 }
 
-.players_item h2 {
+.player_info {
+	display: flex;
+	height: 5rem;
+	justify-content: center;
+	flex-direction: column;
+	padding-left: 1rem;
+}
+
+.player_info h2 {
 	font-family: 'Inter', sans-serif;
 	font-size: 30px;
 	color: var(--ui-dark-dark);
-	display: inline;
-	padding-left: 1rem;
+}
+
+.player_info p {
+	font-family: 'Inter', sans-serif;
+	font-size: 18px;
+	color: var(--ui-dark-light);
 }
 
 .players_item .badge {
@@ -267,6 +279,7 @@ input:checked ~ .personal{
 	text-align: center;
 	border-radius: 50%;
 	padding: 1rem;
+	margin: 1rem 0;
 	height: 1rem;
 	width: 1rem;
 	color: var(--white);
