@@ -69,7 +69,7 @@ class App {
 		} 
 
 		if (edit != undefined) {
-			this.editor =  new Editor(this.playerBody);
+			this.editor =  new Editor(edit, this.playerBody);
 			this.cellEdited.type = edit;
 		}
 	}
@@ -174,7 +174,7 @@ class App {
 			this.keys[e.code] = true;
 		}
 		//RIGHT LEFT
-		if (this.searchCellKeys.includes(e.code) && this.editor.player != undefined) {
+		if (this.searchCellKeys.includes(e.code) && this.playerBody != undefined) {
 			//console.log(this.editor);
 			this.searchCell(e);
 		} 
