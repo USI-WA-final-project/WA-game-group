@@ -11,6 +11,7 @@ let playback = false;
 const btn_info = document.getElementById("info");
 const btn_rules = document.getElementById("rules");
 const btn_back = document.querySelectorAll(".back");
+const input_name = document.getElementById("username");
 
 var start_audio = function(e) {
     if (!playback) {
@@ -39,6 +40,7 @@ let inGame = false;
 window.onload = () => {
     //main page
     this.addEventListener("mousemove", start_audio);
+    moveCursorToEnd(input_name);
     menu_enter.querySelector("div input").onkeyup = () => {
         angle += 45;
         document.getElementById("logo_input").style.transform = "rotate("+angle+"deg)";
@@ -64,14 +66,37 @@ window.onload = () => {
         });
     };
 
+
     //init game
-    play_button.onclick = () => {
-        let name = document.getElementById("username").value;
+    play_button.addEventListener('click', startGame);
+    input_name.addEventListener('keypress', startGame);
+}
+
+//pos starting cursor
+function moveCursorToEnd(el) {
+    input_name.value = localStorage.getItem('user_name');
+    if (typeof el.selectionStart == "number") {
+        el.selectionStart = el.selectionEnd = el.value.length;
+    } else if (typeof el.createTextRange != "undefined") {
+        el.focus();
+        var range = el.createTextRange();
+        range.collapse(false);
+        range.select();
+    }
+}
+
+function startGame(e) {
+    console.log(e.code);
+    if (e.code == "Enter" || e.code ==  undefined) {
+        let name = input_name.value;
+        let bg = document.querySelector(".hero");
         let user_name = "Ajax";
+
         if (name != "" && /\S/.test(name)) {
             user_name = name;
         }
-        document.getElementById("usname").innerHTML = user_name;
+
+        document.getElementById("usname").innerHTML = "@" + user_name;
         console.log(menu_enter.parentNode, menu_enter);
         menu_enter.parentNode.removeChild(menu_enter);
         document.getElementById("stats").classList.toggle("hidden");
@@ -85,13 +110,15 @@ window.onload = () => {
             document.getElementById("more").classList.toggle("hidden");
         });
 
+        bg.parentNode.removeChild(bg);
+
         // document.getElementById("audiogame").innerHTML = "<source src='media/audio_game.mp3' type='audio/mpeg'>";
         // console.log(document.getElementById("audiogame").innerHTML);
         document.getElementById("audio_game").play();
 
         init(user_name);
-    };
-};
+    }
+}
 
 function init(name) {
     console.log(name);

@@ -4,6 +4,10 @@ require('./models/Player');
 const Player = mongoose.model('Player');
 
 var database = {
+    /**
+     * Gets all the player objects
+     * @returns An array of player objects
+     */
     getAll: function() {
         return Player.find({}).then(function(found) {
             return found;
@@ -13,6 +17,11 @@ var database = {
         });
     },
 
+    /**
+     * Gets a single player object, given its id
+     * @param id The player id
+     * @returns A player object
+     */
     getById: function(id) {
         const filter = { id: id };
 
@@ -24,8 +33,11 @@ var database = {
         });
     },
 
-    //Adds a player to the DB
-    add: function(id, player) {
+    /**
+     * Adds a player to the database
+     * @param {Object} player The player object
+     */
+    add: function(player) {
         let newPlayer = new Player({
             id: player.id,
             color: player.color,
@@ -41,7 +53,10 @@ var database = {
         });
     },
 
-    //Remove a player from the DB
+    /**
+     * Removes a player from the database
+     * @param {Number} id The player id
+     */
     remove: function(id) {
         const filter = { id: id };
 
@@ -58,7 +73,11 @@ var database = {
         });
     }, 
 
-    //Marks the player as inactive (game over/disconnected)
+    /**
+     * Marks a player as inactive 
+     * (either game over or disconnection)
+     * @param {Number} id The player id
+     */
     terminate: function(id) {
         const filter = { id: id };
 
@@ -78,7 +97,11 @@ var database = {
         });
     },
 
-    //Update player data
+    /**
+     * Updates the player data
+     * @param {Number} id The player id
+     * @param {Object} newPlayer The new player object
+     */
     update: function(id, newPlayer) {
         const filter = { id: id };
 

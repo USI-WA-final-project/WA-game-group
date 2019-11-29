@@ -1,4 +1,12 @@
 {>"partials/header" /}
+    <div class="hero"> 
+      <div class="hex"></div>
+      <div class="hex"></div>
+      <div class="hex"></div>
+      <div class="hex"></div>
+      <div class="hex"></div>
+      <div class="hex"></div>
+    </div>
     <!-- Main Game -->
 <!--     Audio of the Game
     <audio id="audio_game" autoplay loop>
@@ -10,33 +18,30 @@
     <canvas id="canvas" tabindex="1"></canvas>
    
     <div id="stats" class="hidden sidebar">
-<!--         Toggle it when clicking on Play
- -->        <div style="padding: 25px">
-                <p id="usname">Username</p>
-            <hr>
+        <!-- Toggle it when clicking on Play -->
+        <div>
+            <h1 id="usname">Username</h1>
+            <div class="divider"></div>
             <div id="minimal">
-                    <img src="img/score.svg">3
-                    <img src="img/heart-rate.svg" width="24" height="20">Good
+                <img src="img/score.svg">3
+                <img src="img/heart-rate.svg" width="24" height="20">Good
             </div>
-            <hr>
+            <div class="divider"></div>
             <input id="check" type="checkbox" name="stats" class="hidden"/>
-            <label id="more" for="check">More  <img src="img/caret-down.svg" width="24" height="20"></label>
-            <label id="less" for="check" class="hidden">Less  <img src="img/caret-up.svg" width="24" height="20"></label>
+            <label id="more" for="check">More <img src="img/caret-down.svg" width="24" height="20"></label>
+            <label id="less" for="check" class="hidden">Less <img src="img/caret-up.svg" width="24" height="20"></label>
             <div class="personal">
-                <div><img src="img/cell.svg">cells</div>
-                <div><img src="img/spike.svg" width="24" height="20">spikes</div>
+                <div class="personal_item"><img src="img/cell.svg">cells</div>
+                <div class="personal_item"><img src="img/spike.svg" width="24" height="20">spikes</div>
                 <div><img src="img/shield.svg">shields</div>
                 <div><img src="img/time.svg">time</div>
                 <div><img src="img/money.svg"></div>
-                <div><img src="img/score.svg"></div>
-                <!-- <canvas width="10px"></canvas> -->
-                <div id="life"></div>
+                <hr>
                 <div class="tools"><img src="img/leaderboard.svg">Leaderboard</div>
-                <div class="tools"><img src="img/imgur.svg">Share this moment</div>
+                <div class="tools"><img src="img/photos.svg">Share this moment</div>
                 <div class="tools"><img src="img/edit.svg">Shop</div>
                 <div class="tools"><img src="img/help.svg">Help</div>
-<!--                 <label id="less" for="check">Less  <img src="img/caret-up.svg" width="24" height="20"></label>
- -->            </div>
+            </div>
         </div>
     </div>
 
@@ -51,7 +56,7 @@
         <img id="logo" src="img/logo.svg" alt="The Legend of Ajax">
         <div>
             <img id="logo_input" src="img/favicon.ico" alt="favicon">
-            <input id="username" type="text" minlength=3 maxlength=14 placeholder="Enter your name" value="Ajax">
+            <input id="username" type="text" minlength=3 maxlength=14 placeholder="Enter your name" value="Ajax" autofocus>
         </div>
         <button type="submit">Play</button>
 <!--     

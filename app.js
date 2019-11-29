@@ -72,7 +72,7 @@ io.on('connection', function(socket){
         player.spawnPos.x = playerInfo.position.x;
         player.spawnPos.y = playerInfo.position.y;
 
-        database.add(player.id, player);
+        database.add(player);
         console.log('Created player ', player.id, ' - ', player.username);
     });
 
