@@ -136,6 +136,14 @@
 	  color: var(--ui-dark-dark);
   }
   
+  #audio_menu {
+	  width: fit-content;
+	  margin-right: auto;
+  }
+
+  #audio_menu:hover {
+	  cursor: pointer;
+  }
   /* ------ CLASSES -------*/
   
   .hidden {
@@ -150,6 +158,10 @@
 	  max-width: 20px;
   }
   
+  .back:hover {
+  	cursor: pointer;
+  }
+
   /* Style for personal stats (or in-game menu) */
   #stats > li{
 	list-style-type:none;
@@ -266,6 +278,15 @@
 	  padding: 0 20vw;
   }
   
+  .controls {
+  	display: flex;
+	flex-direction: row;
+	height: 5rem;
+	width: 55vw;
+	padding: 0 20vw;
+  }
+
+
   .player_info {
 	  display: flex;
 	  height: 5rem;
@@ -298,6 +319,10 @@
 	  height: 1rem;
 	  width: 1rem;
 	  color: var(--white);
+  }
+
+  #audio_toggle:hover {
+  	cursor: pointer;
   }
   
   /*/////////////////*/

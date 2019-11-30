@@ -5,20 +5,12 @@ const play_button = document.querySelector("div[id=menu_enter] button");
 const info = document.getElementById("menu_info");
 const rules = document.getElementById("menu_rules");
 const menu_enter = document.getElementById("menu_enter");
-let playback = false;
 
 //buttons
 const btn_info = document.getElementById("info");
 const btn_rules = document.getElementById("rules");
 const btn_back = document.querySelectorAll(".back");
 const input_name = document.getElementById("username");
-
-var start_audio = function(e) {
-    if (!playback) {
-        menu_enter.querySelector("div audio").play();
-        playback = true;
-    }
-}
 
 btn_back.forEach((el) => {
     el.addEventListener('click', () => {
@@ -39,7 +31,20 @@ let inGame = false;
 
 window.onload = () => {
     //main page
-    this.addEventListener("mousemove", start_audio);
+    document.getElementById("jingle_menu").play();
+        let playback = true;
+
+        document.getElementById("audio_menu").addEventListener('click', () => {
+            if (playback) {
+                document.getElementById("audio_menu").innerHTML = "<img src=\"img/music-off.svg\" alt=\"music_off\">";
+                document.getElementById("jingle_menu").pause();
+                playback = false;
+            } else {
+                document.getElementById("audio_menu").innerHTML = "<img src=\"img/music-on.svg\" alt=\"music_on\">";
+                document.getElementById("jingle_menu").play();
+                playback = true;
+            }
+        });
     moveCursorToEnd(input_name);
     menu_enter.querySelector("div input").onkeyup = () => {
         angle += 45;
@@ -113,11 +118,24 @@ function startGame(e) {
             document.getElementById("more").classList.toggle("hidden");
         });
 
+       
+
         bg.parentNode.removeChild(bg);
 
-        // document.getElementById("audiogame").innerHTML = "<source src='media/audio_game.mp3' type='audio/mpeg'>";
-        // console.log(document.getElementById("audiogame").innerHTML);
         document.getElementById("audio_game").play();
+        let playback = true;
+
+        document.getElementById("audio_toggle").addEventListener('click', () => {
+            if (playback) {
+                document.getElementById("audio_toggle").innerHTML = "<img src=\"img/music-off.svg\" alt=\"music_off\">Sound off";
+                document.getElementById("audio_game").pause();
+                playback = false;
+            } else {
+                document.getElementById("audio_toggle").innerHTML = "<img src=\"img/music-on.svg\" alt=\"music_on\">Sound on";
+                document.getElementById("audio_game").play();
+                playback = true;
+            }
+        });
 
         init(user_name);
     }

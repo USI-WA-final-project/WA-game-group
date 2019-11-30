@@ -32,7 +32,7 @@
             <label id="less" for="check" class="hidden">Less <img src="img/caret-up.svg" width="24" height="20"></label>
             <div class="personal">
                 <div class="personal_item"><img src="img/cell.svg"><div id="info_cells">0 </div> cells</div>
-                <div class="personal_item"><img src="img/spike.svg" width="24" height="20"><div id="info_spikes">0</div>spikes</div>
+                <div class="personal_item"><img src="img/spike.svg"><div id="info_spikes">0</div>spikes</div>
                 <div><img src="img/shield.svg"><div id="info_shields">0</div>shields</div>
                 <div><img src="img/time.svg"><div id="info_time">00:00</div></div>
                 <div><img src="img/money.svg"><div id="info_money">0</div>¶</div>
@@ -41,6 +41,8 @@
                 <div class="tools"><img src="img/photos.svg">Share this moment</div>
                 <div class="tools"><img src="img/edit.svg">Shop</div>
                 <div class="tools"><img src="img/help.svg">Help</div>
+                <hr>
+                <div id="audio_toggle"><img src="img/music-on.svg" alt="music_off">Sound on</div>
             </div>
         </div>
     </div>
@@ -50,7 +52,7 @@
     </div>
     <!-- Enter Menu -->
     <div id="menu_enter" class="menu_enter">
-        <audio loop>
+        <audio id="jingle_menu" loop>
             <source src="media/main_menu.mp3" type="audio/mpeg">
         </audio>
         <img id="logo" src="img/logo.svg" alt="The Legend of Ajax">
@@ -59,35 +61,31 @@
             <input id="username" type="text" minlength=3 maxlength=14 placeholder="Enter your name" autofocus>
         </div>
         <button type="submit">Play</button>
-<!--     
-        {?audio}
-        <button formaction="" value="false">
-            <img src="img/music-off.svg" alt="music_off">
-        </button>
-        {:else}
-        <button formaction="" value="true">
-            <img src="img/music-on.svg" alt="music_on">
-        </button>
-        {/audio}
- -->
-        <ul>
-            <li id="rules"><img src="img/controls.svg" alt="joystick">Rules & Controls</li>
-            <li id="info"><img src="img/info.svg" alt="info">Info</li>
-        </ul>
-    </div>
+<!--         <div>
+ -->            <ul>
+                <li id="rules"><img src="img/controls.svg" alt="joystick">Rules & Controls</li>
+                <li id="info"><img src="img/info.svg" alt="info">Info</li>
+            </ul>
+            <div id="audio_menu"><img src="img/music-on.svg" alt="music_off"></div>
+<!--         </div>
+ -->    </div>
     <div id="menu_rules" class="menu_enter hidden">
-         <p>The goal of this game is to collect as many resources as you can.</p>
-        <ul>
-            <li>W Move Forward</li>
-            <li>A Turn Left</li>
-            <li>S Move Backward</li>
-            <li>D Turn Right</li>
-        </ul>
+         <h1 style="font-variant: small-caps;">Rules and Commands</h1>
+         <p>The goal of this game is to collect as many resources as you can. To achieve this, You have to deal with other strong challengers who aim to the same goal. You can build your armor by holding spikes, shields and enforcing your defense and attack power by adding more cells surrounding you.</p>
+        <div>
+            <div class="controls"><img src="img/w.svg" alt="w"> Move Forward</div>
+            <div class="controls"><img src="img/a.svg" alt="a"> Turn Left</div>
+            <div class="controls"><img src="img/s.svg" alt="s"> Move Backward</div>
+            <div class="controls"><img src="img/d.svg" alt="d"> Turn Right</div>
+        </div>
+        <p>.</p>
         <img class="back" src="img/back.svg" alt="back">
     </div>
     <div id="menu_info" class=" menu_enter hidden">
-        This is free and unencumbered software released into the public domain. Anyone is free to copy, modify, publish, use, compile, sell, or distribute this software, either in source code form or as a compiled binary, for any purpose, commercial or non-commercial, and by any means. In jurisdictions that recognize copyright laws, the author or authors of this software dedicate any and all copyright interest in the software to the public domain. We make this dedication for the benefit of the public at large and to the detriment of our heirs and successors. We intend this dedication to be an overt act of relinquishment in perpetuity of all present and future rights to this software under copyright law.<br>
-        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+        <h1 style="font-variant: small-caps;">License</h1>
+        <p>This is free and unencumbered software released into the public domain. Anyone is free to copy, modify, publish, use, compile, sell, or distribute this software, either in source code form or as a compiled binary, for any purpose, commercial or non-commercial, and by any means. In jurisdictions that recognize copyright laws, the author or authors of this software dedicate any and all copyright interest in the software to the public domain. We make this dedication for the benefit of the public at large and to the detriment of our heirs and successors. We intend this dedication to be an overt act of relinquishment in perpetuity of all present and future rights to this software under copyright law.</p><br>
+        <font size="-2">THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</font><br>
+        For any inquire, feel free to contact us: <a href="mailto:info@legendofajax.fun">info@legendofajax.fun</a>
         <img class="back" src="img/back.svg" alt="back">
     </div>
     <script src="/js/hexagon/canvas_interface.js"></script>
