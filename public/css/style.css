@@ -55,9 +55,9 @@
 	  min-width: 400px;
 	  position:absolute;
 	  right: 25%;
-	  top: calc(25% + 20px);
-	  width: calc(50% - 80px);
-	  height: calc(50% - 80px);
+	  top: calc(25%);
+	  width: calc(50% - 60px);
+	  height: calc(50% - 60px);
 	  margin: auto;
 	  text-align: center;
 	  -webkit-box-shadow: 1px 1px 8px 2px rgba(143,143,143,1);
@@ -113,7 +113,7 @@
   }
   
   #menu_enter div {
-	  margin:50px 0 10px 0;
+	  margin: 40px 0 10px 0;
   }
   
   #menu_enter button {
@@ -121,7 +121,7 @@
 	  letter-spacing: 1.5px;
 	  cursor:pointer;
 	  padding: 8px 30px;
-	  margin: 50px;
+	  margin: 22px;
 	  border:none;
 	  border-radius: 4px;
 	  background-color: rgba(59, 64, 67, 1);
@@ -138,7 +138,7 @@
   
   #audio_menu {
 	  width: fit-content;
-	  margin-right: auto;
+	  margin-right: 0 75% 0 0;
   }
 
   #audio_menu:hover {
@@ -324,6 +324,12 @@
   #audio_toggle:hover {
   	cursor: pointer;
   }
+
+  /*/////////////////*/
+  #options {
+  	width: 100%;
+  	display: flex;
+  }
   
   /*/////////////////*/
   .hero {
@@ -394,6 +400,13 @@
 	  left: 50vw;
 	  top: 10vh;
   }
+
+   .hex:nth-child(7) {
+	  animation-delay: 12s;
+	  left: 83vw;
+	  top: 75vh;
+  }
+
   @keyframes cube {
 	   from {
 		   transform: scale(0) rotate(0deg) translate(-50%, -50%);

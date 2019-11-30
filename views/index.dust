@@ -6,6 +6,7 @@
       <div class="hex"></div>
       <div class="hex"></div>
       <div class="hex"></div>
+      <div class="hex"></div>
     </div>
     <!-- Main Game -->
 <!--     Audio of the Game
@@ -61,14 +62,14 @@
             <input id="username" type="text" minlength=3 maxlength=14 placeholder="Enter your name" autofocus>
         </div>
         <button type="submit">Play</button>
-<!--         <div>
- -->            <ul>
+        <div id="options">
+            <div id="audio_menu"><img src="img/music-on.svg" alt="music_off"></div>
+            <ul>
                 <li id="rules"><img src="img/controls.svg" alt="joystick">Rules & Controls</li>
                 <li id="info"><img src="img/info.svg" alt="info">Info</li>
             </ul>
-            <div id="audio_menu"><img src="img/music-on.svg" alt="music_off"></div>
-<!--         </div>
- -->    </div>
+        </div>
+    </div>
     <div id="menu_rules" class="menu_enter hidden">
          <h1 style="font-variant: small-caps;">Rules and Commands</h1>
          <p>The goal of this game is to collect as many resources as you can. To achieve this, You have to deal with other strong challengers who aim to the same goal. You can build your armor by holding spikes, shields and enforcing your defense and attack power by adding more cells surrounding you.</p>
