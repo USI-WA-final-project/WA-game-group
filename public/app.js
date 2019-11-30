@@ -9,8 +9,7 @@ class App {
 		}
 
 		this.ctx = this.canvas.getContext('2d');
-		this.width = this.canvas.width;
-		this.height = this.canvas.height;
+		this.gridImage =  this.drawGrid();
 
 		//graphic interface
 		this.composer = new Composer(new CanvasInterface(this.canvas));
@@ -140,8 +139,12 @@ class App {
 
 	drawMap(data) {
 		this.clearCanvas();
+		//console.log(data.playerPosition);
+		let sx = data.playerPosition.x - (this.canvas.width/2);
+		let sy = data.playerPosition.y - (this.canvas.height/2);
+		this.ctx.drawImage(this.gridImage, sx, sy, this.canvas.width, this.canvas.height, 0, 0, this.canvas.width, this.canvas.height);
 		this.move();
-		//console.log(data);
+
 		data.players.forEach((elem) => {
 			if (elem.position.x == 0 && elem.position.y == 0) {
 				this.playerBody = elem.components;
@@ -150,6 +153,46 @@ class App {
 
 			this.drawPlayer(elem.components, elem.color, elem.position);
 		});
+	}
+
+	drawGrid () {
+	    // make a temporary canvas to draw a game-sized grid
+	    const c = document.createElement('canvas').getContext('2d');
+
+	    // add some extra space for outside the game boundaries
+	    const width = 1300;
+	    const height = 1300;
+
+	    c.canvas.width = width;
+	    c.canvas.height = height;
+
+	    c.fillStyle = '#f2f9ff';
+	    c.fillRect(0, 0, width, height);
+
+	    c.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+	    c.lineWidth = 1;
+	    c.beginPath();
+
+	    // vertical grid lines
+	    for (let x = 0; x < width; x += 50) {
+	      c.moveTo(x, 0);
+	      c.lineTo(x, height);
+	    }
+
+	    // horizontal grid lines
+	    for (let y = 0; y < height; y += 50) {
+	      c.moveTo(0, y);
+	      c.lineTo(width, y);
+	    }
+
+	    c.stroke();
+	    c.closePath();
+
+	    let gridImage = new Image();
+
+	    gridImage.src = c.canvas.toDataURL();
+
+	    return gridImage;
 	}
 
 	updateInfo(elems) {
@@ -227,7 +270,7 @@ class App {
 	}
 
 	move() {
-		//WD DS SA AW || UPRIGHT RIGHTDOWN DOWNLEFT LEFTUP
+		//WD DS SA AW 
 		if (this.keys["KeyW"] &&
 			this.keys["KeyD"]) {
 			//console.log("W");
