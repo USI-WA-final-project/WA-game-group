@@ -73,6 +73,7 @@ class User {
                 type: BODYPART_TYPE.CELL,
                 faces: [-1, -1, -1, -1, -1, -1],
                 health: MAX_HEALTH,
+                coords: {up: 0, fwd: 0, bwd: 0}
             }
         ];
         this.rotation = 0;
@@ -136,9 +137,38 @@ class User {
     }
 
     grow(part, face, type) {
-        // TODO(anno): make sure the space is unobstructed
         if (this.components[part].type !== BODYPART_TYPE.CELL) return -1;
         if (this.components[part].faces[face] !== -1) return -2;
+        // -3 reserved for no such user
+        let newcoords = {
+            up: this.components[part].coords.up,
+            fwd: this.components[part].coords.fwd,
+            bwd: this.components[part].coords.bwd
+        };
+        if (face === 2 || face === 3) {
+            newcoords.up += 1;
+        }
+        if (face === 5 || face === 0) {
+            newcoords.up -= 1;
+        }
+        if (face === 0 || face === 1) {
+            newcoords.fwd += 1;
+        }
+        if (face === 3 || face === 4) {
+            newcoords.fwd -= 1;
+        }
+        if (face === 4 || face === 5) {
+            newcoords.bwd += 1;
+        }
+        if (face === 1 || face === 2) {
+            newcoords.bwd -= 1;
+        }
+        // This *should* not be possible I think. If it turns out to be expensive maybe we can remove it.
+        if (this.components.find(cmp => cmp.coords.up  === newcoords.up
+                                              && cmp.coords.fwd === newcoords.fwd
+                                              && cmp.coords.bwd === newcoords.bwd)) {
+            return -4;
+        }
 
         let newComponent = {};
         let idx = this.components.push(newComponent) - 1;
@@ -155,117 +185,41 @@ class User {
             case BODYPART_TYPE.CELL:
                 newComponent.health = MAX_HEALTH;
                 newComponent.faces = [-1, -1, -1, -1, -1, -1];
+                newComponent.coords = newcoords;
 
-                let connect = (part, root_face, dist, angle) => {
-                    this.components[part].isVisited = true;
-
-                    if (angle < 0) angle += 6 * dist;
-                    let isAxle = angle % dist === 0;
-
-                    let adj_dist = [];
-                    let adj_angle = [];
-                    if (isAxle) {
-                        adj_dist[(root_face + 0) % 6] = dist - 1;
-                        adj_dist[(root_face + 1) % 6] = dist;
-                        adj_dist[(root_face + 2) % 6] = dist + 1;
-                        adj_dist[(root_face + 3) % 6] = dist + 1;
-                        adj_dist[(root_face + 4) % 6] = dist + 1;
-                        adj_dist[(root_face + 5) % 6] = dist;
-
-                        adj_angle[(root_face + 0) % 6] = angle * (dist-1) / dist;
-                        adj_angle[(root_face + 1) % 6] = angle - 1;
-                        adj_angle[(root_face + 2) % 6] = angle * (dist + 1) / dist - 1;
-                        adj_angle[(root_face + 3) % 6] = angle * (dist + 1) / dist;
-                        adj_angle[(root_face + 4) % 6] = angle * (dist + 1) / dist + 1;
-                        adj_angle[(root_face + 5) % 6] = angle + 1;
-
-                    } else {
-                        adj_dist[(root_face + 0) % 6] = dist - 1;
-                        adj_dist[(root_face + 1) % 6] = dist;
-                        adj_dist[(root_face + 2) % 6] = dist + 1;
-                        adj_dist[(root_face + 3) % 6] = dist + 1;
-                        adj_dist[(root_face + 4) % 6] = dist;
-                        adj_dist[(root_face + 5) % 6] = dist - 1;
-
-                        adj_angle[(root_face + 0) % 6] = (angle - (angle%dist)) * (dist-1) / dist + (angle % dist) - 1;
-                        adj_angle[(root_face + 1) % 6] = angle - 1;
-                        adj_angle[(root_face + 2) % 6] = (angle - (angle%dist)) * (dist+1) / dist + (angle % dist);
-                        adj_angle[(root_face + 3) % 6] = (angle - (angle%dist)) * (dist+1) / dist + (angle % dist) + 1;
-                        adj_angle[(root_face + 4) % 6] = angle + 1;
-                        adj_angle[(root_face + 5) % 6] = (angle - (angle%dist)) * (dist-1) / dist + (angle % dist);
+                this.components.forEach((component, index) => {
+                    if (component.coords.up === newComponent.coords.up - 1
+                     && component.coords.fwd === newComponent.coords.fwd + 1
+                     && component.coords.bwd === newComponent.coords.bwd) {
+                        newComponent.faces[0] = index;
+                        component.faces[3] = idx;
+                    } else if (component.coords.up === newComponent.coords.up
+                            && component.coords.fwd === newComponent.coords.fwd + 1
+                            && component.coords.bwd === newComponent.coords.bwd - 1) {
+                        newComponent.faces[1] = index;
+                        component.faces[4] = idx;
+                    } else if (component.coords.up === newComponent.coords.up + 1
+                            && component.coords.fwd === newComponent.coords.fwd
+                            && component.coords.bwd === newComponent.coords.bwd - 1) {
+                        newComponent.faces[2] = index;
+                        component.faces[5] = idx;
+                    } else if (component.coords.up === newComponent.coords.up + 1
+                            && component.coords.fwd === newComponent.coords.fwd - 1
+                            && component.coords.bwd === newComponent.coords.bwd) {
+                        newComponent.faces[3] = index;
+                        component.faces[0] = idx;
+                    } else if (component.coords.up === newComponent.coords.up
+                            && component.coords.fwd === newComponent.coords.fwd - 1
+                            && component.coords.bwd === newComponent.coords.bwd + 1) {
+                        newComponent.faces[4] = index;
+                        component.faces[1] = idx;
+                    } else if (component.coords.up === newComponent.coords.up - 1
+                            && component.coords.fwd === newComponent.coords.fwd
+                            && component.coords.bwd === newComponent.coords.bwd + 1) {
+                        newComponent.faces[5] = index;
+                        component.faces[2] = idx;
                     }
-                    for (let i = 0; i < 6; ++i) {
-                        if (adj_dist[i] === 0) {
-                            this.components[part].faces[i] = idx;
-                            // only the first layer can do this
-                            newComponent.faces[angle] = part;
-                            continue;
-                        }
-                        if (this.components[part].faces[i] === -1) continue;
-                        let other_part = this.components[this.components[part].faces[i]];
-                        if (other_part.type !== BODYPART_TYPE.CELL) continue;
-                        if (other_part.isVisited) continue;
-
-                        let rel_face = other_part.faces.findIndex(face => face === part);
-                        if (rel_face === -1) {console.log('impossible body graph'); continue;}
-
-                        let rel_root_face_diff;
-                        if (isAxle) {
-                            if ((i + 6 - root_face) % 6 === 0) {
-                                rel_root_face_diff = 3;
-                            } else if ((i + 6 - root_face) % 6 === 1) {
-                                rel_root_face_diff = dist === 1 ? 1 : 2;
-                            } else if ((i + 6 - root_face) % 6 === 2) {
-                                rel_root_face_diff = 1;
-                            } else if ((i + 6 - root_face) % 6 === 3) {
-                                rel_root_face_diff = 0;
-                            } else if ((i + 6 - root_face) % 6 === 4) {
-                                rel_root_face_diff = 0;
-                            } else if ((i + 6 - root_face) % 6 === 5) {
-                                rel_root_face_diff = 5;
-                            }
-                        } else {
-                            if (!adj_angle[i] % adj_dist[i] === 0) {
-                                if ((i + 6 - root_face) % 6 === 0) {
-                                    rel_root_face_diff = 2;
-                                } else if ((i + 6 - root_face) % 6 === 1) {
-                                    rel_root_face_diff = 1;
-                                } else if ((i + 6 - root_face) % 6 === 2) {
-                                    console.log('The universe broke');
-                                    rel_root_face_diff = 1; // IMPOSSIBLE
-                                } else if ((i + 6 - root_face) % 6 === 3) {
-                                    console.log('The universe broke');
-                                    rel_root_face_diff = 0; // IMPOSSIBLE
-                                } else if ((i + 6 - root_face) % 6 === 4) {
-                                    rel_root_face_diff = 5;
-                                } else if ((i + 6 - root_face) % 6 === 5) {
-                                    rel_root_face_diff = 4;
-                                }
-                            } else {
-                                if ((i + 6 - root_face) % 6 === 0) {
-                                    rel_root_face_diff = 3;
-                                } else if ((i + 6 - root_face) % 6 === 1) {
-                                    rel_root_face_diff = 2;
-                                } else if ((i + 6 - root_face) % 6 === 2) {
-                                    rel_root_face_diff = 1;
-                                } else if ((i + 6 - root_face) % 6 === 3) {
-                                    rel_root_face_diff = 0;
-                                } else if ((i + 6 - root_face) % 6 === 4) {
-                                    rel_root_face_diff = 5;
-                                } else if ((i + 6 - root_face) % 6 === 5) {
-                                    rel_root_face_diff = 4;
-                                }
-                            }
-                        }
-
-                        connect(this.components[part].faces[i],
-                            (rel_face + rel_root_face_diff) % 6,
-                            adj_dist[i], adj_angle[i]);
-                    }
-                };
-
-                connect(part, face, 1, 6);
-                this.unmark(part);
+                });
 
                 break;
             case BODYPART_TYPE.SHIELD:

@@ -73,5 +73,24 @@ Engine exposes an API composed of the following functions:
 All other fields, properties or functions which the class may or may not have are internal and may not be
 read or modified by the server.
 
-The engine's internal representation of the map uses cardinal coordinates with the orgin at the top left.
+The engine's internal representation of the map uses cardinal coordinates with the origin at the top left.
 Any coordinates that may or may not be exposed by the engine are to be assumed in this format.
+
+For computational efficiency, each cell is identified compared to the root using a three-coordinate system:
+```
+               (up, fwd, bwd)
+                (0, +1, -1)
+               _____________
+              /             \
+             /               \
+(-1, +1, 0) /                 \ (+1, 0, -1)
+           /                   \
+          /      (0, 0, 0)      \
+          \                     /
+           \                   /
+(-1, 0, +1) \                 / (+1, -1, 0)
+             \               /
+              +-------------+
+                (0, -1, +1)
+```
+This system is currently only used internally but may in the future be exposed to the server.

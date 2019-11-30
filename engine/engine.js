@@ -132,8 +132,9 @@ class Engine {
      * @param id {playerid} the id of the user to modify
      * @param type {BODYPART_TYPE} the type of the bodypart to add
      * @param part {number} the index of the bodypart to add the new part to
-     * @param face the face on the bodypart to add the new part to
-     * @returns {number} -3 if user does not exist, -2 if face is occupied, -1 if bodypart is not of type CELL
+     * @param face {number} the face on the bodypart to add the new part to
+     * @returns {number} -3 if user does not exist, -2 if face is occupied, -1 if bodypart[part] is not of type CELL,
+     *                   -4 if space is already occupied by another CELL (this should actually be impossible)
      */
     attach(id, type, part, face) {
         let ret = -3;
