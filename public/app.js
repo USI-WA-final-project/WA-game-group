@@ -9,10 +9,10 @@ class App {
 		}
 
 		this.ctx = this.canvas.getContext('2d');
-		this.gridImage =  this.drawGrid();
 
 		//graphic interface
 		this.composer = new Composer(new CanvasInterface(this.canvas));
+		this.gridImage =  this.drawGrid();
 
 		//array keys movement
 		this.movementKeys = ["KeyW", "KeyD", "KeyS", "KeyA"];
@@ -140,8 +140,8 @@ class App {
 	drawMap(data) {
 		this.clearCanvas();
 		//console.log(data.playerPosition);
-		let sx = data.playerPosition.x - (this.canvas.width/2);
-		let sy = data.playerPosition.y - (this.canvas.height/2);
+		let sx = data.playerPosition.x;
+		let sy = data.playerPosition.y;
 		this.ctx.drawImage(this.gridImage, sx, sy, this.canvas.width, this.canvas.height, 0, 0, this.canvas.width, this.canvas.height);
 		this.move();
 
@@ -156,33 +156,38 @@ class App {
 	}
 
 	drawGrid () {
-	    // make a temporary canvas to draw a game-sized grid
+	    // temp canvas to build the world img
 	    const c = document.createElement('canvas').getContext('2d');
 
-	    // add some extra space for outside the game boundaries
-	    const width = 1300;
-	    const height = 1300;
+	    const width = 1000 + this.canvas.width;
+	    const height = 1000 + this.canvas.height;
+
+	    const lineW = width - this.canvas.width/2;
+	    const lineH = height - this.canvas.height/2;
 
 	    c.canvas.width = width;
 	    c.canvas.height = height;
 
-	    c.fillStyle = '#f2f9ff';
+	    c.fillStyle = '#595959';
 	    c.fillRect(0, 0, width, height);
+
+	    c.fillStyle = '#f2f9ff';
+	    c.fillRect(this.canvas.width/2, this.canvas.height/2, width - this.canvas.width, height - this.canvas.height);
 
 	    c.strokeStyle = 'rgba(0, 0, 0, 0.3)';
 	    c.lineWidth = 1;
 	    c.beginPath();
-
+ 
 	    // vertical grid lines
-	    for (let x = 0; x < width; x += 50) {
-	      c.moveTo(x, 0);
-	      c.lineTo(x, height);
+	    for (let x = this.canvas.width/2; x < lineW; x += 50) {
+	      c.moveTo(x, this.canvas.height/2);
+	      c.lineTo(x, lineH);
 	    }
 
 	    // horizontal grid lines
-	    for (let y = 0; y < height; y += 50) {
-	      c.moveTo(0, y);
-	      c.lineTo(width, y);
+	    for (let y = this.canvas.height/2; y < lineH; y += 50) {
+	      c.moveTo(this.canvas.width/2, y);
+	      c.lineTo(lineW, y);
 	    }
 
 	    c.stroke();
@@ -191,6 +196,8 @@ class App {
 	    let gridImage = new Image();
 
 	    gridImage.src = c.canvas.toDataURL();
+
+	    console.log(gridImage.size);
 
 	    return gridImage;
 	}
