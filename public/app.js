@@ -174,7 +174,9 @@ class App {
 		this.infoCell.innerHTML = info.cell + "&nbsp;";
 		this.infoSpike.innerHTML = info.spike + "&nbsp;";
 		this.infoShield.innerHTML = info.shield + "&nbsp;";
-		this.time.innerHTML = currentTime.getHours() + ":" + currentTime.getMinutes() + ":" + currentTime.getSeconds();
+		this.time.innerHTML = (currentTime.getHours() < 10 ? ("0" + currentTime.getHours()) : currentTime.getHours()) + 
+			":" + (currentTime.getMinutes() < 10 ? ("0" + currentTime.getMinutes()) : currentTime.getMinutes()) + 
+			":" + (currentTime.getSeconds() < 10 ? ("0" + currentTime.getSeconds()) : currentTime.getSeconds());
 	}
 
 	drawPlayer(playerBody, colorIndex, position) {
