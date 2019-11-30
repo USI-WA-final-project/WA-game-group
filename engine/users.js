@@ -180,6 +180,7 @@ class User {
                 newComponent.inflated = MAX_INFLATE;
                 newComponent.working = true;
             case BODYPART_TYPE.SPIKE:
+            case BODYPART_TYPE.SHIELD:
                 newComponent.body = part;
                 break;
             case BODYPART_TYPE.CELL:
@@ -220,9 +221,6 @@ class User {
                         component.faces[2] = idx;
                     }
                 });
-
-                break;
-            case BODYPART_TYPE.SHIELD:
                 break;
             default:
                 console.log('invalid bodypart type');
@@ -305,30 +303,92 @@ class User {
         })
     };
 
-    collides_with_user(user) {
+    collide_with_user(user) {
         //TODO(anno): this
+
+        let get_hitbox = (user, bodypart, index) => {
+            let pos;
+            let size;
+            if (bodypart.type === BODYPART_TYPE.CELL) {
+                pos = this.rel_pos(user.x, user.y, bodypart.coords.up, bodypart.coords.fwd, bodypart.coords.bwd);
+                size = 14;
+            } else {
+                let mother = user.components[bodypart.body];
+                let mother_pos = this.rel_pos(user.x, user.y, mother.coords.up, mother.coords.fwd, mother.coords.bwd);
+                let face = user.components[bodypart.body].faces.findIndex(part => part === index);
+                if (face === -1) {
+                    console.log('Corrupted body: bodypart is not a child of its mother');
+                    pos = mother_pos;
+                    size = 14
+                }
+
+                let mult_x, mult_y;
+                switch (face) {
+                    case 0:
+                        mult_x = -12;
+                        mult_y = -7;
+                        break;
+                    case 1:
+                        mult_x = 0;
+                        mult_y = -14;
+                        break;
+                    case 2:
+                        mult_x = 12;
+                        mult_y = -7;
+                        break;
+                    case 3:
+                        mult_x = 12;
+                        mult_y = 7;
+                        break;
+                    case 4:
+                        mult_x = 0;
+                        mult_y = 14;
+                        break;
+                    case 5:
+                        mult_x = -12;
+                        mult_y = 7;
+                        break;
+                }
+
+                // 1 is radius of hexagon, so distance between the center of two adjacent cells would be 2
+                switch(bodypart.type) {
+                    case BODYPART_TYPE.BOUNCE:
+                        // TODO(anno): decide exact positioning and size with joey
+                        pos = {x: mother_pos.x + 0.75 * mult_x, y: mother_pos.y + 0.75 * mult_y};
+                        size = 7;
+                        break;
+                    case BODYPART_TYPE.SHIELD:
+                        // TODO(anno): decide exact positioning and size with joey
+                        pos = {x: mother_pos.x + 0.75 * mult_x, y: mother_pos.y + 0.75 * mult_y};
+                        size = 7;
+                        break;
+                    case BODYPART_TYPE.SPIKE:
+                        pos = {x: mother_pos.x + 2 * mult_x, y: mother_pos.y + 2 * mult_y};
+                        size = 1;
+                        break;
+                }
+            }
+            return {pos: pos, size: size};
+        };
+
         if (this.distance_to_user(user) > this.size() + user.size()) return false;
 
-        let setPos = (part, pos) => {
-            if (this.components[part].isVisited) return;
-            this.components[part].isVisited = true;
+        this.components.forEach((bodypart, index) => {
+            let hitbox = get_hitbox(this, bodypart, index);
+            // TODO(anno): do the same for other and compare all (n choose 2 again... *sigh*)
+        })
+    }
 
-            if (this.components[part].type === BODYPART_TYPE.SHIELD
-             || this.components[part].type === BODYPART_TYPE.BOUNCE) {
-                this.components[part].position = {x: pos.flat.x, y: pos.flat.y};
-            } else {
-                this.components[part].position = {x: pos.x, y: pos.y};
-            }
+    rel_pos(x, y, up, fwd, bwd) {
+        y -= fwd * 28;
+        bwd += fwd;
+        fwd -= fwd;
 
-            if (this.components[part].type !== BODYPART_TYPE.CELL) return;
-            this.components[part].faces.forEach(face => {
-                if (face === -1) return;
+        // now up and bwd are opposites by the up+fwd+bwd=0 equality
+        y -= 14 * up;
+        x += 28 * up;
 
-                //TODO(anno): calculate new position
-
-                setPos(face, {});
-            })
-        }
+        return {x: x, y: y};
     }
 
     get size() {

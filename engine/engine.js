@@ -170,6 +170,7 @@ class Engine {
      * A bodypart of type {@link BODYPART_TYPE.SHIELD}
      * @typedef {Object} shield
      * @property type {BODYPART_TYPE.SHIELD} the type of this bodypart
+     * @property body {number} the index of the {@link cell} that this shield is connected to
      */
 
     /**
