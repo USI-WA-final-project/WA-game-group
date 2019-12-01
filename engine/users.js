@@ -140,6 +140,7 @@ class User {
     }
 
     grow(part, face, type) {
+        if (!this.components[part]) return -5;
         if (this.components[part].type !== BODYPART_TYPE.CELL) return -1;
         if (this.components[part].faces[face] !== -1) return -2;
         // -3 reserved for no such user
@@ -193,7 +194,7 @@ class User {
                 newComponent.coords = newcoords;
 
                 this.components.forEach((component, index) => {
-                    if (!component.type === BODYPART_TYPE.CELL) return;
+                    if (component.type !== BODYPART_TYPE.CELL) return;
                     if (component.coords.up === newComponent.coords.up - 1
                      && component.coords.fwd === newComponent.coords.fwd + 1
                      && component.coords.bwd === newComponent.coords.bwd) {

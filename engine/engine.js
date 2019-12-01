@@ -134,7 +134,8 @@ class Engine {
      * @param part {number} the index of the bodypart to add the new part to
      * @param face {number} the face on the bodypart to add the new part to
      * @returns {number} -3 if user does not exist, -2 if face is occupied, -1 if bodypart[part] is not of type CELL,
-     *                   -4 if space is already occupied by another CELL (this should actually be impossible)
+     *                   -4 if space is already occupied by another CELL (this should actually be impossible),
+     *                   -5 if part is not a valid bodypart index
      */
     attach(id, type, part, face) {
         let ret = -3;
