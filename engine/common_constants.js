@@ -12,14 +12,18 @@ module.exports.MAX_HEALTH = MAX_HEALTH;
 const MAX_INFLATE = 100;
 module.exports.MAX_INFLATE = MAX_INFLATE;
 
-const INFLATE_RATE = 10;
+const INFLATE_RATE = 2;
 module.exports.INFLATE_RATE = INFLATE_RATE;
 
-const REGEN_RATE = 100;
+const REGEN_RATE = 1;
 module.exports.REGEN_RATE = REGEN_RATE;
+
+const SPIKE_DMG = 3;
+module.exports.SPIKE_DMG = SPIKE_DMG;
 
 const ACTION = Object.freeze({
     MOVE: Symbol("MOVE"),
     DESTROY: Symbol("DESTROY"),
+    COLLIDE: Symbol("COLLIDE"),
 });
 module.exports.ACTION = ACTION;

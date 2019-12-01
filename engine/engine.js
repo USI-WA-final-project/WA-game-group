@@ -237,7 +237,9 @@ class Engine {
 
             user.tick_parts();
 
-            user.nextActions.forEach(action => {
+            let actions = user.nextActions;
+            user.nextActions = [];
+            actions.forEach(action => {
                 switch (action.action) {
                     case ACTION.MOVE:
                         if (!user.movedV) {
@@ -287,7 +289,6 @@ class Engine {
                         console.log('Unknown action encountered: ', action);
                 }
             });
-            user.nextActions = [];
 
             this._callbacks.forEach(cb => {
                 let plrs_array = [];

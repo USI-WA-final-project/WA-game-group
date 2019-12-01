@@ -6,6 +6,7 @@ const MAX_HEALTH = consts.MAX_HEALTH;
 const MAX_INFLATE = consts.MAX_INFLATE;
 const INFLATE_RATE = consts.INFLATE_RATE;
 const REGEN_RATE = consts.REGEN_RATE;
+const SPIKE_DMG = consts.SPIKE_DMG;
 const ACTION = consts.ACTION;
 
 const CELL_INNER_RADIUS = 14;
@@ -304,7 +305,7 @@ class User {
     };
 
     collide_with_user(user) {
-        //TODO(anno): this
+        //TODO(anno): change this so it checks hypothetical collisions on move and prevents move if colliding
 
         let get_hitbox = (user, bodypart, index) => {
             let pos;
@@ -373,10 +374,30 @@ class User {
 
         if (this.distance_to_user(user) > this.size() + user.size()) return false;
 
+        let collides = false;
         this.components.forEach((bodypart, index) => {
             let hitbox = get_hitbox(this, bodypart, index);
-            // TODO(anno): do the same for other and compare all (n choose 2 again... *sigh*)
+            user.components.forEach((other_bodypart, other_index) => {
+                let other_hitbox = get_hitbox(user, other_bodypart, other_index);
+                if (hitbox.size + other_hitbox.size > this.distance(hitbox.pos.x, hitbox.pos.y,
+                                                                    other_hitbox.pos.x, other_hitbox.pos.y)) {
+                    this.collide(index, user, other_index);
+                    user.collide(other_index, this, index);
+                    collides = true;
+                    // TODO: talk about moves sent per tick from client.
+                }
+            })
         })
+    }
+
+    collide(part, other, other_part) {
+        if (this.components[part].type === BODYPART_TYPE.SPIKE) {
+            other.damage(other_part, SPIKE_DMG);
+        }
+        if (other.components[other_part].type === BODYPART_TYPE.SPIKE) {
+            this.damage(part, SPIKE_DMG);
+        }
+        // TODO(anno): bounce
     }
 
     rel_pos(x, y, up, fwd, bwd) {
@@ -401,6 +422,10 @@ class User {
     }
 
     distance_to_user(user) {
-        return Math.abs(Math.sqrt((this.x - user.x) * (this.y - user.y)));
+        return this.distance(this.x, this.y, user.x, user.y);
+    }
+
+    distance(x1, y1, x2, y2) {
+        return Math.abs(Math.sqrt((x1 - x2) * (y1 - y2)));
     }
 }
