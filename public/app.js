@@ -9,11 +9,10 @@ class App {
 		}
 
 		this.ctx = this.canvas.getContext('2d');
-		this.width = this.canvas.width;
-		this.height = this.canvas.height;
 
 		//graphic interface
 		this.composer = new Composer(new CanvasInterface(this.canvas));
+		this.gridImage =  this.drawGrid();
 
 		//array keys movement
 		this.movementKeys = ["KeyW", "KeyD", "KeyS", "KeyA"];
@@ -140,8 +139,12 @@ class App {
 
 	drawMap(data) {
 		this.clearCanvas();
+		//console.log(data.playerPosition);
+		let sx = data.playerPosition.x;
+		let sy = data.playerPosition.y;
+		this.ctx.drawImage(this.gridImage, sx, sy, this.canvas.width, this.canvas.height, 0, 0, this.canvas.width, this.canvas.height);
 		this.move();
-		//console.log(data);
+
 		data.players.forEach((elem) => {
 			if (elem.position.x == 0 && elem.position.y == 0) {
 				this.playerBody = elem.components;
@@ -150,6 +153,53 @@ class App {
 
 			this.drawPlayer(elem.components, elem.color, elem.position);
 		});
+	}
+
+	drawGrid () {
+	    // temp canvas to build the world img
+	    const c = document.createElement('canvas').getContext('2d');
+
+	    const width = 1000 + this.canvas.width;
+	    const height = 1000 + this.canvas.height;
+
+	    const lineW = width - this.canvas.width/2;
+	    const lineH = height - this.canvas.height/2;
+
+	    c.canvas.width = width;
+	    c.canvas.height = height;
+
+	    c.fillStyle = '#595959';
+	    c.fillRect(0, 0, width, height);
+
+	    c.fillStyle = '#f2f9ff';
+	    c.fillRect(this.canvas.width/2, this.canvas.height/2, width - this.canvas.width, height - this.canvas.height);
+
+	    c.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+	    c.lineWidth = 1;
+	    c.beginPath();
+ 
+	    // vertical grid lines
+	    for (let x = this.canvas.width/2; x < lineW; x += 50) {
+	      c.moveTo(x, this.canvas.height/2);
+	      c.lineTo(x, lineH);
+	    }
+
+	    // horizontal grid lines
+	    for (let y = this.canvas.height/2; y < lineH; y += 50) {
+	      c.moveTo(this.canvas.width/2, y);
+	      c.lineTo(lineW, y);
+	    }
+
+	    c.stroke();
+	    c.closePath();
+
+	    let gridImage = new Image();
+
+	    gridImage.src = c.canvas.toDataURL();
+
+	    console.log(gridImage.size);
+
+	    return gridImage;
 	}
 
 	updateInfo(elems) {
@@ -227,7 +277,7 @@ class App {
 	}
 
 	move() {
-		//WD DS SA AW || UPRIGHT RIGHTDOWN DOWNLEFT LEFTUP
+		//WD DS SA AW 
 		if (this.keys["KeyW"] &&
 			this.keys["KeyD"]) {
 			//console.log("W");

@@ -89,6 +89,7 @@ io.on('connection', function(socket){
             return;
         }
 
+        //Player position in the world
         let x = data.position.x;
         let y = data.position.y;            
 
@@ -121,6 +122,7 @@ io.on('connection', function(socket){
                     })
                 };
 
+                //Only send relative positions of the other players
                 if (el.id != player.id) {
                     player.position = {
                         x: el.position.x - x,
@@ -151,6 +153,9 @@ io.on('connection', function(socket){
         }); */
 
         let serializedData = {
+            worldSize: { width: engine.WORLD_WIDTH, 
+                height: engine.WORLD_HEIGHT },
+            playerPosition: { x: x, y: y },
             players: players,
             resources: resources,
             structures: structures
