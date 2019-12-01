@@ -9,10 +9,6 @@
       <div class="hex"></div>
     </div>
     <!-- Main Game -->
-<!--     Audio of the Game
-    <audio id="audio_game" autoplay loop>
-        <source src="media/audio_game.mp3" type="audio/mpeg">
-    </audio> -->
     <audio id="audio_game" loop>
         <source src="media/audio_game.mp3" type="audio/mpeg">
     </audio>
@@ -38,8 +34,8 @@
                 <div><img src="img/time.svg"><div id="info_time">00:00</div></div>
                 <div><img src="img/money.svg"><div id="info_money">0</div>¶</div>
                 <hr>
-                <div class="tools"><img src="img/leaderboard.svg">Leaderboard</div>
-                <div class="tools"><img src="img/photos.svg">Share this moment</div>
+                <div class="tools"><img src="img/leaderboard.svg"><a href="/players" style="color: black; text-decoration: none;">Leaderboard</a></div>
+                <div class="tools"><img src="img/photos.svg"><a href="/favorites" style="color: black; text-decoration: none;">Share this moment</a></div>
                 <div class="tools"><img src="img/edit.svg">Shop</div>
                 <div class="tools"><img src="img/help.svg">Help</div>
                 <hr>
@@ -75,9 +71,9 @@
          <p>The goal of this game is to collect as many resources as you can. To achieve this, You have to deal with other strong challengers who aim to the same goal. You can build your armor by holding spikes, shields and enforcing your defense and attack power by adding more cells surrounding you. Write a name, click Play and then start the game.</p>
         <div>
             <div class="controls"><img src="img/w.svg" alt="w" width="30" height="30"> Move Forward</div>
-            <div class="controls"><img src="img/a.svg" alt="a" width="30" height="30"> Turn Left</div>
+            <div class="controls"><img src="img/a.svg" alt="a" width="30" height="30"> Move Left</div>
             <div class="controls"><img src="img/s.svg" alt="s" width="30" height="30"> Move Backward</div>
-            <div class="controls"><img src="img/d.svg" alt="d" width="30" height="30"> Turn Right</div>
+            <div class="controls"><img src="img/d.svg" alt="d" width="30" height="30"> Move Right</div>
         </div>
         <p>By clicking on the in-game menu, you can check your stats.</p>
         <div class="controls"><img src="img/leaderboard.svg"> is your position on the leaderboard.</div>

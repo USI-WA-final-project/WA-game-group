@@ -36,6 +36,7 @@ app.engine('dust', dust.dust);
 const routers = require(__dirname + '/routes/routers');
 app.use('/', routers.root);
 app.use('/players', routers.players);
+app.use('/favorites', routers.favorite);
 
 //Server start-up
 const server = app.listen(3000, function() {
