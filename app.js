@@ -153,12 +153,10 @@ io.on('connection', function(socket){
         }); */
 
         let serializedData = {
-            worldSize: { width: engine.WORLD_WIDTH, 
-                height: engine.WORLD_HEIGHT },
             playerPosition: { x: x, y: y },
             players: players,
-            resources: resources,
-            structures: structures
+            //resources: resources,
+            //structures: structures
         };
 
         socket.emit('drawWorld', serializedData);
@@ -213,8 +211,23 @@ io.on('connection', function(socket){
             case 3:
                 type = engine.BODYPART_TYPE.BOUNCE;
             break;
+            default:
+                console.log("Invalid type", data, "player", player.id, "-", player.username);
+                return;
         }
+
+        if (data.part < 0) {
+            console.log("Invalid part", data, "player", player.id, "-", player.username);
+            return;
+        }
+
+        if (data.face < 0 || data.face > 5) {
+            console.log("Invalid face", data, "player", player.id, "-", player.username);
+            return;
+        }
+
         res = engine.attach(player.id, type, data.part, data.face);
+
         if (res != 0) {
             console.log("Error (code", res, ") attaching part", data, "player", player.id, "-", player.username);
         }
