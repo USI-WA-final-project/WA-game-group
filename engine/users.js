@@ -63,7 +63,9 @@ class User {
 
         this.x = x;
         this.y = y;
+        // noinspection JSUnusedGlobalSymbols
         this.movedV = false;
+        // noinspection JSUnusedGlobalSymbols
         this.movedH = false;
 
         this.callbacks = [];
@@ -165,7 +167,8 @@ class User {
             newcoords.bwd -= 1;
         }
         // This *should* not be possible I think. If it turns out to be expensive maybe we can remove it.
-        if (this.components.find(cmp => cmp.coords.up  === newcoords.up
+        if (this.components.find(cmp => cmp.type === BODYPART_TYPE.CELL
+                                              && cmp.coords.up  === newcoords.up
                                               && cmp.coords.fwd === newcoords.fwd
                                               && cmp.coords.bwd === newcoords.bwd)) {
             return -4;
