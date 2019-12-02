@@ -21,7 +21,7 @@
         </button>
     </div>
 
-    <div class="editor-element">
+    <!--div class="editor-element">
         <label for="bounce">Buy Bouncer</label>
         <button type="button" id="bounce" name="bounce">
             <img src="img/bouncer.svg" id="bounce-edit" width="80px" height="80px" style="margin: 2em">
@@ -45,5 +45,5 @@
     <div class="editor-element" style="margin-top: 19.5px; margin-bottom: auto;">
         <span id="display-resources" style="margin-top: -4px; height: 23.5px;">Resources: 0</span>
         <img src="img/coin.svg" width="80px" height="80px" style="margin: 2em">
-    </div>
+    </div-->
 </div>
