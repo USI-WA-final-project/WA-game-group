@@ -218,7 +218,9 @@ io.on('connection', function(socket){
                 return;
         }
 
-        if (data.part < 0) {
+        player.bodyparts = engine.info(player.id).bodyparts;
+
+        if (data.part < 0 || player.bodyparts[data.part] === undefined) {
             console.log("Invalid part", data, "player", player.id, "-", player.username);
             socket.emit("message", "Invalid part " + data.part);
             return;
