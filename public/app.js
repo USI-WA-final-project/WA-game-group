@@ -208,16 +208,16 @@ class App {
 	    c.canvas.width = width;
 	    c.canvas.height = height;
 
-	    c.fillStyle = '#595959';
+	    c.fillStyle = '#f1f2f3';
 	    c.fillRect(0, 0, width, height);
 
-	    c.fillStyle = '#f2f9ff';
+	    c.fillStyle = '#fafbfc';
 	    c.fillRect(this.canvas.width/2, this.canvas.height/2, width - this.canvas.width, height - this.canvas.height);
 
-	    c.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+	    c.strokeStyle = 'rgba(0, 0, 0, 0.125)';
 	    c.lineWidth = 1;
 	    c.beginPath();
- 
+
 	    // vertical grid lines
 	    for (let x = this.canvas.width/2; x < lineW; x += 50) {
 	      c.moveTo(x, this.canvas.height/2);
@@ -299,8 +299,8 @@ class App {
 		this.infoCell.innerHTML = info.cell + "&nbsp;";
 		this.infoSpike.innerHTML = info.spike + "&nbsp;";
 		this.infoShield.innerHTML = info.shield + "&nbsp;";
-		this.time.innerHTML = (currentTime.getHours() < 10 ? ("0" + currentTime.getHours()) : currentTime.getHours()) + 
-			":" + (currentTime.getMinutes() < 10 ? ("0" + currentTime.getMinutes()) : currentTime.getMinutes()) + 
+		this.time.innerHTML = (currentTime.getHours() < 10 ? ("0" + currentTime.getHours()) : currentTime.getHours()) +
+			":" + (currentTime.getMinutes() < 10 ? ("0" + currentTime.getMinutes()) : currentTime.getMinutes()) +
 			":" + (currentTime.getSeconds() < 10 ? ("0" + currentTime.getSeconds()) : currentTime.getSeconds());
 	}
 
@@ -358,7 +358,7 @@ class App {
 	}
 
 	move() {
-		//WD DS SA AW 
+		//WD DS SA AW
 		if (this.keys["KeyW"] &&
 			this.keys["KeyD"]) {
 			//console.log("W");
