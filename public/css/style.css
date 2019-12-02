@@ -265,6 +265,10 @@ hr {
 	cursor: pointer;
 }
 
+#editor {
+	transform: scale(0.7);
+}
+
 .editor-bar {
 	text-align: center;
 	display: flex;
