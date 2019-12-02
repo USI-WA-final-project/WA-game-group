@@ -216,7 +216,13 @@ input:checked ~ .personal{
 
 #usname {
 	margin: 0.5rem 1rem;
+	font-size: 28px;
+	font-weight: bold;
 	word-break: break-word;
+}
+
+hr {
+	margin: 0.5rem 0;
 }
 
 #stats div #check {
