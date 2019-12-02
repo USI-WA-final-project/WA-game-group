@@ -34,8 +34,8 @@
                 <div><img src="img/time.svg"><div id="info_time">00:00</div></div>
                 <div><img src="img/money.svg"><div id="info_money">0</div>¶</div>
                 <hr>
-                <div class="tools"><img src="img/leaderboard.svg"><a href="/players" style="color: #333; text-decoration: none;">Leaderboard</a></div>
-                <div class="tools"><img src="img/photos.svg"><a href="/favorites" style="color: #333; text-decoration: none;">Share this moment</a></div>
+                <div class="tools"><img src="img/leaderboard.svg"><a href="/players" target="blank" style="color: #333; text-decoration: none;">Leaderboard</a></div>
+                <div class="tools"><img src="img/photos.svg"><a href="/favorites" target="blank" style="color: #333; text-decoration: none;">Share this moment</a></div>
                 <div class="tools"><img src="img/edit.svg">Shop</div>
                 <div class="tools"><img src="img/help.svg">Help</div>
                 <hr>

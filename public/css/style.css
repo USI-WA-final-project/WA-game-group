@@ -45,6 +45,18 @@ input, button {
 	padding: 1em;
 }
 
+#editor {
+	text-align: center;
+	padding: 1em;
+	top: 77vh;
+	position: absolute;
+	margin-left: 30vw;
+}
+
+.editor-element button:hover {
+	cursor: pointer;
+}
+
 /*- menu_enter -*/
 #canvas {
 	width: 100%;

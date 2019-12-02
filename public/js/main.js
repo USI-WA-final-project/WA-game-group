@@ -32,19 +32,19 @@ let inGame = false;
 window.onload = () => {
     //main page
     document.getElementById("jingle_menu").play();
-        let playback = true;
+    let playback = true;
 
-        document.getElementById("audio_menu").addEventListener('click', () => {
-            if (playback) {
-                document.getElementById("audio_menu").innerHTML = "<img src=\"img/music-off.svg\" alt=\"music_off\">";
-                document.getElementById("jingle_menu").pause();
-                playback = false;
-            } else {
-                document.getElementById("audio_menu").innerHTML = "<img src=\"img/music-on.svg\" alt=\"music_on\">";
-                document.getElementById("jingle_menu").play();
-                playback = true;
-            }
-        });
+    document.getElementById("audio_menu").addEventListener('click', () => {
+        if (playback) {
+            document.getElementById("audio_menu").innerHTML = "<img src=\"img/music-off.svg\" alt=\"music_off\">";
+            document.getElementById("jingle_menu").pause();
+            playback = false;
+        } else {
+            document.getElementById("audio_menu").innerHTML = "<img src=\"img/music-on.svg\" alt=\"music_on\">";
+            document.getElementById("jingle_menu").play();
+            playback = true;
+        }
+    });
     moveCursorToEnd(input_name);
     menu_enter.querySelector("div input").onkeyup = () => {
         angle += 45;
@@ -104,6 +104,8 @@ function startGame(e) {
         if (name != "" && /\S/.test(name)) {
             user_name = name;
         }
+
+        document.getElementById("editor").classList.toggle("hidden");
 
         document.getElementById("usname").innerHTML = "@" + user_name;
         menu_enter.parentNode.removeChild(menu_enter);
