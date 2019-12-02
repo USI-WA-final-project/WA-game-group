@@ -39,14 +39,14 @@ class Users {
     }
 
     with(id, cb) {
-        let found = this._users.find(elem => elem.id === id);
+        let found = this._users.find(elem => elem && elem.id === id);
         if (found){
             cb(found);
         }
     }
 
     find(id) {
-        let found = this._users.find(elem => elem.id === id);
+        let found = this._users.find(elem => elem && elem.id === id);
         if (found){
             return found;
         }
@@ -168,7 +168,8 @@ class User {
             newcoords.bwd -= 1;
         }
         // This *should* not be possible I think. If it turns out to be expensive maybe we can remove it.
-        if (this.components.find(cmp => cmp.type === BODYPART_TYPE.CELL
+        if (this.components.find(cmp => cmp
+                                              && cmp.type === BODYPART_TYPE.CELL
                                               && cmp.coords.up  === newcoords.up
                                               && cmp.coords.fwd === newcoords.fwd
                                               && cmp.coords.bwd === newcoords.bwd)) {
