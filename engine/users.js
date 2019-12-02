@@ -80,11 +80,13 @@ class User {
             }
         ];
         this.rotation = 0;
+        this.todo = [];
     }
 
     tick_reset() {
         this.movedH = false;
         this.movedV = false;
+        this.todo.forEach(fun => fun());
     }
 
     tick_parts() {
@@ -267,23 +269,27 @@ class User {
             this.act({action: ACTION.DESTROY});
             return;
         }
-        delete this.components[part];
-        this.components.forEach(component => {
-            component.faces = component.faces.map(val => {
-                if (val === part) {
-                    return -1;
-                }
-                return val;
-            })
-        });
+        this.todo.push(() => {
+            if (!this.components[part]) return;
+            delete this.components[part];
+            this.components.forEach(component => {
+                if (component.type !== BODYPART_TYPE.CELL) return;
+                component.faces = component.faces.map(val => {
+                    if (val === part) {
+                        return -1;
+                    }
+                    return val;
+                })
+            });
 
-        this.mark(0);
-        this.components.forEach((component, index) => {
-            if (!component.isVisited) {
-                delete this.components[index];
-            }
+            this.mark(0);
+            this.components.forEach((component, index) => {
+                if (!component.isVisited) {
+                    delete this.components[index];
+                }
+            });
+            this.unmark(0);
         });
-        this.unmark(0);
     }
 
     mark(root = 0, cb) {
@@ -311,8 +317,6 @@ class User {
     };
 
     collide_with_user(user) {
-        //TODO(anno): change this so it checks hypothetical collisions on move and prevents move if colliding
-
         let get_hitbox = (user, bodypart, index) => {
             let pos;
             let size;
@@ -390,10 +394,9 @@ class User {
                     this.collide(index, user, other_index);
                     user.collide(other_index, this, index);
                     collides = true;
-                    // TODO: talk about moves sent per tick from client.
                 }
             })
-        })
+        });
         return collides;
     }
 
