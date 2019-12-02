@@ -65,6 +65,11 @@ io.on('connection', function(socket){
     app.locals.playerColors = playerColors;
     socket.emit('playerColors', playerColors);
 
+    socket.emit('worldSize', { 
+        width: engine.WORLD_WIDTH, 
+        height: engine.WORLD_HEIGHT 
+    });
+
     //Register user in engine and DB
     socket.on('registerUser', function(user) {
         let playerInfo = engine.info(player.id);
