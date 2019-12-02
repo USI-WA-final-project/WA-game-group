@@ -29,6 +29,10 @@ let socket = undefined;
 let angle = 0;
 let inGame = false;
 
+document.addEventListener('beforeunload', function() {
+    socket.emit('terminatePlayer');
+});
+
 window.onload = () => {
     //main page
     document.getElementById("jingle_menu").play();
@@ -144,8 +148,9 @@ function startGame(e) {
 }
 
 function init(name) {
+    //console.log(worldSize);
     // Create canvas app
-    const app = new App({ canvas: 'canvas', 
+    const app = new App({ canvas: 'canvas',
                           inputs: { cell: 'cell', spike: 'spike', shield: 'shield', bounce: 'bounce' },
                           info: {cell: 'info_cells', spike: 'info_spikes', shield: 'info_shields', time: 'info_time' },
                           time: new Date() });
@@ -175,5 +180,9 @@ function init(name) {
     socket.on('drawWorld', function(data) {
         //console.log(data);
         app.drawMap(data);
+    });
+
+    socket.on('gameOver', function() {
+        app.gameOver();
     });
 }

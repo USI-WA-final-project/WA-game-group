@@ -56,21 +56,22 @@ class Editor {
 
         let face;
         let bestDistance = Infinity;
-        let counter = 0;
+        let counter = -1;
         let closest;
 
         for (let i = 0; i < this.centers.length; i++) {
             if (this.centers[i] != -1) {
-                counter++;
-                let currentDist = calcDistance(this.focus, this.centers[i]);
-                if (currentDist < bestDistance) {
+                let currentDist = this.calcDistance(this.focus, this.centers[i]);
+                console.log(currentDist);
+                if (currentDist <= bestDistance) {
                     bestDistance = currentDist;
                     closest = this.centers[i];
+                    counter++;
                 }
             }
         }
         this.counter = counter;
-        face = checkFace(this.focus, closest);
+        face = this.checkFace(this.focus, closest);
         return face;
     }
 
@@ -95,7 +96,7 @@ class Editor {
      * @returns {number} The number of the face between 0 and 5
      */
     checkFace(focus, center) {
-        if (focus.y >= center.y) {
+        if (focus.y <= center.y) {
             if (focus.x >= center.x + 8) {
                 return 2;
             } else if (focus.x < center.x + 8 && focus.x > center.x - 8) {

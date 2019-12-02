@@ -10,6 +10,11 @@ class App {
 
 		this.ctx = this.canvas.getContext('2d');
 
+		// this.worldW = object.world.width;
+		// this.worldH = object.world.height;
+
+		// console.log(this.worldW, this.worldH);
+
 		//graphic interface
 		this.composer = new Composer(new CanvasInterface(this.canvas));
 		this.gridImage =  this.drawGrid();
@@ -208,8 +213,8 @@ class App {
 	    // temp canvas to build the world img
 	    const c = document.createElement('canvas').getContext('2d');
 
-	    const width = 1000 + this.canvas.width;
-	    const height = 1000 + this.canvas.height;
+	    const width = 2000 + this.canvas.width;
+	    const height = 2000 + this.canvas.height;
 
 	    const lineW = width - this.canvas.width/2;
 	    const lineH = height - this.canvas.height/2;
@@ -257,7 +262,17 @@ class App {
 		let visited = [];
 		components.forEach((el) => {
 			if (el.type == 0) {
-				visited.push([0, 0, 0, 0, 0, 0]);
+				// let arr = [];
+				// for (let i = 0; i < 6; i++) {
+				// 	if (el.faces[i] != -1) {
+				// 		arr[i] = 1;
+				// 	} else {
+				// 		arr[i] = 0;
+				// 	}
+				// }
+				visited.push([0,0,0,0,0,0]);
+			} else {
+				visited.push(-1);
 			}
 		});
 
@@ -276,14 +291,17 @@ class App {
 
 						visited[counter][i] = 1; 
 						let oppositeFace = (i+3)%6;
-						visited[el.faces[i]][oppositeFace] = 1;
+						if (components[el.faces[i]].type == 0) {
+							visited[el.faces[i]][oppositeFace] = 1;
+						}
 					}
 				}
+			} else {
+				componentsCenter.push(-1);
 			}
-			componentsCenter.push(-1);
 		});
-
-		//console.log(componentsCenter, visited);
+		this.editor.centers = componentsCenter;
+		console.log(componentsCenter, visited);
 	}
 
 	updateInfo(elems) {
@@ -422,6 +440,11 @@ class App {
 		localStorage.setItem('user_name', name);
 		//console.log(user_name);
 		socket.emit('registerUser',  name);
+	}
+
+	gameOver() {
+		this.disableInput();
+
 	}
 
 
