@@ -101,16 +101,45 @@ var database = {
     },
 
     /**
-     * Updates the player data (TODO)
+     * Updates the player data iff it already exists
      * @param {Number} id The player id
      * @param {Object} newPlayer The new player object
+     * @returns true on success, false otherwise
      */
     update: function(id, newPlayer) {
         const filter = { id: id };
 
-        Player.find(filter).then(function(found) {   
-            //TODO
-            found[0].save().then(function(saved) {
+        Player.find(filter).then(function(found) {
+            let old = found[0];
+            if (newPlayer.id != undefined && newPlayer.id != old.id) {
+                old.id = newPlayer.id;
+            }
+            if (newPlayer.color != undefined && newPlayer.color != old.color) {
+                old.color = newPlayer.color;
+            }
+            if (newPlayer.username != undefined && newPlayer.username != old.username) {
+                old.username = newPlayer.username;
+            }
+            if (newPlayer.spawnPos.x != undefined && newPlayer.spawnPos.x != old.spawnPos.x) {
+                old.spawnPos.x = newPlayer.spawnPos.x;
+            }
+            if (newPlayer.spawnPos.y != undefined && newPlayer.spawnPos.y != old.spawnPos.y) {
+                old.spawnPos.y = newPlayer.spawnPos.y;
+            }
+            if (newPlayer.dateStarted != undefined && newPlayer.dateStarted != old.dateStarted) {
+                old.dateStarted = newPlayer.dateStarted;
+            }
+            if (newPlayer.dateEnded != undefined && newPlayer.dateEnded != old.dateEnded) {
+                old.dateEnded = newPlayer.dateEnded;
+            }
+            if (newPlayer.active != undefined && newPlayer.active != old.active) {
+                old.active = newPlayer.active;
+            }
+            if (newPlayer.score != undefined && newPlayer.score != old.score) {
+                old.score = newPlayer.score;
+            }
+
+            old.save().then(function(saved) {
                 console.log('Updated player', saved.id, '-', saved.username);
                 return true;
             }).catch(function(err) {
