@@ -59,7 +59,8 @@ io.on('connection', function(socket){
         id: engine.create(),
         username: null,
         color: null, 
-        spawnPos: {}
+        spawnPos: {},
+        active: true
     };
 
     app.locals.playerColors = playerColors;
@@ -248,5 +249,14 @@ io.on('connection', function(socket){
     socket.on('terminatePlayer', function(){
         console.log('Client disconnected');
         engine.remove(player.id);
+        player.active = false;
+    });
+
+    socket.on('disconnect', function(){
+        if (player.active) {
+            console.log('Client disconnected');
+            engine.remove(player.id);
+            player.active = false;
+        }        
     });
 });
