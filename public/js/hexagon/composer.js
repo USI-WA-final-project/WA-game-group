@@ -53,61 +53,6 @@ class Composer {
 
     /* Hexagon */
 
-    drawHexagonChild(obj, index, side, ctx, perkBegin, cellBegin, center) {
-        if (index < 0) return;
-        const type = obj[index].type;
-
-        if (type === CHILD_TYPE_FREE) return;
-        if (type === CHILD_TYPE_CELL) {
-            switch (side) {
-                case 0:
-                    return this.drawHexagon3(obj, index, ctx, cellBegin, center);
-                case 1:
-                    return this.drawHexagon4(obj, index, ctx, cellBegin, center);
-                case 2:
-                    return this.drawHexagon5(obj, index, ctx, cellBegin, center);
-                case 3:
-                    return this.drawHexagon0(obj, index, ctx, cellBegin, center);
-                case 4:
-                    return this.drawHexagon1(obj, index, ctx, cellBegin, center);
-                case 5:
-                    return this.drawHexagon2(obj, index, ctx, cellBegin, center);
-            }
-        }
-        if (type === CHILD_TYPE_SPIKE) {
-            switch (side) {
-                case 0:
-                    return this.drawSpike0(ctx, perkBegin);
-                case 1:
-                    return this.drawSpike1(ctx, perkBegin);
-                case 2:
-                    return this.drawSpike2(ctx, perkBegin);
-                case 3:
-                    return this.drawSpike3(ctx, perkBegin);
-                case 4:
-                    return this.drawSpike4(ctx, perkBegin);
-                case 5:
-                    return this.drawSpike5(ctx, perkBegin);
-            }
-        }
-        if (type === CHILD_TYPE_SHIELD) {
-            switch (side) {
-                case 0:
-                    return this.drawShield0(ctx, perkBegin);
-                case 1:
-                    return this.drawShield1(ctx, perkBegin);
-                case 2:
-                    return this.drawShield2(ctx, perkBegin);
-                case 3:
-                    return this.drawShield3(ctx, perkBegin);
-                case 4:
-                    return this.drawShield4(ctx, perkBegin);
-                case 5:
-                    return this.drawShield5(ctx, perkBegin);
-            }
-        }
-    }
-
     initHexagon(index, ctx, isCore = false) {
         if (this.visited[index] !== STATUS_TO_VISIT) return false;
         this.visited[index] = STATUS_VISITING;
@@ -173,8 +118,6 @@ class Composer {
         ctx.lineTo(begin.x - 24, begin.y + 14); // l 8 14
         ctx.lineTo(begin.x - 8, begin.y + 14); // l 16 0
         ctx.lineTo(begin.x, begin.y); // l 8 -14
-        ctx.closePath();
-        ctx.fill();
 
         this.finalizeHexagon(obj, index, ctx, begin, center);
     }
@@ -189,8 +132,6 @@ class Composer {
         ctx.lineTo(begin.x - 24, begin.y - 14); // l -8 14
         ctx.lineTo(begin.x - 16, begin.y); // l 8 14
         ctx.lineTo(begin.x, begin.y); // l 16 0
-        ctx.closePath();
-        ctx.fill();
 
         this.finalizeHexagon(obj, index, ctx, begin, center);
     }
@@ -205,8 +146,6 @@ class Composer {
         ctx.lineTo(begin.x, begin.y - 28); // l -16 0
         ctx.lineTo(begin.x - 8, begin.y - 14); // l -8 14
         ctx.lineTo(begin.x, begin.y); // l 8 14
-        ctx.closePath();
-        ctx.fill();
 
         this.finalizeHexagon(obj, index, ctx, begin, center);
     }
@@ -221,8 +160,6 @@ class Composer {
         ctx.lineTo(begin.x + 24, begin.y - 14); // l -8 -14
         ctx.lineTo(begin.x + 8, begin.y - 14); // l -16 0
         ctx.lineTo(begin.x, begin.y); // l -8 14
-        ctx.closePath();
-        ctx.fill();
 
         this.finalizeHexagon(obj, index, ctx, begin, center);
     }
@@ -237,7 +174,63 @@ class Composer {
             const nextCenter = this.getNextCenter(center, i);
             const nextPerkBegin = this.getNextPerkBegin(center, i);
             const nextCellBegin = this.getNextCellBegin(center, i);
+
             this.drawHexagonChild(obj, childIndex, i, ctx, nextPerkBegin, nextCellBegin, nextCenter);
+        }
+    }
+
+    drawHexagonChild(obj, index, side, ctx, perkBegin, cellBegin, center) {
+        if (index < 0) return;
+        const type = obj[index].type;
+
+        if (type === CHILD_TYPE_FREE) return;
+        if (type === CHILD_TYPE_CELL) {
+            switch (side) {
+                case 0:
+                    return this.drawHexagon0(obj, index, ctx, cellBegin, center);
+                case 1:
+                    return this.drawHexagon1(obj, index, ctx, cellBegin, center);
+                case 2:
+                    return this.drawHexagon2(obj, index, ctx, cellBegin, center);
+                case 3:
+                    return this.drawHexagon3(obj, index, ctx, cellBegin, center);
+                case 4:
+                    return this.drawHexagon4(obj, index, ctx, cellBegin, center);
+                case 5:
+                    return this.drawHexagon5(obj, index, ctx, cellBegin, center);
+            }
+        }
+        if (type === CHILD_TYPE_SPIKE) {
+            switch (side) {
+                case 0:
+                    return this.drawSpike0(ctx, perkBegin);
+                case 1:
+                    return this.drawSpike1(ctx, perkBegin);
+                case 2:
+                    return this.drawSpike2(ctx, perkBegin);
+                case 3:
+                    return this.drawSpike3(ctx, perkBegin);
+                case 4:
+                    return this.drawSpike4(ctx, perkBegin);
+                case 5:
+                    return this.drawSpike5(ctx, perkBegin);
+            }
+        }
+        if (type === CHILD_TYPE_SHIELD) {
+            switch (side) {
+                case 0:
+                    return this.drawShield0(ctx, perkBegin);
+                case 1:
+                    return this.drawShield1(ctx, perkBegin);
+                case 2:
+                    return this.drawShield2(ctx, perkBegin);
+                case 3:
+                    return this.drawShield3(ctx, perkBegin);
+                case 4:
+                    return this.drawShield4(ctx, perkBegin);
+                case 5:
+                    return this.drawShield5(ctx, perkBegin);
+            }
         }
     }
 
@@ -395,23 +388,30 @@ class Composer {
         ctx.fill();
     }
 
-    getNextCenter(point, childPosition) {
-        if (childPosition < 0 || childPosition > 5)
+    /**
+     * Get the center of a cell attached to the side of an hexagon
+     *
+     * @param currCenter The "parent" hexagon's center
+     * @param childSide The side of the parent where child is anchored
+     * @returns {{x: number, y: number}}
+     */
+    getNextCenter(currCenter, childSide) {
+        if (childSide < 0 || childSide > 5)
             throw "Child position must be between 0 and 5";
 
-        switch (childPosition) {
+        switch (childSide) {
             case 0:
-                return {x: point.x - 24, y: point.y - 14};
+                return {x: currCenter.x - 24, y: currCenter.y - 14};
             case 1:
-                return {x: point.x + 24, y: point.y - 14};
+                return {x: currCenter.x, y: currCenter.y - 28};
             case 2:
-                return {x: point.x + 24, y: point.y + 14};
+                return {x: currCenter.x + 24, y: currCenter.y - 14};
             case 3:
-                return {x: point.x, y: point.y + 28};
+                return {x: currCenter.x + 24, y: currCenter.y + 14};
             case 4:
-                return {x: point.x - 24, y: point.y + 14};
-            case 5:
-                return {x: point.x - 24, y: point.y - 14};
+                return {x: currCenter.x, y: currCenter.y + 28};
+                case 5:
+                return {x: currCenter.x - 24, y: currCenter.y + 14};
         }
     }
 
@@ -421,8 +421,8 @@ class Composer {
                 // [16, 16] -> [8, 2]
                 return {x: center.x - 8, y: center.y - 14};
             case 1:
-                // [16, 16] -> [8, 2]
-                return {x: center.x - 8, y: center.y - 14};
+                // [16, 16] -> [24, 2]
+                return {x: center.x + 8, y: center.y - 14};
             case 2:
                 // [16, 16] -> [32, 16]
                 return {x: center.x + 16, y: center.y};
@@ -443,23 +443,23 @@ class Composer {
     getNextCellBegin(center, newSide) {
         switch (newSide) {
             case 0:
-                // [16, 16] -> [8, 16]
-                return {x: center.x - 16, y: center.y};
-            case 1:
-                // [16, 16] -> [24, 2]
-                return {x: center.x - 8, y: center.y - 14};
-            case 2:
-                // [16, 16] -> [32, 16]
-                return {x: center.x + 8, y: center.y - 14};
-            case 3:
                 // [16, 16] -> [24, 30]
-                return {x: center.x + 16, y: center.y};
-            case 4:
+                return {x: center.x - 32, y: center.y - 28};
+            case 1:
                 // [16, 16] -> [8, 30]
-                return {x: center.x + 8, y: center.y + 14};
-            case 5:
+                return {x: center.x + 8, y: center.y - 42};
+            case 2:
                 // [16, 16] -> [0, 16]
-                return {x: center.x - 8, y: center.y + 14};
+                return {x: center.x + 40, y: center.y - 14};
+            case 3:
+                // [16, 16] -> [8, 2]
+                return {x: center.x + 32, y: center.y + 28};
+            case 4:
+                // [16, 16] -> [24, 2]
+                return {x: center.x - 8, y: center.y + 42};
+            case 5:
+                // [16, 16] -> [32, 16]
+                return {x: center.x - 40, y: center.y + 14};
             default:
                 return center;
         }

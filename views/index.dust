@@ -1,5 +1,5 @@
 {>"partials/header" /}
-    <div class="hero"> 
+    <div class="hero">
       <div class="hex"></div>
       <div class="hex"></div>
       <div class="hex"></div>
@@ -9,28 +9,24 @@
       <div class="hex"></div>
     </div>
     <!-- Main Game -->
-<!--     Audio of the Game
-    <audio id="audio_game" autoplay loop>
-        <source src="media/audio_game.mp3" type="audio/mpeg">
-    </audio> -->
     <audio id="audio_game" loop>
         <source src="media/audio_game.mp3" type="audio/mpeg">
     </audio>
     <canvas id="canvas" tabindex="1"></canvas>
-   
+
     <div id="stats" class="hidden sidebar">
         <!-- Toggle it when clicking on Play -->
-        <div>
-            <h1 id="usname">Username</h1>
-            <div class="divider"></div>
+        <div style="padding: 25px">
+            <p id="usname">Username</p>
+            <hr>
             <div id="minimal">
                 <img src="img/score.svg">3
                 <img src="img/heart-rate.svg" width="24" height="20">Good
             </div>
-            <div class="divider"></div>
+            <hr>
             <input id="check" type="checkbox" name="stats" class="hidden"/>
-            <label id="more" for="check">More <img src="img/caret-down.svg" width="24" height="20"></label>
-            <label id="less" for="check" class="hidden">Less <img src="img/caret-up.svg" width="24" height="20"></label>
+            <label id="more" for="check">More  <img src="img/caret-down.svg" width="24" height="20"></label>
+            <label id="less" for="check" class="hidden">Less  <img src="img/caret-up.svg" width="24" height="20"></label>
             <div class="personal">
                 <div class="personal_item"><img src="img/cell.svg"><div id="info_cells">0 </div> cells</div>
                 <div class="personal_item"><img src="img/spike.svg"><div id="info_spikes">0</div>spikes</div>
@@ -38,8 +34,8 @@
                 <div><img src="img/time.svg"><div id="info_time">00:00</div></div>
                 <div><img src="img/money.svg"><div id="info_money">0</div>¶</div>
                 <hr>
-                <div class="tools"><img src="img/leaderboard.svg">Leaderboard</div>
-                <div class="tools"><img src="img/photos.svg">Share this moment</div>
+                <div class="tools"><img src="img/leaderboard.svg"><a href="/players" target="blank" style="color: #333; text-decoration: none;">Leaderboard</a></div>
+                <div class="tools"><img src="img/photos.svg"><a href="/favorites" target="blank" style="color: #333; text-decoration: none;">Share this moment</a></div>
                 <div class="tools"><img src="img/edit.svg">Shop</div>
                 <div class="tools"><img src="img/help.svg">Help</div>
                 <hr>
@@ -63,11 +59,12 @@
         </div>
         <button type="submit">Play</button>
         <div id="options">
-            <div id="audio_menu"><img src="img/music-on.svg" alt="music_off"></div>
-            <ul>
-                <li id="rules"><img src="img/controls.svg" alt="joystick">Rules & Controls</li>
-                <li id="info"><img src="img/info.svg" alt="info">Info</li>
-            </ul>
+            <div id="audio_menu"><img src="img/music-on.svg" alt="music off"></div>
+                <ul>
+                    <li id="rules"><img src="img/controls.svg" alt="joystick">Rules & Controls</li>
+                    <li id="info"><img src="img/info.svg" alt="info">Info</li>
+                </ul>
+            </div>
         </div>
     </div>
     <div id="menu_rules" class="menu_enter hidden">
@@ -75,9 +72,9 @@
          <p>The goal of this game is to collect as many resources as you can. To achieve this, You have to deal with other strong challengers who aim to the same goal. You can build your armor by holding spikes, shields and enforcing your defense and attack power by adding more cells surrounding you. Write a name, click Play and then start the game.</p>
         <div>
             <div class="controls"><img src="img/w.svg" alt="w" width="30" height="30"> Move Forward</div>
-            <div class="controls"><img src="img/a.svg" alt="a" width="30" height="30"> Turn Left</div>
+            <div class="controls"><img src="img/a.svg" alt="a" width="30" height="30"> Move Left</div>
             <div class="controls"><img src="img/s.svg" alt="s" width="30" height="30"> Move Backward</div>
-            <div class="controls"><img src="img/d.svg" alt="d" width="30" height="30"> Turn Right</div>
+            <div class="controls"><img src="img/d.svg" alt="d" width="30" height="30"> Move Right</div>
         </div>
         <p>By clicking on the in-game menu, you can check your stats.</p>
         <div class="controls"><img src="img/leaderboard.svg"> is your position on the leaderboard.</div>

@@ -36,6 +36,7 @@ app.engine('dust', dust.dust);
 const routers = require(__dirname + '/routes/routers');
 app.use('/', routers.root);
 app.use('/players', routers.players);
+app.use('/favorites', routers.favorite);
 
 //Server start-up
 const server = app.listen(3000, function() {
@@ -153,12 +154,10 @@ io.on('connection', function(socket){
         }); */
 
         let serializedData = {
-            worldSize: { width: engine.WORLD_WIDTH, 
-                height: engine.WORLD_HEIGHT },
             playerPosition: { x: x, y: y },
             players: players,
-            resources: resources,
-            structures: structures
+            //resources: resources,
+            //structures: structures
         };
 
         socket.emit('drawWorld', serializedData);
@@ -213,10 +212,31 @@ io.on('connection', function(socket){
             case 3:
                 type = engine.BODYPART_TYPE.BOUNCE;
             break;
+            default:
+                console.log("Invalid type", data, "player", player.id, "-", player.username);
+                socket.emit("message", "Invalid type " + data.type);
+                return;
         }
+
+        player.bodyparts = engine.info(player.id).bodyparts;
+
+        if (data.part < 0 || player.bodyparts[data.part] === undefined) {
+            console.log("Invalid part", data, "player", player.id, "-", player.username);
+            socket.emit("message", "Invalid part " + data.part);
+            return;
+        }
+
+        if (data.face < 0 || data.face > 5) {
+            console.log("Invalid face", data, "player", player.id, "-", player.username);
+            socket.emit("message", "Invalid face " + data.face);
+            return;
+        }
+
         res = engine.attach(player.id, type, data.part, data.face);
+
         if (res != 0) {
             console.log("Error (code", res, ") attaching part", data, "player", player.id, "-", player.username);
+            socket.emit("message", "Invalid attach (code " + res + ")");
         }
     });
 

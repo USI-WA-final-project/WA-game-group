@@ -36,7 +36,7 @@ class App {
 		this.editor = undefined;
 
 		//current type and face to edit
-		this.cellEdited = {type: undefined, face: undefined};
+		this.cellEdited = {type: undefined, part: undefined, face: undefined};
 
 		//inputs
 		this.cell = document.getElementById(object.inputs.cell);
@@ -57,6 +57,15 @@ class App {
 
 		window.addEventListener('resize', (e) => {
 			this.composer = new Composer(new CanvasInterface(this.canvas));
+			this.gridImage = this.drawGrid();
+		});
+
+		this.canvas.addEventListener('blur', (e) => {
+			this.keys = {};
+		});
+
+		document.getElementById('stats').addEventListener('mouseout', (e) => {
+			this.canvas.focus();
 		});
 
 	}
@@ -83,6 +92,26 @@ class App {
 			this.editor =  new Editor(this.playerBody);
 			this.cellEdited.type = edit;
 		}
+	}
+
+	setEditCell() {
+		this.editor = new Editor();
+		this.cellEdited.type = 0;
+	}
+
+	setEditSpike() {
+		this.editor = new Editor();
+		this.cellEdited.type = 1;
+	}
+
+	setEditShield() {
+		this.editor = new Editor();
+		this.cellEdited.type = 2;
+	}
+
+	setEditBounce() {
+		this.editor = new Editor();
+		this.cellEdited.type = 3;
 	}
 
 	searchCell(e){
@@ -137,9 +166,26 @@ class App {
 		}
 	}
 
+	setFace(e) {
+		if (this.editor != undefined) {
+			this.editor.focus = {x: e.offsetX, y: e.offsetY};
+			this.cellEdited.face =  this.editor.findFace();
+			this.cellEdited.part = this.editor.counter;
+
+			if (this.cellEdited.type != undefined && this.cellEdited.face != undefined) {
+				console.log(this.cellEdited.type, this.editor.counter, this.cellEdited.face);
+				socket.emit('attachPart', { type: this.cellEdited.type, 
+											part: this.cellEdited.part, 
+											face: this.cellEdited.face });
+				//stop edit
+				this.editor = undefined;
+			}
+		}
+	}
+
 	drawMap(data) {
 		this.clearCanvas();
-		//console.log(data.playerPosition);
+		
 		let sx = data.playerPosition.x;
 		let sy = data.playerPosition.y;
 		this.ctx.drawImage(this.gridImage, sx, sy, this.canvas.width, this.canvas.height, 0, 0, this.canvas.width, this.canvas.height);
@@ -149,6 +195,9 @@ class App {
 			if (elem.position.x == 0 && elem.position.y == 0) {
 				this.playerBody = elem.components;
 				this.updateInfo(this.playerBody);
+				/*if (this.editor != undefined){
+					this.setCenters(this.playerBody);
+				}*/
 			}
 
 			this.drawPlayer(elem.components, elem.color, elem.position);
@@ -168,16 +217,16 @@ class App {
 	    c.canvas.width = width;
 	    c.canvas.height = height;
 
-	    c.fillStyle = '#595959';
+	    c.fillStyle = '#f1f2f3';
 	    c.fillRect(0, 0, width, height);
 
-	    c.fillStyle = '#f2f9ff';
+	    c.fillStyle = '#fafbfc';
 	    c.fillRect(this.canvas.width/2, this.canvas.height/2, width - this.canvas.width, height - this.canvas.height);
 
-	    c.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+	    c.strokeStyle = 'rgba(0, 0, 0, 0.125)';
 	    c.lineWidth = 1;
 	    c.beginPath();
- 
+
 	    // vertical grid lines
 	    for (let x = this.canvas.width/2; x < lineW; x += 50) {
 	      c.moveTo(x, this.canvas.height/2);
@@ -197,9 +246,44 @@ class App {
 
 	    gridImage.src = c.canvas.toDataURL();
 
-	    console.log(gridImage.size);
+	    //console.log(gridImage.size);
 
 	    return gridImage;
+	}
+
+	setCenters(components) {
+		//console.log(components);
+		let componentsCenter = [{x: this.canvas.width/2, y: this.canvas.height/2}];
+		let visited = [];
+		components.forEach((el) => {
+			if (el.type == 0) {
+				visited.push([0, 0, 0, 0, 0, 0]);
+			}
+		});
+
+		let counter = -1;
+		components.forEach((el) => {
+			counter++;
+			if (el.type == 0) {
+				for (let i = 0; i < 6; i++) {
+					if (el.faces[i] != -1) {
+						if (components[el.faces[i]].type == 0 ) {
+							if (visited[counter][i] != 1) {
+								//console.log(componentsCenter[counter], i);
+								componentsCenter.push(this.composer.getNextCenter(componentsCenter[counter], i));
+							}
+						}
+
+						visited[counter][i] = 1; 
+						let oppositeFace = (i+3)%6;
+						visited[el.faces[i]][oppositeFace] = 1;
+					}
+				}
+			}
+			componentsCenter.push(-1);
+		});
+
+		//console.log(componentsCenter, visited);
 	}
 
 	updateInfo(elems) {
@@ -224,8 +308,8 @@ class App {
 		this.infoCell.innerHTML = info.cell + "&nbsp;";
 		this.infoSpike.innerHTML = info.spike + "&nbsp;";
 		this.infoShield.innerHTML = info.shield + "&nbsp;";
-		this.time.innerHTML = (currentTime.getHours() < 10 ? ("0" + currentTime.getHours()) : currentTime.getHours()) + 
-			":" + (currentTime.getMinutes() < 10 ? ("0" + currentTime.getMinutes()) : currentTime.getMinutes()) + 
+		this.time.innerHTML = (currentTime.getHours() < 10 ? ("0" + currentTime.getHours()) : currentTime.getHours()) +
+			":" + (currentTime.getMinutes() < 10 ? ("0" + currentTime.getMinutes()) : currentTime.getMinutes()) +
 			":" + (currentTime.getSeconds() < 10 ? ("0" + currentTime.getSeconds()) : currentTime.getSeconds());
 	}
 
@@ -242,14 +326,20 @@ class App {
 	}
 
 	enableInput() {
-		console.log("enabled");
 		this.canvas.focus();
 		this.canvas.addEventListener('keydown', this.onKeyDown.bind(this));
+		//inputs
+		/*this.cell.addEventListener('click', this.setEditCell.bind(this));
+		this.shield.addEventListener('click', this.setEditShield.bind(this));
+		this.spike.addEventListener('click', this.setEditSpike.bind(this));
+		this.bounce.addEventListener('click', this.setEditBounce.bind(this));*/
+
+		//this.canvas.addEventListener('click', this.setFace.bind(this));
+
 		this.canvas.addEventListener('keyup', this.onKeyUp.bind(this));
 	}
 
 	disableInput() {
-		console.log("disabled");
 		this.canvas.blur();
 		this.canvas.removeEventListener('keydown', this.onKeyDown);
 		this.canvas.removeEventListener('keyup', this.onKeyUp);
@@ -277,7 +367,7 @@ class App {
 	}
 
 	move() {
-		//WD DS SA AW 
+		//WD DS SA AW
 		if (this.keys["KeyW"] &&
 			this.keys["KeyD"]) {
 			//console.log("W");
