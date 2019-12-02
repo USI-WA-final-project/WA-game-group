@@ -200,9 +200,9 @@ class App {
 			if (elem.position.x == 0 && elem.position.y == 0) {
 				this.playerBody = elem.components;
 				this.updateInfo(this.playerBody);
-				/*if (this.editor != undefined){
+				if (this.editor != undefined){
 					this.setCenters(this.playerBody);
-				}*/
+				}
 			}
 
 			this.drawPlayer(elem.components, elem.color, elem.position);
@@ -233,13 +233,13 @@ class App {
 	    c.beginPath();
 
 	    // vertical grid lines
-	    for (let x = this.canvas.width/2; x < lineW; x += 50) {
+	    for (let x = this.canvas.width/2; x <= lineW; x += 50) {
 	      c.moveTo(x, this.canvas.height/2);
 	      c.lineTo(x, lineH);
 	    }
 
 	    // horizontal grid lines
-	    for (let y = this.canvas.height/2; y < lineH; y += 50) {
+	    for (let y = this.canvas.height/2; y <= lineH; y += 50) {
 	      c.moveTo(this.canvas.width/2, y);
 	      c.lineTo(lineW, y);
 	    }
@@ -257,51 +257,52 @@ class App {
 	}
 
 	setCenters(components) {
-		//console.log(components);
-		let componentsCenter = [{x: this.canvas.width/2, y: this.canvas.height/2}];
+		console.log(components.length);
+		let componentsCenter = Array.from(new Array(components.length));
+		componentsCenter[0] = {x: this.canvas.width/2, y: this.canvas.height/2};
 		let visited = [];
 		components.forEach((el) => {
 			if (el.type == 0) {
-				// let arr = [];
-				// for (let i = 0; i < 6; i++) {
-				// 	if (el.faces[i] != -1) {
-				// 		arr[i] = 1;
-				// 	} else {
-				// 		arr[i] = 0;
-				// 	}
-				// }
-				visited.push([0,0,0,0,0,0]);
+				visited.push(0);
 			} else {
 				visited.push(-1);
 			}
 		});
 
-		let counter = -1;
-		components.forEach((el) => {
-			counter++;
-			if (el.type == 0) {
-				for (let i = 0; i < 6; i++) {
-					if (el.faces[i] != -1) {
-						if (components[el.faces[i]].type == 0 ) {
-							if (visited[counter][i] != 1) {
-								//console.log(componentsCenter[counter], i);
-								componentsCenter.push(this.composer.getNextCenter(componentsCenter[counter], i));
-							}
-						}
+		/*
 
-						visited[counter][i] = 1; 
-						let oppositeFace = (i+3)%6;
-						if (components[el.faces[i]].type == 0) {
-							visited[el.faces[i]][oppositeFace] = 1;
+			if (visited[node] == 0) {
+				if (components[node].type == 0){
+					componentsCenter[node] = this.composer.getNextCenter(componentsCenter[j], k);
+				} else {
+					componentsCenter[node] = -1;
+				}
+			}
+		});*/
+
+		for (let j = 0; j < components.length; j++) {
+				if (components[j].type == 0) {
+					for (let k = 0; k < 6; k++) {
+
+						let node = components[j].faces[k];
+						console.log(node);
+						if (node != -1) {
+							if (components[node].type == 0 && visited[node] == 0){
+								componentsCenter[node] = this.composer.getNextCenter(componentsCenter[j], k);
+							}
+
+							visited[node] = 1;
 						}
 					}
+				} else {
+					componentsCenter[j] = -1;
 				}
-			} else {
-				componentsCenter.push(-1);
-			}
-		});
+				visited[j] = 1;
+			
+		}
+
 		this.editor.centers = componentsCenter;
-		console.log(componentsCenter, visited);
+		console.log(componentsCenter, visited, this.playerBody);
 	}
 
 	updateInfo(elems) {
@@ -347,12 +348,12 @@ class App {
 		this.canvas.focus();
 		this.canvas.addEventListener('keydown', this.onKeyDown.bind(this));
 		//inputs
-		/*this.cell.addEventListener('click', this.setEditCell.bind(this));
+		this.cell.addEventListener('click', this.setEditCell.bind(this));
 		this.shield.addEventListener('click', this.setEditShield.bind(this));
 		this.spike.addEventListener('click', this.setEditSpike.bind(this));
-		this.bounce.addEventListener('click', this.setEditBounce.bind(this));*/
+		//this.bounce.addEventListener('click', this.setEditBounce.bind(this));
 
-		//this.canvas.addEventListener('click', this.setFace.bind(this));
+		this.canvas.addEventListener('click', this.setFace.bind(this));
 
 		this.canvas.addEventListener('keyup', this.onKeyUp.bind(this));
 	}

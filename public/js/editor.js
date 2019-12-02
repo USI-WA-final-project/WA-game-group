@@ -56,7 +56,7 @@ class Editor {
 
         let face;
         let bestDistance = Infinity;
-        let counter = -1;
+        let counter = 0;
         let closest;
 
         for (let i = 0; i < this.centers.length; i++) {
@@ -64,13 +64,15 @@ class Editor {
                 let currentDist = this.calcDistance(this.focus, this.centers[i]);
                 console.log(currentDist);
                 if (currentDist <= bestDistance) {
+                    console.log("better");
                     bestDistance = currentDist;
                     closest = this.centers[i];
-                    counter++;
+                    counter = i;
                 }
             }
         }
         this.counter = counter;
+        console.log(counter, this.focus);
         face = this.checkFace(this.focus, closest);
         return face;
     }
