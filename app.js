@@ -240,7 +240,7 @@ io.on('connection', function(socket){
         }
     });
 
-    socket.on('disconnect', function(){
+    socket.on('terminatePlayer', function(){
         console.log('Client disconnected');
         engine.remove(player.id);
     });
