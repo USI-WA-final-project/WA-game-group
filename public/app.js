@@ -57,6 +57,15 @@ class App {
 
 		window.addEventListener('resize', (e) => {
 			this.composer = new Composer(new CanvasInterface(this.canvas));
+			this.gridImage = this.drawGrid();
+		});
+
+		this.canvas.addEventListener('blur', (e) => {
+			this.keys = {};
+		});
+
+		document.getElementById('stats').addEventListener('mouseout', (e) => {
+			this.canvas.focus();
 		});
 
 	}
@@ -80,7 +89,7 @@ class App {
 		} 
 
 		if (edit != undefined) {
-			this.editor =  new Editor();
+			this.editor =  new Editor(this.playerBody);
 			this.cellEdited.type = edit;
 		}
 	}
@@ -186,9 +195,9 @@ class App {
 			if (elem.position.x == 0 && elem.position.y == 0) {
 				this.playerBody = elem.components;
 				this.updateInfo(this.playerBody);
-				if (this.editor != undefined){
+				/*if (this.editor != undefined){
 					this.setCenters(this.playerBody);
-				}
+				}*/
 			}
 
 			this.drawPlayer(elem.components, elem.color, elem.position);
