@@ -377,7 +377,7 @@ class User {
             return {pos: pos, size: size};
         };
 
-        if (this.distance_to_user(user) > this.size() + user.size()) return false;
+        if (this.distance_to_user(user) > this.size + user.size) return false;
 
         let collides = false;
         this.components.forEach((bodypart, index) => {
@@ -393,6 +393,7 @@ class User {
                 }
             })
         })
+        return collides;
     }
 
     collide(part, other, other_part) {
@@ -431,6 +432,6 @@ class User {
     }
 
     distance(x1, y1, x2, y2) {
-        return Math.abs(Math.sqrt((x1 - x2) * (y1 - y2)));
+        return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
     }
 }

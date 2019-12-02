@@ -4,9 +4,9 @@ const Users = require('./users');
 const consts = require('./common_constants');
 
 const TICK_RATE = 30;
-const WORLD_WIDTH = 1000;
-const WORLD_HEIGHT = 1000;
-const MOVE_SPEED = 1;
+const WORLD_WIDTH = 2000;
+const WORLD_HEIGHT = 2000;
+const MOVE_SPEED = 2;
 const MAX_HEALTH = consts.MAX_HEALTH;
 
 
@@ -243,43 +243,49 @@ class Engine {
             actions.forEach(action => {
                 switch (action.action) {
                     case ACTION.MOVE:
+                        let mvy = 0;
+                        let mvx = 0;
                         if (!user.movedV) {
-                            let amount = 0;
                             if (action.direction === DIRECTION.UP
                                 || action.direction === DIRECTION.UP_RIGHT
                                 || action.direction === DIRECTION.UP_LEFT) {
-                                amount -= MOVE_SPEED;
+                                mvy -= MOVE_SPEED;
                             }
                             if (action.direction === DIRECTION.DOWN
                                 || action.direction === DIRECTION.DOWN_RIGHT
                                 || action.direction === DIRECTION.DOWN_LEFT) {
-                                amount += MOVE_SPEED;
-                            }
-                            if (amount !== 0) {
-                                user.y += amount;
-                                if (user.y > WORLD_WIDTH) user.y = WORLD_HEIGHT;
-                                if (user.y < 0) user.y = 0;
-                                user.movedV = true;
+                                mvy += MOVE_SPEED;
                             }
                         }
                         if (!user.movedH) {
-                            let amount = 0;
                             if (action.direction === DIRECTION.LEFT
                                 || action.direction === DIRECTION.UP_LEFT
                                 || action.direction === DIRECTION.DOWN_LEFT) {
-                                amount -= MOVE_SPEED;
+                                mvx -= MOVE_SPEED;
                             }
                             if (action.direction === DIRECTION.RIGHT
                                 || action.direction === DIRECTION.UP_RIGHT
                                 || action.direction === DIRECTION.DOWN_RIGHT) {
-                                amount += MOVE_SPEED;
+                                mvx += MOVE_SPEED;
                             }
-                            if (amount !== 0) {
-                                user.x += amount;
-                                if (user.x > WORLD_WIDTH) user.x = WORLD_WIDTH;
-                                if (user.x < 0) user.x = 0;
-                                user.movedH = true;
-                            }
+                        }
+                        if (mvx === 0 && mvy === 0) break;
+                        user.y += mvy;
+                        if (user.y > WORLD_WIDTH) user.y = WORLD_HEIGHT;
+                        if (user.y < 0) user.y = 0;
+                        user.x += mvx;
+                        if (user.x > WORLD_WIDTH) user.x = WORLD_WIDTH;
+                        if (user.x < 0) user.x = 0;
+                        let blocked = false;
+                        this._users.forEach(other_user => {
+                            blocked = blocked || other_user.id !== user.id && user.collide_with_user(other_user);
+                        });
+                        if (blocked) {user.y -= mvy; user.x -= mvx;}
+                        if (mvy !== 0) {
+                            user.movedV = true;
+                        }
+                        if (mvx !== 0) {
+                            user.movedH = true;
                         }
                         break;
                     case ACTION.DESTROY:
