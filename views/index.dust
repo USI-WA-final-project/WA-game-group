@@ -16,7 +16,7 @@
 
     <div id="stats" class="hidden sidebar">
         <!-- Toggle it when clicking on Play -->
-        <div style="padding: 25px">
+        <div style="padding: 15px">
             <p id="usname">Username</p>
             <hr>
             <div id="minimal">
@@ -76,14 +76,16 @@
             <div class="controls"><img src="img/s.svg" alt="s" width="30" height="30"> Move Backward</div>
             <div class="controls"><img src="img/d.svg" alt="d" width="30" height="30"> Move Right</div>
         </div>
-        <p>By clicking on the in-game menu, you can check your stats.</p>
-        <div class="controls"><img src="img/leaderboard.svg"> is your position on the leaderboard.</div>
-        <div class="controls"><img src="img/heart-rate.svg" width="24" height="20"> informs you on the health of your character.</div>
-        <div class="controls"><img src="img/cell.svg"> is the number of cells on your player.</div>
-        <div class="controls"><img src="img/spike.svg"> is the number of spikes on your player.</div>
-        <div class="controls"><img src="img/shield.svg"> is the number of shields on your player.</div>
-        <div class="controls"><img src="img/time.svg"> is the time elapsed since you clicked Play.</div>
-        <div class="controls"><img src="img/money.svg"> is the amount of resources you have collected.</div>
+        <p>By clicking on the in-game menu under your @Username, you can check your stats.</p>
+        <div id="info">
+            <div class="controls"><img src="img/leaderboard.svg"> is your position on the leaderboard.</div>
+            <div class="controls"><img src="img/heart-rate.svg" width="24" height="20"> informs you on the health of your character.</div>
+            <div class="controls"><img src="img/cell.svg"> is the number of cells on your player.</div>
+            <div class="controls"><img src="img/spike.svg"> is the number of spikes on your player.</div>
+            <div class="controls"><img src="img/shield.svg"> is the number of shields on your player.</div>
+            <div class="controls"><img src="img/time.svg"> is the time elapsed since you clicked Play.</div>
+            <div class="controls"><img src="img/money.svg"> is the amount of resources you have collected.</div>
+        </div>
         <p>Also, you can check the leaderboard, take snapshots of your adventure and upload them on ImgUR, edit your player armor in order to make it stronger. For any question about the game and FAQs, you can check the Help page.</p>
         <img class="back" src="img/back.svg" alt="back">
     </div>
@@ -93,6 +95,8 @@
         <font size="-2">THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</font><br>
         For any inquire, feel free to contact us: <a href="mailto:info@legendofajax.fun">info@legendofajax.fun</a>
         <img class="back" src="img/back.svg" alt="back">
+    </div>
+    <div id="minimap" class="hidden minimap">
     </div>
     <script src="/js/hexagon/canvas_interface.js"></script>
     <script src="/js/hexagon/composer.js"></script>

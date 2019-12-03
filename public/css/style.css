@@ -156,6 +156,18 @@ input, button {
 	cursor: pointer;
 }
 
+.minimap {
+	position: absolute;
+	top: 90%;
+	right: 5%;
+	border-radius: 5px;
+}
+
+#minimap img {
+	max-width: 300px;
+	max-height: 200px;
+}
+
 /* ------ CLASSES -------*/
 
 .hidden {
@@ -328,9 +340,14 @@ hr {
 .controls {
 	display: flex;
 	flex-direction: row;
-	height: 5rem;
+	height: 2.5rem;
 	width: 55vw;
-	padding: 0 20vw;
+	padding: 0 0 0 26vw;
+	align-items: center;
+}
+
+.information {
+	padding: 0 8vw 0 0;
 }
 
 .controls img {
