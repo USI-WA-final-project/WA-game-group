@@ -48,6 +48,7 @@ class App {
 		this.shield = document.getElementById(object.inputs.shield);
 		this.spike = document.getElementById(object.inputs.spike);
 		this.bounce = document.getElementById(object.inputs.bounce);
+		this.cancel = document.getElementById(object.inputs.cancel);
 
 		//info Player parts
 		this.infoCell = document.getElementById(object.info.cell);
@@ -102,21 +103,33 @@ class App {
 	setEditCell() {
 		this.editor = new Editor();
 		this.cellEdited.type = 0;
+		this.cell.classList.toggle('buttonclicked');
 	}
 
 	setEditSpike() {
 		this.editor = new Editor();
 		this.cellEdited.type = 1;
+		this.spike.classList.toggle('buttonclicked');
 	}
 
 	setEditShield() {
 		this.editor = new Editor();
 		this.cellEdited.type = 2;
+		this.shield.classList.toggle('buttonclicked');
 	}
 
 	setEditBounce() {
 		this.editor = new Editor();
 		this.cellEdited.type = 3;
+		this.bounce.classList.toggle('buttonclicked');
+	}
+
+	setEditCancel() {
+		this.editor = undefined;
+		this.cell.classList.remove('buttonclicked');
+		this.spike.classList.remove('buttonclicked');
+		this.shield.classList.remove('buttonclicked');
+		//this.bounce.classList.add('hidden');
 	}
 
 	searchCell(e){
@@ -166,7 +179,7 @@ class App {
 											part: this.editor.counter, 
 											face: this.cellEdited.face });
 				//stop edit
-				this.editor = undefined;
+				//this.editor = undefined;
 			}
 		}
 	}
@@ -183,14 +196,14 @@ class App {
 											part: this.cellEdited.part, 
 											face: this.cellEdited.face });
 				//stop edit
-				this.editor = undefined;
+				//this.editor = undefined;
 			}
 		}
 	}
 
 	drawMap(data) {
 		this.clearCanvas();
-		
+		console.log(data);
 		let sx = data.playerPosition.x;
 		let sy = data.playerPosition.y;
 		this.ctx.drawImage(this.gridImage, sx, sy, this.canvas.width, this.canvas.height, 0, 0, this.canvas.width, this.canvas.height);
@@ -257,12 +270,12 @@ class App {
 	}
 
 	setCenters(components) {
-		console.log(components.length);
+		//console.log(components.length);
 		let componentsCenter = Array.from(new Array(components.length));
 		componentsCenter[0] = {x: this.canvas.width/2, y: this.canvas.height/2};
 		let visited = [];
 		components.forEach((el) => {
-			if (el.type == 0) {
+			if (el != null && el.type == 0) {
 				visited.push(0);
 			} else {
 				visited.push(-1);
@@ -311,16 +324,18 @@ class App {
 		let currentTime = new Date(Date.now() - this.valueTime.getTime() + factor * this.valueTime.getTimezoneOffset());
 		//console.log(currentTime);
 		elems.forEach((part) => {
-			if (part.type == 0) {
-				info.cell++;
-			}
+			if (part != undefined) {
+				if (part.type == 0) {
+					info.cell++;
+				}
 
-			if (part.type == 1) {
-				info.spike++;
-			}
+				if (part.type == 1) {
+					info.spike++;
+				}
 
-			if (part.type == 2) {
-				info.shield++;
+				if (part.type == 2) {
+					info.shield++;
+				}
 			}
 		});
 
@@ -351,6 +366,7 @@ class App {
 		this.cell.addEventListener('click', this.setEditCell.bind(this));
 		this.shield.addEventListener('click', this.setEditShield.bind(this));
 		this.spike.addEventListener('click', this.setEditSpike.bind(this));
+		this.cancel.addEventListener('click', this.setEditCancel.bind(this));
 		//this.bounce.addEventListener('click', this.setEditBounce.bind(this));
 
 		this.canvas.addEventListener('click', this.setFace.bind(this));
