@@ -110,6 +110,7 @@ class App {
 				this.cellEdited.type = 3;
 				break;
 		}
+
 		document.querySelectorAll('.notclicked').forEach((el) => {
 			if (el.id == type) {
 				el.classList.add('buttonclicked');
@@ -169,8 +170,8 @@ class App {
 	    // temp canvas to build the world img
 	    const c = document.createElement('canvas').getContext('2d');
 
-	    const width = 2000 + this.canvas.width;
-	    const height = 2000 + this.canvas.height;
+	    const width = 1000 + this.canvas.width;
+	    const height = 1000 + this.canvas.height;
 
 	    const lineW = width - this.canvas.width/2;
 	    const lineH = height - this.canvas.height/2;
@@ -213,7 +214,7 @@ class App {
 	}
 
 	setCenters(components) {
-		//console.log(components.length);
+		console.log(components);
 		let componentsCenter = Array.from(new Array(components.length));
 		componentsCenter[0] = {x: this.canvas.width/2, y: this.canvas.height/2};
 		let visited = [];
@@ -237,7 +238,7 @@ class App {
 		});*/
 
 		for (let j = 0; j < components.length; j++) {
-				if (components[j].type == 0) {
+				if (components[j] != null && components[j].type == 0) {
 					for (let k = 0; k < 6; k++) {
 
 						let node = components[j].faces[k];
@@ -254,7 +255,6 @@ class App {
 					componentsCenter[j] = -1;
 				}
 				visited[j] = 1;
-			
 		}
 
 		this.editor.centers = componentsCenter;
@@ -412,6 +412,7 @@ class App {
 
 	gameOver() {
 		this.disableInput();
+		//dust render
 
 	}
 
