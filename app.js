@@ -79,7 +79,7 @@ io.on('connection', function(socket){
         player.spawnPos.x = playerInfo.position.x;
         player.spawnPos.y = playerInfo.position.y;
 
-        database.add(player);
+        database.addPlayer(player);
     });
 
     //Retrieve whole world data once per tick
@@ -91,7 +91,7 @@ io.on('connection', function(socket){
     engine.register(player.id, function(data) {
         if (data == null) {
             //Either game over or disconnection
-            database.terminate(player.id);
+            database.terminatePlayer(player.id);
             socket.emit('gameOver');
             return;
         }
@@ -124,6 +124,8 @@ io.on('connection', function(socket){
                             case engine.BODYPART_TYPE.BOUNCE:
                                 newItem.type = 3;
                             break;
+                            default:
+                                newItem.type = -1;
                         }
                         return newItem;
                     })
@@ -220,7 +222,7 @@ io.on('connection', function(socket){
             break;
             default:
                 console.log("Invalid type", data, "player", player.id, "-", player.username);
-                socket.emit("message", "Invalid type " + data.type);
+                socket.emit("message", { type: 1, message: "Invalid type " + data.type });
                 return;
         }
 
@@ -228,13 +230,13 @@ io.on('connection', function(socket){
 
         if (data.part < 0 || player.bodyparts[data.part] === undefined) {
             console.log("Invalid part", data, "player", player.id, "-", player.username);
-            socket.emit("message", "Invalid part " + data.part);
+            socket.emit("message", { type: 2, message: "Invalid part " + data.part });
             return;
         }
 
         if (data.face < 0 || data.face > 5) {
             console.log("Invalid face", data, "player", player.id, "-", player.username);
-            socket.emit("message", "Invalid face " + data.face);
+            socket.emit("message", { type: 3, message: "Invalid face " + data.face });
             return;
         }
 
@@ -242,14 +244,16 @@ io.on('connection', function(socket){
 
         if (res != 0) {
             console.log("Error (code", res, ") attaching part", data, "player", player.id, "-", player.username);
-            socket.emit("message", "Invalid attach (code " + res + ")");
+            socket.emit("message", { type: 0, message: "Invalid attach (code " + res + ")" });
         }
     });
 
     socket.on('terminatePlayer', function(){
-        console.log('Client disconnected');
-        engine.remove(player.id);
-        player.active = false;
+        if (player.active) {
+            console.log('Client disconnected');
+            engine.remove(player.id);
+            player.active = false;
+        }
     });
 
     socket.on('disconnect', function(){
