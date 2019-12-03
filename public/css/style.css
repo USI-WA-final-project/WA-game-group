@@ -57,7 +57,7 @@ input, button {
 	cursor: pointer;
 }
 
-.buttonclicked button {
+.buttonclicked {
 	border: 3px solid blue;
 } 
 
