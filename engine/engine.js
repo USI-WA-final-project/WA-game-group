@@ -8,6 +8,7 @@ const WORLD_WIDTH = 1000;
 const WORLD_HEIGHT = 1000;
 const MOVE_SPEED = 2;
 const MAX_HEALTH = consts.MAX_HEALTH;
+const RESOURCE_DENSITY = 10;
 
 
 const DIRECTION = Object.freeze({
@@ -29,8 +30,16 @@ class Engine {
 
         this._timer = null;
         this._users = null;
+        this._resources = null;
         this._callbacks = [];
     }
+
+    /**
+     * A piece of resources.
+     * @typedef resource
+     * @property position {{x: number, y: number}} the position of this resource
+     * @property amount {number} the number of resources held in this piece.
+     */
 
     /** @type {number} */
     get TICK_RATE() {return TICK_RATE;}
@@ -42,6 +51,9 @@ class Engine {
     get MOVE_SPEED() {return MOVE_SPEED;}
     /** @type {number} */
     get MAX_HEALTH() {return MAX_HEALTH;}
+    /** The amount of resources that should be found, on average, per 1000 map units^2
+     *  @type {number} */
+    get RESOURCE_DENSITY() {return RESOURCE_DENSITY;}
 
     get DIRECTION() {return DIRECTION;}
     get BODYPART_TYPE() {return consts.BODYPART_TYPE;}
@@ -64,6 +76,7 @@ class Engine {
         };
 
         this._users = new Users();
+        this._resources = [];
         this._tick_num = 0;
         this._start_time = Date.now();
         tick_repeater();
@@ -79,6 +92,7 @@ class Engine {
         this._start_time = null;
         this._callbacks = [];
         this._users = null;
+        this._resources = null;
     }
 
     /**
@@ -251,15 +265,6 @@ class Engine {
      */
     register_global(cb) {
         this._callbacks.push(cb);
-
-
-        let plrs_array = [];
-        this._users.forEach(plr => {
-            plrs_array.push(plr.export());
-        });
-        cb({
-            players: plrs_array
-        })
     }
 
     // This function must be completely synchronous.
@@ -329,18 +334,24 @@ class Engine {
                 }
             });
 
-            this._callbacks.forEach(cb => {
-                let plrs_array = [];
-                this._users.forEach(plr => {
-                    plrs_array.push(plr.export());
-                });
-                cb({
-                    players: plrs_array
-                })
-            });
-
             user.update(user.export());
-        })
+        });
+
+        this._callbacks.forEach(cb => {
+            let plrs_array = [];
+            this._users.forEach(plr => {
+                plrs_array.push(plr.export());
+            });
+            cb({
+                players: plrs_array,
+                resources: this._resources.splice()
+            });
+        });
+
+        if (this._resources.length < RESOURCE_DENSITY * WORLD_WIDTH * WORLD_HEIGHT / 1000000) {
+            this._resources.push({position: {x: Math.random() * WORLD_WIDTH, y: Math.random() * WORLD_HEIGHT},
+                                  amount: 5});
+        }
     }
 }
 
