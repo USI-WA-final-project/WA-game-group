@@ -448,7 +448,7 @@ class User {
 
         // now up and bwd are opposites by the up+fwd+bwd=0 equality
         y -= 14 * up;
-        x += 28 * up;
+        x += 24 * up;
 
         return {x: x, y: y};
     }
