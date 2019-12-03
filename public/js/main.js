@@ -29,10 +29,6 @@ let socket = undefined;
 let angle = 0;
 let inGame = false;
 
-document.addEventListener('beforeunload', function() {
-    socket.emit('terminatePlayer');
-});
-
 window.onload = () => {
     //main page
     document.getElementById("jingle_menu").play();
@@ -151,7 +147,7 @@ function init(name) {
     //console.log(worldSize);
     // Create canvas app
     const app = new App({ canvas: 'canvas',
-                          inputs: { cell: 'cell', spike: 'spike', shield: 'shield', bounce: 'bounce' },
+                          inputs: { cell: 'cell', spike: 'spike', shield: 'shield', bounce: 'bounce', cancel: 'cancel' },
                           info: {cell: 'info_cells', spike: 'info_spikes', shield: 'info_shields', time: 'info_time' },
                           time: new Date() });
 
