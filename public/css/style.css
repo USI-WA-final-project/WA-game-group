@@ -59,10 +59,12 @@ input, button {
 
 .notclicked {
 	border: 3px solid black;
+	outline: none;
 }
 
 .buttonclicked {
 	border: 3px solid blue;
+	outline: none;
 } 
 
 /*- menu_enter -*/
