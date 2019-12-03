@@ -199,6 +199,9 @@ io.on('connection', function(socket){
             case 7:
                 dirEnum = engine.DIRECTION.UP_LEFT;
             break;
+            default:
+                console.log("Impossible direction", direction);
+                return;
         }
         
         engine.move(player.id, dirEnum);
@@ -222,7 +225,7 @@ io.on('connection', function(socket){
             break;
             default:
                 console.log("Invalid type", data, "player", player.id, "-", player.username);
-                socket.emit("message", { type: 1, message: "Invalid type " + data.type });
+                socket.emit("attachError", { type: data.type, message: "Invalid type " + data.type });
                 return;
         }
 
@@ -230,13 +233,13 @@ io.on('connection', function(socket){
 
         if (data.part < 0 || player.bodyparts[data.part] === undefined) {
             console.log("Invalid part", data, "player", player.id, "-", player.username);
-            socket.emit("message", { type: 2, message: "Invalid part " + data.part });
+            socket.emit("attachError", { type: data.type, message: "Invalid part " + data.part });
             return;
         }
 
         if (data.face < 0 || data.face > 5) {
             console.log("Invalid face", data, "player", player.id, "-", player.username);
-            socket.emit("message", { type: 3, message: "Invalid face " + data.face });
+            socket.emit("attachError", { type: data.type, message: "Invalid face " + data.face });
             return;
         }
 
@@ -244,7 +247,7 @@ io.on('connection', function(socket){
 
         if (res != 0) {
             console.log("Error (code", res, ") attaching part", data, "player", player.id, "-", player.username);
-            socket.emit("message", { type: 0, message: "Invalid attach (code " + res + ")" });
+            socket.emit("attachError", { type: data.type, message: "Invalid attach (code " + res + ")" });
         }
     });
 
