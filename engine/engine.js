@@ -265,6 +265,18 @@ class Engine {
      */
     register_global(cb) {
         this._callbacks.push(cb);
+
+        // The server needs this immediately so I have to put it here, unfortunately
+        this._callbacks.forEach(cb => {
+            let plrs_array = [];
+            this._users.forEach(plr => {
+                plrs_array.push(plr.export());
+            });
+            cb({
+                players: plrs_array,
+                resources: this._resources.splice()
+            });
+        });
     }
 
     // This function must be completely synchronous.
