@@ -114,7 +114,23 @@ class Engine {
     create() {
         let x = Math.ceil(Math.random() * WORLD_WIDTH);
         let y = Math.ceil(Math.random() * WORLD_HEIGHT);
-        return this._users.add(x, y);
+
+        let id =  this._users.add(x, y);
+        let usr = this._users.find(id);
+
+        let ok = true;
+        do {
+            ok = true;
+            this._users.forEach(user => {
+                if (usr.distance_to_user(user) < usr.size + user.size) {
+                    ok = false;
+                }
+            });
+            if (!ok) {
+                usr.x = Math.ceil(Math.random() * WORLD_WIDTH);
+                usr.y = Math.ceil(Math.random() * WORLD_HEIGHT);
+            }
+        } while (!ok);
     }
 
     /**
