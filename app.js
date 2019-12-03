@@ -38,6 +38,8 @@ app.use('/', routers.root);
 app.use('/players', routers.players);
 app.use('/favorites', routers.favorite);
 
+let worldState;
+
 //Server start-up
 const server = app.listen(3000, function() {
     console.log('Express server listening on port', server.address().port);
@@ -47,14 +49,19 @@ const server = app.listen(3000, function() {
     mongoose.connection.collections['players'].drop(function(err) {
         console.log('DB cleared');
     });
+
+    //Retrieve whole world data once per tick
+    engine.register_global(function(data) {
+        worldState = data;
+    });
 });
+
 const io = require('socket.io')(server);
 
 //Socket communication
 io.on('connection', function(socket){
     console.log('Client connected');
 
-    let worldState;
     let player = {
         id: engine.create(),
         username: null,
@@ -80,11 +87,6 @@ io.on('connection', function(socket){
         player.spawnPos.y = playerInfo.position.y;
 
         database.addPlayer(player);
-    });
-
-    //Retrieve whole world data once per tick
-    engine.register_global(function(data) {
-        worldState = data;
     });
 
     //Send to each player its customized view (based on RENDER_DISTANCE)
@@ -229,7 +231,9 @@ io.on('connection', function(socket){
                 return;
         }
 
-        player.bodyparts = engine.info(player.id).bodyparts;
+        try {
+            player.bodyparts = engine.info(player.id).bodyparts;
+        } catch (Exception) { return; }
 
         if (data.part < 0 || player.bodyparts[data.part] === undefined) {
             console.log("Invalid part", data, "player", player.id, "-", player.username);
