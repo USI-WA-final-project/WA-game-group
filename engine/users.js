@@ -177,7 +177,36 @@ class User {
                                               && cmp.coords.bwd === newcoords.bwd)) {
             return -4;
         }
-        // TODO(anno): check if there's a shield or spike on an adjacent cell
+        let space_blocked = false;
+        this.components.forEach(component => {
+            if (component.type !== BODYPART_TYPE.CELL) return;
+            if (component.coords.up === newcoords.up - 1
+             && component.coords.fwd === newcoords.fwd + 1
+             && component.coords.bwd === newcoords.bwd) {
+                space_blocked = space_blocked || component.faces[3] === -1;
+            } else if (component.coords.up === newcoords.up
+                    && component.coords.fwd === newcoords.fwd + 1
+                    && component.coords.bwd === newcoords.bwd - 1) {
+                space_blocked = space_blocked || component.faces[4] === -1;
+            } else if (component.coords.up === newcoords.up + 1
+                    && component.coords.fwd === newcoords.fwd
+                    && component.coords.bwd === newcoords.bwd - 1) {
+                space_blocked = space_blocked || component.faces[5] === -1;
+            } else if (component.coords.up === newcoords.up + 1
+                    && component.coords.fwd === newcoords.fwd - 1
+                    && component.coords.bwd === newcoords.bwd) {
+                space_blocked = space_blocked || component.faces[0] === -1;
+            } else if (component.coords.up === newcoords.up
+                    && component.coords.fwd === newcoords.fwd - 1
+                    && component.coords.bwd === newcoords.bwd + 1) {
+                space_blocked = space_blocked || component.faces[1] === -1;
+            } else if (component.coords.up === newcoords.up - 1
+                    && component.coords.fwd === newcoords.fwd
+                    && component.coords.bwd === newcoords.bwd + 1) {
+                space_blocked = space_blocked || component.faces[2] === -1;
+            }
+        });
+        if (space_blocked) return -6;
 
         let newComponent = {};
         let idx = this.components.push(newComponent) - 1;
@@ -365,12 +394,10 @@ class User {
                 // 1 is radius of hexagon, so distance between the center of two adjacent cells would be 2
                 switch(bodypart.type) {
                     case BODYPART_TYPE.BOUNCE:
-                        // TODO(anno): decide exact positioning and size with joey
                         pos = {x: mother_pos.x + (10/14) * mult_x, y: mother_pos.y + (10/14) * mult_y};
                         size = 9;
                         break;
                     case BODYPART_TYPE.SHIELD:
-                        // TODO(anno): decide exact positioning and size with joey
                         pos = {x: mother_pos.x + (10/14) * mult_x, y: mother_pos.y + (10/14) * mult_y};
                         size = 9;
                         break;
