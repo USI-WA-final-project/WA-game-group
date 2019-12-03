@@ -119,10 +119,11 @@ class Engine {
         let usr = this._users.find(id);
 
         let ok = true;
+        let count = 0;
         do {
             ok = true;
             this._users.forEach(user => {
-                if (usr.distance_to_user(user) < usr.size + user.size) {
+                if (user.id !== usr.id && usr.distance_to_user(user) < usr.size + user.size) {
                     ok = false;
                 }
             });
@@ -130,7 +131,8 @@ class Engine {
                 usr.x = Math.ceil(Math.random() * WORLD_WIDTH);
                 usr.y = Math.ceil(Math.random() * WORLD_HEIGHT);
             }
-        } while (!ok);
+            count++;
+        } while (!ok && count < 20);
     }
 
     /**
