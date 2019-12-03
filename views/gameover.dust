@@ -1,0 +1,21 @@
+{>"partials/header" /}
+    <!-- Game Over -->
+    <div id="gameover">
+        <h1>Game Over</h1>
+        <button type="submit">Try Again</button>
+        <div id="audio_go">
+            <audio>
+                <source src="media/game_over.mp3" type="audio/mpeg">
+            </audio>
+        </div>
+    </div>
+    <script src="/js/hexagon/canvas_interface.js"></script>
+    <script src="/js/hexagon/composer.js"></script>
+    <script src="/js/hexagon/colors.js"></script>
+    <script src="/js/main.js" async></script>
+    <script src="/app.js"></script>
+    <script src="/js/editor.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="dustjs-linkedin/dust-core.min.js"></script>
+
+{> "partials/footer" /}

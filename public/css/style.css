@@ -57,6 +57,10 @@ input, button {
 	cursor: pointer;
 }
 
+.buttonclicked button {
+	border: 3px solid blue;
+} 
+
 /*- menu_enter -*/
 #canvas {
 	width: 100%;
