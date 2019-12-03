@@ -40,25 +40,8 @@ input, button {
 
 /*------- ID - CLASSES ------*/
 
-.editor {
-	text-align: center;
-	padding: 1em;
-}
-
-#editor {
-	text-align: center;
-	padding: 1em;
-	top: 77vh;
-	position: absolute;
-	margin-left: 30vw;
-}
-
-.editor-element button:hover {
-	cursor: pointer;
-}
-
 .notclicked {
-	border: 3px solid black;
+	border: none;
 	outline: none;
 }
 
@@ -176,7 +159,7 @@ input, button {
 /* ------ CLASSES -------*/
 
 .hidden {
-	display: none;
+	display: none !important;
 }
 
 .back {
@@ -276,18 +259,44 @@ hr {
 }
 
 #editor {
-	transform: scale(0.7);
+	text-align: center;
+	padding: 1em;
+	width: auto;
+	position: absolute;
+	bottom: 0;
+	left: 0;
 }
 
 .editor-bar {
 	text-align: center;
 	display: flex;
 	flex-direction: row;
+	border-radius: 8px;
+	box-shadow: -1px 2px 7.5px 0 rgba(0, 0, 0, 0.3);
+	background-color: #ffffff;
+	padding: 1rem;
 }
 
 .editor-element {
 	display: flex;
 	flex-direction: column;
+	margin: 0 1rem;
+}
+
+.editor-element img {
+	margin-bottom: 1.25rem;
+	width: 56px;
+	height: 56px;
+}
+
+.editor-element p {
+	color: var(--ui-dark-dark);
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+
+.editor-element:hover {
+	cursor: pointer;
 }
 
 .sidebar {

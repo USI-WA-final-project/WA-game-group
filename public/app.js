@@ -96,6 +96,7 @@ class App {
 
 	setEditor(type) {
 		this.editor = new Editor();
+		this.cancel.classList.remove('hidden');
 		switch (type) {
 			case 'cell':
 				this.cellEdited.type = 0;
@@ -122,9 +123,7 @@ class App {
 
 	setEditCancel() {
 		this.editor = undefined;
-		this.cell.classList.remove('buttonclicked');
-		this.spike.classList.remove('buttonclicked');
-		this.shield.classList.remove('buttonclicked');
+		this.cancel.classList.add('hidden');
 		//this.bounce.classList.add('hidden');
 	}
 
