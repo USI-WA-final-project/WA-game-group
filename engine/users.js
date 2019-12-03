@@ -177,6 +177,7 @@ class User {
                                               && cmp.coords.bwd === newcoords.bwd)) {
             return -4;
         }
+        // TODO(anno): check if there's a shield or spike on an adjacent cell
 
         let newComponent = {};
         let idx = this.components.push(newComponent) - 1;
@@ -365,17 +366,17 @@ class User {
                 switch(bodypart.type) {
                     case BODYPART_TYPE.BOUNCE:
                         // TODO(anno): decide exact positioning and size with joey
-                        pos = {x: mother_pos.x + 0.75 * mult_x, y: mother_pos.y + 0.75 * mult_y};
-                        size = 7;
+                        pos = {x: mother_pos.x + (10/14) * mult_x, y: mother_pos.y + (10/14) * mult_y};
+                        size = 9;
                         break;
                     case BODYPART_TYPE.SHIELD:
                         // TODO(anno): decide exact positioning and size with joey
-                        pos = {x: mother_pos.x + 0.75 * mult_x, y: mother_pos.y + 0.75 * mult_y};
-                        size = 7;
+                        pos = {x: mother_pos.x + (10/14) * mult_x, y: mother_pos.y + (10/14) * mult_y};
+                        size = 9;
                         break;
                     case BODYPART_TYPE.SPIKE:
                         pos = {x: mother_pos.x + 2 * mult_x, y: mother_pos.y + 2 * mult_y};
-                        size = 1;
+                        size = 0;
                         break;
                 }
             }
