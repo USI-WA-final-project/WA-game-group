@@ -316,9 +316,9 @@ class Composer {
 
         ctx.moveTo(begin.x, begin.y); // M 8 2
         ctx.lineTo(begin.x - 8, begin.y + 14); // l -8 14
-        ctx.lineTo(begin.x - 9.75, begin.y + 13); // l -1.75 -1
-        ctx.lineTo(begin.x - 1.75, begin.y - 1); // l 8 -14
-        ctx.lineTo(begin.x, begin.y); // l 1.75 1
+        ctx.lineTo(begin.x - 10.4, begin.y + 12.5); // l -2.6 -1.5
+        ctx.lineTo(begin.x - 2.6, begin.y - 1.5); // l 8 -14
+        ctx.lineTo(begin.x, begin.y); // l 1.5 2.6
         ctx.closePath();
         ctx.fill();
     }
@@ -328,9 +328,9 @@ class Composer {
         ctx.fillStyle = this.colors.shield;
 
         ctx.moveTo(begin.x, begin.y); // M 24 2
-        ctx.lineTo(begin.x, begin.y - 2); // l 0 -2
-        ctx.lineTo(begin.x - 16, begin.y - 2); // l -16 0
-        ctx.lineTo(begin.x - 16, begin.y); // l 0 2
+        ctx.lineTo(begin.x, begin.y - 3); // l 0 -3
+        ctx.lineTo(begin.x - 16, begin.y - 3); // l -16 0
+        ctx.lineTo(begin.x - 16, begin.y); // l 0 3
         ctx.lineTo(begin.x, begin.y); // l 16 0
         ctx.closePath();
         ctx.fill();
@@ -341,9 +341,9 @@ class Composer {
         ctx.fillStyle = this.colors.shield;
 
         ctx.moveTo(begin.x, begin.y); // M 32 16
-        ctx.lineTo(begin.x + 1.75, begin.y - 1); // l 1.75 -1
-        ctx.lineTo(begin.x - 6.25, begin.y - 15); // l -8 -14
-        ctx.lineTo(begin.x - 8, begin.y - 14); // l -1.75 1
+        ctx.lineTo(begin.x + 2.6, begin.y - 1.5); // l 2.6 -1.5
+        ctx.lineTo(begin.x - 6.5, begin.y - 15.5); // l -8 -14
+        ctx.lineTo(begin.x - 8, begin.y - 14); // l -1.5 2.6
         ctx.lineTo(begin.x, begin.y); // l 8 14
         ctx.closePath();
         ctx.fill();
@@ -354,9 +354,9 @@ class Composer {
         ctx.fillStyle = this.colors.shield;
 
         ctx.moveTo(begin.x, begin.y); // M 24 30
-        ctx.lineTo(begin.x + 1.75, begin.y + 1); // l 1.75 1
-        ctx.lineTo(begin.x + 9.75, begin.y - 13); // l 8 -14
-        ctx.lineTo(begin.x + 8, begin.y - 14); // l -1.75 -1
+        ctx.lineTo(begin.x + 1.5, begin.y + 2.6); // l 1.5 2.6
+        ctx.lineTo(begin.x + 9.5, begin.y - 11.4); // l 8 -14
+        ctx.lineTo(begin.x + 8, begin.y - 14); // l -2.6 -1.5
         ctx.lineTo(begin.x, begin.y); // l -8 14
         ctx.closePath();
         ctx.fill();
@@ -367,9 +367,9 @@ class Composer {
         ctx.fillStyle = this.colors.shield;
 
         ctx.moveTo(begin.x, begin.y); // M 8 30
-        ctx.lineTo(begin.x, begin.y + 2); // l 0 2
-        ctx.lineTo(begin.x + 16, begin.y + 2); // l 16 0
-        ctx.lineTo(begin.x + 16, begin.y); // l 0 -2
+        ctx.lineTo(begin.x, begin.y + 3); // l 0 3
+        ctx.lineTo(begin.x + 16, begin.y + 3); // l 16 0
+        ctx.lineTo(begin.x + 16, begin.y); // l 0 -3
         ctx.lineTo(begin.x, begin.y); // l -16 0
         ctx.closePath();
         ctx.fill();
@@ -380,9 +380,9 @@ class Composer {
         ctx.fillStyle = this.colors.shield;
 
         ctx.moveTo(begin.x, begin.y); // M 0 16
-        ctx.lineTo(begin.x - 1.75, begin.y + 1); // l -1.75 1
-        ctx.lineTo(begin.x + 6.75, begin.y + 15); // l 8 14
-        ctx.lineTo(begin.x + 8, begin.y + 14); // l 1.75 -1
+        ctx.lineTo(begin.x - 2.6, begin.y + 1.5); // l -2.6 1.5
+        ctx.lineTo(begin.x + 5.4, begin.y + 15.5); // l 8 14
+        ctx.lineTo(begin.x + 8, begin.y + 14); // l 2.6 -1.5
         ctx.lineTo(begin.x, begin.y); // l -8 -14
         ctx.closePath();
         ctx.fill();
