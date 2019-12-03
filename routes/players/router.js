@@ -8,7 +8,7 @@ const database = require('../../database.js');
 
 //Display all players
 router.get('/', function(req, res) {
-    database.getAll()
+    database.getAllPlayers()
     .then(function(results) {
         if (req.accepts("html")) {
             for (let i = 0; i < results.length; i++) {

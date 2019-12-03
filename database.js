@@ -8,7 +8,7 @@ var database = {
      * Gets all the player objects
      * @returns An array of player objects
      */
-    getAll: function() {
+    getAllPlayers: function() {
         return Player.find({}).then(function(found) {
             return found;
         }).catch(function(err) {
@@ -22,7 +22,7 @@ var database = {
      * @param id The player id
      * @returns A player object
      */
-    getById: function(id) {
+    getPlayerById: function(id) {
         const filter = { id: id };
 
         return Player.find(filter).then(function(found) {
@@ -37,7 +37,7 @@ var database = {
      * Adds a player to the database
      * @param {Object} player The player object
      */
-    add: function(player) {
+    addPlayer: function(player) {
         let newPlayer = new Player({
             id: player.id,
             color: player.color,
@@ -58,7 +58,7 @@ var database = {
      * Removes a player from the database
      * @param {Number} id The player id
      */
-    remove: function(id) {
+    removePlayer: function(id) {
         const filter = { id: id };
 
         Player.find(filter).then(function(found) {
@@ -80,7 +80,7 @@ var database = {
      * (either game over or disconnection)
      * @param {Number} id The player id
      */
-    terminate: function(id) {
+    terminatePlayer: function(id) {
         const filter = { id: id };
 
         Player.find(filter).then(function(found) {
@@ -106,7 +106,7 @@ var database = {
      * @param {Object} newPlayer The new player object
      * @returns true on success, false otherwise
      */
-    update: function(id, newPlayer) {
+    updatePlayer: function(id, newPlayer) {
         const filter = { id: id };
 
         Player.find(filter).then(function(found) {
