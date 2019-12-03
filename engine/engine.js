@@ -146,6 +146,12 @@ class Engine {
         return ret;
     }
 
+    detach(id, part) {
+        this._users.with(id, user => {
+            user.shrink(part);
+        })
+    }
+
     /**
      * A bodypart of type {@link BODYPART_TYPE.CELL}
      * @typedef {Object} cell

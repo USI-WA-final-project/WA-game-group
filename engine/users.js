@@ -87,6 +87,7 @@ class User {
         this.movedH = false;
         this.movedV = false;
         this.todo.forEach(fun => fun());
+        this.todo = [];
     }
 
     tick_parts() {
