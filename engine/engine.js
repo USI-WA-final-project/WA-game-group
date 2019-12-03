@@ -146,6 +146,11 @@ class Engine {
         return ret;
     }
 
+    /**
+     * attaches the bodypart at the given index from the given user (and destroys/recycles it)
+     * @param id {playerid} the id of the user to modify
+     * @param part {number} the index of the bodypart to remove
+     */
     detach(id, part) {
         this._users.with(id, user => {
             user.shrink(part);
