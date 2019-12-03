@@ -177,36 +177,38 @@ class User {
                                               && cmp.coords.bwd === newcoords.bwd)) {
             return -4;
         }
-        let space_blocked = false;
-        this.components.forEach(component => {
-            if (component.type !== BODYPART_TYPE.CELL) return;
-            if (component.coords.up === newcoords.up - 1
-             && component.coords.fwd === newcoords.fwd + 1
-             && component.coords.bwd === newcoords.bwd) {
-                space_blocked = space_blocked || component.faces[3] === -1;
-            } else if (component.coords.up === newcoords.up
+        if (type === BODYPART_TYPE.CELL) {
+            let space_blocked = false;
+            this.components.forEach(component => {
+                if (component.type !== BODYPART_TYPE.CELL) return;
+                if (component.coords.up === newcoords.up - 1
+                    && component.coords.fwd === newcoords.fwd + 1
+                    && component.coords.bwd === newcoords.bwd) {
+                    space_blocked = space_blocked || component.faces[3] !== -1;
+                } else if (component.coords.up === newcoords.up
                     && component.coords.fwd === newcoords.fwd + 1
                     && component.coords.bwd === newcoords.bwd - 1) {
-                space_blocked = space_blocked || component.faces[4] === -1;
-            } else if (component.coords.up === newcoords.up + 1
+                    space_blocked = space_blocked || component.faces[4] !== -1;
+                } else if (component.coords.up === newcoords.up + 1
                     && component.coords.fwd === newcoords.fwd
                     && component.coords.bwd === newcoords.bwd - 1) {
-                space_blocked = space_blocked || component.faces[5] === -1;
-            } else if (component.coords.up === newcoords.up + 1
+                    space_blocked = space_blocked || component.faces[5] !== -1;
+                } else if (component.coords.up === newcoords.up + 1
                     && component.coords.fwd === newcoords.fwd - 1
                     && component.coords.bwd === newcoords.bwd) {
-                space_blocked = space_blocked || component.faces[0] === -1;
-            } else if (component.coords.up === newcoords.up
+                    space_blocked = space_blocked || component.faces[0] !== -1;
+                } else if (component.coords.up === newcoords.up
                     && component.coords.fwd === newcoords.fwd - 1
                     && component.coords.bwd === newcoords.bwd + 1) {
-                space_blocked = space_blocked || component.faces[1] === -1;
-            } else if (component.coords.up === newcoords.up - 1
+                    space_blocked = space_blocked || component.faces[1] !== -1;
+                } else if (component.coords.up === newcoords.up - 1
                     && component.coords.fwd === newcoords.fwd
                     && component.coords.bwd === newcoords.bwd + 1) {
-                space_blocked = space_blocked || component.faces[2] === -1;
-            }
-        });
-        if (space_blocked) return -6;
+                    space_blocked = space_blocked || component.faces[2] !== -1;
+                }
+            });
+            if (space_blocked) return -6;
+        }
 
         let newComponent = {};
         let idx = this.components.push(newComponent) - 1;
