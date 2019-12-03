@@ -25,12 +25,6 @@ class App {
 		//array keys chose edit
 		this.editKeys = ["Digit1", "Digit2", "Digit3", "Digit4"];
 
-		//array keys search cell
-		this.searchCellKeys = ["ArrowRight", "ArrowLeft"];
-
-		//array keys to take face of cell
-		this.searchFaceKeys = ["Digit1", "Digit2", "Digit3", "Digit4", "Digit5", "Digit6"];
-
 		//current movement key
 		this.keys = {};
 
@@ -76,7 +70,7 @@ class App {
 
 	}
 
-	setEdit(code){
+	/*setEdit(code){
 		let edit = undefined;
 		if (code == "Digit1") {
 			edit = 0;
@@ -98,31 +92,32 @@ class App {
 			this.editor =  new Editor(this.playerBody);
 			this.cellEdited.type = edit;
 		}
-	}
+	}*/
 
-	setEditCell() {
+	setEditor(type) {
 		this.editor = new Editor();
-		this.cellEdited.type = 0;
-		this.cell.classList.toggle('buttonclicked');
-	}
-
-	setEditSpike() {
-		this.editor = new Editor();
-		this.cellEdited.type = 1;
-		this.spike.classList.toggle('buttonclicked');
-	}
-
-	setEditShield() {
-		this.editor = new Editor();
-		this.cellEdited.type = 2;
-		this.shield.classList.toggle('buttonclicked');
-	}
-
-	setEditBounce() {
-		this.editor = new Editor();
-		this.cellEdited.type = 3;
-		this.bounce.classList.toggle('buttonclicked');
-	}
+		switch (type) {
+			case 'cell':
+				this.cellEdited.type = 0;
+				break;
+			case 'spike':
+				this.cellEdited.type = 1;
+				break;
+			case 'shield':
+				this.cellEdited.type = 2;
+				break;
+			case 'bounce':
+				this.cellEdited.type = 3;
+				break;
+		}
+		document.querySelectorAll('.notclicked').forEach((el) => {
+			if (el.id == type) {
+				el.classList.add('buttonclicked');
+			} else {
+				el.classList.remove('buttonclicked');
+			}
+		});
+	}	
 
 	setEditCancel() {
 		this.editor = undefined;
@@ -132,58 +127,6 @@ class App {
 		//this.bounce.classList.add('hidden');
 	}
 
-	searchCell(e){
-		if (e.code == "ArrowRight") {
-			this.editor.findNextCell();
-
-		 	//socket.emit('move',2);
-		 	//console.log("D");
-		}
-
-		if (this.keys["ArrowLeft"]) {
-			this.editor.findPrevCell();
-			//console.log("A");
-			//socket.emit('move', 6);
-		}
-	}
-
-	searchFace(code) {
-		if (this.editor != undefined) {
-			if (code == "Digit1") {
-				this.cellEdited.face = 0;
-			}
-
-			if (code == "Digit2") {
-				this.cellEdited.face = 1;
-			}
-
-			if (code == "Digit3") {
-				this.cellEdited.face = 2;
-			}
-
-			if (code == "Digit4") {
-				this.cellEdited.face = 3;
-			}
-
-			if (code == "Digit5") {
-				this.cellEdited.face = 4;
-			}
-
-			if (code == "Digit6") {
-				this.cellEdited.face = 5;
-			}
-
-			if (this.cellEdited.type != undefined && this.cellEdited.face != undefined) {
-				console.log(this.cellEdited.type, this.editor.counter, this.cellEdited.face);
-				socket.emit('attachPart', { type: this.cellEdited.type, 
-											part: this.editor.counter, 
-											face: this.cellEdited.face });
-				//stop edit
-				//this.editor = undefined;
-			}
-		}
-	}
-
 	setFace(e) {
 		if (this.editor != undefined) {
 			this.editor.focus = {x: e.offsetX, y: e.offsetY};
@@ -191,7 +134,7 @@ class App {
 			this.cellEdited.part = this.editor.counter;
 
 			if (this.cellEdited.type != undefined && this.cellEdited.face != undefined) {
-				console.log(this.cellEdited.type, this.editor.counter, this.cellEdited.face);
+				//console.log(this.cellEdited.type, this.editor.counter, this.cellEdited.face);
 				socket.emit('attachPart', { type: this.cellEdited.type, 
 											part: this.cellEdited.part, 
 											face: this.cellEdited.face });
@@ -203,7 +146,7 @@ class App {
 
 	drawMap(data) {
 		this.clearCanvas();
-		console.log(data);
+		//console.log(data);
 		let sx = data.playerPosition.x;
 		let sy = data.playerPosition.y;
 		this.ctx.drawImage(this.gridImage, sx, sy, this.canvas.width, this.canvas.height, 0, 0, this.canvas.width, this.canvas.height);
@@ -298,7 +241,7 @@ class App {
 					for (let k = 0; k < 6; k++) {
 
 						let node = components[j].faces[k];
-						console.log(node);
+						//console.log(node);
 						if (node != -1) {
 							if (components[node].type == 0 && visited[node] == 0){
 								componentsCenter[node] = this.composer.getNextCenter(componentsCenter[j], k);
@@ -315,7 +258,7 @@ class App {
 		}
 
 		this.editor.centers = componentsCenter;
-		console.log(componentsCenter, visited, this.playerBody);
+		//console.log(componentsCenter, visited, this.playerBody);
 	}
 
 	updateInfo(elems) {
@@ -363,11 +306,23 @@ class App {
 		this.canvas.focus();
 		this.canvas.addEventListener('keydown', this.onKeyDown.bind(this));
 		//inputs
-		this.cell.addEventListener('click', this.setEditCell.bind(this));
-		this.shield.addEventListener('click', this.setEditShield.bind(this));
-		this.spike.addEventListener('click', this.setEditSpike.bind(this));
+		this.cell.addEventListener('click', function(){
+			this.setEditor('cell');
+		}.bind(this));
+
+		this.spike.addEventListener('click', function(){
+			this.setEditor('spike');
+		}.bind(this));
+
+		this.shield.addEventListener('click', function(){
+			this.setEditor('shield');
+		}.bind(this));
+
 		this.cancel.addEventListener('click', this.setEditCancel.bind(this));
-		//this.bounce.addEventListener('click', this.setEditBounce.bind(this));
+
+		/*this.cell.addEventListener('click', function(){
+			this.setEditor('bounce').bind(this);
+		});*/
 
 		this.canvas.addEventListener('click', this.setFace.bind(this));
 
@@ -378,6 +333,11 @@ class App {
 		this.canvas.blur();
 		this.canvas.removeEventListener('keydown', this.onKeyDown);
 		this.canvas.removeEventListener('keyup', this.onKeyUp);
+		this.canvas.removeEventListener('click', this.setFace);
+		this.cell.removeEventListener('click', this.setEditor);
+		this.spike.removeEventListener('click', this.setEditor);
+		this.shield.removeEventListener('click', this.setEditor);
+		//this.bounce.removeEventListener('click', this.setFace);
 	}
 
 	onKeyDown(e) {
@@ -385,19 +345,6 @@ class App {
 		//wasd
 		if (this.movementKeys.includes(e.code)) {
 			this.keys[e.code] = true;
-		}
-		//RIGHT LEFT
-		if (this.searchCellKeys.includes(e.code) && this.editor != undefined) {
-			//console.log(this.editor);
-			this.searchCell(e);
-		} 
-		//number 1-4 type, 1-6 face
-		if (this.editKeys.includes(e.code) || this.searchFaceKeys.includes(e.code)) {
-			if (this.editor == undefined) {
-				this.setEdit(e.code);
-			} else {
-				this.searchFace(e.code);
-			}
 		}
 	}
 
@@ -457,6 +404,10 @@ class App {
 		localStorage.setItem('user_name', name);
 		//console.log(user_name);
 		socket.emit('registerUser',  name);
+	}
+
+	displayAttachError(data) {
+		
 	}
 
 	gameOver() {

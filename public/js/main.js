@@ -169,8 +169,9 @@ function init(name) {
         app.playerColors = msg;
     });
 
-    socket.on('message', function(msg){
+    socket.on('attachError', function(msg){
         //console.log(msg);
+        app.displayAttachError(msg);
     });
 
     socket.on('drawWorld', function(data) {
@@ -181,4 +182,18 @@ function init(name) {
     socket.on('gameOver', function() {
         app.gameOver();
     });
+
+    socket.on('connect_error', function(msg){
+        //render error
+    });
+
+    socket.on('disconnect', function(msg){
+        //render error
+    });
+
+    socket.on('reconnect', function(msg){
+       location.reload();
+    });
+
+
 }
