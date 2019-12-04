@@ -256,6 +256,21 @@ io.on('connection', function(socket){
         }
     });
 
+    socket.on('removePart', function(data) {
+        let playerData = engine.info(player.id);
+        if (playerData == null) return;
+
+        player.bodyparts = playerData.bodyparts;
+
+        if (data.part < 0 || player.bodyparts[data.part] === undefined) {
+            console.log("Invalid part remove", data, "player", player.id, "-", player.username);
+            socket.emit("removeError", { message: "Invalid part " + data.part });
+            return;
+        }
+
+        engine.detach(id, data.part);
+    });
+
     socket.on('rotatePlayer', function(data){
         engine.rotate(id, data.angle);
     });
