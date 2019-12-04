@@ -11,6 +11,8 @@ const ACTION = consts.ACTION;
 
 const CELL_INNER_RADIUS = 14;
 
+const CHEATS_ENABLED = consts.CHEATS_ENABLED;
+
 class Users {
     constructor() {
         this._users = [];
@@ -81,6 +83,9 @@ class User {
         ];
         this.rotation = 0;
         this.todo = [];
+
+        if (CHEATS_ENABLED) this.cheat_seq = -1;
+        if (CHEATS_ENABLED) this.cheat = -1;
     }
 
     tick_reset() {

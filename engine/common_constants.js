@@ -27,3 +27,6 @@ const ACTION = Object.freeze({
     COLLIDE: Symbol("COLLIDE"),
 });
 module.exports.ACTION = ACTION;
+
+const CHEATS_ENABLED = true;
+module.exports.CHEATS_ENABLED = CHEATS_ENABLED;

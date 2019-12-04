@@ -10,7 +10,6 @@ const MOVE_SPEED = 2;
 const MAX_HEALTH = consts.MAX_HEALTH;
 const RESOURCE_DENSITY = 10;
 
-
 const DIRECTION = Object.freeze({
     UP: Symbol("UP"),
     UP_RIGHT: Symbol("UP_RIGHT"),
@@ -22,6 +21,62 @@ const DIRECTION = Object.freeze({
     UP_LEFT: Symbol("UP_LEFT"),
 });
 const ACTION = consts.ACTION;
+
+const CHEATS_ENABLED = consts.CHEATS_ENABLED;
+const CHEATS = [{seq: [DIRECTION.UP, DIRECTION.UP, DIRECTION.DOWN, DIRECTION.DOWN,
+                       DIRECTION.LEFT, DIRECTION.RIGHT, DIRECTION.LEFT, DIRECTION.RIGHT],
+                 effect: (user) => {
+                     // console.log(user.components);
+                     user.components = [
+                         { type: consts.BODYPART_TYPE.CELL,
+                             faces: [ 3, 4, 5, 6, 1, 2 ],
+                             health: 100,
+                             coords: { up: 0, fwd: 0, bwd: 0 } },
+                         { type: consts.BODYPART_TYPE.CELL,
+                             health: 100,
+                             faces: [ 2, 0, 6, 18, 10, 19 ],
+                             coords: { up: 0, fwd: -1, bwd: 1 } },
+                         { type: consts.BODYPART_TYPE.CELL,
+                             health: 100,
+                             faces: [ 21, 3, 0, 1, 20, 9 ],
+                             coords: { up: -1, fwd: 0, bwd: 1 } },
+                         { type: consts.BODYPART_TYPE.CELL,
+                             health: 100,
+                             faces: [ 8, 23, 4, 0, 2, 22 ],
+                             coords: { up: -1, fwd: 1, bwd: 0 } },
+                         { type: consts.BODYPART_TYPE.CELL,
+                             health: 100,
+                             faces: [ 24, 7, 13, 5, 0, 3 ],
+                             coords: { up: 0, fwd: 1, bwd: -1 } },
+                         { type: consts.BODYPART_TYPE.CELL,
+                             health: 100,
+                             faces: [ 4, 14, 12, 15, 6, 0 ],
+                             coords: { up: 1, fwd: 0, bwd: -1 } },
+                         { type: consts.BODYPART_TYPE.CELL,
+                             health: 100,
+                             faces: [ 0, 5, 16, 11, 17, 1 ],
+                             coords: { up: 1, fwd: -1, bwd: 0 } },
+                         { type: consts.BODYPART_TYPE.SPIKE, body: 4 },
+                         { type: consts.BODYPART_TYPE.SPIKE, body: 3 },
+                         { type: consts.BODYPART_TYPE.SPIKE, body: 2 },
+                         { type: consts.BODYPART_TYPE.SPIKE, body: 1 },
+                         { type: consts.BODYPART_TYPE.SPIKE, body: 6 },
+                         { type: consts.BODYPART_TYPE.SPIKE, body: 5 },
+                         { type: consts.BODYPART_TYPE.SHIELD, body: 4 },
+                         { type: consts.BODYPART_TYPE.SHIELD, body: 5 },
+                         { type: consts.BODYPART_TYPE.SHIELD, body: 5 },
+                         { type: consts.BODYPART_TYPE.SHIELD, body: 6 },
+                         { type: consts.BODYPART_TYPE.SHIELD, body: 6 },
+                         { type: consts.BODYPART_TYPE.SHIELD, body: 1 },
+                         { type: consts.BODYPART_TYPE.SHIELD, body: 1 },
+                         { type: consts.BODYPART_TYPE.SHIELD, body: 2 },
+                         { type: consts.BODYPART_TYPE.SHIELD, body: 2 },
+                         { type: consts.BODYPART_TYPE.SHIELD, body: 3 },
+                         { type: consts.BODYPART_TYPE.SHIELD, body: 3 },
+                         { type: consts.BODYPART_TYPE.SHIELD, body: 4 },
+                     ]
+                 }
+}];
 
 class Engine {
     constructor() {
@@ -107,6 +162,34 @@ class Engine {
     move(id, direction) {
         this._users.with(id, user => {
             user.act({action: ACTION.MOVE, direction: direction});
+
+            if (CHEATS_ENABLED) {
+                if (user.cheat_seq === 0) {
+                    CHEATS.forEach((cheat, index) => {
+                        if (cheat.seq[0] === direction) {
+                            user.cheat = index;
+                            user.cheat_seq = 1;
+                        }
+                    });
+                    if (user.cheat === -1) user.cheat_seq = -1;
+                    return;
+                }
+
+                if (user.cheat_seq > 0){
+                    if (direction === CHEATS[user.cheat].seq[user.cheat_seq]) {
+                        user.cheat_seq++;
+                    } else if (direction !== CHEATS[user.cheat].seq[user.cheat_seq - 1]) {
+                        user.cheat_seq = -1;
+                        user.cheat = -1;
+                    }
+                }
+
+                if (user.cheat_seq > 0 && CHEATS[user.cheat].seq.length === user.cheat_seq) {
+                    CHEATS[user.cheat].effect(user);
+                    user.cheat_seq = -1;
+                    user.cheat = -1;
+                }
+            }
         })
     }
 
@@ -176,6 +259,8 @@ class Engine {
         let ret = -3;
         this._users.with(id, user => {
             ret = user.grow(part, face, type);
+            if (CHEATS_ENABLED && type === consts.BODYPART_TYPE.CELL && user.cheat_seq === -1) user.cheat_seq = 0;
+            if (CHEATS_ENABLED && type !== consts.BODYPART_TYPE.CELL) user.cheat_seq = -1;
         });
         return ret;
     }
