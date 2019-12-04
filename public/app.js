@@ -3,21 +3,22 @@ class App {
 	constructor(object) {
 		//canvas
 		this.canvas = document.getElementById(object.canvas);
+		//this.minCanvas =document.getElementById('minimap');
 
 		if (this.canvas.tagName !== 'CANVAS') {
 			throw new Error("It should be a canvas");
 		}
 
 		this.ctx = this.canvas.getContext('2d');
+		//this.minCtx = this.minCanvas.getContext('2d');
 
-		// this.worldW = object.world.width;
-		// this.worldH = object.world.height;
-
-		// console.log(this.worldW, this.worldH);
+		this.worldW = object.worldSize.w;
+		this.worldH = object.worldSize.h;
 
 		//graphic interface
 		this.composer = new Composer(new CanvasInterface(this.canvas));
 		this.gridImage =  this.drawGrid();
+		//xsthis.miniMap = this.drawMiniMap();
 
 		//array keys movement
 		this.movementKeys = ["KeyW", "KeyD", "KeyS", "KeyA"];
@@ -70,30 +71,6 @@ class App {
 
 	}
 
-	/*setEdit(code){
-		let edit = undefined;
-		if (code == "Digit1") {
-			edit = 0;
-		} 
-
-		if (code == "Digit2") {
-			edit = 1;
-		} 
-
-		if (code == "Digit3") {
-			edit = 2;
-		} 
-
-		if (code == "Digit4") {
-			edit = 3;
-		} 
-
-		if (edit != undefined) {
-			this.editor =  new Editor(this.playerBody);
-			this.cellEdited.type = edit;
-		}
-	}*/
-
 	setEditor(type) {
 		this.editor = new Editor();
 		this.cancel.classList.remove('hidden');
@@ -138,18 +115,17 @@ class App {
 				socket.emit('attachPart', { type: this.cellEdited.type, 
 											part: this.cellEdited.part, 
 											face: this.cellEdited.face });
-				//stop edit
-				//this.editor = undefined;
 			}
 		}
 	}
 
 	drawMap(data) {
 		this.clearCanvas();
-		//console.log(data);
 		let sx = data.playerPosition.x;
 		let sy = data.playerPosition.y;
 		this.ctx.drawImage(this.gridImage, sx, sy, this.canvas.width, this.canvas.height, 0, 0, this.canvas.width, this.canvas.height);
+		//this.minCtx.drawImage(this.miniMap, 0, 0);
+
 		this.move();
 
 		data.players.forEach((elem) => {
@@ -169,8 +145,8 @@ class App {
 	    // temp canvas to build the world img
 	    const c = document.createElement('canvas').getContext('2d');
 
-	    const width = 1000 + this.canvas.width;
-	    const height = 1000 + this.canvas.height;
+	    const width = this.worldW + this.canvas.width;
+	    const height = this.worldH + this.canvas.height;
 
 	    const lineW = width - this.canvas.width/2;
 	    const lineH = height - this.canvas.height/2;
@@ -207,10 +183,27 @@ class App {
 
 	    gridImage.src = c.canvas.toDataURL();
 
-	    //console.log(gridImage.size);
-
 	    return gridImage;
 	}
+
+	/*drawMiniMap(pos) {
+		const c = document.createElement('canvas').getContext('2d');
+		let img = this.drawGrid();
+		let width = 300;
+		let height = 200;
+
+		c.drawImage(img,0,0);
+		c.beginPath();
+		c.arc(pos.x, pos.y, 1, 0, 2 * Math.PI, true);
+		c.fill();
+
+		let miniMap = new Image();
+
+		miniMap.src = c.canvas.toDataURL();
+
+		return miniMap;
+
+	}*/
 
 	setCenters(components) {
 		console.log(components);
@@ -225,17 +218,6 @@ class App {
 			}
 		});
 
-		/*
-
-			if (visited[node] == 0) {
-				if (components[node].type == 0){
-					componentsCenter[node] = this.composer.getNextCenter(componentsCenter[j], k);
-				} else {
-					componentsCenter[node] = -1;
-				}
-			}
-		});*/
-
 		for (let j = 0; j < components.length; j++) {
 				if (components[j] != null && components[j].type == 0) {
 					for (let k = 0; k < 6; k++) {
@@ -243,6 +225,7 @@ class App {
 						let node = components[j].faces[k];
 						//console.log(node);
 						if (node != -1) {
+							console.log(node);
 							if (components[node].type == 0 && visited[node] == 0){
 								componentsCenter[node] = this.composer.getNextCenter(componentsCenter[j], k);
 							}
@@ -351,46 +334,38 @@ class App {
 		//WD DS SA AW
 		if (this.keys["KeyW"] &&
 			this.keys["KeyD"]) {
-			//console.log("W");
 			socket.emit('move', 1);
 		}
 
 		if (this.keys["KeyD"] &&
 			this.keys["KeyS"]) {
-			//console.log("A");
 			socket.emit('move', 3);
 		}
 
 		if (this.keys["KeyS"] &&
 			this.keys["KeyA"]) {
-			//console.log("S");
 			socket.emit('move', 5);
 		}
 
 		if (this.keys["KeyA"] &&
 			this.keys["KeyW"]) {
 			socket.emit('move',7);
-			//console.log("D");
 		}
 
 		// W A S D
 		if (this.keys["KeyW"]) {
-			//console.log("W");
 			socket.emit('move', 0);
 		}
 
 		if (this.keys["KeyD"]) {
 			socket.emit('move',2);
-			//console.log("D");
 		}
 
 		if (this.keys["KeyS"]) {
 			socket.emit('move', 4);
-			//console.log("S");
 		}
 
 		if (this.keys["KeyA"]) {
-			//console.log("A");
 			socket.emit('move', 6);
 		}
 	}
@@ -412,6 +387,12 @@ class App {
 	gameOver() {
 		this.disableInput();
 		//dust render
+		dust.render('partials/gameover', function(err, out) {
+			if (err) {
+				throw new Error(err);
+			}
+			document.getElementById('menu_enter').innerHTML = out;
+		});
 
 	}
 
