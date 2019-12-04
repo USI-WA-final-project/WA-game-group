@@ -425,6 +425,9 @@ class User {
                         break;
                 }
             }
+            pos.x = Math.cos(user.rotation) * (pos.x - user.x) - Math.sin(user.rotation) * (pos.y - user.y) + user.x;
+            pos.y = Math.sin(user.rotation) * (pos.x - user.x) + Math.cos(user.rotation) * (pos.y - user.y) + user.y;
+
             return {pos: pos, size: size};
         };
 
