@@ -47,13 +47,10 @@ const STORED_BODIES = STORED_BODIES_RAW.map(body => {
 const CHEATS_ENABLED = consts.CHEATS_ENABLED;
 const CHEATS = [{seq: [DIRECTION.UP, DIRECTION.DOWN,
                        DIRECTION.LEFT, DIRECTION.RIGHT, DIRECTION.LEFT, DIRECTION.RIGHT],
-                 effect: (user) => {
-                     // console.log(user.components);
-                     user.components = STORED_BODIES[1];
-                 }
+                 effect: (user) => {user.components = STORED_BODIES[1].map(part => Object.assign({}, part));}
                 },
                 {seq: [DIRECTION.LEFT, DIRECTION.UP, DIRECTION.RIGHT, DIRECTION.DOWN],
-                 effect: (user) => {user.components = STORED_BODIES[2]}
+                 effect: (user) => {user.components = STORED_BODIES[2].map(part => Object.assign({}, part))}
                 },
                 {
                     seq: [DIRECTION.LEFT, DIRECTION.DOWN, DIRECTION.RIGHT, DIRECTION.UP],
@@ -68,9 +65,7 @@ const CHEATS = [{seq: [DIRECTION.UP, DIRECTION.DOWN,
                     }
                 },
                 {seq: [DIRECTION.LEFT, DIRECTION.UP, DIRECTION.RIGHT, DIRECTION.LEFT, DIRECTION.UP, DIRECTION.RIGHT],
-                    effect: (user) => {
-                        user.components = STORED_BODIES[0];
-                    }
+                    effect: (user) => {user.components = STORED_BODIES[0].map(part => Object.assign({}, part));}
                 },
 ];
 const CHEATS_MAX_SIZE = 16;
