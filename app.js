@@ -71,9 +71,9 @@ io.on('connection', function(socket){
     };
 
     app.locals.playerColors = playerColors;
-    socket.emit('playerColors', playerColors);
 
-    socket.emit('worldSize', { 
+    socket.emit('worldData', { 
+        colors: playerColors,
         width: engine.WORLD_WIDTH, 
         height: engine.WORLD_HEIGHT 
     });
