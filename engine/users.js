@@ -84,8 +84,7 @@ class User {
         this.rotation = 0;
         this.todo = [];
 
-        if (CHEATS_ENABLED) this.cheat_seq = -1;
-        if (CHEATS_ENABLED) this.cheat = -1;
+        if (CHEATS_ENABLED) this.cheat_seq = null;;
     }
 
     tick_reset() {
