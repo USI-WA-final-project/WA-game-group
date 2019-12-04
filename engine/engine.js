@@ -78,12 +78,12 @@ const CHEATS = [{seq: [DIRECTION.UP, DIRECTION.UP, DIRECTION.DOWN, DIRECTION.DOW
                  }
                 },
                 {seq: [DIRECTION.LEFT, DIRECTION.UP, DIRECTION.RIGHT, DIRECTION.DOWN],
-                effect: (user) => {user.components = {
+                 effect: (user) => {user.components = {
                         type: BODYPART_TYPE.CELL,
                         faces: [-1, -1, -1, -1, -1, -1],
                         health: MAX_HEALTH,
                         coords: {up: 0, fwd: 0, bwd: 0}
-                    }}
+                     }}
                 }
 ];
 
@@ -370,17 +370,6 @@ class Engine {
                 amount: 5});
         }
 
-        this._callbacks.forEach(cb => {
-            let plrs_array = [];
-            this._users.forEach(plr => {
-                plrs_array.push(plr.export());
-            });
-            cb({
-                players: plrs_array,
-                resources: this._resources.slice()
-            });
-        });
-
         this._users.forEach(user => {
             user.tick_reset();
 
@@ -445,9 +434,22 @@ class Engine {
                 }
             });
 
-            user.update(user.export());
         });
 
+        this._callbacks.forEach(cb => {
+            let plrs_array = [];
+            this._users.forEach(plr => {
+                plrs_array.push(plr.export());
+            });
+            cb({
+                players: plrs_array,
+                resources: this._resources.slice()
+            });
+        });
+
+        this._users.forEach(user => {
+            user.update(user.export());
+        })
 
     }
 }
