@@ -376,7 +376,6 @@ class App {
 
 	setName(name) { 
 		localStorage.setItem('user_name', name);
-		//console.log(user_name);
 		socket.emit('registerUser',  name);
 	}
 
@@ -387,12 +386,7 @@ class App {
 	gameOver() {
 		this.disableInput();
 		//dust render
-		dust.render('partials/gameover', function(err, out) {
-			if (err) {
-				throw new Error(err);
-			}
-			document.getElementById('menu_enter').innerHTML = out;
-		});
+		
 
 	}
 

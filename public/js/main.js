@@ -99,7 +99,7 @@ function startGame(e) {
     if (e.code == "Enter" || e.code ==  undefined) {
         let name = input_name.value;
         let bg = document.querySelector(".hero");
-        let user_name = "Ajax";
+        let user_name = "ajax";
 
         if (name != "" && /\S/.test(name)) {
             user_name = name;
@@ -183,6 +183,10 @@ function init(name) {
 
         socket.on('gameOver', function() {
             app.gameOver();
+            dust.render('gameover', {result: []}, function(err, out) {
+                //console.log(err);
+                document.body.innerHTML = out;
+            });
         });
     });
 
