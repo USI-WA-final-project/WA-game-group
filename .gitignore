@@ -5,3 +5,4 @@ Thumbs.db
 *.jar
 restart.json
 serverLog.txt
+public/js/views.js

@@ -1,10 +1,11 @@
 {
-  "name": "wa-final-project",
+  "name": "legend-of-ajax",
   "version": "1.0.0",
   "description": "Legend of Ajax, Web Atelier final project",
   "license": "Apache-2.0",
+  "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "yarn run dustc; nodemon",
     "dustc": "cd ./views; dustc *.dust partials/*.dust -o ../public/js/views.js"
   },
   "dependencies": {
