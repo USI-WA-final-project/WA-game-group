@@ -22,7 +22,7 @@
     </div>
 -->
     
-    <div class="editor-element hidden" id="remove">
+    <div class="editor-element" id="remove">
         <img src="img/remove.svg">
         <p>Remove</p>
     </div>
