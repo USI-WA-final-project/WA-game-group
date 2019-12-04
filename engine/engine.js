@@ -78,12 +78,12 @@ const CHEATS = [{seq: [DIRECTION.UP, DIRECTION.UP, DIRECTION.DOWN, DIRECTION.DOW
                  }
                 },
                 {seq: [DIRECTION.LEFT, DIRECTION.UP, DIRECTION.RIGHT, DIRECTION.DOWN],
-                 effect: (user) => {user.components = {
-                        type: BODYPART_TYPE.CELL,
+                 effect: (user) => {user.components = [{
+                        type: consts.BODYPART_TYPE.CELL,
                         faces: [-1, -1, -1, -1, -1, -1],
                         health: MAX_HEALTH,
                         coords: {up: 0, fwd: 0, bwd: 0}
-                     }}
+                     }]}
                 }
 ];
 
