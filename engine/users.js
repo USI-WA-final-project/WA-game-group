@@ -138,6 +138,7 @@ class User {
             if (cmp.body) newObj.body = cmp.body;
             if (cmp.inflated) newObj.inflated = cmp.inflated;
             if (cmp.working) newObj.working = cmp.working;
+            return newObj;
         });
     }
     export() {
