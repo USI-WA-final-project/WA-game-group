@@ -11,40 +11,10 @@ class Editor {
         }
     }
 
-    findNextCell() {
-        let current;
-        for (let i = this.counter; i < this.player.length; i++) {
-            if (this.player[i].type == 0) {
-                current = this.player[i];
-                this.currentCell = current;
-                if (this.currentCell != this.player[0]) {
-                    this.counter++;
-                }
-            }
-        }
-    }
-
-    findPrevCell() {
-        let current;
-        for (let i = this.counter; i >= 0; i--) {
-            if (this.player[i].type == 0) {
-                current = this.player[i];
-                this.currentCell = current;
-                this.counter--;
-            }
-        }
-        // the function should never actually terminate outside of the loop
-        // as the first element of the components will always be the
-        // core cell of the player
-        current = this.player.components[0];
-        this.currentCell = current;
-        this.counter = 0;
-    }
-
     /*
      * Updates this.counter to the value of the cell holding the nearest center
      * to this.focus and finds the face closest to this.focus
-     * returns {number} face - The number of the face closest to this.focus.
+     * @returns {number} face - The number of the face closest to this.focus.
      * Must be between 0 and 5
      */
     findFace() {
@@ -61,8 +31,8 @@ class Editor {
 
         for (let i = 0; i < this.centers.length; i++) {
             if (this.centers[i] != -1) {
-                let currentDist = this.calcDistance(this.focus, this.centers[i]);
-                console.log(currentDist);
+                var currentDist = this.calcDistance(this.focus, this.centers[i]);
+                console.log("CURRENT", currentDist);
                 if (currentDist <= bestDistance) {
                     console.log("better");
                     bestDistance = currentDist;
@@ -71,6 +41,12 @@ class Editor {
                 }
             }
         }
+
+        if (currentDist > 100) {
+            console.error("Clicked too far from player");
+            return;
+        }
+
         this.counter = counter;
         console.log(counter, this.focus);
         face = this.checkFace(this.focus, closest);
