@@ -6,7 +6,6 @@
       <div class="hex"></div>
       <div class="hex"></div>
       <div class="hex"></div>
-      <div class="hex"></div>
     </div>
     <!-- Main Game -->
     <audio id="audio_game" loop>
@@ -21,7 +20,7 @@
             <hr>
             <div id="minimal">
                 <img src="img/score.svg">3
-                <img src="img/heart-rate.svg" width="24" height="20">Good
+                <img src="img/heart-rate.svg" width="24" height="20" style="margin-left:40px;">Good
             </div>
             <hr>
             <input id="check" type="checkbox" name="stats" class="hidden"/>
@@ -39,7 +38,7 @@
                 <div class="tools"><img src="img/edit.svg">Shop</div>
                 <div class="tools"><img src="img/help.svg">Help</div>
                 <hr>
-                <div id="audio_toggle"><img src="img/music-on.svg" alt="music_off">Sound on</div>
+                <div id="audio_toggle" class="tools"><img src="img/music-on.svg" alt="music_off">Sound on</div>
             </div>
         </div>
     </div>
@@ -92,7 +91,7 @@
     <div id="menu_info" class=" menu_enter hidden">
         <h1 style="font-variant: small-caps;">License</h1>
         <p>This is free and unencumbered software released into the public domain. Anyone is free to copy, modify, publish, use, compile, sell, or distribute this software, either in source code form or as a compiled binary, for any purpose, commercial or non-commercial, and by any means. In jurisdictions that recognize copyright laws, the author or authors of this software dedicate any and all copyright interest in the software to the public domain. We make this dedication for the benefit of the public at large and to the detriment of our heirs and successors. We intend this dedication to be an overt act of relinquishment in perpetuity of all present and future rights to this software under copyright law.</p><br>
-        <font size="-2">THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</font><br>
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.<br><br>
         For any inquire, feel free to contact us: <a href="mailto:info@legendofajax.fun">info@legendofajax.fun</a>
         <img class="back" src="img/back.svg" alt="back">
     </div>
