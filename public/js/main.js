@@ -99,7 +99,7 @@ function startGame(e) {
     if (e.code == "Enter" || e.code ==  undefined) {
         let name = input_name.value;
         let bg = document.querySelector(".hero");
-        let user_name = "Ajax";
+        let user_name = "ajax";
 
         if (name != "" && /\S/.test(name)) {
             user_name = name;
@@ -146,41 +146,48 @@ function startGame(e) {
 function init(name) {
     //console.log(worldSize);
     // Create canvas app
-    const app = new App({ canvas: 'canvas',
-                          inputs: { cell: 'cell', spike: 'spike', shield: 'shield', bounce: 'bounce', cancel: 'cancel' },
-                          info: {cell: 'info_cells', spike: 'info_spikes', shield: 'info_shields', time: 'info_time' },
-                          time: new Date() });
-
     //initialize socket
     socket = io();
 
-    if (!inGame) {
-        app.enableInput();
-        inGame = true;
-    } else {
-        app.disableInput();
-        inGame = false;
-    }
+    socket.on('worldData', function(data) {
+        const app = new App({ canvas: 'canvas',
+                              worldSize: { w: data.width, h: data.height },
+                              inputs: { cell: 'cell', spike: 'spike', shield: 'shield', bounce: 'bounce', cancel: 'cancel' },
+                              info: {cell: 'info_cells', spike: 'info_spikes', shield: 'info_shields', time: 'info_time' },
+                              time: new Date() });
 
-    // set name
-    app.setName(name);
 
-    socket.on('playerColors', function (msg) {
-        app.playerColors = msg;
-    });
 
-    socket.on('attachError', function(msg){
-        //console.log(msg);
-        app.displayAttachError(msg);
-    });
+        if (!inGame) {
+            app.enableInput();
+            inGame = true;
+        } else {
+            app.disableInput();
+            inGame = false;
+        }
 
-    socket.on('drawWorld', function(data) {
-        //console.log(data);
-        app.drawMap(data);
-    });
+        app.playerColors = data.colors;
 
-    socket.on('gameOver', function() {
-        app.gameOver();
+        // set name
+        app.setName(name);
+
+        socket.on('attachError', function(msg){
+            //console.log(msg);
+            app.displayAttachError(msg);
+        });
+
+        socket.on('drawWorld', function(data) {
+            //console.log(data);
+            app.drawMap(data);
+        });
+
+        socket.on('gameOver', function() {
+            app.gameOver();
+            dust.render('gameover', {result: []}, function(err, out) {
+                //console.log(err);
+                document.body.innerHTML = out;
+            });
+        });
     });
 
     socket.on('connect_error', function(msg){

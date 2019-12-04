@@ -71,9 +71,9 @@ io.on('connection', function(socket){
     };
 
     app.locals.playerColors = playerColors;
-    socket.emit('playerColors', playerColors);
 
-    socket.emit('worldSize', { 
+    socket.emit('worldData', { 
+        colors: playerColors,
         width: engine.WORLD_WIDTH, 
         height: engine.WORLD_HEIGHT 
     });
@@ -231,9 +231,10 @@ io.on('connection', function(socket){
                 return;
         }
 
-        try {
-            player.bodyparts = engine.info(player.id).bodyparts;
-        } catch (Exception) { return; }
+        let playerData = engine.info(player.id);
+        if (playerData == null) return;
+
+        player.bodyparts = playerData.bodyparts;
 
         if (data.part < 0 || player.bodyparts[data.part] === undefined) {
             console.log("Invalid part", data, "player", player.id, "-", player.username);
@@ -253,6 +254,10 @@ io.on('connection', function(socket){
             console.log("Error (code", res, ") attaching part", data, "player", player.id, "-", player.username);
             socket.emit("attachError", { type: data.type, message: "Invalid attach (code " + res + ")" });
         }
+    });
+
+    socket.on('rotatePlayer', function(data){
+        engine.rotate(id, data.angle);
     });
 
     socket.on('terminatePlayer', function(){
