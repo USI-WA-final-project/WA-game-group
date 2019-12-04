@@ -1,0 +1,7 @@
+{>"partials/header" /}
+    <!-- Connection Failed -->
+    <div id="failed">
+        <h1>Failed Connection to Server</h1>
+        <button onClick="window.location.reload();">Try Again</button>
+    </div>
+{> "partials/footer" /}
