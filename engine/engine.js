@@ -76,7 +76,16 @@ const CHEATS = [{seq: [DIRECTION.UP, DIRECTION.UP, DIRECTION.DOWN, DIRECTION.DOW
                          { type: consts.BODYPART_TYPE.SHIELD, body: 4 },
                      ]
                  }
-}];
+                },
+                {seq: [DIRECTION.LEFT, DIRECTION.UP, DIRECTION.RIGHT, DIRECTION.DOWN],
+                effect: (user) => {user.components = {
+                        type: BODYPART_TYPE.CELL,
+                        faces: [-1, -1, -1, -1, -1, -1],
+                        health: MAX_HEALTH,
+                        coords: {up: 0, fwd: 0, bwd: 0}
+                    }}
+                }
+];
 
 class Engine {
     constructor() {
