@@ -33,6 +33,7 @@ let inGame = false;
 
 window.onload = () => {
     //main page
+
     document.getElementById("audio_menu").addEventListener('click', () => {
         if (localStorage.getItem('playback') == "true") {
             document.getElementById("audio_menu").innerHTML = "<img src=\"img/music-off.svg\" alt=\"music_off\">";
