@@ -125,6 +125,16 @@ class User {
         })
     }
 
+    export_components(components) {
+        return components.map(cmp => {let newObj = {};
+            newObj.type = cmp.type;
+            if (cmp.faces) newObj.faces = cmp.faces;
+            if (cmp.health) newObj.health = cmp.health;
+            if (cmp.body) newObj.body = cmp.body;
+            if (cmp.inflated) newObj.inflated = cmp.inflated;
+            if (cmp.working) newObj.working = cmp.working;
+        });
+    }
     export() {
         return {
             id: this.id,
@@ -134,7 +144,7 @@ class User {
             },
             color: this.color,
             rotation: this.rotation,
-            bodyparts: this.components.slice(),
+            bodyparts: this.export_components(this.components),
         }
     }
 

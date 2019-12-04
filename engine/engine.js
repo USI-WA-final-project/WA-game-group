@@ -270,6 +270,23 @@ class Engine {
     // This function must be completely synchronous.
     tick() {
         this._tick_num++;
+
+        if (this._resources.length < RESOURCE_DENSITY * WORLD_WIDTH * WORLD_HEIGHT / 1000000) {
+            this._resources.push({position: {x: Math.random() * WORLD_WIDTH, y: Math.random() * WORLD_HEIGHT},
+                amount: 5});
+        }
+
+        this._callbacks.forEach(cb => {
+            let plrs_array = [];
+            this._users.forEach(plr => {
+                plrs_array.push(plr.export());
+            });
+            cb({
+                players: plrs_array,
+                resources: this._resources.slice()
+            });
+        });
+
         this._users.forEach(user => {
             user.tick_reset();
 
@@ -337,21 +354,7 @@ class Engine {
             user.update(user.export());
         });
 
-        this._callbacks.forEach(cb => {
-            let plrs_array = [];
-            this._users.forEach(plr => {
-                plrs_array.push(plr.export());
-            });
-            cb({
-                players: plrs_array,
-                resources: this._resources.splice()
-            });
-        });
 
-        if (this._resources.length < RESOURCE_DENSITY * WORLD_WIDTH * WORLD_HEIGHT / 1000000) {
-            this._resources.push({position: {x: Math.random() * WORLD_WIDTH, y: Math.random() * WORLD_HEIGHT},
-                                  amount: 5});
-        }
     }
 }
 
