@@ -21,6 +21,7 @@
             <div id="minimal">
                 <img src="img/score.svg">3
                 <img src="img/heart-rate.svg" width="24" height="20" style="margin-left:40px;">Good
+                <div id="life"></div>
             </div>
             <hr>
             <input id="check" type="checkbox" name="stats" class="hidden"/>
