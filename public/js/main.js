@@ -152,8 +152,9 @@ function init(name) {
     socket.on('worldData', function(data) {
         const app = new App({ canvas: 'canvas',
                               worldSize: { w: data.width, h: data.height },
-                              inputs: { cell: 'cell', spike: 'spike', shield: 'shield', bounce: 'bounce', cancel: 'cancel' },
-                              info: {cell: 'info_cells', spike: 'info_spikes', shield: 'info_shields', time: 'info_time' },
+                              inputs: { cell: 'cell', spike: 'spike', shield: 'shield', bounce: 'bounce',
+                                        cancel: 'cancel', remove: 'remove' },
+                              info: {cell: 'info_cells', spike: 'info_spikes', shield: 'info_shields', time: 'info_time', life: 'life' },
                               time: new Date() });
 
 
