@@ -3,9 +3,10 @@
     <audio audioplay>
         <source src="media/game_over.mp3" type="audio/mpeg">
     </audio>
-    <div id="gameover">
-        <h1>Game Over</h1>
-        <button onClick="window.location.reload();">Try Again</button>
+    <div class="error">
+        <h1 class="page_header">Game Over</h1>
+        <h3>You lost!</h3>
         <img src="/img/error.png">
+        <button onClick="window.location.reload();">Play Again</button>
     </div>
 {> "partials/footer" /}

@@ -1,6 +1,6 @@
 {>"partials/header" /}
 
-<h1 class="players_header">Leaderboard</h1>
+<h1 class="page_header">Leaderboard</h1>
 
 {#result}
     <div class="players_item">

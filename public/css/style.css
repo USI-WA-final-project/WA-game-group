@@ -130,17 +130,16 @@ input, button {
 	padding: 8px 30px;
 	margin: 22px;
 	border:none;
-	border-radius: 4px;
-	background-color: rgba(59, 64, 67, 1);
-	color: rgba(250, 251, 252, 1);
+	border-radius: 8px;
+	background-color: var(--ui-dark-light);
+	color: var(--white);
 	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 1);
 	transition: 300ms;
 }
 
 #menu_enter button:hover {
-	border-radius: 4px;
-	background-color: var(--white-dark);
-	color: var(--ui-dark-dark);
+	background-color: var(--ui-dark-dark);
+	color: var(--white-dark);
 }
 
 #audio_menu {
@@ -321,7 +320,7 @@ hr {
 	background-color: #ffffff;
 }
 
-.players_header {
+.page_header {
 	font-family: 'Inter', sans-serif;
 	font-size: 72px;
 	font-weight: bold;
@@ -480,4 +479,37 @@ hr {
 		transform: scale(20) rotate(960deg) translate(-50%, -50%);
 		opacity: 0;
 	}
+}
+
+.error h3 {
+	font-family: 'Inter', sans-serif;
+	color: var(--ui-dark-light);
+	font-size: 48px;
+	margin: 2rem 0;
+	text-align: center;
+	width: 100%;
+}
+
+.error img {
+	display: block;
+	margin: 2rem auto;
+}
+
+.error button {
+	display: block;
+	cursor:pointer;
+	font-size: 1.25rem;
+	padding: 8px 30px;
+	margin: 0 auto;
+	border:none;
+	border-radius: 8px;
+	background-color: var(--ui-dark-light);
+	color: var(--white);
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 1);
+	transition: 300ms;
+}
+
+.error button:hover {
+	background-color: var(--ui-dark-dark);
+	color: var(--white-dark);
 }
