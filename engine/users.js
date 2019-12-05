@@ -8,6 +8,7 @@ const INFLATE_RATE = consts.INFLATE_RATE;
 const REGEN_RATE = consts.REGEN_RATE;
 const SPIKE_DMG = consts.SPIKE_DMG;
 const ACTION = consts.ACTION;
+const RESOURCE_SIZE = consts.RESOURCE_SIZE;
 
 const CELL_INNER_RADIUS = 14;
 
@@ -84,7 +85,9 @@ class User {
         this.rotation = 0;
         this.todo = [];
 
-        if (CHEATS_ENABLED) this.cheat_seq = null;;
+        this.resources = 0;
+
+        if (CHEATS_ENABLED) this.cheat_seq = null;
     }
 
     tick_reset() {
@@ -364,80 +367,96 @@ class User {
         })
     };
 
-    collide_with_user(user) {
-        let get_hitbox = (user, bodypart, index) => {
-            let pos;
-            let size;
-            if (bodypart.type === BODYPART_TYPE.CELL) {
-                pos = this.rel_pos(user.x, user.y, bodypart.coords.up, bodypart.coords.fwd, bodypart.coords.bwd);
-                size = 14;
-            } else {
-                let mother = user.components[bodypart.body];
-                let mother_pos = this.rel_pos(user.x, user.y, mother.coords.up, mother.coords.fwd, mother.coords.bwd);
-                let face = user.components[bodypart.body].faces.findIndex(part => part === index);
-                if (face === -1) {
-                    console.log('Corrupted body: bodypart is not a child of its mother');
-                    pos = mother_pos;
-                    size = 14
-                }
-
-                let mult_x, mult_y;
-                switch (face) {
-                    case 0:
-                        mult_x = -12;
-                        mult_y = -7;
-                        break;
-                    case 1:
-                        mult_x = 0;
-                        mult_y = -14;
-                        break;
-                    case 2:
-                        mult_x = 12;
-                        mult_y = -7;
-                        break;
-                    case 3:
-                        mult_x = 12;
-                        mult_y = 7;
-                        break;
-                    case 4:
-                        mult_x = 0;
-                        mult_y = 14;
-                        break;
-                    case 5:
-                        mult_x = -12;
-                        mult_y = 7;
-                        break;
-                }
-
-                // 1 is radius of hexagon, so distance between the center of two adjacent cells would be 2
-                switch(bodypart.type) {
-                    case BODYPART_TYPE.BOUNCE:
-                        pos = {x: mother_pos.x + (10/14) * mult_x, y: mother_pos.y + (10/14) * mult_y};
-                        size = 9;
-                        break;
-                    case BODYPART_TYPE.SHIELD:
-                        pos = {x: mother_pos.x + (10/14) * mult_x, y: mother_pos.y + (10/14) * mult_y};
-                        size = 9;
-                        break;
-                    case BODYPART_TYPE.SPIKE:
-                        pos = {x: mother_pos.x + 2 * mult_x, y: mother_pos.y + 2 * mult_y};
-                        size = 0;
-                        break;
-                }
+    get_hitbox (user, bodypart, index) {
+        let pos;
+        let size;
+        if (bodypart.type === BODYPART_TYPE.CELL) {
+            pos = this.rel_pos(user.x, user.y, bodypart.coords.up, bodypart.coords.fwd, bodypart.coords.bwd);
+            size = 14;
+        } else {
+            let mother = user.components[bodypart.body];
+            let mother_pos = this.rel_pos(user.x, user.y, mother.coords.up, mother.coords.fwd, mother.coords.bwd);
+            let face = user.components[bodypart.body].faces.findIndex(part => part === index);
+            if (face === -1) {
+                console.log('Corrupted body: bodypart is not a child of its mother');
+                pos = mother_pos;
+                size = 14
             }
-            pos.x = Math.cos(user.rotation) * (pos.x - user.x) - Math.sin(user.rotation) * (pos.y - user.y) + user.x;
-            pos.y = Math.sin(user.rotation) * (pos.x - user.x) + Math.cos(user.rotation) * (pos.y - user.y) + user.y;
 
-            return {pos: pos, size: size};
-        };
+            let mult_x, mult_y;
+            switch (face) {
+                case 0:
+                    mult_x = -12;
+                    mult_y = -7;
+                    break;
+                case 1:
+                    mult_x = 0;
+                    mult_y = -14;
+                    break;
+                case 2:
+                    mult_x = 12;
+                    mult_y = -7;
+                    break;
+                case 3:
+                    mult_x = 12;
+                    mult_y = 7;
+                    break;
+                case 4:
+                    mult_x = 0;
+                    mult_y = 14;
+                    break;
+                case 5:
+                    mult_x = -12;
+                    mult_y = 7;
+                    break;
+            }
+
+            // 1 is radius of hexagon, so distance between the center of two adjacent cells would be 2
+            switch(bodypart.type) {
+                case BODYPART_TYPE.BOUNCE:
+                    pos = {x: mother_pos.x + (10/14) * mult_x, y: mother_pos.y + (10/14) * mult_y};
+                    size = 9;
+                    break;
+                case BODYPART_TYPE.SHIELD:
+                    pos = {x: mother_pos.x + (10/14) * mult_x, y: mother_pos.y + (10/14) * mult_y};
+                    size = 9;
+                    break;
+                case BODYPART_TYPE.SPIKE:
+                    pos = {x: mother_pos.x + 2 * mult_x, y: mother_pos.y + 2 * mult_y};
+                    size = 0;
+                    break;
+            }
+        }
+        pos.x = Math.cos(user.rotation) * (pos.x - user.x) - Math.sin(user.rotation) * (pos.y - user.y) + user.x;
+        pos.y = Math.sin(user.rotation) * (pos.x - user.x) + Math.cos(user.rotation) * (pos.y - user.y) + user.y;
+
+        return {pos: pos, size: size};
+    };
+
+    collide_with_resource(res) {
+        if (this.distance(this.x, this.y, res.position.x, res.position.y) > this.size + RESOURCE_SIZE) return false;
+
+        let collides = false;
+        this.components.forEach((bodypart, index) => {
+            let hitbox = this.get_hitbox(this, bodypart, index);
+            let other_hitbox = {pos: {x: res.position.x, y: res.position.y}, size: RESOURCE_SIZE};
+            if (hitbox.size + other_hitbox.size > this.distance(hitbox.pos.x, hitbox.pos.y,
+                other_hitbox.pos.x, other_hitbox.pos.y)) {
+                collides = true;
+            }
+        });
+        return collides;
+    }
+
+    collide_with_user(user) {
 
         if (this.distance_to_user(user) > this.size + user.size) return false;
 
         let collides = false;
         this.components.forEach((bodypart, index) => {
-            let hitbox = get_hitbox(this, bodypart, index);
+            let hitbox = this.get_hitbox(this, bodypart, index);
             user.components.forEach((other_bodypart, other_index) => {
-                let other_hitbox = get_hitbox(user, other_bodypart, other_index);
+                let other_hitbox = this.get_hitbox(user, other_bodypart, other_index);
                 if (hitbox.size + other_hitbox.size > this.distance(hitbox.pos.x, hitbox.pos.y,
                                                                     other_hitbox.pos.x, other_hitbox.pos.y)) {
                     this.collide(index, user, other_index);

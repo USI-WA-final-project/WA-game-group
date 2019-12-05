@@ -30,3 +30,9 @@ module.exports.ACTION = ACTION;
 
 const CHEATS_ENABLED = true;
 module.exports.CHEATS_ENABLED = CHEATS_ENABLED;
+
+const RESOURCE_SIZE = 16;
+module.exports.RESOURCE_SIZE = RESOURCE_SIZE;
+
+const MINING_RATE = 1;
+module.exports.MINING_RATE = MINING_RATE;

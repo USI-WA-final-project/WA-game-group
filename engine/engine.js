@@ -8,8 +8,9 @@ const WORLD_WIDTH = 1000;
 const WORLD_HEIGHT = 1000;
 const MOVE_SPEED = 2;
 const MAX_HEALTH = consts.MAX_HEALTH;
-const RESOURCE_DENSITY = 10;
+const RESOURCE_DENSITY = 0;
 const BODYPART_TYPE = consts.BODYPART_TYPE;
+const MINING_RATE = consts.MINING_RATE;
 
 const DIRECTION = Object.freeze({
     UP: Symbol("UP"),
@@ -101,6 +102,8 @@ class Engine {
     /** The amount of resources that should be found, on average, per 1000 map units^2
      *  @type {number} */
     get RESOURCE_DENSITY() {return RESOURCE_DENSITY;}
+    /** @type {number} */
+    get RESOURCE_SIZE() {return consts.RESOURCE_SIZE;}
 
     get DIRECTION() {return DIRECTION;}
     get BODYPART_TYPE() {return consts.BODYPART_TYPE;}
@@ -342,7 +345,7 @@ class Engine {
     tick() {
         this._tick_num++;
 
-        if (this._resources.length < RESOURCE_DENSITY * WORLD_WIDTH * WORLD_HEIGHT / 1000000) {
+        if (this._resources.length < RESOURCE_DENSITY * WORLD_WIDTH * WORLD_HEIGHT / (1000 * 1000)) {
             this._resources.push({position: {x: Math.random() * WORLD_WIDTH, y: Math.random() * WORLD_HEIGHT},
                 amount: 5});
         }
@@ -385,16 +388,33 @@ class Engine {
                         }
                         if (mvx === 0 && mvy === 0) break;
                         user.y += mvy;
-                        if (user.y > WORLD_WIDTH) user.y = WORLD_HEIGHT;
-                        if (user.y < 0) user.y = 0;
                         user.x += mvx;
-                        if (user.x > WORLD_WIDTH) user.x = WORLD_WIDTH;
-                        if (user.x < 0) user.x = 0;
+
                         let blocked = false;
                         this._users.forEach(other_user => {
                             blocked = blocked || other_user.id !== user.id && user.collide_with_user(other_user);
                         });
+
+                        let removed_res = [];
+                        this._resources.forEach((resource, index) => {
+                            if (user.collide_with_resource(resource)) {
+                                blocked = true;
+                                user.resources += Math.min(res.amount, MINING_RATE);
+                                resource.amount -= MINING_RATE;
+                                if (resource.amount <= 0) removed_res.push(index);
+                            }
+                        });
+                        removed_res.forEach(index => {
+                            this._resources.splice(index, 1);
+                        });
+
                         if (blocked) {user.y -= mvy; user.x -= mvx;}
+
+                        if (user.y > WORLD_WIDTH) user.y = WORLD_HEIGHT;
+                        if (user.y < 0) user.y = 0;
+                        if (user.x > WORLD_WIDTH) user.x = WORLD_WIDTH;
+                        if (user.x < 0) user.x = 0;
+
                         if (mvy !== 0) {
                             user.movedV = true;
                         }
