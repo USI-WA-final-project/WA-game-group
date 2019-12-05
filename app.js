@@ -1,4 +1,4 @@
-// const bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 // const dustjsLinkedin = require('dustjs-linkedin');
 const express = require('express');
 const logger = require('morgan');
@@ -23,7 +23,7 @@ mongoose.connect('mongodb://localhost/loa', { useNewUrlParser: true, useUnifiedT
 });
 
 app.use(logger('dev'));
-// app.use(bodyParser.json({strict: false}));
+app.use(bodyParser.json({strict: false, limit: '10mb'}));
 // app.use(bodyParser.text());
 // app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(__dirname + '/public'));
@@ -37,6 +37,13 @@ const routers = require(__dirname + '/routes/routers');
 app.use('/', routers.root);
 app.use('/players', routers.players);
 app.use('/favorites', routers.favorite);
+app.use('/moments', routers.moments);
+
+// APIs
+app.locals.imgur = {
+    album: 's5aWjcn',
+    token: '258d66df9a9d57fbdc2b3efd21fb59167df70ce9'
+};
 
 let worldState;
 
