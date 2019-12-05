@@ -1,4 +1,5 @@
 {>"partials/header" /}
+
     <div class="hero">
       <div class="hex"></div>
       <div class="hex"></div>
@@ -21,6 +22,7 @@
             <div id="minimal">
                 <img src="img/score.svg">3
                 <img src="img/heart-rate.svg" width="24" height="20" style="margin-left:40px;">Good
+                <div id="life"></div>
             </div>
             <hr>
             <input id="check" type="checkbox" name="stats" class="hidden"/>
@@ -38,7 +40,7 @@
                 <div class="tools"><img src="img/edit.svg">Shop</div>
                 <div class="tools"><img src="img/help.svg">Help</div>
                 <hr>
-                <div id="audio_toggle" class="tools"><img src="img/music-on.svg" alt="music_off">Sound on</div>
+                <div id="audio_toggle" class="tools"><img src="img/music-off.svg" alt="music_off">Sound off</div>
             </div>
         </div>
     </div>
@@ -58,7 +60,7 @@
         </div>
         <button type="submit">Play</button>
         <div id="options">
-            <div id="audio_menu"><img src="img/music-on.svg" alt="music off"></div>
+            <div id="audio_menu"><img src="img/music-off.svg" alt="music off"></div>
                 <ul>
                     <li id="rules"><img src="img/controls.svg" alt="joystick">Rules & Controls</li>
                     <li id="info"><img src="img/info.svg" alt="info">Info</li>
@@ -67,8 +69,8 @@
         </div>
     </div>
     <div id="menu_rules" class="menu_enter hidden">
-         <h1 style="font-variant: small-caps;">Rules and Commands</h1>
-         <p>The goal of this game is to collect as many resources as you can. To achieve this, You have to deal with other strong challengers who aim to the same goal. You can build your armor by holding spikes, shields and enforcing your defense and attack power by adding more cells surrounding you. Write a name, click Play and then start the game.</p>
+        <h1 style="font-variant: small-caps;">Rules and Commands</h1>
+        <p>The goal of this game is to collect as many resources as you can. To achieve this, You have to deal with other strong challengers who aim to the same goal. You can build your armor by holding spikes, shields and enforcing your defense and attack power by adding more cells surrounding you. Write a name, click Play and then start the game.</p>
         <div>
             <div class="controls"><img src="img/w.svg" alt="w" width="30" height="30"> Move Forward</div>
             <div class="controls"><img src="img/a.svg" alt="a" width="30" height="30"> Move Left</div>
@@ -95,7 +97,6 @@
         For any inquire, feel free to contact us: <a href="mailto:info@legendofajax.fun">info@legendofajax.fun</a>
         <img class="back" src="img/back.svg" alt="back">
     </div>
-    <div id="minimap" class="hidden minimap">
-    </div>
+    <canvas id="minimap" class="hidden minimap"></canvas>
 
 {> "partials/footer" /}

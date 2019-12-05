@@ -12,6 +12,8 @@ const btn_rules = document.getElementById("rules");
 const btn_back = document.querySelectorAll(".back");
 const input_name = document.getElementById("username");
 
+localStorage.setItem('playback', "false");
+
 btn_back.forEach((el) => {
     el.addEventListener('click', () => {
         document.querySelectorAll(".menu_enter").forEach((el) => {
@@ -31,18 +33,16 @@ let inGame = false;
 
 window.onload = () => {
     //main page
-    document.getElementById("jingle_menu").play();
-    let playback = true;
 
     document.getElementById("audio_menu").addEventListener('click', () => {
-        if (playback) {
+        if (localStorage.getItem('playback') == "true") {
             document.getElementById("audio_menu").innerHTML = "<img src=\"img/music-off.svg\" alt=\"music_off\">";
             document.getElementById("jingle_menu").pause();
-            playback = false;
+            localStorage.setItem('playback', "false");
         } else {
             document.getElementById("audio_menu").innerHTML = "<img src=\"img/music-on.svg\" alt=\"music_on\">";
             document.getElementById("jingle_menu").play();
-            playback = true;
+            localStorage.setItem('playback', "true");
         }
     });
     moveCursorToEnd(input_name);
@@ -105,6 +105,11 @@ function startGame(e) {
             user_name = name;
         }
 
+        if (localStorage.getItem('playback') == "true") {
+            document.getElementById("audio_toggle").innerHTML = "<img src=\"img/music-on.svg\" alt=\"music_on\">Sound on";
+            document.getElementById("audio_game").play();
+        }
+
         document.getElementById("editor").classList.toggle("hidden");
 
         document.getElementById("usname").innerHTML = "@" + user_name;
@@ -124,18 +129,15 @@ function startGame(e) {
 
         bg.parentNode.removeChild(bg);
 
-        document.getElementById("audio_game").play();
-        let playback = true;
-
         document.getElementById("audio_toggle").addEventListener('click', () => {
-            if (playback) {
+            if (localStorage.getItem('playback') == "true") {
                 document.getElementById("audio_toggle").innerHTML = "<img src=\"img/music-off.svg\" alt=\"music_off\">Sound off";
                 document.getElementById("audio_game").pause();
-                playback = false;
+                localStorage.setItem('playback', "false");
             } else {
                 document.getElementById("audio_toggle").innerHTML = "<img src=\"img/music-on.svg\" alt=\"music_on\">Sound on";
                 document.getElementById("audio_game").play();
-                playback = true;
+                localStorage.setItem('playback', "true");
             }
         });
 
@@ -152,8 +154,9 @@ function init(name) {
     socket.on('worldData', function(data) {
         const app = new App({ canvas: 'canvas',
                               worldSize: { w: data.width, h: data.height },
-                              inputs: { cell: 'cell', spike: 'spike', shield: 'shield', bounce: 'bounce', cancel: 'cancel' },
-                              info: {cell: 'info_cells', spike: 'info_spikes', shield: 'info_shields', time: 'info_time' },
+                              inputs: { cell: 'cell', spike: 'spike', shield: 'shield', bounce: 'bounce',
+                                        cancel: 'cancel', remove: 'remove' },
+                              info: {cell: 'info_cells', spike: 'info_spikes', shield: 'info_shields', time: 'info_time', life: 'life' },
                               time: new Date() });
 
 
@@ -186,6 +189,9 @@ function init(name) {
             dust.render('gameover', {result: []}, function(err, out) {
                 //console.log(err);
                 document.body.innerHTML = out;
+                if (localStorage.getItem('playback') == "true") {
+                    document.getElementById("over").play();
+                }
             });
         });
     });

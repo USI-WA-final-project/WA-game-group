@@ -21,6 +21,11 @@
         <p>Bouncer</p>
     </div>
 -->
+    
+    <div class="editor-element" id="remove">
+        <img src="img/remove.svg">
+        <p>Remove</p>
+    </div>
 
     <div class="editor-element hidden" id="cancel">
         <img src="img/done.svg">

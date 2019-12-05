@@ -44,8 +44,10 @@ class App {
 		this.spike = document.getElementById(object.inputs.spike);
 		this.bounce = document.getElementById(object.inputs.bounce);
 		this.cancel = document.getElementById(object.inputs.cancel);
+		this.removeParts = document.getElementById(object.inputs.remove);
 
 		//info Player parts
+		this.life = document.getElementById(object.info.life);
 		this.infoCell = document.getElementById(object.info.cell);
 		this.infoSpike = document.getElementById(object.info.spike);
 		this.infoShield = document.getElementById(object.info.shield);
@@ -61,9 +63,7 @@ class App {
 			this.gridImage = this.drawGrid();
 		});
 
-		this.canvas.addEventListener('blur', (e) => {
-			this.keys = {};
-		});
+		
 
 		document.getElementById('stats').addEventListener('mouseout', (e) => {
 			this.canvas.focus();
@@ -72,6 +72,7 @@ class App {
 	}
 
 	setEditor(type) {
+		this.canvas.focus();
 		this.editor = new Editor();
 		this.cancel.classList.remove('hidden');
 		switch (type) {
@@ -99,6 +100,7 @@ class App {
 	}	
 
 	setEditCancel() {
+		this.canvas.focus();
 		this.editor = undefined;
 		this.cancel.classList.add('hidden');
 		//this.bounce.classList.add('hidden');
@@ -119,6 +121,12 @@ class App {
 		}
 	}
 
+	setRemoveParts(e) {
+		this.editor.focus = {x: e.offsetX, y: e.offsetY};
+		this.editor.findFace();
+		socket.emit('removePart', {part: this.editor.counter});
+	}
+
 	drawMap(data) {
 		this.clearCanvas();
 		let sx = data.playerPosition.x;
@@ -131,7 +139,7 @@ class App {
 		data.players.forEach((elem) => {
 			if (elem.position.x == 0 && elem.position.y == 0) {
 				this.playerBody = elem.components;
-				this.updateInfo(this.playerBody);
+				this.updateInfo(this.playerBody, data.players[0].health);
 				if (this.editor != undefined){
 					this.setCenters(this.playerBody);
 				}
@@ -206,7 +214,7 @@ class App {
 	}*/
 
 	setCenters(components) {
-		console.log(components);
+		//console.log(components);
 		let componentsCenter = Array.from(new Array(components.length));
 		componentsCenter[0] = {x: this.canvas.width/2, y: this.canvas.height/2};
 		let visited = [];
@@ -225,7 +233,7 @@ class App {
 						let node = components[j].faces[k];
 						//console.log(node);
 						if (node != -1) {
-							console.log(node);
+							//console.log(node);
 							if (components[node].type == 0 && visited[node] == 0){
 								componentsCenter[node] = this.composer.getNextCenter(componentsCenter[j], k);
 							}
@@ -240,14 +248,13 @@ class App {
 		}
 
 		this.editor.centers = componentsCenter;
-		//console.log(componentsCenter, visited, this.playerBody);
 	}
 
-	updateInfo(elems) {
+	updateInfo(elems, life) {
 		let info = {cell: 0, spike: 0, shield: 0 };
 		let factor = 60000;
 		let currentTime = new Date(Date.now() - this.valueTime.getTime() + factor * this.valueTime.getTimezoneOffset());
-		//console.log(currentTime);
+
 		elems.forEach((part) => {
 			if (part != undefined) {
 				if (part.type == 0) {
@@ -263,6 +270,9 @@ class App {
 				}
 			}
 		});
+		this.life.style.background = "-webkit-linear-gradient(left, green "+life+"%, white "+(100 - life)+"%)";
+		this.life.style.width = "100%";
+		this.life.style.padding = "10px 0";
 
 		this.infoCell.innerHTML = info.cell + "&nbsp;";
 		this.infoSpike.innerHTML = info.spike + "&nbsp;";
@@ -301,6 +311,7 @@ class App {
 		}.bind(this));
 
 		this.cancel.addEventListener('click', this.setEditCancel.bind(this));
+		this.removeParts.addEventListener('click', this.setRemoveParts.bind(this));
 
 		/*this.cell.addEventListener('click', function(){
 			this.setEditor('bounce').bind(this);
@@ -386,7 +397,6 @@ class App {
 	gameOver() {
 		this.disableInput();
 		//dust render
-		
 
 	}
 

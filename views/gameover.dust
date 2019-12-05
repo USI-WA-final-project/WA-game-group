@@ -1,6 +1,6 @@
 {>"partials/header" /}
     <!-- Game Over -->
-    <audio audioplay>
+    <audio id="over" loop>
         <source src="media/game_over.mp3" type="audio/mpeg">
     </audio>
     <div class="error">
