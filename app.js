@@ -63,11 +63,10 @@ io.on('connection', function(socket){
     console.log('Client connected');
 
     let player = {
-        id: engine.create(),
+        id: engine.create(),    //TODO move this elsewhere (steeven)
         username: null,
         color: null, 
-        spawnPos: {},
-        active: true
+        spawnPos: {}
     };
 
     app.locals.playerColors = playerColors;
@@ -157,12 +156,12 @@ io.on('connection', function(socket){
 
         let resources = [];
 
-        /* worldState.resources.forEach(function(el) {
+        worldState.resources.forEach(function(el) {
             if (Math.abs(el.position.x - x) < RENDER_DISTANCE && 
                 Math.abs(el.position.y - y) < RENDER_DISTANCE) {
                 resources.push(el);
             }
-        }); */
+        });
 
         let structures = [];
 
@@ -176,7 +175,7 @@ io.on('connection', function(socket){
         let serializedData = {
             playerPosition: { x: x, y: y },
             players: players,
-            //resources: resources,
+            resources: resources,
             //structures: structures
         };
 
@@ -285,19 +284,8 @@ io.on('connection', function(socket){
         engine.rotate(player.id, data.angle);
     });
 
-    socket.on('terminatePlayer', function(){
-        if (player.active) {
-            console.log('Client disconnected');
-            engine.remove(player.id);
-            player.active = false;
-        }
-    });
-
     socket.on('disconnect', function(){
-        if (player.active) {
-            console.log('Client disconnected');
-            engine.remove(player.id);
-            player.active = false;
-        }        
+        console.log('Client disconnected');
+        engine.remove(player.id);
     });
 });
