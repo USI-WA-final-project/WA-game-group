@@ -11,7 +11,7 @@ class Editor {
      *
      */
     isInHexagon(center) {
-        if (calcDistance(this.focus, center) > 8) {
+        if (this.calcDistance(this.focus, center) > 8) {
             return false;
         } else {
             return true;
@@ -50,10 +50,10 @@ class Editor {
             return;
         }
 
-        if (isInHexagon()) {
+        if (this.isInHexagon()) {
             this.counter = i;
         } else {
-            this.counter = closest.faces[checkFace(this.focus, closest)];
+            this.counter = closest.faces[this.checkFace(this.focus, closest)];
         }
 
     }
