@@ -9,6 +9,7 @@ const REGEN_RATE = consts.REGEN_RATE;
 const SPIKE_DMG = consts.SPIKE_DMG;
 const ACTION = consts.ACTION;
 const RESOURCE_SIZE = consts.RESOURCE_SIZE;
+const MINING_RATE = consts.MINING_RATE;
 
 const CELL_INNER_RADIUS = 14;
 
@@ -443,6 +444,10 @@ class User {
             if (hitbox.size + other_hitbox.size > this.distance(hitbox.pos.x, hitbox.pos.y,
                 other_hitbox.pos.x, other_hitbox.pos.y)) {
                 collides = true;
+                if (bodypart.type !== BODYPART_TYPE.SHIELD) {
+                    this.resources += Math.min(res.amount, MINING_RATE);
+                    res.amount -= MINING_RATE;
+                }
             }
         });
         return collides;

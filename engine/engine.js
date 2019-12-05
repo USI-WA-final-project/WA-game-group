@@ -399,8 +399,6 @@ class Engine {
                         this._resources.forEach((resource, index) => {
                             if (user.collide_with_resource(resource)) {
                                 blocked = true;
-                                user.resources += Math.min(res.amount, MINING_RATE);
-                                resource.amount -= MINING_RATE;
                                 if (resource.amount <= 0) removed_res.push(index);
                             }
                         });
