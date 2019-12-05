@@ -3,14 +3,14 @@ class App {
 	constructor(object) {
 		//canvas
 		this.canvas = document.getElementById(object.canvas);
-		//this.minCanvas =document.getElementById('minimap');
+		this.minCanvas = document.getElementById('minimap');
 
 		if (this.canvas.tagName !== 'CANVAS') {
 			throw new Error("It should be a canvas");
 		}
 
 		this.ctx = this.canvas.getContext('2d');
-		//this.minCtx = this.minCanvas.getContext('2d');
+		this.minCtx = this.minCanvas.getContext('2d');
 
 		this.worldW = object.worldSize.w;
 		this.worldH = object.worldSize.h;
@@ -18,7 +18,6 @@ class App {
 		//graphic interface
 		this.composer = new Composer(new CanvasInterface(this.canvas));
 		this.gridImage =  this.drawGrid();
-		//xsthis.miniMap = this.drawMiniMap();
 
 		//array keys movement
 		this.movementKeys = ["KeyW", "KeyD", "KeyS", "KeyA"];
@@ -132,7 +131,11 @@ class App {
 		let sx = data.playerPosition.x;
 		let sy = data.playerPosition.y;
 		this.ctx.drawImage(this.gridImage, sx, sy, this.canvas.width, this.canvas.height, 0, 0, this.canvas.width, this.canvas.height);
-		//this.minCtx.drawImage(this.miniMap, 0, 0);
+		//this.drawMiniMap({x: sx, y: sy});
+		//console.log(this.miniMap);
+		if (this.miniMap != undefined) {
+			//this.minCtx.drawImage(this.miniMap, 0, 0);
+		}
 
 		this.move();
 
@@ -190,28 +193,43 @@ class App {
 	    let gridImage = new Image();
 
 	    gridImage.src = c.canvas.toDataURL();
+	    
+	    this.minCtx.clearRect(0, 0, 300, 200);
+		//console.log(img);
+
+		this.minCanvas.width = 300;
+		this.minCanvas.height = 200;
+
+		this.minCtx.save();
+		this.minCtx.scale(1, 1);
+		this.minCtx.drawImage(c.canvas, this.canvas.width/2, this.canvas.height/2,this.worldW, this.worldH, 0, 0, 300, 200);
+		this.minCtx.restore();
 
 	    return gridImage;
 	}
 
-	/*drawMiniMap(pos) {
-		const c = document.createElement('canvas').getContext('2d');
-		let img = this.drawGrid();
-		let width = 300;
-		let height = 200;
+	drawMiniMap(pos) {
+		if (pos != undefined) {
+			this.minCtx.clearRect(0, 0, 300, 200);
+			let img = this.gridImage;
+			//console.log(img);
+			let width = 300;
+			let height = 200;
 
-		c.drawImage(img,0,0);
-		c.beginPath();
-		c.arc(pos.x, pos.y, 1, 0, 2 * Math.PI, true);
-		c.fill();
+			this.minCanvas.width = 300;
+			this.minCanvas.height = 200;
 
-		let miniMap = new Image();
+			this.minCtx.save();
+			this.minCtx.scale(this.canvas.width/300, this.canvas.width/300);
+			this.minCtx.drawImage(img,0,0);
+			this.minCtx.restore();
+			//console.log(this.minCanvas.toDataURL());
+			// c.beginPath();
+			// c.arc(pos.x, pos.y, 1, 0, 2 * Math.PI, true);
+			// c.fill();
+		}
 
-		miniMap.src = c.canvas.toDataURL();
-
-		return miniMap;
-
-	}*/
+	}
 
 	setCenters(components) {
 		//console.log(components);

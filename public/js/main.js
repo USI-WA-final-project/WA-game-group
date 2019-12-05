@@ -198,10 +198,18 @@ function init(name) {
 
     socket.on('connect_error', function(msg){
         //render error
+        dust.render('error', {result: []}, function(err, out) {
+            //console.log(err);
+            document.body.innerHTML = out;
+        });
     });
 
     socket.on('disconnect', function(msg){
         //render error
+        dust.render('error', {result: []}, function(err, out) {
+            //console.log(err);
+            document.body.innerHTML = out;
+        });
     });
 
     socket.on('reconnect', function(msg){
