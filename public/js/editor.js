@@ -31,7 +31,7 @@ class Editor {
 
         for (let i = 0; i < this.centers.length; i++) {
             if (this.centers[i] != -1) {
-                var currentDist = this.calcDistance(this.focus, this.centers[i]);
+                let currentDist = this.calcDistance(this.focus, this.centers[i]);
                 console.log("CURRENT", currentDist);
                 if (currentDist <= bestDistance) {
                     console.log("better");
@@ -42,7 +42,7 @@ class Editor {
             }
         }
 
-        if (currentDist > 100) {
+        if (bestDistance > 100) {
             console.error("Clicked too far from player");
             return;
         }
