@@ -8,7 +8,7 @@ class Editor {
     }
 
     /*
-     *
+     * Checks if the click
      */
     isInHexagon(center) {
         if (this.calcDistance(this.focus, center) > 8) {
@@ -41,6 +41,7 @@ class Editor {
                     console.log("better");
                     bestDistance = currentDist;
                     closest = this.centers[i];
+                    counter = i;
                 }
             }
         }
@@ -50,10 +51,12 @@ class Editor {
             return;
         }
 
-        if (this.isInHexagon()) {
-            this.counter = i;
+        this.counter = counter;
+
+        if (this.isInHexagon(closest)) {
+            return;
         } else {
-            this.counter = closest.faces[this.checkFace(this.focus, closest)];
+            return this.checkFace(this.focus, closest);
         }
 
     }
