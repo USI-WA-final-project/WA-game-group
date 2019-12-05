@@ -41,6 +41,7 @@ class Editor {
                     console.log("better");
                     bestDistance = currentDist;
                     closest = this.centers[i];
+                    counter = i;
                 }
             }
         }
@@ -50,9 +51,9 @@ class Editor {
             return;
         }
 
-        this.counter = i;
+        this.counter = counter;
 
-        if (this.isInHexagon()) {
+        if (this.isInHexagon(closest)) {
             return;
         } else {
             return this.checkFace(this.focus, closest);
