@@ -78,7 +78,7 @@ io.on('connection', function(socket){
         height: engine.WORLD_HEIGHT 
     });
 
-    //Register user in engine and DB
+    //Register user in DB
     socket.on('registerUser', function(user) {
         let playerInfo = engine.info(player.id);
         player.username = user;
@@ -272,7 +272,7 @@ io.on('connection', function(socket){
     });
 
     socket.on('rotatePlayer', function(data){
-        engine.rotate(id, data.angle);
+        engine.rotate(player.id, data.angle);
     });
 
     socket.on('terminatePlayer', function(){
