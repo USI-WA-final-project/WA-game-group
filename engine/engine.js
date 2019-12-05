@@ -10,7 +10,6 @@ const MOVE_SPEED = 2;
 const MAX_HEALTH = consts.MAX_HEALTH;
 const RESOURCE_DENSITY = 0;
 const BODYPART_TYPE = consts.BODYPART_TYPE;
-const MINING_RATE = consts.MINING_RATE;
 
 const DIRECTION = Object.freeze({
     UP: Symbol("UP"),
@@ -48,12 +47,14 @@ const STORED_BODIES = STORED_BODIES_RAW.map(body => {
 const CHEATS_ENABLED = consts.CHEATS_ENABLED;
 const CHEATS = [{seq: [DIRECTION.UP, DIRECTION.DOWN,
                        DIRECTION.LEFT, DIRECTION.RIGHT, DIRECTION.LEFT, DIRECTION.RIGHT],
+                 // shuriken
                  effect: (user) => {user.components = STORED_BODIES[1].map(part => Object.assign({}, part));}
                 },
                 {seq: [DIRECTION.LEFT, DIRECTION.UP, DIRECTION.RIGHT, DIRECTION.DOWN],
+                 // fortress
                  effect: (user) => {user.components = STORED_BODIES[2].map(part => Object.assign({}, part))}
                 },
-                {
+                { // log user
                     seq: [DIRECTION.LEFT, DIRECTION.DOWN, DIRECTION.RIGHT, DIRECTION.UP],
                     effect: (user) => {
                         console.log(JSON.stringify(user, (k, v) => {
@@ -66,7 +67,8 @@ const CHEATS = [{seq: [DIRECTION.UP, DIRECTION.DOWN,
                     }
                 },
                 {seq: [DIRECTION.LEFT, DIRECTION.UP, DIRECTION.RIGHT, DIRECTION.LEFT, DIRECTION.UP, DIRECTION.RIGHT],
-                    effect: (user) => {user.components = STORED_BODIES[0].map(part => Object.assign({}, part));}
+                 // initial
+                 effect: (user) => {user.components = STORED_BODIES[0].map(part => Object.assign({}, part));}
                 },
 ];
 const CHEATS_MAX_SIZE = 16;
