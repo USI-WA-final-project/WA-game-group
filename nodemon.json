@@ -1,0 +1,8 @@
+{
+    "events": {
+        "restart": "yarn run dustc"
+    },
+    "ignore": [
+        "public/js/views.js"
+    ]
+}
