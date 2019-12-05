@@ -87,7 +87,7 @@ var database = {
             found[0].dateEnded = Date.now();
             found[0].active = false;
 
-            found[0].save().then(function(saved) {
+            return found[0].save().then(function(saved) {
                 console.log('[DB] Archived player', saved.id, '-', saved.username);
                 return true;
             }).catch(function(err) {
