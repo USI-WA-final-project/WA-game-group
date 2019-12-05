@@ -1,9 +1,9 @@
 {>"partials/header" /}
     <!-- Connection Failed -->
     <div class="error">
-        <h1 class="page_header">Oh no</h1>
-        <h3>{message}</h3>
-        <img src="/img/error.png">
+        <h1 class="page_header">Error</h1>
+        <h3>Cannot connect to server</h3>
+        <img src="https://imgur.com/a/UY0C8kn">
         <button onClick="window.location.reload();">Try Again</button>
     </div>
 {> "partials/footer" /}
