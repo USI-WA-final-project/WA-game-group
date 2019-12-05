@@ -9,12 +9,15 @@
     "dustc": "cd ./views; dustc *.dust partials/*.dust -o ../public/js/views.js"
   },
   "dependencies": {
+    "body-parser": "^1.19.0",
     "dustjs-linkedin": "^2.7.5",
     "express": "^4.17.1",
     "klei-dust": "^1.0.0",
     "mongoose": "^5.7.12",
     "morgan": "^1.9.1",
+    "node-fetch": "^2.6.0",
     "nodemon": "^2.0.1",
+    "querystring": "^0.2.0",
     "socket.io": "^2.3.0"
   },
   "author": "Marco Tereh, Joey Bevilacqua, Gianmarco De Vita, Andrea Brites Marto, Stefano Taillefert, Tommaso Rodolfo Masera"
