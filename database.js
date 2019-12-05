@@ -12,7 +12,7 @@ var database = {
         return Player.find({}).then(function(found) {
             return found;
         }).catch(function(err) {
-            console.log(err.message);
+            console.log("[DB]", err.message);
             return false;
         });
     },
@@ -28,7 +28,7 @@ var database = {
         return Player.find(filter).then(function(found) {
             return found;
         }).catch(function(err) {
-            console.log(err.message);
+            console.log("[DB]", err.message);
             return false;
         });
     },
@@ -45,11 +45,11 @@ var database = {
             spawnPos: player.spawnPos
         });
 
-        newPlayer.save().then(function(saved) {
-            console.log('Created player', saved.id, '-', saved.username);
+        return newPlayer.save().then(function(saved) {
+            console.log('[DB] Created player', saved.id, '-', saved.username);
             return true;
         }).catch(function(err) {
-            console.log(err.message);
+            console.log("[DB]", err.message);
             return false;
         });
     },
@@ -61,16 +61,16 @@ var database = {
     removePlayer: function(id) {
         const filter = { id: id };
 
-        Player.find(filter).then(function(found) {
+        return Player.find(filter).then(function(found) {
             found.remove().then(function(removed) {
-                console.log('Removed player', removed.id, '-', removed.username);
+                console.log('[DB] Removed player', removed.id, '-', removed.username);
                 return true;
             }).catch(function(err) {
-                console.log(err.message);
+                console.log("[DB]", err.message);
                 return false;
             });            
         }).catch(function(err) {
-            console.log(err.message);
+            console.log("[DB]", err.message);
             return false;
         });
     }, 
@@ -83,19 +83,19 @@ var database = {
     terminatePlayer: function(id) {
         const filter = { id: id };
 
-        Player.find(filter).then(function(found) {
+        return Player.find(filter).then(function(found) {
             found[0].dateEnded = Date.now();
             found[0].active = false;
 
             found[0].save().then(function(saved) {
-                console.log('Archived player', saved.id, '-', saved.username);
+                console.log('[DB] Archived player', saved.id, '-', saved.username);
                 return true;
             }).catch(function(err) {
-                console.log(err.message);
+                console.log("[DB]", err.message);
                 return false;
             });
         }).catch(function(err) {
-            console.log(err.message);
+            console.log("[DB]", err.message);
             return false;
         });
     },
@@ -109,7 +109,7 @@ var database = {
     updatePlayer: function(id, newPlayer) {
         const filter = { id: id };
 
-        Player.find(filter).then(function(found) {
+        return Player.find(filter).then(function(found) {
             let old = found[0];
             if (newPlayer.id != undefined && newPlayer.id != old.id) {
                 old.id = newPlayer.id;
@@ -139,16 +139,15 @@ var database = {
                 old.score = newPlayer.score;
             }
 
-            old.save().then(function(saved) {
-                console.log('Updated player', saved.id, '-', saved.username);
+            return old.save().then(function(saved) {
+                console.log('[DB] Updated player', saved.id, '-', saved.username);
                 return true;
             }).catch(function(err) {
-                console.log(err.message);
+                console.log("[DB]", err.message);
                 return false;
             });
-            return true;
         }).catch(function(err) {
-            console.log(err.message);
+            console.log("[DB]", err.message);
             return false;
         });
     }

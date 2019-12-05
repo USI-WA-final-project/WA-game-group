@@ -86,14 +86,24 @@ io.on('connection', function(socket){
         player.spawnPos.x = playerInfo.position.x;
         player.spawnPos.y = playerInfo.position.y;
 
-        database.addPlayer(player);
+        database.addPlayer(player)
+        .then(function(result) {
+            if (!result) {
+                console.log("Error adding player");
+            }
+        });
     });
 
     //Send to each player its customized view (based on RENDER_DISTANCE)
     engine.register(player.id, function(data) {
         if (data == null) {
             //Either game over or disconnection
-            database.terminatePlayer(player.id);
+            database.terminatePlayer(player.id)
+            .then(function(result) {
+                if (!result) {
+                    console.log("Error terminating player");
+                }
+            });
             socket.emit('gameOver');
             return;
         }
