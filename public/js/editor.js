@@ -50,10 +50,12 @@ class Editor {
             return;
         }
 
+        this.counter = i;
+
         if (this.isInHexagon()) {
-            this.counter = i;
+            return;
         } else {
-            this.counter = closest.faces[this.checkFace(this.focus, closest)];
+            return this.checkFace(this.focus, closest);
         }
 
     }
