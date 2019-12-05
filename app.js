@@ -278,7 +278,7 @@ io.on('connection', function(socket){
 
         player.bodyparts = playerData.bodyparts;
 
-        if (data.part < 0 || player.bodyparts[data.part] === undefined) {
+        if (data.part <= 0 || player.bodyparts[data.part] === undefined) {
             console.log("Invalid part remove", data, "player", player.id, "-", player.username);
             socket.emit("removeError", { message: "Invalid part " + data.part });
             return;
@@ -292,7 +292,7 @@ io.on('connection', function(socket){
     });
 
     socket.on('disconnect', function(){
-        console.log('Client disconnected');
+        console.log('Client disconnected', player.id, '-', player.username);
         engine.remove(player.id);
     });
 });
