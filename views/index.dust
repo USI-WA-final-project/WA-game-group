@@ -41,8 +41,12 @@
                 <a href="/favorites" target="blank" style="color: #333; text-decoration: none;">
                     <div class="tools"><img src="img/photos.svg">Share this moment</div>
                 </a>
+                <a href="/shop" target="blank" style="color: #333; text-decoration: none;">
                 <div class="tools"><img src="img/edit.svg">Shop</div>
-                <div class="tools"><img src="img/help.svg">Help</div>
+                </a>
+                <a href="/help" target="blank" style="color: #333; text-decoration: none;">
+                    <div class="tools"><img src="img/help.svg">Help</div>
+                </a>
                 <hr>
                 <div id="audio_toggle" class="tools"><img src="img/music-off.svg" alt="music_off">Sound off</div>
             </div>

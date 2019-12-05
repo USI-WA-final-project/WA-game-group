@@ -522,7 +522,11 @@ hr {
 }
 
 #life {
-	width: 100%
+	width: 100%;
+/*	This works only for Chrome */	
+	background: -webkit-linear-gradient(left, green 100%);
+/* This is for other browsers */	
+	background: linear-gradient(left, green 100%);
 	padding-top: 10px;
 	padding-bottom: 10px;
 }
