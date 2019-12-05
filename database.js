@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 
 require('./models/Player');
 const Player = mongoose.model('Player');
+require('./models/Moment');
+const Moment = mongoose.model('Moment');
 
 var database = {
     /**
@@ -150,6 +152,30 @@ var database = {
             console.log("[DB]", err.message);
             return false;
         });
+    },
+
+    getAllMoments: function() {
+        return Moment.find({});
+    },
+
+    getMomentById: function(id) {
+        return Moment.findById(id);
+    },
+
+    addMoment: function(moment) {
+        return Moment({
+            src: moment.src
+        }).save();
+    },
+
+    updateMoment: function (id, data) {
+        return Moment.findById(id)
+            .then((item) => {
+                if (data.name) item.name = data.name;
+                if (data.uploaded) item.uploaded = data.uploaded;
+
+                return item.save();
+            });
     }
 };
 

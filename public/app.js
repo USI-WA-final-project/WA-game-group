@@ -17,7 +17,7 @@ class App {
 
 		//graphic interface
 		this.composer = new Composer(new CanvasInterface(this.canvas));
-		this.gridImage =  this.drawGrid();
+		this.gridImage = this.drawGrid();
 
 		//array keys movement
 		this.movementKeys = ["KeyW", "KeyD", "KeyS", "KeyA"];
@@ -62,7 +62,9 @@ class App {
 			this.gridImage = this.drawGrid();
 		});
 
-		
+		this.canvas.addEventListener('blur', (e) => {
+			this.keys = {};
+		});
 
 		document.getElementById('stats').addEventListener('mouseout', (e) => {
 			this.canvas.focus();
@@ -71,7 +73,6 @@ class App {
 	}
 
 	setEditor(type) {
-		this.canvas.focus();
 		this.editor = new Editor();
 		this.cancel.classList.remove('hidden');
 		switch (type) {
@@ -96,10 +97,9 @@ class App {
 				el.classList.remove('buttonclicked');
 			}
 		});
-	}	
+	}
 
 	setEditCancel() {
-		this.canvas.focus();
 		this.editor = undefined;
 		this.cancel.classList.add('hidden');
 		//this.bounce.classList.add('hidden');
@@ -108,7 +108,7 @@ class App {
 	setFace(e) {
 		if (this.editor != undefined) {
 			this.editor.focus = {x: e.offsetX, y: e.offsetY};
-			this.cellEdited.face =  this.editor.findFace();
+			this.cellEdited.face = this.editor.findFace();
 			this.cellEdited.part = this.editor.counter;
 
 			if (this.cellEdited.type != undefined && this.cellEdited.face != undefined) {
@@ -118,12 +118,6 @@ class App {
 											face: this.cellEdited.face });
 			}
 		}
-	}
-
-	setRemoveParts(e) {
-		this.editor.focus = {x: e.offsetX, y: e.offsetY};
-		this.editor.findFace();
-		socket.emit('removePart', {part: this.editor.counter});
 	}
 
 	drawMap(data) {
@@ -205,34 +199,24 @@ class App {
 		this.minCtx.drawImage(c.canvas, this.canvas.width/2, this.canvas.height/2,this.worldW, this.worldH, 0, 0, 300, 200);
 		this.minCtx.restore();
 
-	    return gridImage;
+		return gridImage;
 	}
 
 	drawMiniMap(pos) {
-		if (pos != undefined) {
-			this.minCtx.clearRect(0, 0, 300, 200);
-			let img = this.gridImage;
-			//console.log(img);
-			let width = 300;
-			let height = 200;
+		if (pos === undefined) return;
+		this.minCtx.clearRect(0, 0, 300, 200);
+		let img = this.gridImage;
+		//console.log(img);
+		this.minCanvas.width = 300;
+		this.minCanvas.height = 200;
 
-			this.minCanvas.width = 300;
-			this.minCanvas.height = 200;
-
-			this.minCtx.save();
-			this.minCtx.scale(this.canvas.width/300, this.canvas.width/300);
-			this.minCtx.drawImage(img,0,0);
-			this.minCtx.restore();
-			//console.log(this.minCanvas.toDataURL());
-			// c.beginPath();
-			// c.arc(pos.x, pos.y, 1, 0, 2 * Math.PI, true);
-			// c.fill();
-		}
-
+		this.minCtx.save();
+		this.minCtx.scale(this.canvas.width / 300, this.canvas.width / 300);
+		this.minCtx.drawImage(img, 0, 0);
+		this.minCtx.restore();
 	}
 
 	setCenters(components) {
-		//console.log(components);
 		let componentsCenter = Array.from(new Array(components.length));
 		componentsCenter[0] = {x: this.canvas.width/2, y: this.canvas.height/2};
 		let visited = [];
@@ -288,9 +272,6 @@ class App {
 				}
 			}
 		});
-		this.life.style.background = "-webkit-linear-gradient(left, green "+life+"%, white "+(100 - life)+"%)";
-		this.life.style.width = "100%";
-		this.life.style.padding = "10px 0";
 
 		this.infoCell.innerHTML = info.cell + "&nbsp;";
 		this.infoSpike.innerHTML = info.spike + "&nbsp;";
@@ -357,6 +338,9 @@ class App {
 		if (this.movementKeys.includes(e.code)) {
 			this.keys[e.code] = true;
 		}
+		if (e.code === "KeyP") {
+			this.snapshot();
+		}
 	}
 
 	move() {
@@ -409,14 +393,45 @@ class App {
 	}
 
 	displayAttachError(data) {
-		
+
 	}
 
 	gameOver() {
 		this.disableInput();
-		//dust render
-
 	}
 
+	snapshot() {
+		const src = this.canvas.toDataURL('image/jpeg');
 
+		this.doJSONRequest("POST", "/moments/upload", {src: src})
+			.then((result) => {
+				const item = result.data;
+				// TODO: move to the "/moments" page when we have more APIs
+				return this.doJSONRequest("POST", "/moments/imgur/" + item._id);
+			})
+			.then((result) => {
+				console.log("Uploaded on imgur:", result);
+			})
+			.catch(console.error);
+	}
+
+	doJSONRequest(method, url, body) {
+		let host = window.location.protocol + "//" + window.location.hostname;
+		if (window.location.port.length > 0) {
+			host += ":" + window.location.port;
+		}
+
+		const payload = {
+			body: body ? JSON.stringify(body) : undefined,
+			headers: {
+				"Accepts": "application/json",
+				"Content-Type": body ? "application/json" : undefined
+			},
+			method: method
+		};
+
+		return fetch(host + url, payload)
+			.then((result) =>
+				(result.status === 200 ? result.json() : {success: false, code: result.status}));
+	}
 }
