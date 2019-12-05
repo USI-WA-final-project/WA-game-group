@@ -8,7 +8,10 @@ class Editor {
     }
 
     /*
-     *
+     * Checks if this.focus is within the hexagon coordinates or not
+     * (approximates to the circle within)
+     * @param center - the center of the hexagon we're checking
+     * @returns {boolean} whether the element is within the hexagon
      */
     isInHexagon(center) {
         if (this.calcDistance(this.focus, center) > 8) {
@@ -20,7 +23,8 @@ class Editor {
 
     /*
      * Updates this.counter to the value of the body part closest to this.focus
-     *
+     * @returns {number face - the face of the element to be removed at the face
+     * or undefined if we're removing an hexagon
      */
     removePart() {
         if (!this.centers || !this.focus) {
