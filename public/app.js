@@ -127,7 +127,7 @@ class App {
 				let face;
 				face = this.editor.removePart();
 				let part;
-				console.log(this.playerBody, this.editor.counter);
+				//console.log(this.playerBody, this.editor.counter);
 				for (let i = 0; i < this.playerBody.length; i++) {
 					if (i == this.editor.counter) {
 						part = this.editor.counter;
@@ -138,8 +138,12 @@ class App {
 						}
 					}
 				}
-				console.log(part);
-				socket.emit('removePart', {part: part});
+				//console.log(part);
+				if (part != 0) {
+					socket.emit('removePart', {part: part});
+				} else {
+					console.error("you can not remove main cell");
+				}
 			}
 		} else {
 			console.error("you did not select editor button");
