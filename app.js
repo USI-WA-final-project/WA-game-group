@@ -268,7 +268,7 @@ io.on('connection', function(socket){
             return;
         }
 
-        engine.detach(id, data.part);
+        engine.detach(player.id, data.part);
     });
 
     socket.on('rotatePlayer', function(data){
