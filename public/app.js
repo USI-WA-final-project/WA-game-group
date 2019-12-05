@@ -17,7 +17,7 @@ class App {
 
 		//graphic interface
 		this.composer = new Composer(new CanvasInterface(this.canvas));
-		this.gridImage = this.drawGrid();
+		this.gridImage =  this.drawGrid();
 
 		//array keys movement
 		this.movementKeys = ["KeyW", "KeyD", "KeyS", "KeyA"];
@@ -62,9 +62,7 @@ class App {
 			this.gridImage = this.drawGrid();
 		});
 
-		this.canvas.addEventListener('blur', (e) => {
-			this.keys = {};
-		});
+		
 
 		document.getElementById('stats').addEventListener('mouseout', (e) => {
 			this.canvas.focus();
@@ -73,6 +71,7 @@ class App {
 	}
 
 	setEditor(type) {
+		this.canvas.focus();
 		this.editor = new Editor();
 		this.cancel.classList.remove('hidden');
 		switch (type) {
@@ -88,6 +87,11 @@ class App {
 			case 'bounce':
 				this.cellEdited.type = 3;
 				break;
+			case 'remove':
+				this.editor.mode = true;
+				break;
+			default:
+				this.editor.mode = false;
 		}
 
 		document.querySelectorAll('.notclicked').forEach((el) => {
@@ -97,9 +101,10 @@ class App {
 				el.classList.remove('buttonclicked');
 			}
 		});
-	}
+	}	
 
 	setEditCancel() {
+		this.canvas.focus();
 		this.editor = undefined;
 		this.cancel.classList.add('hidden');
 		//this.bounce.classList.add('hidden');
@@ -108,15 +113,36 @@ class App {
 	setFace(e) {
 		if (this.editor != undefined) {
 			this.editor.focus = {x: e.offsetX, y: e.offsetY};
-			this.cellEdited.face = this.editor.findFace();
-			this.cellEdited.part = this.editor.counter;
+			if (!this.editor.mode) {
+				this.cellEdited.face =  this.editor.findFace();
+				this.cellEdited.part = this.editor.counter;
 
-			if (this.cellEdited.type != undefined && this.cellEdited.face != undefined) {
-				//console.log(this.cellEdited.type, this.editor.counter, this.cellEdited.face);
-				socket.emit('attachPart', { type: this.cellEdited.type, 
-											part: this.cellEdited.part, 
-											face: this.cellEdited.face });
+				if (this.cellEdited.type != undefined && this.cellEdited.face != undefined) {
+					//console.log(this.cellEdited.type, this.editor.counter, this.cellEdited.face);
+					socket.emit('attachPart', { type: this.cellEdited.type, 
+												part: this.cellEdited.part, 
+												face: this.cellEdited.face });
+				}
+			} else {
+				let face;
+				face = this.editor.removePart();
+				let part;
+				console.log(this.playerBody, this.editor.counter);
+				for (let i = 0; i < this.playerBody.length; i++) {
+					if (i == this.editor.counter) {
+						part = this.editor.counter;
+						if (face != undefined) {
+							part = this.playerBody[part].faces[face];
+						} else {
+							break;
+						}
+					}
+				}
+				console.log(part);
+				socket.emit('removePart', {part: part});
 			}
+		} else {
+			console.error("you did not select editor button");
 		}
 	}
 
@@ -199,24 +225,34 @@ class App {
 		this.minCtx.drawImage(c.canvas, this.canvas.width/2, this.canvas.height/2,this.worldW, this.worldH, 0, 0, 300, 200);
 		this.minCtx.restore();
 
-		return gridImage;
+	    return gridImage;
 	}
 
 	drawMiniMap(pos) {
-		if (pos === undefined) return;
-		this.minCtx.clearRect(0, 0, 300, 200);
-		let img = this.gridImage;
-		//console.log(img);
-		this.minCanvas.width = 300;
-		this.minCanvas.height = 200;
+		if (pos != undefined) {
+			this.minCtx.clearRect(0, 0, 300, 200);
+			let img = this.gridImage;
+			//console.log(img);
+			let width = 300;
+			let height = 200;
 
-		this.minCtx.save();
-		this.minCtx.scale(this.canvas.width / 300, this.canvas.width / 300);
-		this.minCtx.drawImage(img, 0, 0);
-		this.minCtx.restore();
+			this.minCanvas.width = 300;
+			this.minCanvas.height = 200;
+
+			this.minCtx.save();
+			this.minCtx.scale(this.canvas.width/300, this.canvas.width/300);
+			this.minCtx.drawImage(img,0,0);
+			this.minCtx.restore();
+			//console.log(this.minCanvas.toDataURL());
+			// c.beginPath();
+			// c.arc(pos.x, pos.y, 1, 0, 2 * Math.PI, true);
+			// c.fill();
+		}
+
 	}
 
 	setCenters(components) {
+		//console.log(components);
 		let componentsCenter = Array.from(new Array(components.length));
 		componentsCenter[0] = {x: this.canvas.width/2, y: this.canvas.height/2};
 		let visited = [];
@@ -272,6 +308,7 @@ class App {
 				}
 			}
 		});
+		this.life.style.background = "-webkit-linear-gradient(left, green "+life+"%, white "+(100 - life)+"%)";
 
 		this.infoCell.innerHTML = info.cell + "&nbsp;";
 		this.infoSpike.innerHTML = info.spike + "&nbsp;";
@@ -309,8 +346,11 @@ class App {
 			this.setEditor('shield');
 		}.bind(this));
 
+		this.removeParts.addEventListener('click', function() {
+			this.setEditor('remove');
+		}.bind(this));
+
 		this.cancel.addEventListener('click', this.setEditCancel.bind(this));
-		this.removeParts.addEventListener('click', this.setRemoveParts.bind(this));
 
 		/*this.cell.addEventListener('click', function(){
 			this.setEditor('bounce').bind(this);
@@ -337,9 +377,6 @@ class App {
 		//wasd
 		if (this.movementKeys.includes(e.code)) {
 			this.keys[e.code] = true;
-		}
-		if (e.code === "KeyP") {
-			this.snapshot();
 		}
 	}
 
@@ -393,11 +430,13 @@ class App {
 	}
 
 	displayAttachError(data) {
-
+		
 	}
 
 	gameOver() {
 		this.disableInput();
+		//dust render
+
 	}
 
 	snapshot() {
@@ -434,4 +473,6 @@ class App {
 			.then((result) =>
 				(result.status === 200 ? result.json() : {success: false, code: result.status}));
 	}
+
+
 }
