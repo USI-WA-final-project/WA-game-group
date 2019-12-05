@@ -1,14 +1,61 @@
 class Editor {
-    constructor(player) {
-        this.player = player;
+    constructor() {
         this.centers = undefined;
         this.focus = undefined;
         this.counter = 0;
-        if (!this.player) {
-            this.currentCell = undefined;
+        // if false we're adding otherwise we're removing
+        this.mode = false;
+    }
+
+    /*
+     *
+     */
+    isInHexagon(center) {
+        if (calcDistance(this.focus, center) > 8) {
+            return false;
         } else {
-            this.currentCell = this.player[0];
+            return true;
         }
+    }
+
+    /*
+     * Updates this.counter to the value of the body part closest to this.focus
+     *
+     */
+    removePart() {
+        if (!this.centers || !this.focus) {
+            console.log('focus', this.focus);
+            console.log('center array', this.centers);
+            throw "At least one paramater is undefined";
+        }
+
+        let bestDistance = Infinity;
+        let counter = 0;
+        let closest;
+
+        for (var i = 0; i < this.centers.length; i++) {
+            if (this.centers[i] != -1) {
+                let currentDist = this.calcDistance(this.focus, this.centers[i]);
+                console.log("CURRENT", currentDist);
+                if (currentDist <= bestDistance) {
+                    console.log("better");
+                    bestDistance = currentDist;
+                    closest = this.centers[i];
+                }
+            }
+        }
+
+        if (bestDistance > 100) {
+            console.error("Clicked too far from player");
+            return;
+        }
+
+        if (isInHexagon()) {
+            this.counter = i;
+        } else {
+            this.counter = closest.faces[checkFace(this.focus, closest)];
+        }
+
     }
 
     /*
