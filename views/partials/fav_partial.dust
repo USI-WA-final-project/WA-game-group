@@ -1,27 +1,27 @@
 {#result}
 <div id="{_id}">
-<h1>{name}</h1>
-<img width=500 src="{src}"/>
+	<h1>{name}</h1>
+	<img width="300px" src="{src}"/>
 
 <!-- {?list}
 	<a href="/moments/{_id}">{_id}</a>
-{:else}    	
-	<div>
-		<form action="/favorites/{_id}?_method=PUT" method="POST">
+{:else} -->    	
+<!-- 	<div>
+		<form action="/moments/{_id}?_method=PUT" method="POST">
 			<input type="hidden" name="dataURL" value="{dataURL}"><br>
 			<label for="name">Name: </label>
 			<input type="text" name="name" value="{name}"><br>
 	 		<button type="submit">Save</button>
-	 	<button formaction="/favorites/{_id}?_method=DELETE" name="delete">Delete</button>
-		</form>
-		<form>
+	 	<button formaction="/moments/{_id}?_method=DELETE" name="delete">Delete</button>
+		</form> -->
+<!-- 		<form>
 			<label for="album">Album: </label>
 			<input type="text" name="album" value="{album}"><br>
 			<label for="name">Tags: </label>
 			<input type="text" name="tags" value="{tags}"><br>
 			<button formaction="/favorites/{_id}?_method=POST" name="publish_imgur">Publish on ImgUR</button>
-		</form>
+		</form> -->
 	</div>
-{/list} -->
-</div>
+<!-- {/list}
+ --></div>
 {/result}

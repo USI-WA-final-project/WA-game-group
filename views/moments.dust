@@ -1,13 +1,11 @@
 {>"partials/header" /}
 
 <h1 class="players_header">Share Your Moments</h1>
-<article>
+<article class="momentstyle">
     {#result}
-    <section>
-    	
+
     	{>"partials/fav_partial.dust" _id=_id name=name dataURL=dataURL list="true" /}            
         
-    </section>
     {:else}
     <p>You haven't taken shoots so far.</p>
     {/result}

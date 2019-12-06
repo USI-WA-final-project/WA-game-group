@@ -533,3 +533,13 @@ hr {
 	padding-top: 10px;
 	padding-bottom: 10px;
 }
+
+.momentstyle{
+	display: flex;
+  	flex-wrap: wrap;
+}
+
+.momentstyle > div {
+  text-align: center;
+  margin: 10px;
+}
