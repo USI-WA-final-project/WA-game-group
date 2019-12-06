@@ -534,12 +534,20 @@ hr {
 	padding-bottom: 10px;
 }
 
-.momentstyle{
+.momentstyle {
 	display: flex;
   	flex-wrap: wrap;
+  	margin-left: auto;
+  	margin-right: auto;
 }
 
-.momentstyle > div {
+.momentstyle div {
   text-align: center;
   margin: 10px;
+  width: 310px;
+}
+
+.momentstyle img {
+	width: 300px;
+	height: 200px;
 }

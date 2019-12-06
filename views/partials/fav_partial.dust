@@ -1,12 +1,18 @@
 {#result}
 <div id="{_id}">
 	<h1>{name}</h1>
-	<img width="300px" src="{src}"/>
+	<img src="{src}"/>
 
 <!-- {?list}
-	<a href="/moments/{_id}">{_id}</a>
-{:else} -->    	
-<!-- 	<div>
+ -->	<form action="/moments/{_id}?_method=PUT" method="POST">
+		<input type="hidden" name="dataURL" value="{dataURL}"><br>
+		<label for="name">Name: </label>
+		<input type="text" name="name" value="{name}"><br>
+	 	<button type="submit">Save</button>
+	 	<button formaction="/moments/{_id}?_method=DELETE" name="delete">Delete</button>
+		</form>
+<!-- {:else}    	
+ --><!-- 	<div>
 		<form action="/moments/{_id}?_method=PUT" method="POST">
 			<input type="hidden" name="dataURL" value="{dataURL}"><br>
 			<label for="name">Name: </label>
