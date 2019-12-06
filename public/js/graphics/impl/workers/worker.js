@@ -1,6 +1,7 @@
 importScripts(
     "./../../composer/map_composer.js",
-    "./../../composer/player_composer.js"
+    "./../../composer/player_composer.js",
+    "./../../composer/resources_composer.js"
 );
 
 const instance = {};
@@ -31,7 +32,8 @@ function updateCanvas(canvasSize) {
 
     instance.composer = {
         map: new MapComposer(instance.ctx, true),
-        player: new PlayerComposer(instance.ctx, center)
+        player: new PlayerComposer(instance.ctx, center),
+        resources: new ResourcesComposer(instance.ctx)
     };
 
     instance.composer.map.prepare(
@@ -61,6 +63,12 @@ function drawPlayers(players, colors) {
     });
 }
 
+function drawResources(resources) {
+    if (!assertReady()) return;
+
+    instance.composer.resources.draw(resources);
+}
+
 function clearCanvas() {
     if (!assertReady()) return;
 
@@ -77,7 +85,8 @@ onmessage = function (e) {
             break;
         case "players":
             drawWorld(e.data.bgOffset);
-            drawPlayers(e.data.players, e.data.colors);
+            drawPlayers(e.data.players, e.data.playerColors);
+            drawResources(e.data.resources);
             break;
         case "clear":
             clearCanvas();

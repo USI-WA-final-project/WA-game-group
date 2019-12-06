@@ -1,11 +1,12 @@
-    <script src="/js/graphics/composer/player_composer.js"></script>
     <script src="/js/graphics/composer/map_composer.js"></script>
+    <script src="/js/graphics/composer/player_composer.js"></script>
+    <script src="/js/graphics/composer/resources_composer.js"></script>
     <script src="/js/graphics/graphics.js"></script>
     <script src="/js/graphics/impl/default/default_impl.js"></script>
     <script src="/js/graphics/impl/workers/workers_impl.js"></script>
     <script src="/js/graphics/factory.js"></script>
     <script src="/js/main.js" async></script>
-    <script src="/app.js"></script>"></script>
+    <script src="/app.js"></script>
     <script src="/js/editor.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/dustjs-linkedin/dust-core.min.js"></script>

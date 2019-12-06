@@ -160,7 +160,7 @@ class App {
 		this.graphics.clearCanvas();
 		let sx = data.playerPosition.x;
 		let sy = data.playerPosition.y;
-		this.graphics.drawGrid({x: sx, y: sy});
+		this.graphics.drawBackground({x: sx, y: sy});
 
 		//this.drawMiniMap({x: sx, y: sy});
 		//console.log(this.miniMap);
@@ -182,7 +182,8 @@ class App {
 			break;
 		}
 
-		this.graphics.drawPlayers(data.players, this.playerColors);
+		// TODO Andrea: resources
+		this.graphics.drawContents(data.players, this.playerColors, []);
 	}
 
 	drawGrid () {

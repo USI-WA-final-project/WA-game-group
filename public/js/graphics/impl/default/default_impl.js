@@ -16,9 +16,15 @@ class DefaultImpl extends Graphics {
         this.canvas = canvas;
         this.ctx = canvas.getContext("2d");
 
+        const center = {
+            x: canvas.width / 2,
+            y: canvas.height / 2
+        };
+
         this.composer = {
             map: new MapComposer(this.ctx, false),
-            player: new PlayerComposer(this.ctx, this.getCenter())
+            player: new PlayerComposer(this.ctx, center),
+            resources: new ResourcesComposer(this.ctx)
         };
 
         this.composer.map.prepare(this.world.width, this.world.height, canvas.width, canvas.height);
@@ -39,16 +45,25 @@ class DefaultImpl extends Graphics {
     }
 
     /**
-     * {@inheritDoc}
+     * Draw all the contents
+     *
+     * @param players All the players
+     * @param playerColors All the players colors
+     * @param resources All the resources
      */
-    drawPlayer(body, color, position = undefined) {
-        this.composer.player.build(body, color, position);
+    drawContents(players, playerColors, resources) {
+        players.forEach((it) => {
+            const color = playerColors[it.color];
+            this.composer.player.build(it.components, color, it.position);
+        });
+
+        this.composer.resources.draw(resources);
     }
 
     /**
-     * Draw the world grid
+     * Draw the world grid background
      */
-    drawGrid(offset) {
+    drawBackground(offset) {
         this.composer.map.drawCached(offset, this.canvas.width, this.canvas.height);
     }
 
@@ -66,15 +81,4 @@ class DefaultImpl extends Graphics {
     getContext() {
         this.canvas.getContext("2d");
     }
-
-    /**
-     * Get the center of the canvas.
-     */
-    getCenter() {
-        return {
-            x: this.canvas.width / 2,
-            y: this.canvas.height / 2
-        };
-    }
-
 }

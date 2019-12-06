@@ -1,9 +1,7 @@
 /**
- * Base class that defines the behaviours of the Graphic implementations.
+ * Base class that defines the behaviours of the Graphics implementations.
  * The class App (app.js) shall only use methods included in this class
  * according to the respective documentation.
- *
- * {@see }
  */
 class Graphics {
 
@@ -29,33 +27,20 @@ class Graphics {
     }
 
     /**
-     * Draw all the players
+     * Draw all the contents
      *
      * @param players All the players
-     * @param colors All the colors
+     * @param playerColors All the players colors
+     * @param resources All the resources
      */
-    drawPlayers(players, colors) {
-        players.forEach((it) => {
-            const color = colors[it.color];
-            this.drawPlayer(it.components, color, it.position);
-        });
-    }
-
-    /**
-     * Draw a player
-     *
-     * @param body The player data
-     * @param color The player's color
-     * @param position The player's position (defaults to undefined for "own" player)
-     */
-    drawPlayer(body, color, position = undefined) {
+    drawContents(players, playerColors, resources) {
         throw "This function has not been implemented";
     }
 
     /**
-     * Draw the world grid
+     * Draw the world grid background
      */
-    drawGrid(offset) {
+    drawBackground(offset) {
         throw "This function has not been implemented";
     }
 
@@ -71,13 +56,6 @@ class Graphics {
      * This <b>MUST</b> never be called from app.js
      */
     getContext() {
-        throw "This function has not been implemented";
-    }
-
-    /**
-     * Get the center of the canvas.
-     */
-    getCenter() {
         throw "This function has not been implemented";
     }
 

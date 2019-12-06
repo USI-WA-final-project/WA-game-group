@@ -45,21 +45,23 @@ class WorkersImpl extends Graphics {
      * Draw all the players
      *
      * @param players All the players
-     * @param colors All the colors
+     * @param playerColors All the players colors
+     * @param resources All the resources
      */
-    drawPlayers(players, colors) {
+    drawContents(players, playerColors, resources) {
         this.worker.postMessage({
             action: "players",
             players: players,
-            colors: colors,
-            bgOffset: this.offset
+            playerColors: playerColors,
+            bgOffset: this.offset,
+            resources: resources
         });
     }
 
     /**
-     * Draw the world grid
+     * Draw the world grid background
      */
-    drawGrid(offset = undefined) {
+    drawBackground(offset = undefined) {
         this.offset = offset;
     }
 
@@ -78,15 +80,5 @@ class WorkersImpl extends Graphics {
      */
     getContext() {
         this.canvas.getContext("2d");
-    }
-
-    /**
-     * Get the center of the canvas.
-     */
-    getCenter() {
-        return {
-            x: this.canvas.width / 2,
-            y: this.canvas.height / 2
-        };
     }
 }
