@@ -3,20 +3,21 @@ class App {
 	constructor(object) {
 		//canvas
 		this.canvas = document.getElementById(object.canvas);
+		this.offCanvas = this.canvas.transferControlToOffscreen();
 		this.minCanvas = document.getElementById('minimap');
 
 		if (this.canvas.tagName !== 'CANVAS') {
 			throw new Error("It should be a canvas");
 		}
 
-		this.ctx = this.canvas.getContext('2d');
+		this.ctx = this.offCanvas.getContext('2d');
 		this.minCtx = this.minCanvas.getContext('2d');
 
 		this.worldW = object.worldSize.w;
 		this.worldH = object.worldSize.h;
 
 		//graphic interface
-		this.composer = new Composer(new CanvasInterface(this.canvas));
+		this.setupComposer();
 		this.gridImage =  this.drawGrid();
 
 		//array keys movement
@@ -54,20 +55,32 @@ class App {
 
 		this.time = document.getElementById(object.info.time);
 
-		//value inital time
+		//value initial time
 		this.valueTime = object.time;
 
 		window.addEventListener('resize', (e) => {
-			this.composer = new Composer(new CanvasInterface(this.canvas));
+			this.setupComposer();
 			this.gridImage = this.drawGrid();
 		});
-
-		
 
 		document.getElementById('stats').addEventListener('mouseout', (e) => {
 			this.canvas.focus();
 		});
 
+	}
+
+	setupComposer() {
+		const dpi = window.devicePixelRatio / 2;
+		const height = +getComputedStyle(this.canvas).getPropertyValue("height").slice(0, -2);
+		const width = +getComputedStyle(this.canvas).getPropertyValue("width").slice(0, -2);
+
+		this.canvas.setAttribute("height", height * dpi);
+		this.canvas.setAttribute("width", width * dpi);
+
+		this.offCanvas.height = height * dpi;
+		this.offCanvas.width = width * dpi;
+
+		this.composer = new Composer(new CanvasInterface(this.offCanvas));
 	}
 
 	setEditor(type) {
@@ -336,8 +349,7 @@ class App {
 	}
 
 	clearCanvas() {
-		const ctx = this.canvas.getContext('2d');
-		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	}
 
 	enableInput() {
