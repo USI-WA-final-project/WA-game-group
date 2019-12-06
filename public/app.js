@@ -121,6 +121,7 @@ class App {
 		this.editor = undefined;
 		this.cancel.classList.add('hidden');
 		//this.bounce.classList.add('hidden');
+		this.canvas.focus();
 	}
 
 	setFace(e) {
