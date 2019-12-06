@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-    <head>
-        <meta charset="utf-8">
-        <title>Privacy & Policy</title>
-    </head>
-    <body>
+{>"partials/header" /}
         <h1>Types of Data collected</h1>
 
         <p>
@@ -270,5 +264,4 @@
             basis of the User’s consent, the Owner shall collect new consent
             from the User, where required
         <p>
-    </body>
-</html>
+{>"partials/footer" /}
