@@ -192,17 +192,31 @@ class Engine {
     /**
      * rotates a given user to face a given angle. Has no effect if given id is invalid
      * @param id {playerid} the id of the user to move
-     * @param angle {number} the angle in radiance the user should face
+     * @param angle {number} the angle in radians the user should face. Must be between 0 and 2π
      */
     rotate(id, angle) {
         this._users.with(id, user => {
-            user.rotation = angle;
+            // user.rotation = angle;
+            let size = user.size;
+            while (user.rotation !== angle) {
+                let direction = angle > user.rotation ? 1 : -1;
+
+                let delta = MOVE_SPEED / size * direction;
+                let new_angle = user.rotation + delta;
+
+                if ((angle - user.rotation) * direction > delta * direction) {
+                    new_angle = angle;
+                }
+
+                user.rotation = new_angle;
+
+                let blocked = false;
+                this._users.forEach(other_user => {
+                    blocked = blocked || other_user.id !== user.id && user.collide_with_user(other_user);
+                });
+                if (blocked) break;
+            }
         });
-        // TODO(anno): rotate incrementally and collide
-        // let blocked = false;
-        // this._users.forEach(other_user => {
-        //     blocked = blocked || other_user.id !== user.id && user.collide_with_user(other_user);
-        // });
     }
 
     /**
