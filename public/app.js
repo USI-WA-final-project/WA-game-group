@@ -107,7 +107,7 @@ class App {
 				this.editor.mode = false;
 		}
 
-		document.querySelectorAll('.notclicked').forEach((el) => {
+		document.querySelectorAll('.editor-element').forEach((el) => {
 			if (el.id == type) {
 				el.classList.add('buttonclicked');
 			} else {
@@ -118,6 +118,7 @@ class App {
 	}	
 
 	setEditCancel() {
+		this.keys = {};
 		this.editor = undefined;
 		this.cancel.classList.add('hidden');
 		//this.bounce.classList.add('hidden');
