@@ -85,7 +85,7 @@ router.post("/upload", async (req, res) => {
 router.get("/", async (req, res) => {
     const data = await database.getAllMoments();
     res.status(200);
-    res.render("moments");
+    res.render("moments", {result: data});
     res.end();
 });
 
