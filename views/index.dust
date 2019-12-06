@@ -16,7 +16,7 @@
 
     <div id="stats" class="hidden sidebar">
         <!-- Toggle it when clicking on Play -->
-        <div style="padding: 15px">
+        <div style="padding: 15px; overflow-y: scroll; max-height: 90vh">
             <p id="usname">Username</p>
             <hr>
             <div id="minimal">
@@ -29,20 +29,18 @@
             <label id="more" for="check">More  <img src="img/caret-down.svg" width="24" height="20"></label>
             <label id="less" for="check" class="hidden">Less  <img src="img/caret-up.svg" width="24" height="20"></label>
             <div class="personal">
-                <div class="personal_item"><img src="img/cell.svg"><div id="info_cells">0 </div> cells</div>
-                <div class="personal_item"><img src="img/spike.svg"><div id="info_spikes">0</div>spikes</div>
-                <div><img src="img/shield.svg"><div id="info_shields">0</div>shields</div>
+                <div class="personal_item"><img src="img/cell.svg"><div id="info_cells">0</div>&nbsp;cells</div>
+                <div class="personal_item"><img src="img/spike.svg"><div id="info_spikes">0</div>&nbsp;spikes</div>
+                <div><img src="img/shield.svg"><div id="info_shields">0</div>&nbsp;shields</div>
                 <div><img src="img/time.svg"><div id="info_time">00:00</div></div>
-                <div><img src="img/money.svg"><div id="info_money">0</div>¶</div>
+                <div><img src="img/money.svg"><div id="info_money">0</div>&nbsp;¶</div>
+                <div><img src="img/knife-blood.svg"><div id="info_killed">0</div>&nbsp;killed</div>
                 <hr>
                 <a href="/players" target="blank" style="color: #333; text-decoration: none;">
                     <div class="tools"><img src="img/leaderboard.svg">Leaderboard</div>
                 </a>
                 <a href="/favorites" target="blank" style="color: #333; text-decoration: none;">
                     <div class="tools"><img src="img/photos.svg">Share this moment</div>
-                </a>
-                <a href="/shop" target="blank" style="color: #333; text-decoration: none;">
-                <div class="tools"><img src="img/edit.svg">Shop</div>
                 </a>
                 <a href="/help" target="blank" style="color: #333; text-decoration: none;">
                     <div class="tools"><img src="img/help.svg">Help</div>

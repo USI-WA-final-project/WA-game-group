@@ -40,6 +40,7 @@ input, button {
 
 button {
 	outline: none;
+	flex-shrink: 0;
 }
 
 /*------- ID - CLASSES ------*/
