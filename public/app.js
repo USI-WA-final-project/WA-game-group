@@ -122,6 +122,9 @@ class App {
 		this.editor = undefined;
 		this.cancel.classList.add('hidden');
 		//this.bounce.classList.add('hidden');
+		document.querySelectorAll('.editor-element').forEach((el) => {
+			el.classList.remove('buttonclicked');
+		});
 		this.canvas.focus();
 	}
 
@@ -179,7 +182,7 @@ class App {
 		data.players.forEach((elem) => {
 			if (elem.position.x == 0 && elem.position.y == 0) {
 				this.playerBody = elem.components;
-				this.updateInfo(this.playerBody, data.players[0].health);
+				this.updateInfo(this.playerBody, elem.health);
 				if (this.editor != undefined){
 					this.setCenters(this.playerBody);
 				}
