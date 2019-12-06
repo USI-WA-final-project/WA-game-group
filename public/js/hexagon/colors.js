@@ -1,2 +1,0 @@
-const SHIELD_COLOR = "#565656";
-const SPIKE_COLOR = "#20123A";
