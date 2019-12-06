@@ -38,7 +38,7 @@ class Editor {
         let closest;
 
         for (var i = 0; i < this.centers.length; i++) {
-            if (this.centers[i] != -1) {
+            if (this.centers[i] != -1 && this.centers[i] != undefined) {
                 let currentDist = this.calcDistance(this.focus, this.centers[i]);
                 console.log("CURRENT", currentDist);
                 if (currentDist <= bestDistance) {
@@ -84,7 +84,7 @@ class Editor {
         let closest;
 
         for (let i = 0; i < this.centers.length; i++) {
-            if (this.centers[i] != -1) {
+            if (this.centers[i] != -1 && this.centers[i] != undefined) {
                 let currentDist = this.calcDistance(this.focus, this.centers[i]);
                 console.log("CURRENT", currentDist);
                 if (currentDist <= bestDistance) {

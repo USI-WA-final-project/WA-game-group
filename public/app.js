@@ -62,11 +62,6 @@ class App {
 			this.setupComposer();
 			this.gridImage = this.drawGrid();
 		});
-
-		document.getElementById('stats').addEventListener('mouseout', (e) => {
-			this.canvas.focus();
-		});
-
 	}
 
 	setupComposer() {
@@ -84,7 +79,6 @@ class App {
 	}
 
 	setEditor(type) {
-		this.keys = {};
 		this.editor = new Editor();
 		this.cancel.classList.remove('hidden');
 		switch (type) {
@@ -114,18 +108,15 @@ class App {
 				el.classList.remove('buttonclicked');
 			}
 		});
-		this.canvas.focus();
 	}	
 
 	setEditCancel() {
-		this.keys = {};
 		this.editor = undefined;
 		this.cancel.classList.add('hidden');
 		//this.bounce.classList.add('hidden');
 		document.querySelectorAll('.editor-element').forEach((el) => {
 			el.classList.remove('buttonclicked');
 		});
-		this.canvas.focus();
 	}
 
 	setFace(e) {
@@ -283,11 +274,11 @@ class App {
 					visited.push(-1);
 				}
 			} else {
-				visited.push(null);
+				visited.push(-1);
 			}
 		});
 
-		for (let j = 0; j < components.length; j++) {
+		/*for (let j = 0; j < components.length; j++) {
 			if (components[j] != null && components[j].type == 0) {
 				for (let k = 0; k < 6; k++) {
 
@@ -311,9 +302,35 @@ class App {
 				componentsCenter[j] = -1;
 			}
 			visited[j] = 1;
-		}
-		console.log(components, componentsCenter);
+		}*/
+
+		this.childCenter(visited, components, componentsCenter, 0);
+		//console.log(components, componentsCenter);
 		this.editor.centers = componentsCenter;
+	}
+
+	childCenter(visited, components, componentsCenter, elem) {
+		visited[elem] = 1;
+		if ( components[elem] != null) {
+			for(let i = 0; i < 6; i++) {
+				if (components[elem].faces[i] != null) {
+					if (visited[components[elem].faces[i]] == 0) {
+						if (components[elem].faces[i] != -1) {
+							if (components[elem].type == 0) {
+								componentsCenter[components[elem].faces[i]] = this.composer.getNextCenter(componentsCenter[elem], i);
+								this.childCenter(visited, components, componentsCenter, components[elem].faces[i]);
+							}
+						} else {
+							componentsCenter[components[elem].faces[i]] = -1;
+						}
+					}
+				} else {
+					componentsCenter[components[elem].faces[i]] = -1;
+				}
+			}
+		} else {
+			componentsCenter[components[elem].faces[i]] = -1;
+		}
 	}
 
 	updateInfo(elems, life) {
@@ -359,7 +376,7 @@ class App {
 
 	enableInput() {
 		this.canvas.focus();
-		this.canvas.addEventListener('keydown', this.onKeyDown.bind(this));
+		document.addEventListener('keydown', this.onKeyDown.bind(this));
 		//inputs
 		this.cell.addEventListener('click', function(){
 			this.setEditor('cell');
@@ -385,13 +402,13 @@ class App {
 
 		this.canvas.addEventListener('click', this.setFace.bind(this));
 
-		this.canvas.addEventListener('keyup', this.onKeyUp.bind(this));
+		document.addEventListener('keyup', this.onKeyUp.bind(this));
 	}
 
 	disableInput() {
 		this.canvas.blur();
-		this.canvas.removeEventListener('keydown', this.onKeyDown);
-		this.canvas.removeEventListener('keyup', this.onKeyUp);
+		document.removeEventListener('keydown', this.onKeyDown);
+		document.removeEventListener('keyup', this.onKeyUp);
 		this.canvas.removeEventListener('click', this.setFace);
 		this.cell.removeEventListener('click', this.setEditor);
 		this.spike.removeEventListener('click', this.setEditor);
