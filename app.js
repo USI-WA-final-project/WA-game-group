@@ -36,7 +36,6 @@ app.engine('dust', dust.dust);
 const routers = require(__dirname + '/routes/routers');
 app.use('/', routers.root);
 app.use('/players', routers.players);
-app.use('/favorites', routers.favorite);
 app.use('/moments', routers.moments);
 
 // APIs

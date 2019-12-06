@@ -9,5 +9,11 @@ router.get('/', (req, res) => {
     res.end();
 });
 
+router.get('/help', (req, res) => {
+    // TODO: send something
+    res.render('help_page');
+    res.end();
+});
+
 /** router for /root */
 module.exports = router;

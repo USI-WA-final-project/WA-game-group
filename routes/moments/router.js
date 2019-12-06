@@ -84,8 +84,8 @@ router.post("/upload", async (req, res) => {
 
 router.get("/", async (req, res) => {
     const data = await database.getAllMoments();
-    res.writeHead(200, "application/json");
-    res.write(JSON.stringify(data));
+    res.status(200);
+    res.render("moments");
     res.end();
 });
 
