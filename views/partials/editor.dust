@@ -21,7 +21,12 @@
         <p>Bouncer</p>
     </div>
 -->
-    
+
+    <div class="editor-element" id="camera">
+        <img src="img/imgur.svg">
+        <p>Take photo</p>
+    </div>
+
     <div class="editor-element" id="remove">
         <img src="img/remove.svg">
         <p>Remove</p>

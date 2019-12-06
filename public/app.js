@@ -43,6 +43,7 @@ class App {
 		this.shield = document.getElementById(object.inputs.shield);
 		this.spike = document.getElementById(object.inputs.spike);
 		this.bounce = document.getElementById(object.inputs.bounce);
+		this.camera = document.getElementById(object.inputs.camera);
 		this.cancel = document.getElementById(object.inputs.cancel);
 		this.removeParts = document.getElementById(object.inputs.remove);
 
@@ -399,6 +400,8 @@ class App {
 		/*this.cell.addEventListener('click', function(){
 			this.setEditor('bounce').bind(this);
 		});*/
+
+		this.camera.addEventListener('click', this.snapshot.bind(this));
 
 		this.canvas.addEventListener('click', this.setFace.bind(this));
 
