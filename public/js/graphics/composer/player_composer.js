@@ -89,7 +89,7 @@ class PlayerComposer {
             // "Core circle"
             this.ctx.beginPath();
             this.ctx.fillStyle = this.colors.cell.child; // 30% white
-            this.ctx.arc(center.x, center.y, 10, 0, 360)
+            this.ctx.arc(center.x, center.y, 7, 0, 360)
         }
 
         this.finalizeHexagon(obj, index, begin, center);
