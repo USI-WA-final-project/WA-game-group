@@ -10,6 +10,7 @@ const MOVE_SPEED = 2;
 const MAX_HEALTH = consts.MAX_HEALTH;
 const RESOURCE_DENSITY = 0;
 const BODYPART_TYPE = consts.BODYPART_TYPE;
+const MAX_ROTATION_ITERATIONS = 100;
 
 const DIRECTION = Object.freeze({
     UP: Symbol("UP"),
@@ -198,7 +199,8 @@ class Engine {
         this._users.with(id, user => {
             // user.rotation = angle;
             let size = user.size;
-            while (user.rotation !== angle) {
+            let iterations = 0;
+            while (user.rotation !== angle && iterations < MAX_ROTATION_ITERATIONS) {
                 let direction = angle > user.rotation ? 1 : -1;
 
                 let delta = MOVE_SPEED / size * direction;
@@ -215,7 +217,9 @@ class Engine {
                     blocked = blocked || other_user.id !== user.id && user.collide_with_user(other_user);
                 });
                 if (blocked) break;
+                iterations++;
             }
+
         });
     }
 
