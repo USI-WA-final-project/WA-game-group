@@ -38,6 +38,10 @@ input, button {
 	font-family: 'Inter', sans-serif;
 }
 
+button {
+	outline: none;
+}
+
 /*------- ID - CLASSES ------*/
 
 .notclicked {
@@ -295,6 +299,8 @@ hr {
 }
 
 .editor-element img {
+	margin-left: auto;
+	margin-right: auto;
 	margin-bottom: 1.25rem;
 	width: 56px;
 	height: 56px;
@@ -513,4 +519,14 @@ hr {
 .error button:hover {
 	background-color: var(--ui-dark-dark);
 	color: var(--white-dark);
+}
+
+#life {
+	width: 100%;
+/*	This works only for Chrome */	
+	background: -webkit-linear-gradient(left, green 100%);
+/* This is for other browsers */	
+	background: linear-gradient(left, green 100%);
+	padding-top: 10px;
+	padding-bottom: 10px;
 }

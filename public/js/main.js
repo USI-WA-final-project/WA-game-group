@@ -118,11 +118,13 @@ function startGame(e) {
         document.getElementById("more").addEventListener('click', () => {
             document.getElementById("more").classList.toggle("hidden");
             document.getElementById("less").classList.toggle("hidden");
+            document.getElementById("canvas").focus();
         });
 
         document.getElementById("less").addEventListener('click', () => {
             document.getElementById("less").classList.toggle("hidden");
             document.getElementById("more").classList.toggle("hidden");
+            document.getElementById("canvas").focus();
         });
 
        

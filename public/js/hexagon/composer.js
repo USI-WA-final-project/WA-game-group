@@ -241,9 +241,9 @@ class Composer {
         ctx.fillStyle = this.colors.spike;
 
         ctx.moveTo(begin.x, begin.y); // M 8 2
-        ctx.lineTo(begin.x - 8, begin.y + 14); // l -8 14
-        ctx.lineTo(begin.x - 21, begin.y - 3); // l -13 -17
-        ctx.lineTo(begin.x, begin.y); // l 21 3
+        ctx.lineTo(begin.x - 16, begin.y); // l -16 0
+        ctx.lineTo(begin.x - 8, begin.y + 14); // l 8 14
+        ctx.lineTo(begin.x, begin.y); // l 8 -14
         ctx.closePath();
         ctx.fill();
     }
@@ -252,10 +252,10 @@ class Composer {
         ctx.beginPath();
         ctx.fillStyle = this.colors.spike;
 
-        ctx.moveTo(begin.x, begin.y); // M 24 2
-        ctx.lineTo(begin.x - 16, begin.y); // l -16 0
-        ctx.lineTo(begin.x - 8, begin.y - 16); // l 8 -16
-        ctx.lineTo(begin.x, begin.y); // l 8 16
+        ctx.moveTo(begin.x, begin.y); // M 8 2
+        ctx.lineTo(begin.x + 16, begin.y); // l 16 0
+        ctx.lineTo(begin.x + 8, begin.y - 14); // l -8 -14
+        ctx.lineTo(begin.x, begin.y); //l -8 14
         ctx.closePath();
         ctx.fill();
     }
@@ -264,10 +264,10 @@ class Composer {
         ctx.beginPath();
         ctx.fillStyle = this.colors.spike;
 
-        ctx.moveTo(begin.x, begin.y); // M 32 16
-        ctx.lineTo(begin.x - 8, begin.y - 14); // l -8 -14
-        ctx.lineTo(begin.x + 13, begin.y - 17); // l 21 -3
-        ctx.lineTo(begin.x, begin.y); // l -13 17
+        ctx.moveTo(begin.x, begin.y); // M 24 2
+        ctx.lineTo(begin.x + 16, begin.y); // l 16 0
+        ctx.lineTo(begin.x + 8, begin.y + 14); // l -8 14
+        ctx.lineTo(begin.x, begin.y); // l -8 -14
         ctx.closePath();
         ctx.fill();
     }
@@ -277,9 +277,9 @@ class Composer {
         ctx.fillStyle = this.colors.spike;
 
         ctx.moveTo(begin.x, begin.y); // M 24 30
-        ctx.lineTo(begin.x + 8, begin.y - 14); // l 8 -14
-        ctx.lineTo(begin.x + 21, begin.y + 3); // l 13 17
-        ctx.lineTo(begin.x, begin.y); // l -21 -3
+        ctx.lineTo(begin.x + 16, begin.y); // l 16 0
+        ctx.lineTo(begin.x + 8, begin.y - 14); // l -8 -14
+        ctx.lineTo(begin.x, begin.y); // l -8 14
         ctx.closePath();
         ctx.fill();
     }
@@ -289,9 +289,9 @@ class Composer {
         ctx.fillStyle = this.colors.spike;
 
         ctx.moveTo(begin.x, begin.y); // M 8 30
-        ctx.lineTo(begin.x + 16, begin.y); // l 16 0
-        ctx.lineTo(begin.x + 8, begin.y + 14); // l -8 14
-        ctx.lineTo(begin.x, begin.y); // l -8 -14
+        ctx.lineTo(begin.x - 16, begin.y); // l -16 0
+        ctx.lineTo(begin.x - 8, begin.y + 14); // l 8 14
+        ctx.lineTo(begin.x, begin.y); // l 8 -14
         ctx.closePath();
         ctx.fill();
     }
@@ -300,10 +300,10 @@ class Composer {
         ctx.beginPath();
         ctx.fillStyle = this.colors.spike;
 
-        ctx.moveTo(begin.x, begin.y); // M 0 16
-        ctx.lineTo(begin.x + 8, begin.y + 14); // l 8 14
-        ctx.lineTo(begin.x - 13, begin.y + 17); // l -21 3
-        ctx.lineTo(begin.x, begin.y); // l 13 -17
+        ctx.moveTo(begin.x, begin.y); // M 8 30
+        ctx.lineTo(begin.x - 16, begin.y); // l -16 0
+        ctx.lineTo(begin.x - 8, begin.y - 14); // l 8 -14
+        ctx.lineTo(begin.x, begin.y); // l 8 14
         ctx.closePath();
         ctx.fill();
     }
@@ -327,11 +327,11 @@ class Composer {
         ctx.beginPath();
         ctx.fillStyle = this.colors.shield;
 
-        ctx.moveTo(begin.x, begin.y); // M 24 2
-        ctx.lineTo(begin.x, begin.y - 3); // l 0 -3
-        ctx.lineTo(begin.x - 16, begin.y - 3); // l -16 0
-        ctx.lineTo(begin.x - 16, begin.y); // l 0 3
-        ctx.lineTo(begin.x, begin.y); // l 16 0
+        ctx.moveTo(begin.x, begin.y); // M 8 2
+        ctx.lineTo(begin.x + 16, begin.y); // l 16 0
+        ctx.lineTo(begin.x + 16, begin.y - 3); // l 0 -3
+        ctx.lineTo(begin.x, begin.y - 3); // l -16 0
+        ctx.lineTo(begin.x, begin.y); // l 0 3
         ctx.closePath();
         ctx.fill();
     }
@@ -340,11 +340,11 @@ class Composer {
         ctx.beginPath();
         ctx.fillStyle = this.colors.shield;
 
-        ctx.moveTo(begin.x, begin.y); // M 32 16
+        ctx.moveTo(begin.x, begin.y); // M 24 2
         ctx.lineTo(begin.x + 2.6, begin.y - 1.5); // l 2.6 -1.5
-        ctx.lineTo(begin.x - 6.5, begin.y - 15.5); // l -8 -14
-        ctx.lineTo(begin.x - 8, begin.y - 14); // l -1.5 2.6
-        ctx.lineTo(begin.x, begin.y); // l 8 14
+        ctx.lineTo(begin.x + 10.5, begin.y + 12.5); // l 8 14
+        ctx.lineTo(begin.x + 8, begin.y + 14); // l -2.6 1.5
+        ctx.lineTo(begin.x, begin.y); // l -8 -14
         ctx.closePath();
         ctx.fill();
     }
@@ -366,10 +366,10 @@ class Composer {
         ctx.beginPath();
         ctx.fillStyle = this.colors.shield;
 
-        ctx.moveTo(begin.x, begin.y); // M 8 30
+        ctx.moveTo(begin.x, begin.y); // M 24 30
         ctx.lineTo(begin.x, begin.y + 3); // l 0 3
-        ctx.lineTo(begin.x + 16, begin.y + 3); // l 16 0
-        ctx.lineTo(begin.x + 16, begin.y); // l 0 -3
+        ctx.lineTo(begin.x - 16, begin.y + 3); // l -16 0
+        ctx.lineTo(begin.x - 16, begin.y); // l 0 -3
         ctx.lineTo(begin.x, begin.y); // l -16 0
         ctx.closePath();
         ctx.fill();
@@ -379,11 +379,11 @@ class Composer {
         ctx.beginPath();
         ctx.fillStyle = this.colors.shield;
 
-        ctx.moveTo(begin.x, begin.y); // M 0 16
+        ctx.moveTo(begin.x, begin.y); // M 8 30
         ctx.lineTo(begin.x - 2.6, begin.y + 1.5); // l -2.6 1.5
-        ctx.lineTo(begin.x + 5.4, begin.y + 15.5); // l 8 14
-        ctx.lineTo(begin.x + 8, begin.y + 14); // l 2.6 -1.5
-        ctx.lineTo(begin.x, begin.y); // l -8 -14
+        ctx.lineTo(begin.x - 10.6, begin.y - 12.5); // l -8 -14
+        ctx.lineTo(begin.x - 8, begin.y - 14); // l 2.6 -1.5
+        ctx.lineTo(begin.x, begin.y); // l 8 14
         ctx.closePath();
         ctx.fill();
     }
@@ -418,23 +418,19 @@ class Composer {
     getNextPerkBegin(center, newSide) {
         switch (newSide) {
             case 0:
+            case 1:
                 // [16, 16] -> [8, 2]
                 return {x: center.x - 8, y: center.y - 14};
-            case 1:
+            case 2:
                 // [16, 16] -> [24, 2]
                 return {x: center.x + 8, y: center.y - 14};
-            case 2:
-                // [16, 16] -> [32, 16]
-                return {x: center.x + 16, y: center.y};
             case 3:
+            case 4:
                 // [16, 16] -> [24, 30]
                 return {x: center.x + 8, y: center.y + 14};
-            case 4:
+            case 5:
                 // [16, 16] -> [8, 30]
                 return {x: center.x - 8, y: center.y + 14};
-            case 5:
-                // [16, 16] -> [0, 16]
-                return {x: center.x - 16, y: center.y};
             default:
                 return center;
         }

@@ -3,20 +3,21 @@ class App {
 	constructor(object) {
 		//canvas
 		this.canvas = document.getElementById(object.canvas);
+		this.offCanvas = this.canvas.transferControlToOffscreen();
 		this.minCanvas = document.getElementById('minimap');
 
 		if (this.canvas.tagName !== 'CANVAS') {
 			throw new Error("It should be a canvas");
 		}
 
-		this.ctx = this.canvas.getContext('2d');
+		this.ctx = this.offCanvas.getContext('2d');
 		this.minCtx = this.minCanvas.getContext('2d');
 
 		this.worldW = object.worldSize.w;
 		this.worldH = object.worldSize.h;
 
 		//graphic interface
-		this.composer = new Composer(new CanvasInterface(this.canvas));
+		this.setupComposer();
 		this.gridImage =  this.drawGrid();
 
 		//array keys movement
@@ -54,15 +55,13 @@ class App {
 
 		this.time = document.getElementById(object.info.time);
 
-		//value inital time
+		//value initial time
 		this.valueTime = object.time;
 
 		window.addEventListener('resize', (e) => {
-			this.composer = new Composer(new CanvasInterface(this.canvas));
+			this.setupComposer();
 			this.gridImage = this.drawGrid();
 		});
-
-		
 
 		document.getElementById('stats').addEventListener('mouseout', (e) => {
 			this.canvas.focus();
@@ -70,8 +69,22 @@ class App {
 
 	}
 
+	setupComposer() {
+		const dpi = window.devicePixelRatio / 2;
+		const height = +getComputedStyle(this.canvas).getPropertyValue("height").slice(0, -2);
+		const width = +getComputedStyle(this.canvas).getPropertyValue("width").slice(0, -2);
+
+		this.canvas.setAttribute("height", height * dpi);
+		this.canvas.setAttribute("width", width * dpi);
+
+		this.offCanvas.height = height * dpi;
+		this.offCanvas.width = width * dpi;
+
+		this.composer = new Composer(new CanvasInterface(this.offCanvas));
+	}
+
 	setEditor(type) {
-		this.canvas.focus();
+		this.keys = {};
 		this.editor = new Editor();
 		this.cancel.classList.remove('hidden');
 		switch (type) {
@@ -94,20 +107,22 @@ class App {
 				this.editor.mode = false;
 		}
 
-		document.querySelectorAll('.notclicked').forEach((el) => {
+		document.querySelectorAll('.editor-element').forEach((el) => {
 			if (el.id == type) {
 				el.classList.add('buttonclicked');
 			} else {
 				el.classList.remove('buttonclicked');
 			}
 		});
+		this.canvas.focus();
 	}	
 
 	setEditCancel() {
-		this.canvas.focus();
+		this.keys = {};
 		this.editor = undefined;
 		this.cancel.classList.add('hidden');
 		//this.bounce.classList.add('hidden');
+		this.canvas.focus();
 	}
 
 	setFace(e) {
@@ -145,9 +160,7 @@ class App {
 					console.error("you can not remove main cell");
 				}
 			}
-		} else {
-			console.error("you did not select editor button");
-		}
+		} 
 	}
 
 	drawMap(data) {
@@ -252,7 +265,6 @@ class App {
 			// c.arc(pos.x, pos.y, 1, 0, 2 * Math.PI, true);
 			// c.fill();
 		}
-
 	}
 
 	setCenters(components) {
@@ -261,34 +273,43 @@ class App {
 		componentsCenter[0] = {x: this.canvas.width/2, y: this.canvas.height/2};
 		let visited = [];
 		components.forEach((el) => {
-			if (el != null && el.type == 0) {
-				visited.push(0);
+			if (el != null) {
+				if (el.type == 0) {
+					visited.push(0);
+				} else {
+					visited.push(-1);
+				}
 			} else {
-				visited.push(-1);
+				visited.push(null);
 			}
 		});
 
 		for (let j = 0; j < components.length; j++) {
-				if (components[j] != null && components[j].type == 0) {
-					for (let k = 0; k < 6; k++) {
+			if (components[j] != null && components[j].type == 0) {
+				for (let k = 0; k < 6; k++) {
 
-						let node = components[j].faces[k];
+					let node = components[j].faces[k];
+					
+					if (node != null && node != -1) {
 						//console.log(node);
-						if (node != -1) {
-							//console.log(node);
-							if (components[node].type == 0 && visited[node] == 0){
+						if (components[node].type == 0 && visited[node] == 0){
+							if (componentsCenter[j] != undefined) {
 								componentsCenter[node] = this.composer.getNextCenter(componentsCenter[j], k);
+								visited[node] = 1;
 							}
-
-							visited[node] = 1;
+						}
+						if (visited[node] == null) {
+							componentsCenter[j] = -1;
 						}
 					}
-				} else {
-					componentsCenter[j] = -1;
 				}
 				visited[j] = 1;
+			} else {
+				componentsCenter[j] = -1;
+			}
+			visited[j] = 1;
 		}
-
+		console.log(components, componentsCenter);
 		this.editor.centers = componentsCenter;
 	}
 
@@ -330,8 +351,7 @@ class App {
 	}
 
 	clearCanvas() {
-		const ctx = this.canvas.getContext('2d');
-		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	}
 
 	enableInput() {

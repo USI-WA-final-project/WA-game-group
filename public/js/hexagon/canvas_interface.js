@@ -1,15 +1,9 @@
 class CanvasInterface {
     constructor(canvas) {
-        if (canvas.tagName !== 'CANVAS') {
+        if (!(canvas instanceof OffscreenCanvas)) {
             throw "Argument is not a Canvas";
         }
 
-        const dpi = window.devicePixelRatio / 2;
-        const height = +getComputedStyle(canvas).getPropertyValue("height").slice(0, -2);
-        const width = +getComputedStyle(canvas).getPropertyValue("width").slice(0, -2);
-
-        canvas.setAttribute("height", height * dpi);
-        canvas.setAttribute("width", width * dpi);
         this.internalCanvas = canvas;
     }
 

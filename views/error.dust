@@ -4,6 +4,6 @@
         <h1 class="page_header">Error</h1>
         <h3>Cannot connect to server</h3>
         <img src="https://i.imgur.com/r38RZRF.png">
-        <button onClick="window.location.reload();">Try Again</button>
+        <h3>You will be automatically reconnected as soon as possible</h3>
     </div>
 {> "partials/footer" /}
