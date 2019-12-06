@@ -70,7 +70,7 @@ io.on('connection', function(socket){
     console.log('Client connected');
 
     let player = {
-        id: engine.create(),    //TODO move this elsewhere (steeven)
+        id: null,
         username: null,
         color: null, 
         spawnPos: {}
@@ -84,9 +84,10 @@ io.on('connection', function(socket){
         height: engine.WORLD_HEIGHT 
     });
 
-    //Register user in DB
+    //Register user in DB and engine
     socket.on('registerUser', function(user) {
-        let playerInfo = engine.info(player.id);
+        let playerInfo = engine.info(engine.create());
+        player.id = playerInfo.id;
         player.username = user;
         player.color = playerInfo.color;
         player.spawnPos.x = playerInfo.position.x;
@@ -98,95 +99,94 @@ io.on('connection', function(socket){
                 console.log("Error adding player");
             }
         });
-    });
 
-    //Send to each player its customized view (based on RENDER_DISTANCE)
-    engine.register(player.id, function(data) {
-        if (data == null) {
-            //Either game over or disconnection
-            database.terminatePlayer(player.id)
-            .then(function(result) {
-                if (!result) {
-                    console.log("Error terminating player");
+        engine.register(player.id, function(data) {
+            if (data == null) {
+                //Either game over or disconnection
+                database.terminatePlayer(player.id)
+                .then(function(result) {
+                    if (!result) {
+                        console.log("Error terminating player");
+                    }
+                });
+                socket.emit('gameOver');
+                return;
+            }
+    
+            //Player position in the world
+            let x = data.position.x;
+            let y = data.position.y;            
+    
+            let players = [];
+    
+            worldState.players.forEach(function(el) {            
+                if (Math.abs(el.position.x - x) < RENDER_DISTANCE && 
+                    Math.abs(el.position.y - y) < RENDER_DISTANCE) {
+                    let player = {
+                        color: el.color,
+                        health: el.bodyparts[0].health,
+                        rotation: el.rotation,
+                        components: el.bodyparts.map(function(item) {
+                            let newItem = Object.assign({}, item);
+                            switch(item.type) {
+                                case engine.BODYPART_TYPE.CELL:
+                                    newItem.type = 0;
+                                break;
+                                case engine.BODYPART_TYPE.SPIKE:
+                                    newItem.type = 1;
+                                break;
+                                case engine.BODYPART_TYPE.SHIELD:
+                                    newItem.type = 2;
+                                break;
+                                case engine.BODYPART_TYPE.BOUNCE:
+                                    newItem.type = 3;
+                                break;
+                                default:
+                                    newItem.type = -1;
+                            }
+                            return newItem;
+                        })
+                    };
+    
+                    //Only send relative positions of the other players
+                    if (el.id != player.id) {
+                        player.position = {
+                            x: el.position.x - x,
+                            y: el.position.y - y
+                        }
+                    }
+    
+                    players.push(player);
+                }            
+            });
+    
+            let resources = [];
+    
+            worldState.resources.forEach(function(el) {
+                if (Math.abs(el.position.x - x) < RENDER_DISTANCE && 
+                    Math.abs(el.position.y - y) < RENDER_DISTANCE) {
+                    resources.push(el);
                 }
             });
-            socket.emit('gameOver');
-            return;
-        }
-
-        //Player position in the world
-        let x = data.position.x;
-        let y = data.position.y;            
-
-        let players = [];
-
-        worldState.players.forEach(function(el) {            
-            if (Math.abs(el.position.x - x) < RENDER_DISTANCE && 
-                Math.abs(el.position.y - y) < RENDER_DISTANCE) {
-                let player = {
-                    color: el.color,
-                    health: el.bodyparts[0].health,
-                    rotation: el.rotation,
-                    components: el.bodyparts.map(function(item) {
-                        let newItem = Object.assign({}, item);
-                        switch(item.type) {
-                            case engine.BODYPART_TYPE.CELL:
-                                newItem.type = 0;
-                            break;
-                            case engine.BODYPART_TYPE.SPIKE:
-                                newItem.type = 1;
-                            break;
-                            case engine.BODYPART_TYPE.SHIELD:
-                                newItem.type = 2;
-                            break;
-                            case engine.BODYPART_TYPE.BOUNCE:
-                                newItem.type = 3;
-                            break;
-                            default:
-                                newItem.type = -1;
-                        }
-                        return newItem;
-                    })
-                };
-
-                //Only send relative positions of the other players
-                if (el.id != player.id) {
-                    player.position = {
-                        x: el.position.x - x,
-                        y: el.position.y - y
-                    }
+    
+            let structures = [];
+    
+            /* worldState.structures.forEach(function(el) {
+                if (Math.abs(el.position.x - x) < RENDER_DISTANCE && 
+                    Math.abs(el.position.y - y) < RENDER_DISTANCE) {
+                    structures.push(el);
                 }
-
-                players.push(player);
-            }            
+            }); */
+    
+            let serializedData = {
+                playerPosition: { x: x, y: y },
+                players: players,
+                resources: resources,
+                //structures: structures
+            };
+    
+            socket.emit('drawWorld', serializedData);
         });
-
-        let resources = [];
-
-        worldState.resources.forEach(function(el) {
-            if (Math.abs(el.position.x - x) < RENDER_DISTANCE && 
-                Math.abs(el.position.y - y) < RENDER_DISTANCE) {
-                resources.push(el);
-            }
-        });
-
-        let structures = [];
-
-        /* worldState.structures.forEach(function(el) {
-            if (Math.abs(el.position.x - x) < RENDER_DISTANCE && 
-                Math.abs(el.position.y - y) < RENDER_DISTANCE) {
-                structures.push(el);
-            }
-        }); */
-
-        let serializedData = {
-            playerPosition: { x: x, y: y },
-            players: players,
-            resources: resources,
-            //structures: structures
-        };
-
-        socket.emit('drawWorld', serializedData);
     });
 
     socket.on('move', function(direction) {

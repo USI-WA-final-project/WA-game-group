@@ -1,10 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-CH">
 
 <head>
-    <meta charset="utf-8">
     <title>The Legend of Ajax</title>
+    <meta name="description" content="Build your character, collect resources and battle for victory!">
+    <meta name="author" content="Marco Tereh, Joey Bevilacqua, Gianmarco De Vita, Andrea Brites Martes, Stefano Taillefert, Tommaso Rodolfo Masera">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8">    
+
     <link rel="icon" href="/img/favicon.ico">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="apple-touch-icon" href="/img/favicon.ico">
+    <meta name="msapplication-TileImage" content="/img/favicon.ico">
+
+    <meta name="theme-color" content="#0060e0">
+    <meta name="msapplication-TileColor" content="#0060e0">
+
+    <meta property="og:site_name" content="The Legend of Ajax">			
+    <meta property="og:description" content="Build your character, collect resources and battle for victory!">
+    <meta property="og:title" content="The Legend of Ajax">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://legendofajax.fun">
+    <meta property="og:image" content="https://legendofajax.fun/img/hexLogo.png">
+    
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:description" content="Build your character, collect resources and battle for victory!">
+    <meta name="twitter:title" content="The Legend of Ajax">
+    <meta name="twitter:url" content="https://legendofajax.fun">
+    <meta name="twitter:image" content="https://legendofajax.fun/img/hexLogo.png">
+
     <link rel="stylesheet" href="/css/colors.css">
     <link rel="stylesheet" href="/css/style.css">
 </head>

@@ -194,6 +194,9 @@ function init(name) {
                 if (localStorage.getItem('playback') == "true") {
                     document.getElementById("over").play();
                 }
+                //Add score to game over page 
+                document.getElementById("final_score").innerHTML = 5;
+                //console.log(document.getElementById("final_score"));
             });
         });
     });
