@@ -495,12 +495,13 @@ class User {
         return {x: x, y: y};
     }
 
+    // Not exact mut at most 12 too large (inner radius*2 - outer radius)
     get size() {
-        // TODO(anno): maybe make a more exact calculation. For now it returns the largest possible size for these
-        // body parts
         return this.components.reduce((acc, part) => {
             if (part.type !== BODYPART_TYPE.CELL) return acc;
-            return acc + CELL_INNER_RADIUS * 2;
+            let curpos = this.rel_pos(this.x, this.y, part.coords.up, part.coords.fwd, part.coords.bwd);
+            let distance = this.distance(curpos.x, curpos.y, this.x, this.y);
+            return distance > acc ? distance : acc;
         }, 0) + CELL_INNER_RADIUS * 2;
     }
 
