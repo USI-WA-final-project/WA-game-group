@@ -51,8 +51,8 @@ const CHEATS = [{seq: [DIRECTION.UP, DIRECTION.DOWN,
                  effect: (user) => {user.components = STORED_BODIES[1].map(part => Object.assign({}, part));}
                 },
                 {seq: [DIRECTION.LEFT, DIRECTION.UP, DIRECTION.RIGHT, DIRECTION.DOWN],
-                 // fortress
-                 effect: (user) => {user.components = STORED_BODIES[2].map(part => Object.assign({}, part))}
+                    // initial
+                    effect: (user) => {user.components = STORED_BODIES[2].map(part => Object.assign({}, part))}
                 },
                 { // log user
                     seq: [DIRECTION.LEFT, DIRECTION.DOWN, DIRECTION.RIGHT, DIRECTION.UP],
@@ -67,8 +67,12 @@ const CHEATS = [{seq: [DIRECTION.UP, DIRECTION.DOWN,
                     }
                 },
                 {seq: [DIRECTION.LEFT, DIRECTION.UP, DIRECTION.RIGHT, DIRECTION.LEFT, DIRECTION.UP, DIRECTION.RIGHT],
-                 // initial
+                 // fortress
                  effect: (user) => {user.components = STORED_BODIES[0].map(part => Object.assign({}, part));}
+                },
+                {seq: [DIRECTION.LEFT, DIRECTION.DOWN, DIRECTION.RIGHT, DIRECTION.LEFT, DIRECTION.DOWN, DIRECTION.RIGHT],
+                 // onion
+                 effect: (user) => {user.components = STORED_BODIES[3].map(part => Object.assign({}, part))}
                 },
 ];
 const CHEATS_MAX_SIZE = 16;
@@ -193,12 +197,17 @@ class Engine {
     rotate(id, angle) {
         this._users.with(id, user => {
             user.rotation = angle;
-        })
+        });
+        // TODO(anno): rotate incrementally and collide
+        // let blocked = false;
+        // this._users.forEach(other_user => {
+        //     blocked = blocked || other_user.id !== user.id && user.collide_with_user(other_user);
+        // });
     }
 
     /**
      * creates a new user and returns its ID
-     * @returns {playerid} the id of the new user
+     * @returns {player} an object representing the newly created player
      */
     create() {
         let x = Math.ceil(Math.random() * WORLD_WIDTH);
@@ -228,7 +237,7 @@ class Engine {
 
     /**
      * removes (kills) the user with the given ID. Has no effect if given id is invalid
-     * @param id
+     * @param id {playerid}
      */
     remove(id) {
         this._users.with(id, usr => {
