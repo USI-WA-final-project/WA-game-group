@@ -22,11 +22,6 @@
     </div>
 -->
 
-    <div class="editor-element" id="camera">
-        <img src="img/imgur.svg">
-        <p>Take photo</p>
-    </div>
-
     <div class="editor-element" id="remove">
         <img src="img/remove.svg">
         <p>Remove</p>
@@ -35,5 +30,10 @@
     <div class="editor-element hidden" id="cancel">
         <img src="img/done.svg">
         <p>Done</p>
+    </div>
+
+    <div class="editor-element" id="camera">
+        <img src="img/imgur.svg">
+        <p>Save moment</p>
     </div>
 </div>
