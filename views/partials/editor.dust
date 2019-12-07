@@ -32,6 +32,9 @@
         <p>Done</p>
     </div>
 
+    <div class="editor-divider">
+    </div>
+
     <div class="editor-element" id="camera">
         <img src="img/imgur.svg">
         <p>Save moment</p>
