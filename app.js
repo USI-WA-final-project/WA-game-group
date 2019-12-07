@@ -164,7 +164,14 @@ io.on('connection', function(socket){
             worldState.resources.forEach(function(el) {
                 if (Math.abs(el.position.x - x) < RENDER_DISTANCE && 
                     Math.abs(el.position.y - y) < RENDER_DISTANCE) {
-                    resources.push(el);
+                    let resource = {
+                        amount: el.amount,
+                        position: {
+                            x: el.position.x,
+                            y: el.position.y
+                        }
+                    }
+                    resources.push(resource);
                 }
             });
     
