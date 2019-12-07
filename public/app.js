@@ -157,6 +157,7 @@ class App {
 	}
 
 	drawMap(data) {
+		console.log(data);
 		this.graphics.clearCanvas();
 		let sx = data.playerPosition.x;
 		let sy = data.playerPosition.y;
@@ -181,9 +182,7 @@ class App {
 			}
 			break;
 		}
-
-		// TODO Andrea: resources
-		this.graphics.drawContents(data.players, this.playerColors, []);
+		this.graphics.drawContents(data.players, this.playerColors, data.resources);
 	}
 
 	drawGrid () {
@@ -243,7 +242,6 @@ class App {
 		});
 
 		this.childCenter(visited, components, componentsCenter, 0);
-		console.log(components, componentsCenter);
 		this.editor.centers = componentsCenter;
 	}
 
