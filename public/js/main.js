@@ -33,18 +33,23 @@ let inGame = false;
 
 window.onload = () => {
     //main page
+    if (document.querySelector("input[name=search_player]")) {
+        document.querySelector("input[name=search_player]").addEventListener('keyup', searchPlayers);
+    }
 
-    document.getElementById("audio_menu").addEventListener('click', () => {
-        if (localStorage.getItem('playback') == "true") {
-            document.getElementById("audio_menu").innerHTML = "<img src=\"img/music-off.svg\" alt=\"music_off\">";
-            document.getElementById("jingle_menu").pause();
-            localStorage.setItem('playback', "false");
-        } else {
-            document.getElementById("audio_menu").innerHTML = "<img src=\"img/music-on.svg\" alt=\"music_on\">";
-            document.getElementById("jingle_menu").play();
-            localStorage.setItem('playback', "true");
-        }
-    });
+    if (document.getElementById("audio_menu")) {
+        document.getElementById("audio_menu").addEventListener('click', () => {
+            if (localStorage.getItem('playback') == "true") {
+                document.getElementById("audio_menu").innerHTML = "<img src=\"img/music-off.svg\" alt=\"music_off\">";
+                document.getElementById("jingle_menu").pause();
+                localStorage.setItem('playback', "false");
+            } else {
+                document.getElementById("audio_menu").innerHTML = "<img src=\"img/music-on.svg\" alt=\"music_on\">";
+                document.getElementById("jingle_menu").play();
+                localStorage.setItem('playback', "true");
+            }
+        })
+    }
     moveCursorToEnd(input_name);
     menu_enter.querySelector("div input").onkeyup = () => {
         angle += 45;

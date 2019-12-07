@@ -428,15 +428,15 @@ class App {
 		const src = this.canvas.toDataURL('image/jpeg');
 
 		this.doJSONRequest("POST", "/moments/upload", {src: src})
-			.then((result) => {
-				const item = result.data;
-				// TODO: move to the "/moments" page when we have more APIs
-				return this.doJSONRequest("POST", "/moments/imgur/" + item._id);
-			})
-			.then((result) => {
-				console.log("Uploaded on imgur:", result);
-			})
-			.catch(console.error);
+		.then((result) => {
+			const item = result.data;
+			// TODO: move to the "/moments" page when we have more APIs
+			return this.doJSONRequest("POST", "/moments/imgur/" + item._id);
+		})
+		.then((result) => {
+			console.log("Uploaded on imgur:", result);
+		})
+		.catch(console.error);
 	}
 
 	doJSONRequest(method, url, body) {
