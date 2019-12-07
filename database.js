@@ -37,11 +37,11 @@ var database = {
 
     /**
      * Gets all the player filtered by a filter
+     * @param {Object} filter The filter object
      * @returns An array of player objects
      */
     getPlayersByFilter: function(filter) {
         return Player.find(filter).then(function(found) {
-            console.log(found);
             return found;
         }).catch(function(err) {
             console.log("[DB]", err.message);
@@ -51,7 +51,8 @@ var database = {
 
     /**
      * Adds a player to the database
-     * @param {Object} player The player object
+     * @param {Object} player The player object to add
+     * @returns true on success, false otherwise
      */
     addPlayer: function(player) {
         let newPlayer = new Player({
@@ -73,6 +74,7 @@ var database = {
     /**
      * Removes a player from the database
      * @param {Number} id The player id
+     * @returns true on success, false otherwise
      */
     removePlayer: function(id) {
         const filter = { id: id };
@@ -95,6 +97,7 @@ var database = {
      * Marks a player as inactive 
      * (either game over or disconnection)
      * @param {Number} id The player id
+     * @returns true on success, false otherwise
      */
     terminatePlayer: function(id) {
         const filter = { id: id };
@@ -168,20 +171,40 @@ var database = {
         });
     },
 
+    /**
+     * Get all moments
+     * @returns A promise containing the moments
+     */
     getAllMoments: function() {
         return Moment.find({});
     },
 
+    /**
+     * Get a single moment by its id
+     * @param {Number} id The moment's id
+     * @returns A promise containing the moment
+     */
     getMomentById: function(id) {
         return Moment.findById(id);
     },
 
+    /**
+     * Adds a moment to the database
+     * @param {*} moment The moment to add
+     * @returns A promise 
+     */
     addMoment: function(moment) {
         return Moment({
             src: moment.src
         }).save();
     },
 
+    /**
+     * Updates a moment
+     * @param {*} id The id of the moment to update
+     * @param {*} data The data to update
+     * @returns A promise
+     */
     updateMoment: function (id, data) {
         return Moment.findById(id)
             .then((item) => {
