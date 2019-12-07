@@ -66,7 +66,9 @@ class User {
         this.nextActions = [];
 
         this.x = x;
+        this.dx = 0;
         this.y = y;
+        this.dy = 0;
         // noinspection JSUnusedGlobalSymbols
         this.movedV = false;
         // noinspection JSUnusedGlobalSymbols
@@ -495,7 +497,7 @@ class User {
         return {x: x, y: y};
     }
 
-    // Not exact mut at most 12 too large (inner radius*2 - outer radius)
+    // Not exact but at most 12 too large (inner radius*2 - outer radius)
     get size() {
         return this.components.reduce((acc, part) => {
             if (part.type !== BODYPART_TYPE.CELL) return acc;

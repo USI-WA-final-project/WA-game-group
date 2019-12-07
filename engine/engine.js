@@ -6,7 +6,9 @@ const consts = require('./common_constants');
 const TICK_RATE = 30;
 const WORLD_WIDTH = 1000;
 const WORLD_HEIGHT = 1000;
-const MOVE_SPEED = 2;
+const MOVE_SPEED = 0.5;
+const MAX_MOVE_SPEED = 2;
+const MOVE_SPEED_LOSS = 0.25;
 const MAX_HEALTH = consts.MAX_HEALTH;
 const RESOURCE_DENSITY = 0;
 const BODYPART_TYPE = consts.BODYPART_TYPE;
@@ -28,6 +30,7 @@ const STORED_BODIES_RAW = require('./stored_bodies');
 // noinspection JSUnresolvedFunction
 const STORED_BODIES = STORED_BODIES_RAW.map(body => {
     return body.map(part => {
+        if (!part) return part;
         switch (part.type) {
             case 0:
                 part.type = BODYPART_TYPE.CELL;
@@ -163,7 +166,39 @@ class Engine {
      */
     move(id, direction) {
         this._users.with(id, user => {
-            user.act({action: ACTION.MOVE, direction: direction});
+            // user.act({action: ACTION.MOVE, direction: direction});
+            if (!user.movedV) {
+                if ((direction === DIRECTION.UP
+                  || direction === DIRECTION.UP_RIGHT
+                  || direction === DIRECTION.UP_LEFT)
+                  && user.dy > MAX_MOVE_SPEED*-1) {
+                    user.dy -= MOVE_SPEED;
+                    user.movedV = true;
+                }
+                if ((direction === DIRECTION.DOWN
+                    || direction === DIRECTION.DOWN_RIGHT
+                    || direction === DIRECTION.DOWN_LEFT)
+                    && user.dy < MAX_MOVE_SPEED) {
+                    user.dy += MOVE_SPEED;
+                    user.movedV = true;
+                }
+            }
+            if (!user.movedH) {
+                if ((direction === DIRECTION.LEFT
+                    || direction === DIRECTION.UP_LEFT
+                    || direction === DIRECTION.DOWN_LEFT)
+                    && user.dx > MAX_MOVE_SPEED*-1) {
+                    user.dx -= MOVE_SPEED;
+                    user.movedH = true;
+                }
+                if ((direction === DIRECTION.RIGHT
+                    || direction === DIRECTION.UP_RIGHT
+                    || direction === DIRECTION.DOWN_RIGHT)
+                    && user.dx < MAX_MOVE_SPEED) {
+                    user.dx += MOVE_SPEED;
+                    user.movedH = true;
+                }
+            }
 
             if (CHEATS_ENABLED && user.cheat_seq !== null) {
                 if (user.cheat_seq[user.cheat_seq.length - 1] !== direction) user.cheat_seq.push(direction);
@@ -384,71 +419,60 @@ class Engine {
 
             user.tick_parts();
 
+            // calculate by how much the user moves
+            let mvy = user.dy * Math.sign(user.dy);
+            if (mvy > MAX_MOVE_SPEED) mvy = MAX_MOVE_SPEED;
+            mvy *= Math.sign(user.dy);
+
+            let mvx = user.dx * Math.sign(user.dx);
+            if (mvx > MAX_MOVE_SPEED) mvx = MAX_MOVE_SPEED;
+            mvx *= Math.sign(user.dx);
+
+            if (mvx !== 0 || mvy !== 0) {
+                user.y += mvy;
+                user.x += mvx;
+                user.dy -= MOVE_SPEED_LOSS * Math.sign(user.dy);
+                user.dx -= MOVE_SPEED_LOSS * Math.sign(user.dx);
+
+                // collide with users
+                let blocked = false;
+                this._users.forEach(other_user => {
+                    if (other_user.id === user.id) return;
+                    if (user.collide_with_user(other_user)) blocked = true;
+                    // This doesn't work, unfortunately. It would be nice to skip unnecessary collision check
+                    // but unfortunately they *are* necessary - it is possible to collide with multiple people at once.
+                    // blocked = blocked || (other_user.id !== user.id && user.collide_with_user(other_user));
+                });
+
+                // collide with resources
+                let removed_res = [];
+                this._resources.forEach((resource, index) => {
+                    if (user.collide_with_resource(resource)) {
+                        blocked = true;
+                        if (resource.amount <= 0) removed_res.push(index);
+                    }
+                });
+                removed_res.forEach(index => {
+                    this._resources.splice(index, 1);
+                });
+
+                // If the user can't move, put them back
+                if (blocked) {
+                    user.y -= mvy;
+                    user.x -= mvx;
+                }
+
+                // Stay inside the world
+                if (user.y > WORLD_WIDTH) user.y = WORLD_HEIGHT;
+                if (user.y < 0) user.y = 0;
+                if (user.x > WORLD_WIDTH) user.x = WORLD_WIDTH;
+                if (user.x < 0) user.x = 0;
+            }
+
             let actions = user.nextActions;
             user.nextActions = [];
             actions.forEach(action => {
                 switch (action.action) {
-                    case ACTION.MOVE:
-                        let mvy = 0;
-                        let mvx = 0;
-                        if (!user.movedV) {
-                            if (action.direction === DIRECTION.UP
-                                || action.direction === DIRECTION.UP_RIGHT
-                                || action.direction === DIRECTION.UP_LEFT) {
-                                mvy -= MOVE_SPEED;
-                            }
-                            if (action.direction === DIRECTION.DOWN
-                                || action.direction === DIRECTION.DOWN_RIGHT
-                                || action.direction === DIRECTION.DOWN_LEFT) {
-                                mvy += MOVE_SPEED;
-                            }
-                        }
-                        if (!user.movedH) {
-                            if (action.direction === DIRECTION.LEFT
-                                || action.direction === DIRECTION.UP_LEFT
-                                || action.direction === DIRECTION.DOWN_LEFT) {
-                                mvx -= MOVE_SPEED;
-                            }
-                            if (action.direction === DIRECTION.RIGHT
-                                || action.direction === DIRECTION.UP_RIGHT
-                                || action.direction === DIRECTION.DOWN_RIGHT) {
-                                mvx += MOVE_SPEED;
-                            }
-                        }
-                        if (mvx === 0 && mvy === 0) break;
-                        user.y += mvy;
-                        user.x += mvx;
-
-                        let blocked = false;
-                        this._users.forEach(other_user => {
-                            blocked = blocked || other_user.id !== user.id && user.collide_with_user(other_user);
-                        });
-
-                        let removed_res = [];
-                        this._resources.forEach((resource, index) => {
-                            if (user.collide_with_resource(resource)) {
-                                blocked = true;
-                                if (resource.amount <= 0) removed_res.push(index);
-                            }
-                        });
-                        removed_res.forEach(index => {
-                            this._resources.splice(index, 1);
-                        });
-
-                        if (blocked) {user.y -= mvy; user.x -= mvx;}
-
-                        if (user.y > WORLD_WIDTH) user.y = WORLD_HEIGHT;
-                        if (user.y < 0) user.y = 0;
-                        if (user.x > WORLD_WIDTH) user.x = WORLD_WIDTH;
-                        if (user.x < 0) user.x = 0;
-
-                        if (mvy !== 0) {
-                            user.movedV = true;
-                        }
-                        if (mvx !== 0) {
-                            user.movedH = true;
-                        }
-                        break;
                     case ACTION.DESTROY:
                         user.update(null);
                         this._users.remove(user.id);
