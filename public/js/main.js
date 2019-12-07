@@ -33,53 +33,79 @@ let inGame = false;
 
 window.onload = () => {
     //main page
-    if (document.querySelector("input[name=search_player]")) {
+    if (window.location.pathname == "/players") {
         document.querySelector("input[name=search_player]").addEventListener('keyup', searchPlayers);
     }
 
-    if (document.getElementById("audio_menu")) {
-        document.getElementById("audio_menu").addEventListener('click', () => {
-            if (localStorage.getItem('playback') == "true") {
-                document.getElementById("audio_menu").innerHTML = "<img src=\"img/music-off.svg\" alt=\"music_off\">";
-                document.getElementById("jingle_menu").pause();
-                localStorage.setItem('playback', "false");
-            } else {
-                document.getElementById("audio_menu").innerHTML = "<img src=\"img/music-on.svg\" alt=\"music_on\">";
-                document.getElementById("jingle_menu").play();
-                localStorage.setItem('playback', "true");
-            }
-        })
+    if (window.location.pathname == "/") {
+        if (document.getElementById("audio_menu")) {
+            document.getElementById("audio_menu").addEventListener('click', () => {
+                if (localStorage.getItem('playback') == "true") {
+                    document.getElementById("audio_menu").innerHTML = "<img src=\"img/music-off.svg\" alt=\"music_off\">";
+                    document.getElementById("jingle_menu").pause();
+                    localStorage.setItem('playback', "false");
+                } else {
+                    document.getElementById("audio_menu").innerHTML = "<img src=\"img/music-on.svg\" alt=\"music_on\">";
+                    document.getElementById("jingle_menu").play();
+                    localStorage.setItem('playback', "true");
+                }
+            })
+        }
+        moveCursorToEnd(input_name);
+        menu_enter.querySelector("div input").onkeyup = () => {
+            angle += 45;
+            document.getElementById("logo_input").style.transform = "rotate("+angle+"deg)";
+        };
+
+        btn_info.onclick = () => {
+            document.querySelectorAll(".menu_enter").forEach((el) => {
+                if (el.id != "menu_info" ) {
+                    el.classList.add("hidden");
+                } else {
+                    el.classList.remove("hidden");
+                }
+            });
+        };
+
+        btn_rules.onclick = () => {
+            document.querySelectorAll(".menu_enter").forEach((el) => {
+                if (el.id != "menu_rules" ) {
+                    el.classList.add("hidden");
+                } else {
+                    el.classList.remove("hidden");
+                }
+            });
+        };
+
+
+        //init game
+        play_button.addEventListener('click', startGame);
+        input_name.addEventListener('keypress', startGame);
     }
-    moveCursorToEnd(input_name);
-    menu_enter.querySelector("div input").onkeyup = () => {
-        angle += 45;
-        document.getElementById("logo_input").style.transform = "rotate("+angle+"deg)";
-    };
 
-    btn_info.onclick = () => {
-        document.querySelectorAll(".menu_enter").forEach((el) => {
-            if (el.id != "menu_info" ) {
-                el.classList.add("hidden");
-            } else {
-                el.classList.remove("hidden");
-            }
+    if (window.location.pathname == "/moments") {
+        var source;
+        document.querySelectorAll('.photography').forEach((el) => {
+            el.addEventListener('click', (e) => {
+                // console.log("SRC", e.target.src);
+                source = e.target.src;
+                document.querySelector("#popup img").src = source;
+                // console.log("Title", e.target.parentNode.childNodes[0].innerHTML);
+                document.querySelector("#popup div").innerHTML = "<h3>" + e.target.parentNode.childNodes[0].innerHTML + "</h3>";
+                document.getElementById("gallery").classList.toggle("hidden");
+                document.getElementById("popup").classList.toggle("hidden");
+            });
+
         });
-    };
 
-    btn_rules.onclick = () => {
-        document.querySelectorAll(".menu_enter").forEach((el) => {
-            if (el.id != "menu_rules" ) {
-                el.classList.add("hidden");
-            } else {
-                el.classList.remove("hidden");
-            }
+        document.querySelector("#popup button").addEventListener('click', () => {
+            console.log("CHIUSO");
+            document.getElementById("gallery").classList.toggle("hidden");
+            document.getElementById("popup").classList.toggle("hidden");
         });
-    };
 
+    }
 
-    //init game
-    play_button.addEventListener('click', startGame);
-    input_name.addEventListener('keypress', startGame);
 }
 
 //pos starting cursor

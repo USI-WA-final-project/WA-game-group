@@ -1,7 +1,8 @@
 {>"partials/header" /}
 
 <h1 class="players_header">Share Your Moments</h1>
-<article class="momentstyle">
+<div id="popup" class="hidden"><button>Close</button><div class="infos"></div><img src=""></div>
+<article id="gallery" class="momentstyle">
     {#result}
 
     	{>"partials/fav_partial.dust" _id=_id name=name dataURL=dataURL list="true" /}            
