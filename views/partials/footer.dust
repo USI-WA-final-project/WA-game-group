@@ -7,6 +7,7 @@
     <script src="/js/graphics/factory.js"></script>
     <script src="/js/main.js" async></script>
     <script src="/app.js"></script>
+    <script src="/js/fetch.js"></script>
     <script src="/js/editor.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/dustjs-linkedin/dust-core.min.js"></script>
