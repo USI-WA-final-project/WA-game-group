@@ -242,34 +242,8 @@ class App {
 			}
 		});
 
-		/*for (let j = 0; j < components.length; j++) {
-			if (components[j] != null && components[j].type == 0) {
-				for (let k = 0; k < 6; k++) {
-
-					let node = components[j].faces[k];
-					
-					if (node != null && node != -1) {
-						//console.log(node);
-						if (components[node].type == 0 && visited[node] == 0){
-							if (componentsCenter[j] != undefined) {
-								componentsCenter[node] = this.graphics.getNextCenter(componentsCenter[j], k);
-								visited[node] = 1;
-							}
-						}
-						if (visited[node] == null) {
-							componentsCenter[j] = -1;
-						}
-					}
-				}
-				visited[j] = 1;
-			} else {
-				componentsCenter[j] = -1;
-			}
-			visited[j] = 1;
-		}*/
-
 		this.childCenter(visited, components, componentsCenter, 0);
-		//console.log(components, componentsCenter);
+		console.log(components, componentsCenter);
 		this.editor.centers = componentsCenter;
 	}
 
@@ -277,23 +251,15 @@ class App {
 		visited[elem] = 1;
 		if ( components[elem] != null) {
 			for(let i = 0; i < 6; i++) {
-				if (components[elem].faces[i] != null) {
-					if (visited[components[elem].faces[i]] == 0) {
-						if (components[elem].faces[i] != -1) {
-							if (components[elem].type == 0) {
-								componentsCenter[components[elem].faces[i]] = this.graphics.getNextCenter(componentsCenter[elem], i);
-								this.childCenter(visited, components, componentsCenter, components[elem].faces[i]);
-							}
-						} else {
-							componentsCenter[components[elem].faces[i]] = -1;
+				if (components[elem].faces[i] != null && visited[components[elem].faces[i]] == 0) {
+					if (components[elem].faces[i] != -1) {
+						if (components[elem].type == 0) {
+							componentsCenter[components[elem].faces[i]] = this.graphics.getNextCenter(componentsCenter[elem], i);
+							this.childCenter(visited, components, componentsCenter, components[elem].faces[i]);
 						}
 					}
-				} else {
-					componentsCenter[components[elem].faces[i]] = -1;
 				}
 			}
-		} else {
-			componentsCenter[components[elem].faces[i]] = -1;
 		}
 	}
 
@@ -376,6 +342,26 @@ class App {
 		//wasd
 		if (this.movementKeys.includes(e.code)) {
 			this.keys[e.code] = true;
+		}
+
+		if (this.editKeys.includes(e.code)) {
+			let type;
+			switch (e.code) {
+				case 'Digit1':
+					type = 'cell';
+					break;
+				case 'Digit2':
+					type = 'spike';
+					break;
+				case 'Digit3':
+					type = 'shield';
+					break;
+				case 'Digit4':
+					type = 'bounce';
+					break;
+			}
+
+			this.setEditor(type);
 		}
 	}
 

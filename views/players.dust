@@ -2,6 +2,13 @@
 
 <h1 class="page_header">Leaderboard</h1>
 
+<div class="search-box">
+    <input class="search-input" type="text" name="search_player" placeholder="Search player">
+    <a href="#" class="search-btn">
+        <img src="/img/search.png" style="width: 30px; height: 30px">
+    </a>
+</div>
+
 {#result}
     <div class="players_item">
         <div class="badge" style="background-color: {playerColor}">#</div>

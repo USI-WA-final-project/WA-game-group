@@ -23,5 +23,26 @@ router.get('/', function(req, res) {
     });      
 });
 
+router.get('/search', function(req, res) {
+    
+    const filter = {};
+    if (req.query.name) {
+        filter.name = {'$regex': req.query.name, '$options': 'i'};
+    }
+
+    //get the filtered date from Mongodb
+    Favorite.find(filter).then(function(found) {
+        //console.log(found);
+
+        if (req.accepts("html")) {
+            res.render("favorites", { result: found });
+        } else {
+            res.json(found);
+        }
+    }).catch(function(err) {
+        res.status(500).end();
+    });
+});
+
 /** router for /players */
 module.exports = router;
