@@ -36,6 +36,20 @@ var database = {
     },
 
     /**
+     * Gets all the player filtered by a filter
+     * @returns An array of player objects
+     */
+    getPlayersByFilter: function(filter) {
+        return Player.find(filter).then(function(found) {
+            console.log(found);
+            return found;
+        }).catch(function(err) {
+            console.log("[DB]", err.message);
+            return false;
+        });
+    },
+
+    /**
      * Adds a player to the database
      * @param {Object} player The player object
      */

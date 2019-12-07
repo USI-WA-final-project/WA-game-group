@@ -27,15 +27,17 @@ router.get('/search', function(req, res) {
     
     const filter = {};
     if (req.query.name) {
-        filter.name = {'$regex': req.query.name, '$options': 'i'};
+        filter.username = {'$regex': req.query.name, '$options': 'i'};
     }
 
     //get the filtered date from Mongodb
-    Favorite.find(filter).then(function(found) {
-        //console.log(found);
+    database.getPlayersByFilter(filter).then(function(found) {
 
         if (req.accepts("html")) {
-            res.render("favorites", { result: found });
+            for (let i = 0; i < found.length; i++) {
+                found[i].playerColor = req.app.locals.playerColors[found[i].color].core;
+            }
+            res.render("players", { result: found });
         } else {
             res.json(found);
         }
