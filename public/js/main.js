@@ -193,8 +193,7 @@ function init(name) {
                     document.getElementById("over").play();
                 }
                 //Add score to game over page 
-                document.getElementById("final_score").innerHTML = 5;
-                //console.log(document.getElementById("final_score"));
+                document.getElementById("final_score").innerHTML = "Score: 5";
             });
         });
     });
