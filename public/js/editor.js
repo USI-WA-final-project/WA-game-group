@@ -7,76 +7,57 @@ class Editor {
         this.mode = false;
     }
 
-    /*
+    /**
      * Checks if this.focus is within the hexagon coordinates or not
      * (approximates to the circle within)
      * @param center - the center of the hexagon we're checking
-     * @returns {boolean} whether the element is within the hexagon
+     * @returns {Boolean} whether the element is within the hexagon
      */
     isInHexagon(center) {
-        if (this.calcDistance(this.focus, center) > 8) {
-            return false;
-        } else {
-            return true;
-        }
+        return this.calcDistance(this.focus, center) <= 8;
     }
 
-    /*
+    /**
      * Updates this.counter to the value of the body part closest to this.focus
-     * @returns {number face - the face of the element to be removed at the face
+     * @returns {Number} - the face of the element to be removed at the face
      * or undefined if we're removing an hexagon
      */
     removePart() {
-        if (!this.centers || !this.focus) {
-            console.log('focus', this.focus);
-            console.log('center array', this.centers);
-            throw "At least one paramater is undefined";
-        }
+        if (!this.centers || !this.focus) throw "At least one parameter is undefined";
 
         let bestDistance = Infinity;
         let counter = 0;
         let closest;
 
-        for (var i = 0; i < this.centers.length; i++) {
-            if (this.centers[i] != -1 && this.centers[i] != undefined) {
-                let currentDist = this.calcDistance(this.focus, this.centers[i]);
-                console.log("CURRENT", currentDist);
-                if (currentDist <= bestDistance) {
-                    console.log("better");
-                    bestDistance = currentDist;
-                    closest = this.centers[i];
-                    counter = i;
-                }
-            }
+        for (let i = 0; i < this.centers.length; i++) {
+            if (this.centers[i] === -1 || this.centers[i] === undefined) continue;
+
+            let currentDist = this.calcDistance(this.focus, this.centers[i]);
+            if (currentDist > bestDistance) continue;
+            bestDistance = currentDist;
+            closest = this.centers[i];
+            counter = i;
         }
 
         if (bestDistance > 100) {
-            console.error("Clicked too far from player");
-            return;
+            return console.warn("Clicked too far from player");
         }
 
         this.counter = counter;
 
-        if (this.isInHexagon(closest)) {
-            return;
-        } else {
+        if (!this.isInHexagon(closest)) {
             return this.checkFace(this.focus, closest);
         }
-
     }
 
-    /*
+    /**
      * Updates this.counter to the value of the cell holding the nearest center
      * to this.focus and finds the face closest to this.focus
      * @returns {number} face - The number of the face closest to this.focus.
      * Must be between 0 and 5
      */
     findFace() {
-        if (!this.centers || !this.focus) {
-            console.log('focus', this.focus);
-            console.log('center array', this.centers);
-            throw "At least one paramater is undefined";
-        }
+        if (!this.centers || !this.focus) throw "At least one parameter is undefined";
 
         let face;
         let bestDistance = Infinity;
@@ -84,21 +65,17 @@ class Editor {
         let closest;
 
         for (let i = 0; i < this.centers.length; i++) {
-            if (this.centers[i] != -1 && this.centers[i] != undefined) {
-                let currentDist = this.calcDistance(this.focus, this.centers[i]);
-                console.log("CURRENT", currentDist);
-                if (currentDist <= bestDistance) {
-                    console.log("better");
-                    bestDistance = currentDist;
-                    closest = this.centers[i];
-                    counter = i;
-                }
-            }
+            if (this.centers[i] === -1 || this.centers[i] === undefined) continue;
+
+            let currentDist = this.calcDistance(this.focus, this.centers[i]);
+            if (currentDist > bestDistance) continue;
+            bestDistance = currentDist;
+            closest = this.centers[i];
+            counter = i;
         }
 
         if (bestDistance > 100) {
-            console.error("Clicked too far from player");
-            return;
+            return console.warn("Clicked too far from player");
         }
 
         this.counter = counter;
@@ -107,7 +84,7 @@ class Editor {
         return face;
     }
 
-    /*
+    /**
      * Finds the distance between two points
      * @param start first point
      * @param end second point
@@ -120,10 +97,10 @@ class Editor {
         );
     }
 
-    /*
+    /**
      * Checks the focus coordinates and the center coordinates and finds the
      * face closest to focus
-     * @param focus - coordinates at mouseclick
+     * @param focus - coordinates at mouseClick
      * @param center - coordinates of the center closest to focus
      * @returns {number} The number of the face between 0 and 5
      */
@@ -147,6 +124,3 @@ class Editor {
         }
     }
 }
-
-// initialize editor
-const editor = new Editor();
