@@ -218,7 +218,6 @@ var database = {
     /**
      * Removes a moment
      * @param {*} id The id of the moment to remove
-     * @param {*} data The data to remove
      */
     removeMoment: function (id) {
         Moment.findById(id)
