@@ -191,7 +191,8 @@ function init(name) {
                               worldSize: { w: data.width, h: data.height },
                               inputs: { cell: 'cell', spike: 'spike', shield: 'shield', bounce: 'bounce',
                                         cancel: 'cancel', remove: 'remove', camera: 'camera' },
-                              info: {cell: 'info_cells', spike: 'info_spikes', shield: 'info_shields', time: 'info_time', life: 'life'},
+                              info: {cell: 'info_cells', spike: 'info_spikes', shield: 'info_shields', time: 'info_time',
+                                     life: 'life', kills: 'info_killed'},
                               time: new Date() });
 
 

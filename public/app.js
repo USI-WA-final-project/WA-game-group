@@ -49,6 +49,7 @@ class App {
 		this.infoCell = document.getElementById(object.info.cell);
 		this.infoSpike = document.getElementById(object.info.spike);
 		this.infoShield = document.getElementById(object.info.shield);
+		this.infoKills = document.getElementById(object.info.kills);
 		//this.infoBounce = document.getElementById(object.info.bounce);
 
 		this.time = document.getElementById(object.info.time);
@@ -176,7 +177,7 @@ class App {
 			if (it.position.x !== 0 || it.position.y !== 0) continue;
 
 			this.playerBody = it.components;
-			this.updateInfo(this.playerBody, it.health);
+			this.updateInfo(this.playerBody, it.health, it.kills);
 			if (this.editor !== undefined){
 				this.setCenters(this.playerBody);
 			}
@@ -279,7 +280,8 @@ class App {
 		}
 	}
 
-	updateInfo(elems, life) {
+	updateInfo(elems, life, kills) {
+		console.log(elems);
 		let info = {cell: 0, spike: 0, shield: 0 };
 		let factor = 60000;
 		let currentTime = new Date(Date.now() - this.valueTime.getTime() + factor * this.valueTime.getTimezoneOffset());
@@ -297,7 +299,6 @@ class App {
 				if (part.type == 2) {
 					info.shield++;
 				}
-
 			}
 		});
 		this.life.style.background = "-webkit-linear-gradient(left, green "+life+"%, white "+(100 - life)+"%)";
@@ -305,6 +306,7 @@ class App {
 		this.infoCell.innerHTML = info.cell + "&nbsp;";
 		this.infoSpike.innerHTML = info.spike + "&nbsp;";
 		this.infoShield.innerHTML = info.shield + "&nbsp;";
+		this.infoKills.innerHTML = kills + "&nbsp;";
 		this.time.innerHTML = (currentTime.getHours() < 10 ? ("0" + currentTime.getHours()) : currentTime.getHours()) +
 			":" + (currentTime.getMinutes() < 10 ? ("0" + currentTime.getMinutes()) : currentTime.getMinutes()) +
 			":" + (currentTime.getSeconds() < 10 ? ("0" + currentTime.getSeconds()) : currentTime.getSeconds());
