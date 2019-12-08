@@ -366,11 +366,12 @@ class Engine {
     /**
      * A player
      * @typedef {Object} player
+     * @property id {playerid} the id of this player
      * @property color {number} the color of this player (0-8)
      * @property rotation {number} the angle in radians at which this player is rotated
      * @property bodyparts {bodypart[]} the bodyparts of this player
-     * @property id {playerid} the id of this player
      * @property position {{x: number, y: number}} the coordinates of the position of this player
+     * @property kills {number} the number of kills this player made.
      */
 
     /**
