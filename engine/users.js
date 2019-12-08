@@ -89,6 +89,7 @@ class User {
         this.todo = [];
 
         this.resources = 0;
+        this.kills = 0;
 
         if (CHEATS_ENABLED) this.cheat_seq = null;
     }
@@ -156,6 +157,7 @@ class User {
             color: this.color,
             rotation: this.rotation,
             bodyparts: this.export_components(this.components),
+            kills: this.kills,
         }
     }
 
@@ -301,14 +303,15 @@ class User {
                 if (component.working) {
                     component.inflated = 0;
                     component.working = false;
-                    break;
+                    return false;
+                    // intentional fallthrough
                 }
             case BODYPART_TYPE.SPIKE:
                 component = component.body;
             case BODYPART_TYPE.CELL:
                 component.health -= amt;
                 if (component.health <= 0) {
-                    this.shrink(part);
+                    return this.shrink(part);
                 }
                 break;
             case BODYPART_TYPE.SHIELD:
@@ -316,12 +319,13 @@ class User {
             default:
                 console.log('unknown bodypart encountered: ', component.type);
         }
+        return false;
     }
 
     shrink(part) {
         if (part === 0) {
             this.act({action: ACTION.DESTROY});
-            return;
+            return true;
         }
         this.todo.push(() => {
             if (!this.components[part]) return;
@@ -344,6 +348,7 @@ class User {
             });
             this.unmark(0);
         });
+        return false;
     }
 
     mark(root = 0, cb) {
@@ -477,10 +482,14 @@ class User {
 
     collide(part, other, other_part) {
         if (this.components[part].type === BODYPART_TYPE.SPIKE) {
-            other.damage(other_part, SPIKE_DMG);
+            if (other.damage(other_part, SPIKE_DMG)) {
+                this.kills++;
+            }
         }
         if (other.components[other_part].type === BODYPART_TYPE.SPIKE) {
-            this.damage(part, SPIKE_DMG);
+            if (this.damage(part, SPIKE_DMG)) {
+                other.kills++;
+            }
         }
         // TODO(anno): bounce
     }
