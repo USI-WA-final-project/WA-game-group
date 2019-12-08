@@ -25,11 +25,13 @@
 
 #popup {
     position: absolute;
-    background-color: black;
-    width: 90vw;
-    height: 60vh;
     margin-left: auto;
     margin-right: auto;
+    top: 25vh;
+    left: 0;
+    right: 0;
+    background-color: black;
+    max-width: 500px;
 }
 
 #popup img {
@@ -37,3 +39,19 @@
     max-height: 100%;
 }
 
+#popup button {
+    border: none;
+    border-radius: 100px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+#popup button:hover {
+    cursor: pointer;
+}
+
+.infos {
+    position: absolute;
+    top: 5px;
+}

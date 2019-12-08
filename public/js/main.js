@@ -89,7 +89,7 @@ window.onload = () => {
             el.addEventListener('click', (e) => {
                 // console.log("SRC", e.target.src);
                 source = e.target.src;
-                document.querySelector("#popup img").src = source;
+                document.getElementById("new_img").src = source;
                 // console.log("Title", e.target.parentNode.childNodes[0].innerHTML);
                 document.querySelector("#popup div").innerHTML = "<h3>" + e.target.parentNode.childNodes[0].innerHTML + "</h3>";
                 document.getElementById("gallery").classList.toggle("hidden");
@@ -187,7 +187,7 @@ function init(name) {
                               worldSize: { w: data.width, h: data.height },
                               inputs: { cell: 'cell', spike: 'spike', shield: 'shield', bounce: 'bounce',
                                         cancel: 'cancel', remove: 'remove', camera: 'camera' },
-                              info: {cell: 'info_cells', spike: 'info_spikes', shield: 'info_shields', time: 'info_time', life: 'life' },
+                              info: {cell: 'info_cells', spike: 'info_spikes', shield: 'info_shields', time: 'info_time', life: 'life'},
                               time: new Date() });
 
 

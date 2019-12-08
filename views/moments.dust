@@ -1,7 +1,8 @@
 {>"partials/header" /}
 
 <h1 class="players_header">Share Your Moments</h1>
-<div id="popup" class="hidden"><button>Close</button><div class="infos"></div><img src=""></div>
+<div id="popup" class="hidden">
+	<button><img src="img/back.svg"/></button><div class="infos"></div><img id="new_img" src=""></div>
 <article id="gallery" class="momentstyle">
     {#result}
 

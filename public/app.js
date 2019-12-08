@@ -279,6 +279,7 @@ class App {
 				if (part.type == 2) {
 					info.shield++;
 				}
+
 			}
 		});
 		this.life.style.background = "-webkit-linear-gradient(left, green "+life+"%, white "+(100 - life)+"%)";
