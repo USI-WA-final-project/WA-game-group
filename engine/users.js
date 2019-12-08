@@ -121,7 +121,7 @@ class User {
                 case BODYPART_TYPE.SPIKE:
                     break;
                 default:
-                    console.log('unknown bodypart type encountered')
+                    console.log('unknown bodypart type encountered: ', component.type);
             }
         })
     }

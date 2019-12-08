@@ -44,10 +44,20 @@ const STORED_BODIES = STORED_BODIES_RAW.map(body => {
             case 3:
                 part.type = BODYPART_TYPE.BOUNCE;
                 break;
+            default:
+                console.log('Stored bodies corrupt');
         }
         return part;
     });
 });
+STORED_BODIES.forEach((body, idx) => {
+    // technically this shouldn't work since STORED_BODIES is a const, but really it's just the array that is const,
+    // not its content
+    body.forEach((part, index) => {
+        if (part === null) delete STORED_BODIES[idx][index];
+    });
+});
+console.log(STORED_BODIES);
 const CHEATS_ENABLED = consts.CHEATS_ENABLED;
 const CHEATS = [{seq: [DIRECTION.UP, DIRECTION.DOWN,
                        DIRECTION.LEFT, DIRECTION.RIGHT, DIRECTION.LEFT, DIRECTION.RIGHT],
@@ -56,7 +66,7 @@ const CHEATS = [{seq: [DIRECTION.UP, DIRECTION.DOWN,
                 },
                 {seq: [DIRECTION.LEFT, DIRECTION.UP, DIRECTION.RIGHT, DIRECTION.DOWN],
                     // initial
-                    effect: (user) => {user.components = STORED_BODIES[2].map(part => Object.assign({}, part))}
+                 effect: (user) => {user.components = STORED_BODIES[2].map(part => Object.assign({}, part))}
                 },
                 { // log user
                     seq: [DIRECTION.LEFT, DIRECTION.DOWN, DIRECTION.RIGHT, DIRECTION.UP],
