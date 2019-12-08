@@ -157,7 +157,7 @@ class App {
 	}
 
 	drawMap(data) {
-		console.log(data);
+		//console.log(data);
 		this.graphics.clearCanvas();
 		let sx = data.playerPosition.x;
 		let sy = data.playerPosition.y;
