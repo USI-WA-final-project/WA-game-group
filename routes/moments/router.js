@@ -33,6 +33,17 @@ async function upload(req, res, provider, id) {
     res.write(JSON.stringify({uploadedOn: provider.name, success: result}));
 }
 
+router.get("/", async (req, res) => {
+    const data = await database.getAllMoments();
+    res.status(200);
+    if (req.accepts("html")) {
+        res.render("moments", {result: data});
+    } else {
+        res.json(data);
+    }
+    res.end();
+});
+
 router.post("/imgur/:id", async (req, res) => {
     const id = req.params.id;
     await upload(req, res, ImgurProvider, id);
@@ -82,11 +93,27 @@ router.post("/upload", async (req, res) => {
     }
 });
 
-router.get("/", async (req, res) => {
-    const data = await database.getAllMoments();
-    res.status(200);
-    res.render("moments", {result: data});
-    res.end();
+router.delete("/:id", async (req, res) => {
+    const id = req.params.id;
+    if (!id) {
+        res.writeHead(400, "application/json");
+        res.write(JSON.stringify({success: false, message: "Missing id parameter"}));
+        res.end();
+        return;
+    }
+
+    try {
+        const removed = await database.removeMoment({_id: id});
+        res.writeHead(200, "application/json");
+        console.log("HELLO", JSON.stringify({success: true, data: removed}));
+        res.write(JSON.stringify({success: true, data: removed}));
+    } catch (e) {
+        console.error(e);
+        res.writeHead(500, "application/json");
+        res.write(JSON.stringify({success: false, message: "Failed to remove item"}));
+    } finally {
+        res.end();
+    }
 });
 
 /** router for /moments */

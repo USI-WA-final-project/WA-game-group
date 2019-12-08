@@ -49,6 +49,7 @@ class App {
 		this.infoCell = document.getElementById(object.info.cell);
 		this.infoSpike = document.getElementById(object.info.spike);
 		this.infoShield = document.getElementById(object.info.shield);
+		this.infoKills = document.getElementById(object.info.kills);
 		//this.infoBounce = document.getElementById(object.info.bounce);
 
 		this.time = document.getElementById(object.info.time);
@@ -157,13 +158,13 @@ class App {
 	}
 
 	drawMap(data) {
-		console.log(data);
+		//console.log(data);
 		this.graphics.clearCanvas();
 		let sx = data.playerPosition.x;
 		let sy = data.playerPosition.y;
 		this.graphics.drawBackground({x: sx, y: sy});
 
-		//this.drawMiniMap({x: sx, y: sy});
+		this.drawMiniMap({x: sx, y: sy});
 		//console.log(this.miniMap);
 		if (this.miniMap !== undefined) {
 			//this.minCtx.drawImage(this.miniMap, 0, 0);
@@ -176,7 +177,7 @@ class App {
 			if (it.position.x !== 0 || it.position.y !== 0) continue;
 
 			this.playerBody = it.components;
-			this.updateInfo(this.playerBody, it.health);
+			this.updateInfo(this.playerBody, it.health, it.kills);
 			if (this.editor !== undefined){
 				this.setCenters(this.playerBody);
 			}
@@ -204,23 +205,41 @@ class App {
 
 	drawMiniMap(pos) {
 		if (pos !== undefined) {
-			this.minCtx.clearRect(0, 0, 300, 200);
-			let img = this.gridImage;
-			//console.log(img);
-			let width = 300;
-			let height = 200;
+			const width = this.minCanvas.width;
+			const height = this.minCanvas.height;
 
-			this.minCanvas.width = 300;
-			this.minCanvas.height = 200;
+			const posX = (width / this.canvas.width) * pos.x;
+			const posY = (height / this.canvas.height) * pos.y;
 
-			this.minCtx.save();
-			this.minCtx.scale(this.canvas.width/300, this.canvas.width/300);
-			this.minCtx.drawImage(img,0,0);
-			this.minCtx.restore();
-			//console.log(this.minCanvas.toDataURL());
-			// c.beginPath();
-			// c.arc(pos.x, pos.y, 1, 0, 2 * Math.PI, true);
-			// c.fill();
+	        this.minCtx.fillStyle = "#fafbfc";
+	        this.minCtx.fillRect(0, 0, width, height);
+
+	        this.minCtx.strokeStyle = "rgba(0, 0, 0, 0.125)";
+	        this.minCtx.beginPath();
+            this.minCtx.fillStyle = "#fff";
+            this.minCtx.strokeStyle = "black";
+
+            this.minCtx.arc(posX, posY, 6, 0, 360);
+
+            this.minCtx.fill();
+
+	        // vertical grid lines
+	        /*
+	        this.minCtx.lineWidth = 1;
+	        this.minCtx.beginPath();
+	        for (let x = 0 / 2; x <= width; x += 50) {
+	            this.minCtx.moveTo(x, 0);
+	            this.minCtx.lineTo(x, height);
+	        }
+
+	        // horizontal grid lines
+	        for (let y = 0 / 2; y <= height; y += 50) {
+	            this.minCtx.moveTo(0, y);
+	            this.minCtx.lineTo(width, y);
+	        }*/
+
+	        this.minCtx.stroke();
+	        this.minCtx.closePath();
 		}
 	}
 
@@ -261,7 +280,8 @@ class App {
 		}
 	}
 
-	updateInfo(elems, life) {
+	updateInfo(elems, life, kills) {
+		console.log(elems);
 		let info = {cell: 0, spike: 0, shield: 0 };
 		let factor = 60000;
 		let currentTime = new Date(Date.now() - this.valueTime.getTime() + factor * this.valueTime.getTimezoneOffset());
@@ -286,6 +306,7 @@ class App {
 		this.infoCell.innerHTML = info.cell + "&nbsp;";
 		this.infoSpike.innerHTML = info.spike + "&nbsp;";
 		this.infoShield.innerHTML = info.shield + "&nbsp;";
+		this.infoKills.innerHTML = kills + "&nbsp;";
 		this.time.innerHTML = (currentTime.getHours() < 10 ? ("0" + currentTime.getHours()) : currentTime.getHours()) +
 			":" + (currentTime.getMinutes() < 10 ? ("0" + currentTime.getMinutes()) : currentTime.getMinutes()) +
 			":" + (currentTime.getSeconds() < 10 ? ("0" + currentTime.getSeconds()) : currentTime.getSeconds());

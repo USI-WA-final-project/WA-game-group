@@ -213,6 +213,17 @@ var database = {
 
                 return item.save();
             });
+    },
+
+    /**
+     * Removes a moment
+     * @param {*} id The id of the moment to remove
+     */
+    removeMoment: function (id) {
+        Moment.findById(id)
+            .then((item) => {
+                item.remove();
+            });
     }
 };
 

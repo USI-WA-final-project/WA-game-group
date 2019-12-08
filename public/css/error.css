@@ -1,0 +1,41 @@
+.error h3 {
+    font-family: 'Inter', sans-serif;
+    color: var(--ui-dark-light);
+    font-size: 48px;
+    margin: 1.6rem 0;
+    text-align: center;
+    width: 100%;
+}
+
+.error p {
+    font-family: 'Inter', sans-serif;
+    color: var(--ui-dark-light);
+    font-size: 24px;
+    margin: 1rem 0;
+    text-align: center;
+    width: 100%;
+}
+
+.error img {
+    display: block;
+    margin: 2rem auto;
+}
+
+.error button {
+    display: block;
+    cursor: pointer;
+    font-size: 1.25rem;
+    padding: 8px 30px;
+    margin: 0 auto;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--ui-dark-light);
+    color: var(--white);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 1);
+    transition: 300ms;
+}
+
+.error button:hover {
+    background-color: var(--ui-dark-dark);
+    color: var(--white-dark);
+}

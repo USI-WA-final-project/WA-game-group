@@ -1,0 +1,12 @@
+.controls {
+    display: flex;
+    flex-direction: row;
+    height: 2.5rem;
+    width: 55vw;
+    padding: 0 0 0 26vw;
+    align-items: center;
+}
+
+.controls img {
+    padding: 5px;
+}
