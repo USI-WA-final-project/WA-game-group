@@ -11,7 +11,7 @@ const engine = require('./engine/engine.js');
 const database = require('./database.js');
 const playerColors = require('./colors.js');
 
-const RENDER_DISTANCE = 2000;
+const RENDER_DISTANCE = 1000;
 
 //DB Connection
 mongoose.connect('mongodb://localhost/loa', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -125,6 +125,7 @@ io.on('connection', function(socket){
                         color: el.color,
                         health: el.bodyparts[0].health,
                         rotation: el.rotation,
+                        kills: el.kills,
                         components: el.bodyparts.map(function(item) {
                             let newItem = Object.assign({}, item);
                             switch(item.type) {
@@ -167,8 +168,8 @@ io.on('connection', function(socket){
                     let resource = {
                         amount: el.amount,
                         position: {
-                            x: el.position.x,
-                            y: el.position.y
+                            x: el.position.x - x,
+                            y: el.position.y - y
                         }
                     }
                     resources.push(resource);
