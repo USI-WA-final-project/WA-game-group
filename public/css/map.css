@@ -1,7 +1,8 @@
 .minimap {
     position: absolute;
-    top: 90%;
-    right: 5%;
+    bottom: 0;
+    right: 0;
+    padding: 1em;
     border-radius: 5px;
 }
 

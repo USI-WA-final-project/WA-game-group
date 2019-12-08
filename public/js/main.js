@@ -104,6 +104,10 @@ window.onload = () => {
             document.getElementById("popup").classList.toggle("hidden");
         });
 
+        document.querySelectorAll("button[type=delete]").forEach((x) => {
+            x.addEventListener('click', removeImage);
+        });
+
     }
 
 }

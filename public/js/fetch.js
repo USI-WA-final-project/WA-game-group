@@ -82,3 +82,23 @@ function searchPlayers() {
 		});
 	});
 }
+
+function removeImage(e) {
+	console.log("Delete Image: ", e.target.parentNode.id);
+
+	let id = e.target.parentNode.id;
+
+	doJSONRequest('DELETE', '/moments/'+id, {})
+	.then((data) => {
+		console.log("DATA", data);
+		doJSONRequest('GET', '/moments', {})
+		.then((data) => {
+			console.log("DATA1", data);
+			dust.render("moments", {result: data}, function(err, out) {
+				console.log("OUT", out);
+				document.body.innerHTML = out;
+			});
+		});
+	});
+
+}
