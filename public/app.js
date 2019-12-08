@@ -163,7 +163,7 @@ class App {
 		let sy = data.playerPosition.y;
 		this.graphics.drawBackground({x: sx, y: sy});
 
-		//this.drawMiniMap({x: sx, y: sy});
+		this.drawMiniMap({x: sx, y: sy});
 		//console.log(this.miniMap);
 		if (this.miniMap !== undefined) {
 			//this.minCtx.drawImage(this.miniMap, 0, 0);
@@ -204,23 +204,41 @@ class App {
 
 	drawMiniMap(pos) {
 		if (pos !== undefined) {
-			this.minCtx.clearRect(0, 0, 300, 200);
-			let img = this.gridImage;
-			//console.log(img);
-			let width = 300;
-			let height = 200;
+			const width = this.minCanvas.width;
+			const height = this.minCanvas.height;
 
-			this.minCanvas.width = 300;
-			this.minCanvas.height = 200;
+			const posX = (width / this.canvas.width) * pos.x;
+			const posY = (height / this.canvas.height) * pos.y;
 
-			this.minCtx.save();
-			this.minCtx.scale(this.canvas.width/300, this.canvas.width/300);
-			this.minCtx.drawImage(img,0,0);
-			this.minCtx.restore();
-			//console.log(this.minCanvas.toDataURL());
-			// c.beginPath();
-			// c.arc(pos.x, pos.y, 1, 0, 2 * Math.PI, true);
-			// c.fill();
+	        this.minCtx.fillStyle = "#fafbfc";
+	        this.minCtx.fillRect(0, 0, width, height);
+
+	        this.minCtx.strokeStyle = "rgba(0, 0, 0, 0.125)";
+	        this.minCtx.beginPath();
+            this.minCtx.fillStyle = "#fff";
+            this.minCtx.strokeStyle = "black";
+
+            this.minCtx.arc(posX, posY, 6, 0, 360);
+
+            this.minCtx.fill();
+
+	        // vertical grid lines
+	        /*
+	        this.minCtx.lineWidth = 1;
+	        this.minCtx.beginPath();
+	        for (let x = 0 / 2; x <= width; x += 50) {
+	            this.minCtx.moveTo(x, 0);
+	            this.minCtx.lineTo(x, height);
+	        }
+
+	        // horizontal grid lines
+	        for (let y = 0 / 2; y <= height; y += 50) {
+	            this.minCtx.moveTo(0, y);
+	            this.minCtx.lineTo(width, y);
+	        }*/
+
+	        this.minCtx.stroke();
+	        this.minCtx.closePath();
 		}
 	}
 
