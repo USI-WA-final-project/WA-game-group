@@ -11,7 +11,7 @@ const ACTION = consts.ACTION;
 const RESOURCE_SIZE = consts.RESOURCE_SIZE;
 const MINING_RATE = consts.MINING_RATE;
 
-const CELL_INNER_RADIUS = 14;
+const CELL_INNER_RADIUS = 28;
 
 const CHEATS_ENABLED = consts.CHEATS_ENABLED;
 
@@ -381,7 +381,7 @@ class User {
         let size;
         if (bodypart.type === BODYPART_TYPE.CELL) {
             pos = this.rel_pos(user.x, user.y, bodypart.coords.up, bodypart.coords.fwd, bodypart.coords.bwd);
-            size = 14;
+            size = CELL_INNER_RADIUS;
         } else {
             let mother = user.components[bodypart.body];
             let mother_pos = this.rel_pos(user.x, user.y, mother.coords.up, mother.coords.fwd, mother.coords.bwd);
@@ -389,34 +389,34 @@ class User {
             if (face === -1) {
                 console.log('Corrupted body: bodypart is not a child of its mother');
                 pos = mother_pos;
-                size = 14
+                size = CELL_INNER_RADIUS;
             }
 
             let mult_x, mult_y;
             switch (face) {
                 case 0:
-                    mult_x = -12;
-                    mult_y = -7;
+                    mult_x = -24;
+                    mult_y = -14;
                     break;
                 case 1:
                     mult_x = 0;
-                    mult_y = -14;
+                    mult_y = -28;
                     break;
                 case 2:
-                    mult_x = 12;
-                    mult_y = -7;
+                    mult_x = 24;
+                    mult_y = -14;
                     break;
                 case 3:
-                    mult_x = 12;
-                    mult_y = 7;
+                    mult_x = 24;
+                    mult_y = 14;
                     break;
                 case 4:
                     mult_x = 0;
-                    mult_y = 14;
+                    mult_y = 28;
                     break;
                 case 5:
-                    mult_x = -12;
-                    mult_y = 7;
+                    mult_x = -24;
+                    mult_y = 14;
                     break;
             }
 
@@ -424,11 +424,11 @@ class User {
             switch(bodypart.type) {
                 case BODYPART_TYPE.BOUNCE:
                     pos = {x: mother_pos.x + (10/14) * mult_x, y: mother_pos.y + (10/14) * mult_y};
-                    size = 9;
+                    size = 18;
                     break;
                 case BODYPART_TYPE.SHIELD:
                     pos = {x: mother_pos.x + (10/14) * mult_x, y: mother_pos.y + (10/14) * mult_y};
-                    size = 9;
+                    size = 18;
                     break;
                 case BODYPART_TYPE.SPIKE:
                     pos = {x: mother_pos.x + 2 * mult_x, y: mother_pos.y + 2 * mult_y};
@@ -496,18 +496,18 @@ class User {
     }
 
     rel_pos(x, y, up, fwd, bwd) {
-        y -= fwd * 28;
+        y -= fwd * 56;
         bwd += fwd;
         fwd -= fwd;
 
         // now up and bwd are opposites by the up+fwd+bwd=0 equality
-        y -= 14 * up;
-        x += 24 * up;
+        y -= 28 * up;
+        x += 48 * up;
 
         return {x: x, y: y};
     }
 
-    // Not exact but at most 12 too large (inner radius*2 - outer radius)
+    // Not exact but at most 24 too large (inner radius*2 - outer radius)
     get size() {
         return this.components.reduce((acc, part) => {
             if (part.type !== BODYPART_TYPE.CELL) return acc;
