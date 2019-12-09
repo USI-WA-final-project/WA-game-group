@@ -232,6 +232,7 @@ class App {
             this.minCtx.closePath();
 
             this.minCtx.beginPath();
+            this.minCtx.fillStyle = "#e0ffff";
             this.minCtx.strokeStyle = "black";
             this.minCtx.arc(posX, posY, viewRay, 0, 360);
 
