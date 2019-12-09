@@ -1,3 +1,5 @@
+const PIXEL_SCALE = window.devicePixelRatio;
+
 class Editor {
     constructor() {
         this.centers = undefined;
@@ -7,7 +9,17 @@ class Editor {
         this.mode = false;
     }
 
-    /**
+    /*
+     * Scales all the centers to the real pixel ratio
+     */
+    initCenters() {
+        for (let i = 0; i < this.centers.length; i++) {
+            this.centers[i].x = this.centers[i].x * PIXEL_SCALE;
+            this.centers[i].y = this.centers[i].y * PIXEL_SCALE;
+        }
+    }
+
+    /*
      * Checks if this.focus is within the hexagon coordinates or not
      * (approximates to the circle within)
      * @param center - the center of the hexagon we're checking
@@ -17,13 +29,14 @@ class Editor {
         return this.calcDistance(this.focus, center) <= 8;
     }
 
-    /**
+    /*
      * Updates this.counter to the value of the body part closest to this.focus
      * @returns {Number} - the face of the element to be removed at the face
      * or undefined if we're removing an hexagon
      */
     removePart() {
         if (!this.centers || !this.focus) throw "At least one parameter is undefined";
+        this.initCenters();
 
         let bestDistance = Infinity;
         let counter = 0;
@@ -39,7 +52,7 @@ class Editor {
             counter = i;
         }
 
-        if (bestDistance > 100) {
+        if (bestDistance > 100 * PIXEL_SCALE) {
             return console.warn("Clicked too far from player");
         }
 
@@ -58,6 +71,7 @@ class Editor {
      */
     findFace() {
         if (!this.centers || !this.focus) throw "At least one parameter is undefined";
+        this.initCenters();
 
         let face;
         let bestDistance = Infinity;
@@ -74,7 +88,7 @@ class Editor {
             counter = i;
         }
 
-        if (bestDistance > 100) {
+        if (bestDistance * PIXEL_SCALE > 100 * PIXEL_SCALE) {
             return console.warn("Clicked too far from player");
         }
 

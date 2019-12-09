@@ -9,8 +9,11 @@ class App {
 			throw new Error("It should be a canvas");
 		}
 
+		this.worldW = object.worldSize.w;
+		this.worldH = object.worldSize.h;
+
 		this.graphics = GraphicsFactory.provideImplementation();
-		this.graphics.setWorldSize(object.worldSize.w, object.worldSize.h);
+		this.graphics.setWorldSize(this.worldW, this.worldH);
 
 		this.minCtx = this.minCanvas.getContext('2d');
 
@@ -158,13 +161,13 @@ class App {
 	}
 
 	drawMap(data) {
-		//console.log(data);
+		//console.log(data.resources);
 		this.graphics.clearCanvas();
 		let sx = data.playerPosition.x;
 		let sy = data.playerPosition.y;
 		this.graphics.drawBackground({x: sx, y: sy});
 
-		this.drawMiniMap({x: sx, y: sy});
+		this.drawMiniMap({x: sx, y: sy}, data.resources);
 		//console.log(this.miniMap);
 		if (this.miniMap !== undefined) {
 			//this.minCtx.drawImage(this.miniMap, 0, 0);
@@ -203,43 +206,67 @@ class App {
 */
 	}
 
-	drawMiniMap(pos) {
+	drawMiniMap(pos, res) {
 		if (pos !== undefined) {
-			const width = this.minCanvas.width;
-			const height = this.minCanvas.height;
+			const width = 300;
+			const height = 300;
 
-			const posX = (width / this.canvas.width) * pos.x;
-			const posY = (height / this.canvas.height) * pos.y;
+			const viewRay = (width / this.worldW) * 100;
 
-	        this.minCtx.fillStyle = "#fafbfc";
+			const linesW = width / (this.worldW / 50);
+			const linesH = height / (this.worldH / 50);
+
+			const posX = (width / this.worldW) * pos.x;
+			const posY = (height / this.worldH) * pos.y;
+
+	        this.minCtx.fillStyle = "#262626";
 	        this.minCtx.fillRect(0, 0, width, height);
 
-	        this.minCtx.strokeStyle = "rgba(0, 0, 0, 0.125)";
 	        this.minCtx.beginPath();
-            this.minCtx.fillStyle = "#fff";
+            this.minCtx.fillStyle = "#e60000";
             this.minCtx.strokeStyle = "black";
 
-            this.minCtx.arc(posX, posY, 6, 0, 360);
-
+            this.minCtx.arc(posX, posY, 3, 0, 360);
             this.minCtx.fill();
+            this.minCtx.stroke();
+            this.minCtx.closePath();
+
+            this.minCtx.beginPath();
+            this.minCtx.fillStyle = "#e0ffff";
+            this.minCtx.strokeStyle = "black";
+            this.minCtx.arc(posX, posY, viewRay, 0, 360);
+
+            this.minCtx.stroke();
+            this.minCtx.closePath();
 
 	        // vertical grid lines
-	        /*
-	        this.minCtx.lineWidth = 1;
-	        this.minCtx.beginPath();
-	        for (let x = 0 / 2; x <= width; x += 50) {
+	        /*this.minCtx.strokeStyle = "rgba(0, 0, 0, 0.125)";
+        	this.minCtx.lineWidth = 1;
+        	this.minCtx.beginPath();
+	        for (let x = 0; x <= width; x += linesW) {
 	            this.minCtx.moveTo(x, 0);
 	            this.minCtx.lineTo(x, height);
 	        }
 
 	        // horizontal grid lines
-	        for (let y = 0 / 2; y <= height; y += 50) {
+	        for (let y = 0; y <= height; y += linesH) {
 	            this.minCtx.moveTo(0, y);
 	            this.minCtx.lineTo(width, y);
-	        }*/
+	        }
 
 	        this.minCtx.stroke();
-	        this.minCtx.closePath();
+	        this.minCtx.closePath();*/
+	        //ctx.fillRect(10,10,1,1);
+	        res.forEach((el) => {
+	        	let x = posX + (width / this.worldW) * el.position.x;
+	        	let y = posY + (height / this.worldH) * el.position.y;
+	        	let distance = Math.sqrt(Math.pow(posX - x, 2) + Math.pow(posY - y, 2));
+	        	if (distance <= viewRay) {
+	        		//console.log("ciao");
+	        		this.minCtx.fillRect(x, y, 2, 2);
+	        }
+	        });
+
 		}
 	}
 
@@ -281,7 +308,6 @@ class App {
 	}
 
 	updateInfo(elems, life, kills) {
-		console.log(elems);
 		let info = {cell: 0, spike: 0, shield: 0 };
 		let factor = 60000;
 		let currentTime = new Date(Date.now() - this.valueTime.getTime() + factor * this.valueTime.getTimezoneOffset());

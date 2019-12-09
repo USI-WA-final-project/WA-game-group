@@ -85,6 +85,6 @@
         For any inquire, feel free to contact us: <a href="mailto:info@legendofajax.fun">info@legendofajax.fun</a>
         <img class="back" src="img/back.svg" alt="back">
     </div>
-    <canvas id="minimap" class="minimap" width="300px" height="200px"></canvas>
+    <canvas id="minimap" class="minimap" width="300px" height="300px"></canvas>
 
 {> "partials/footer" /}
