@@ -121,7 +121,7 @@ class MapComposer {
 
         this.minCtx.clearRect(0, 0, width, height);
 
-        this.minCtx.fillStyle = "#fafbfc";
+        this.minCtx.fillStyle = "#f1f2f3";
         this.minCtx.fillRect(offsetX, 0, height, height);
 
         // Player
