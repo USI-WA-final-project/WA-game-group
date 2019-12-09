@@ -40,7 +40,7 @@
                     <div class="tools"><img src="img/leaderboard.svg">Leaderboard</div>
                 </a>
                 <a href="/moments" target="blank" style="color: #333; text-decoration: none;">
-                    <div class="tools"><img src="img/photos.svg">Share this moment</div>
+                    <div class="tools"><img src="img/photos.svg">My Moments</div>
                 </a>
                 <a href="/help" target="blank" style="color: #333; text-decoration: none;">
                     <div class="tools"><img src="img/help.svg">Help</div>
