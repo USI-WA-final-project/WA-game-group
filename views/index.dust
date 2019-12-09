@@ -20,7 +20,7 @@
             <p id="usname">Username</p>
             <hr>
             <div id="minimal">
-                <img src="img/score.svg">3
+                <img src="img/score.svg"><span id="info_score">0</span>
                 <img src="img/heart-rate.svg" width="24" height="20" style="margin-left:40px;">
                 <div id="life"></div>
             </div>
@@ -33,7 +33,7 @@
                 <div class="personal_item"><img src="img/spike.svg"><div id="info_spikes">0&nbsp;</div>spikes</div>
                 <div><img src="img/shield.svg"><div id="info_shields">0&nbsp;</div>shields</div>
                 <div><img src="img/time.svg"><div id="info_time">00:00</div></div>
-                <div><img src="img/money.svg"><div id="info_money">0&nbsp;</div>¶</div>
+                <div><img src="img/money.svg"><div id="info_res">0&nbsp;</div>¶</div>
                 <div><img src="img/knife-blood.svg"><div id="info_killed">0&nbsp;</div>killed</div>
                 <hr>
                 <a href="/players" target="blank" style="color: #333; text-decoration: none;">

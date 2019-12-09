@@ -192,7 +192,7 @@ function init(name) {
                               inputs: { cell: 'cell', spike: 'spike', shield: 'shield', bounce: 'bounce',
                                         cancel: 'cancel', remove: 'remove', camera: 'camera' },
                               info: {cell: 'info_cells', spike: 'info_spikes', shield: 'info_shields', time: 'info_time',
-                                     life: 'life', kills: 'info_killed'},
+                                     life: 'life', kills: 'info_killed', res: 'info_res', score: 'info_score'},
                               time: new Date() });
 
 

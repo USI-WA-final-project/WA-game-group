@@ -53,6 +53,8 @@ class App {
 		this.infoSpike = document.getElementById(object.info.spike);
 		this.infoShield = document.getElementById(object.info.shield);
 		this.infoKills = document.getElementById(object.info.kills);
+		this.infoRes = document.getElementById(object.info.res);
+		this.infoScore = document.getElementById(object.info.score);
 		//this.infoBounce = document.getElementById(object.info.bounce);
 
 		this.time = document.getElementById(object.info.time);
@@ -161,7 +163,7 @@ class App {
 	}
 
 	drawMap(data) {
-		//console.log(data.resources);
+		console.log(data);
 		this.graphics.clearCanvas();
 		let sx = data.playerPosition.x;
 		let sy = data.playerPosition.y;
@@ -177,10 +179,11 @@ class App {
 
 		for (let i = 0; i < data.players.length; i++) {
 			const it = data.players[i];
+			const info_plr = {life: it.health, kills: it.kills, res: it.resources, score: it.resources + it.kills,};
 			if (it.position.x !== 0 || it.position.y !== 0) continue;
 
 			this.playerBody = it.components;
-			this.updateInfo(this.playerBody, it.health, it.kills);
+			this.updateInfo(this.playerBody, info_plr);
 			if (this.editor !== undefined){
 				this.setCenters(this.playerBody);
 			}
@@ -307,7 +310,7 @@ class App {
 		}
 	}
 
-	updateInfo(elems, life, kills) {
+	updateInfo(elems, plr) {
 		let info = {cell: 0, spike: 0, shield: 0 };
 		let factor = 60000;
 		let currentTime = new Date(Date.now() - this.valueTime.getTime() + factor * this.valueTime.getTimezoneOffset());
@@ -327,12 +330,14 @@ class App {
 				}
 			}
 		});
-		this.life.style.background = "-webkit-linear-gradient(left, green "+life+"%, white "+(100 - life)+"%)";
+		this.life.style.background = "-webkit-linear-gradient(left, green "+plr.life+"%, white "+(100 - plr.life)+"%)";
 
 		this.infoCell.innerHTML = info.cell + "&nbsp;";
 		this.infoSpike.innerHTML = info.spike + "&nbsp;";
 		this.infoShield.innerHTML = info.shield + "&nbsp;";
-		this.infoKills.innerHTML = kills + "&nbsp;";
+		this.infoKills.innerHTML = plr.kills + "&nbsp;";
+		this.infoRes.innerHTML = plr.res + "&nbsp;";
+		this.infoScore.innerHTML = plr.score + "&nbsp;";
 		this.time.innerHTML = (currentTime.getHours() < 10 ? ("0" + currentTime.getHours()) : currentTime.getHours()) +
 			":" + (currentTime.getMinutes() < 10 ? ("0" + currentTime.getMinutes()) : currentTime.getMinutes()) +
 			":" + (currentTime.getSeconds() < 10 ? ("0" + currentTime.getSeconds()) : currentTime.getSeconds());
