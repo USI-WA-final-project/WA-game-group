@@ -209,7 +209,7 @@ class App {
 	drawMiniMap(pos, res) {
 		if (pos !== undefined) {
 			const width = 300;
-			const height = 150;
+			const height = 300;
 
 			const viewRay = (width / this.worldW) * 100;
 
@@ -239,7 +239,7 @@ class App {
             this.minCtx.closePath();
 
 	        // vertical grid lines
-	        this.minCtx.strokeStyle = "rgba(0, 0, 0, 0.125)";
+	        /*this.minCtx.strokeStyle = "rgba(0, 0, 0, 0.125)";
         	this.minCtx.lineWidth = 1;
         	this.minCtx.beginPath();
 	        for (let x = 0; x <= width; x += linesW) {
@@ -254,7 +254,7 @@ class App {
 	        }
 
 	        this.minCtx.stroke();
-	        this.minCtx.closePath();
+	        this.minCtx.closePath();*/
 	        //ctx.fillRect(10,10,1,1);
 	        res.forEach((el) => {
 	        	let x = (width / this.worldW) * el.position.x;
