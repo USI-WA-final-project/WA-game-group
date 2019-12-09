@@ -13,9 +13,10 @@ function assertReady() {
     return false;
 }
 
-function setupCanvas(canvas, world) {
+function setupCanvas(canvas, minCanvas, world) {
     instance.canvas = canvas;
     instance.ctx = canvas.getContext("2d");
+    instance.minCtx = minCanvas.getContext("2d");
     instance.world = world;
 
     updateCanvas({width: canvas.width, height: canvas.height});
@@ -31,7 +32,7 @@ function updateCanvas(canvasSize) {
     };
 
     instance.composer = {
-        map: new MapComposer(instance.ctx, true),
+        map: new MapComposer(instance.ctx,  instance.minCtx, true),
         player: new PlayerComposer(instance.ctx, center),
         resources: new ResourcesComposer(instance.ctx)
     };
@@ -52,6 +53,16 @@ function drawWorld(offset) {
         instance.canvas.width,
         instance.canvas.height
     );
+}
+
+function drawMinMap(playerPosition, resources) {
+    if (!assertReady()) return;
+
+    instance.composer.map.drawMiniMap(
+        instance.world.width,
+        instance.world.height,
+        resources
+    )
 }
 
 function drawPlayers(players, colors) {
@@ -83,8 +94,9 @@ onmessage = function (e) {
         case "update":
             updateCanvas(e.data.canvasSize);
             break;
-        case "players":
+        case "contents":
             drawWorld(e.data.bgOffset);
+            drawMinMap(e.data.bgOffset, e.data.resources);
             drawPlayers(e.data.players, e.data.playerColors);
             drawResources(e.data.resources);
             break;

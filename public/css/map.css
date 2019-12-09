@@ -1,9 +1,7 @@
 .minimap {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    padding: 1em;
-    border-radius: 50px;
+    display: block;
+    margin: auto;
+    height: 100px;
 }
 
 .minimap img {
