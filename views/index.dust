@@ -17,6 +17,7 @@
     <div id="stats" class="hidden sidebar">
         <!-- Toggle it when clicking on Play -->
         <div style="padding: 15px; overflow-y: scroll; max-height: 90vh">
+            <canvas id="minimap" class="minimap"></canvas>
             <p id="usname">Username</p>
             <hr>
             <div id="minimal">
@@ -85,6 +86,4 @@
         For any inquire, feel free to contact us: <a href="mailto:info@legendofajax.fun">info@legendofajax.fun</a>
         <img class="back" src="img/back.svg" alt="back">
     </div>
-    <canvas id="minimap" class="minimap" width="300px" height="300px"></canvas>
-
 {> "partials/footer" /}

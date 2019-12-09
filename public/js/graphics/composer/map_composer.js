@@ -1,7 +1,8 @@
 class MapComposer {
 
-    constructor(context, useOffScreen) {
-        this.ctx = context;
+    constructor(mapCtx, minCtx, useOffScreen) {
+        this.ctx = mapCtx;
+        this.minCtx = minCtx;
         this.useOffScreen = useOffScreen;
     }
 
@@ -104,5 +105,52 @@ class MapComposer {
         } else {
             this.ctx.drawImage(this.cached, offset.x, offset.y, canvasW, canvasH, 0, 0, canvasW, canvasH);
         }
+    }
+
+    drawMiniMap(worldW, worldH, playerPosition, resources) {
+        const width = this.minCtx.canvas.width;
+        const height = this.minCtx.canvas.height;
+        const offsetX = (width - height) / 2;
+
+        const viewRay = (height / worldW) * 100;
+
+        const posX = (height / worldW) * playerPosition.x;
+        const posY = (height / worldH) * playerPosition.y;
+
+        this.minCtx.clearRect(0, 0, width, height);
+
+        this.minCtx.fillStyle = "#fafbfc";
+        this.minCtx.fillRect(offsetX, 0, height, height);
+
+        // Player
+        this.minCtx.beginPath();
+        this.minCtx.fillStyle = "#3b4043";
+        this.minCtx.strokeStyle = "#121314";
+
+        this.minCtx.arc(offsetX + posX, posY, 3, 0, 360);
+        this.minCtx.fill();
+        this.minCtx.stroke();
+        this.minCtx.closePath();
+
+        this.minCtx.beginPath();
+        this.minCtx.strokeStyle = "#121314";
+        this.minCtx.arc(offsetX + posX, posY, viewRay, 0, 360);
+
+        this.minCtx.stroke();
+        this.minCtx.closePath();
+
+        resources.forEach((it) => {
+            let x = offsetX + posX + (width / worldW) * it.position.x;
+            let y = posY + (height / worldH) * it.position.y;
+            let distance = Math.sqrt(Math.pow(posX - x, 2) + Math.pow(posY - y, 2));
+            if (distance <= viewRay) {
+                this.minCtx.beginPath();
+                this.minCtx.fillStyle = "#8c9096";
+                this.minCtx.arc(x, y, 2, 0, 360);
+                this.minCtx.fill();
+                this.minCtx.closePath();
+            }
+        });
+
     }
 }

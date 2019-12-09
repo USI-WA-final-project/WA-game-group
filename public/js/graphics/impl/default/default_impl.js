@@ -10,24 +10,26 @@ class DefaultImpl extends Graphics {
      * This will trigger the update of the canvas, the composers
      * and the world grid to match the new size.
      *
-     * @param canvas The canvas
+     * @param mapCanvas The canvas
+     * @param minCanvas The canvas
      */
-    setCanvas(canvas) {
-        this.canvas = canvas;
-        this.ctx = canvas.getContext("2d");
+    setCanvas(mapCanvas, minCanvas) {
+        this.canvas = mapCanvas;
+        this.ctx = mapCanvas.getContext("2d");
+        this.minCtx = minCanvas.getContext("2d");
 
         const center = {
-            x: canvas.width / 2,
-            y: canvas.height / 2
+            x: mapCanvas.width / 2,
+            y: mapCanvas.height / 2
         };
 
         this.composer = {
-            map: new MapComposer(this.ctx, false),
+            map: new MapComposer(this.ctx, this.minCtx, false),
             player: new PlayerComposer(this.ctx, center),
             resources: new ResourcesComposer(this.ctx)
         };
 
-        this.composer.map.prepare(this.world.width, this.world.height, canvas.width, canvas.height);
+        this.composer.map.prepare(this.world.width, this.world.height, mapCanvas.width, mapCanvas.height);
     }
 
     /**
@@ -52,6 +54,8 @@ class DefaultImpl extends Graphics {
      * @param resources All the resources
      */
     drawContents(players, playerColors, resources) {
+        this.composer.map.drawMiniMap(this.world.width, this.world.height, this.offset, resources);
+
         players.forEach((it) => {
             const color = playerColors[it.color];
             this.composer.player.build(it.components, color, it.position);
@@ -64,6 +68,7 @@ class DefaultImpl extends Graphics {
      * Draw the world grid background
      */
     drawBackground(offset) {
+        this.offset = offset;
         this.composer.map.drawCached(offset, this.canvas.width, this.canvas.height);
     }
 

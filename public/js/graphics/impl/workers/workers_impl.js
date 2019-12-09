@@ -11,15 +11,22 @@ class WorkersImpl extends Graphics {
     /**
      * Send a canvas.
      *
-     * @param canvas The canvas
+     * @param mapCanvas The canvas
+     * @param minCanvas The canvas
      */
-    setCanvas(canvas) {
-        this.canvas = canvas.transferControlToOffscreen();
+    setCanvas(mapCanvas, minCanvas) {
+        this.canvas = mapCanvas.transferControlToOffscreen();
+        this.minCanvas = minCanvas.transferControlToOffscreen();
         this.worker.postMessage({
-            action: "setup",
-            canvas: this.canvas,
-            world: this.world,
-        }, [this.canvas]);
+                action: "setup",
+                canvas: this.canvas,
+                minCanvas: this.minCanvas,
+                world: this.world,
+            },
+            [
+                this.canvas,
+                this.minCanvas
+            ]);
     }
 
     /**
@@ -50,7 +57,7 @@ class WorkersImpl extends Graphics {
      */
     drawContents(players, playerColors, resources) {
         this.worker.postMessage({
-            action: "players",
+            action: "contents",
             players: players,
             playerColors: playerColors,
             bgOffset: this.offset,

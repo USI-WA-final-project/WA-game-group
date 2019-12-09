@@ -8,9 +8,10 @@ class Graphics {
     /**
      * Set a canvas.
      *
-     * @param canvas The canvas
+     * @param mapCanvas The canvas of the world
+     * @param minCanvas The canvas of the minMap
      */
-    setCanvas(canvas) {
+    setCanvas(mapCanvas, minCanvas) {
         throw "This function has not been implemented";
     }
 

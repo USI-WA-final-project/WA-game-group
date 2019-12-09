@@ -15,8 +15,6 @@ class App {
 		this.graphics = GraphicsFactory.provideImplementation();
 		this.graphics.setWorldSize(this.worldW, this.worldH);
 
-		this.minCtx = this.minCanvas.getContext('2d');
-
 		//graphic interface
 		this.setupComposer(true);
 
@@ -64,7 +62,6 @@ class App {
 
 		window.addEventListener('resize', (e) => {
 			this.setupComposer(false);
-			this.gridImage = this.drawGrid();
 		});
 	}
 
@@ -77,7 +74,7 @@ class App {
 		this.canvas.setAttribute("width", width * dpi);
 
 		if (firstTime) {
-			this.graphics.setCanvas(this.canvas);
+			this.graphics.setCanvas(this.canvas, this.minCanvas);
 		} else {
 			this.graphics.updateCanvas(width * dpi, height * dpi);
 		}
@@ -113,7 +110,7 @@ class App {
 				el.classList.remove('buttonclicked');
 			}
 		});
-	}	
+	}
 
 	setEditCancel() {
 		this.editor = undefined;
@@ -133,8 +130,8 @@ class App {
 
 				if (this.cellEdited.type != undefined && this.cellEdited.face != undefined) {
 					//console.log(this.cellEdited.type, this.editor.counter, this.cellEdited.face);
-					socket.emit('attachPart', { type: this.cellEdited.type, 
-												part: this.cellEdited.part, 
+					socket.emit('attachPart', { type: this.cellEdited.type,
+												part: this.cellEdited.part,
 												face: this.cellEdited.face });
 				}
 			} else {
@@ -169,7 +166,6 @@ class App {
 		let sy = data.playerPosition.y;
 		this.graphics.drawBackground({x: sx, y: sy});
 
-		this.drawMiniMap({x: sx, y: sy}, data.resources);
 		//console.log(this.miniMap);
 		if (this.miniMap !== undefined) {
 			//this.minCtx.drawImage(this.miniMap, 0, 0);
@@ -190,87 +186,6 @@ class App {
 			break;
 		}
 		this.graphics.drawContents(data.players, this.playerColors, data.resources);
-	}
-
-	drawGrid () {
-		//TODO: andrea minimap
-/*
-		this.minCtx.clearRect(0, 0, 300, 200);
-
-		//console.log(img);
-
-		this.minCanvas.width = 300;
-		this.minCanvas.height = 200;
-
-		this.minCtx.save();
-		this.minCtx.scale(1, 1);
-		this.minCtx.drawImage(c.canvas, this.canvas.width/2, this.canvas.height/2,this.worldW, this.worldH, 0, 0, 300, 200);
-		this.minCtx.restore();
-*/
-	}
-
-	drawMiniMap(pos, res) {
-		if (pos !== undefined) {
-			const width = 300;
-			const height = 300;
-
-			const viewRay = (width / this.worldW) * 100;
-
-			const linesW = width / (this.worldW / 50);
-			const linesH = height / (this.worldH / 50);
-
-			const posX = (width / this.worldW) * pos.x;
-			const posY = (height / this.worldH) * pos.y;
-
-	        this.minCtx.fillStyle = "#262626";
-	        this.minCtx.fillRect(0, 0, width, height);
-
-	        this.minCtx.beginPath();
-            this.minCtx.fillStyle = "#e60000";
-            this.minCtx.strokeStyle = "black";
-
-            this.minCtx.arc(posX, posY, 3, 0, 360);
-            this.minCtx.fill();
-            this.minCtx.stroke();
-            this.minCtx.closePath();
-
-            this.minCtx.beginPath();
-            this.minCtx.fillStyle = "#e0ffff";
-            this.minCtx.strokeStyle = "black";
-            this.minCtx.arc(posX, posY, viewRay, 0, 360);
-
-            this.minCtx.stroke();
-            this.minCtx.closePath();
-
-	        // vertical grid lines
-	        /*this.minCtx.strokeStyle = "rgba(0, 0, 0, 0.125)";
-        	this.minCtx.lineWidth = 1;
-        	this.minCtx.beginPath();
-	        for (let x = 0; x <= width; x += linesW) {
-	            this.minCtx.moveTo(x, 0);
-	            this.minCtx.lineTo(x, height);
-	        }
-
-	        // horizontal grid lines
-	        for (let y = 0; y <= height; y += linesH) {
-	            this.minCtx.moveTo(0, y);
-	            this.minCtx.lineTo(width, y);
-	        }
-
-	        this.minCtx.stroke();
-	        this.minCtx.closePath();*/
-	        //ctx.fillRect(10,10,1,1);
-	        res.forEach((el) => {
-	        	let x = posX + (width / this.worldW) * el.position.x;
-	        	let y = posY + (height / this.worldH) * el.position.y;
-	        	let distance = Math.sqrt(Math.pow(posX - x, 2) + Math.pow(posY - y, 2));
-	        	if (distance <= viewRay) {
-	        		//console.log("ciao");
-	        		this.minCtx.fillRect(x, y, 2, 2);
-	        }
-	        });
-
-		}
 	}
 
 	setCenters(components) {
@@ -459,13 +374,13 @@ class App {
 		this.keys[e.code] = undefined;
 	}
 
-	setName(name) { 
+	setName(name) {
 		localStorage.setItem('user_name', name);
 		socket.emit('registerUser',  name);
 	}
 
 	displayAttachError(data) {
-		
+
 	}
 
 	gameOver() {
