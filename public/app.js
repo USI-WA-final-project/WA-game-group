@@ -179,8 +179,8 @@ class App {
 
 		for (let i = 0; i < data.players.length; i++) {
 			const it = data.players[i];
-			const info_plr = {life: it.health, kills: it.kills, res: it.resources, score: it.resources + it.kills,};
 			if (it.position.x !== 0 || it.position.y !== 0) continue;
+			const info_plr = {life: it.health, kills: it.kills, res: it.resources, score: it.resources + it.kills,};
 
 			this.playerBody = it.components;
 			this.updateInfo(this.playerBody, info_plr);
