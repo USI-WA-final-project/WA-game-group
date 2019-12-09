@@ -257,8 +257,8 @@ class App {
 	        this.minCtx.closePath();*/
 	        //ctx.fillRect(10,10,1,1);
 	        res.forEach((el) => {
-	        	let x = (width / this.worldW) * el.position.x;
-	        	let y = (height / this.worldH) * el.position.y;
+	        	let x = posX + (width / this.worldW) * el.position.x;
+	        	let y = posY + (height / this.worldH) * el.position.y;
 	        	let distance = Math.sqrt(Math.pow(posX - x, 2) + Math.pow(posY - y, 2));
 	        	if (distance <= viewRay) {
 	        		//console.log("ciao");
