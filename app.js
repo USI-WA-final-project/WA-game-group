@@ -126,6 +126,7 @@ io.on('connection', function(socket){
                         health: el.bodyparts[0].health,
                         rotation: el.rotation,
                         kills: el.kills,
+                        resources: el.resources,
                         components: el.bodyparts.map(function(item) {
                             let newItem = Object.assign({}, item);
                             switch(item.type) {
