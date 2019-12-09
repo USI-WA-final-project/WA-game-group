@@ -352,6 +352,27 @@ class User {
         return false;
     }
 
+    clean_components() {
+        let map = {};
+
+        let cleaned = [];
+        let j = 0;
+        for (let i = 0; i < this.components.length; i++) {
+            if (this.components[i] === undefined) {
+                continue;
+            }
+            map[i] = j;
+            cleaned[j] = this.components[i];
+            j++;
+        }
+        console.log(cleaned);
+        this.components = cleaned.map(component => {
+            if (component.body) component.body = map[component.body];
+            if (component.faces) component.faces = component.faces.map(part => map[part]);
+            return component;
+        });
+    }
+
     mark(root = 0, cb) {
         if (this.components[root].isVisited) return;
         this.components[root].isVisited = true;
