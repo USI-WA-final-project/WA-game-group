@@ -97,14 +97,16 @@ var database = {
      * Marks a player as inactive 
      * (either game over or disconnection)
      * @param {Number} id The player id
+     * @param {Number} score The total score
      * @returns true on success, false otherwise
      */
-    terminatePlayer: function(id) {
+    terminatePlayer: function(id, score) {
         const filter = { id: id };
 
         return Player.find(filter).then(function(found) {
             found[0].dateEnded = Date.now();
             found[0].active = false;
+            found[0].score = score;
 
             return found[0].save().then(function(saved) {
                 console.log('[DB] Archived player', saved.id, '-', saved.username);

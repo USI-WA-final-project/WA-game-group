@@ -9,8 +9,8 @@ const Player = exports.Player = new mongoose.Schema({
         y: { type: Number, required: true }
     },
     //Optional fields
-    dateStarted: { type: Date, default: Date.now },
-    dateEnded: { type: Date, default: null },
+    dateStarted: { type: Number, default: Date.now },
+    dateEnded: { type: Number, default: null },
     active: { type: Boolean, default: true },
     score: { type: Number, default: 0 }    
 });

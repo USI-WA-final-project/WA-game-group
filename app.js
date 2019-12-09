@@ -91,6 +91,7 @@ io.on('connection', function(socket){
         player.color = playerInfo.color;
         player.spawnPos.x = playerInfo.position.x;
         player.spawnPos.y = playerInfo.position.y;
+        player.score = playerInfo.score;
 
         database.addPlayer(player)
         .then(function(result) {
@@ -102,7 +103,7 @@ io.on('connection', function(socket){
         engine.register(player.id, function(data) {
             if (data == null) {
                 //Either game over or disconnection
-                database.terminatePlayer(player.id)
+                database.terminatePlayer(player.id, player.score)
                 .then(function(result) {
                     if (!result) {
                         console.log("Error terminating player");
