@@ -42,8 +42,8 @@ class PlayerComposer {
         } : this.screenCenter;
 
         const begin = {
-            x: center.x - 8,
-            y: center.y - 14
+            x: center.x - 16,
+            y: center.y - 28
         };
 
         this.visited = {};
@@ -74,13 +74,13 @@ class PlayerComposer {
     drawHexagon0(obj, index, begin, center, isCore = false) {
         if (!this.initHexagon(index, isCore)) return;
 
-        this.ctx.moveTo(begin.x, begin.y); // M 8 2
-        this.ctx.lineTo(begin.x - 8, begin.y + 14); // l -8 14
-        this.ctx.lineTo(begin.x, begin.y + 28); // l 8 14
-        this.ctx.lineTo(begin.x + 16, begin.y + 28); // l 16 0
-        this.ctx.lineTo(begin.x + 24, begin.y + 14); // l 8 -14
-        this.ctx.lineTo(begin.x + 16, begin.y); // l -8 -14
-        this.ctx.lineTo(begin.x, begin.y); // l -16 0
+        this.ctx.moveTo(begin.x, begin.y); // M 16 4
+        this.ctx.lineTo(begin.x - 16, begin.y + 28); // l -16 28
+        this.ctx.lineTo(begin.x, begin.y + 56); // l 16 28
+        this.ctx.lineTo(begin.x + 32, begin.y + 56); // l 28 0
+        this.ctx.lineTo(begin.x + 48, begin.y + 28); // l 16 -28
+        this.ctx.lineTo(begin.x + 32, begin.y); // l -16 -16
+        this.ctx.lineTo(begin.x, begin.y); // l -32 0
 
         if (isCore) {
             this.ctx.closePath();
@@ -89,7 +89,7 @@ class PlayerComposer {
             // "Core circle"
             this.ctx.beginPath();
             this.ctx.fillStyle = this.colors.cell.child; // 30% white
-            this.ctx.arc(center.x, center.y, 7, 0, 360)
+            this.ctx.arc(center.x, center.y, 14, 0, 360)
         }
 
         this.finalizeHexagon(obj, index, begin, center);
@@ -98,12 +98,12 @@ class PlayerComposer {
     drawHexagon1(obj, index, begin, center) {
         if (!this.initHexagon(index)) return;
 
-        this.ctx.moveTo(begin.x, begin.y); // M 24 2
-        this.ctx.lineTo(begin.x - 16, begin.y); // l -16 0
-        this.ctx.lineTo(begin.x - 24, begin.y + 14); // l -8 14
-        this.ctx.lineTo(begin.x - 16, begin.y + 28); // l 8 14
-        this.ctx.lineTo(begin.x, begin.y + 28); // l 16 0
-        this.ctx.lineTo(begin.x + 8, begin.y + 14); // l 8 -14
+        this.ctx.moveTo(begin.x, begin.y); // M 48 4
+        this.ctx.lineTo(begin.x - 32, begin.y); // l -32 0
+        this.ctx.lineTo(begin.x - 48, begin.y + 28); // l -16 28
+        this.ctx.lineTo(begin.x - 32, begin.y + 56); // l 16 28
+        this.ctx.lineTo(begin.x, begin.y + 56); // l 32 0
+        this.ctx.lineTo(begin.x + 16, begin.y + 28); // l 16 -28
         this.ctx.lineTo(begin.x, begin.y); // l -8 -14
 
         this.finalizeHexagon(obj, index, begin, center);
@@ -112,13 +112,13 @@ class PlayerComposer {
     drawHexagon2(obj, index, begin, center) {
         if (!this.initHexagon(index)) return;
 
-        this.ctx.moveTo(begin.x, begin.y); // M 32 16
-        this.ctx.lineTo(begin.x - 8, begin.y - 14); // l -8 -14
-        this.ctx.lineTo(begin.x - 24, begin.y - 14); // l -16 0
-        this.ctx.lineTo(begin.x - 32, begin.y); // l -8 14
-        this.ctx.lineTo(begin.x - 24, begin.y + 14); // l 8 14
-        this.ctx.lineTo(begin.x - 8, begin.y + 14); // l 16 0
-        this.ctx.lineTo(begin.x, begin.y); // l 8 -14
+        this.ctx.moveTo(begin.x, begin.y); // M 64 32
+        this.ctx.lineTo(begin.x - 16, begin.y - 28); // l -16 -28
+        this.ctx.lineTo(begin.x - 48, begin.y - 28); // l -32 0
+        this.ctx.lineTo(begin.x - 64, begin.y); // l -16 28
+        this.ctx.lineTo(begin.x - 48, begin.y + 28); // l 16 28
+        this.ctx.lineTo(begin.x - 16, begin.y + 28); // l 32 0
+        this.ctx.lineTo(begin.x, begin.y); // l 32 -28
 
         this.finalizeHexagon(obj, index, begin, center);
     }
@@ -126,13 +126,13 @@ class PlayerComposer {
     drawHexagon3(obj, index, begin, center) {
         if (!this.initHexagon(index)) return;
 
-        this.ctx.moveTo(begin.x, begin.y); // M 24 30
-        this.ctx.lineTo(begin.x + 8, begin.y - 14); // l 8 -14
-        this.ctx.lineTo(begin.x, begin.y - 28); // l -8 -14
-        this.ctx.lineTo(begin.x - 16, begin.y - 28); // l -16 0
-        this.ctx.lineTo(begin.x - 24, begin.y - 14); // l -8 14
-        this.ctx.lineTo(begin.x - 16, begin.y); // l 8 14
-        this.ctx.lineTo(begin.x, begin.y); // l 16 0
+        this.ctx.moveTo(begin.x, begin.y); // M 48 60
+        this.ctx.lineTo(begin.x + 16, begin.y - 28); // l 32 -28
+        this.ctx.lineTo(begin.x, begin.y - 56); // l -16 -28
+        this.ctx.lineTo(begin.x - 32, begin.y - 56); // l -32 0
+        this.ctx.lineTo(begin.x - 48, begin.y - 28); // l -16 28
+        this.ctx.lineTo(begin.x - 32, begin.y); // l 16 28
+        this.ctx.lineTo(begin.x, begin.y); // l 32 0
 
         this.finalizeHexagon(obj, index, begin, center);
     }
@@ -140,13 +140,13 @@ class PlayerComposer {
     drawHexagon4(obj, index, begin, center) {
         if (!this.initHexagon(index)) return;
 
-        this.ctx.moveTo(begin.x, begin.y); // M 8 30
-        this.ctx.lineTo(begin.x + 16, begin.y); // l 16 0
-        this.ctx.lineTo(begin.x + 24, begin.y - 14); // l 8 -14
-        this.ctx.lineTo(begin.x + 16, begin.y - 28); // l -8 -14
-        this.ctx.lineTo(begin.x, begin.y - 28); // l -16 0
-        this.ctx.lineTo(begin.x - 8, begin.y - 14); // l -8 14
-        this.ctx.lineTo(begin.x, begin.y); // l 8 14
+        this.ctx.moveTo(begin.x, begin.y); // M 16 60
+        this.ctx.lineTo(begin.x + 32, begin.y); // l 32 0
+        this.ctx.lineTo(begin.x + 48, begin.y - 28); // l 16 -28
+        this.ctx.lineTo(begin.x + 32, begin.y - 56); // l -16 -28
+        this.ctx.lineTo(begin.x, begin.y - 56); // l -32 0
+        this.ctx.lineTo(begin.x - 16, begin.y - 28); // l -16 28
+        this.ctx.lineTo(begin.x, begin.y); // l 16 28
 
         this.finalizeHexagon(obj, index, begin, center);
     }
@@ -154,13 +154,13 @@ class PlayerComposer {
     drawHexagon5(obj, index, begin, center) {
         if (!this.initHexagon(index)) return;
 
-        this.ctx.moveTo(begin.x, begin.y); // M 0 16
-        this.ctx.lineTo(begin.x + 8, begin.y + 14); // l 8 14
-        this.ctx.lineTo(begin.x + 24, begin.y + 14); // l 16 0
-        this.ctx.lineTo(begin.x + 32, begin.y); // l 8 -14
-        this.ctx.lineTo(begin.x + 24, begin.y - 14); // l -8 -14
-        this.ctx.lineTo(begin.x + 8, begin.y - 14); // l -16 0
-        this.ctx.lineTo(begin.x, begin.y); // l -8 14
+        this.ctx.moveTo(begin.x, begin.y); // M 0 32
+        this.ctx.lineTo(begin.x + 16, begin.y + 28); // l 16 28
+        this.ctx.lineTo(begin.x + 48, begin.y + 28); // l 32 0
+        this.ctx.lineTo(begin.x + 64, begin.y); // l 16 -28
+        this.ctx.lineTo(begin.x + 48, begin.y - 28); // l -16 -28
+        this.ctx.lineTo(begin.x + 16, begin.y - 28); // l -32 0
+        this.ctx.lineTo(begin.x, begin.y); // l -16 28
 
         this.finalizeHexagon(obj, index, begin, center);
     }
@@ -171,10 +171,10 @@ class PlayerComposer {
         this.ctx.beginPath();
         this.ctx.fillStyle = this.colors.spike;
 
-        this.ctx.moveTo(begin.x, begin.y); // M 8 2
-        this.ctx.lineTo(begin.x - 16, begin.y); // l -16 0
-        this.ctx.lineTo(begin.x - 8, begin.y + 14); // l 8 14
-        this.ctx.lineTo(begin.x, begin.y); // l 8 -14
+        this.ctx.moveTo(begin.x, begin.y); // M 16 4
+        this.ctx.lineTo(begin.x - 32, begin.y); // l -32 0
+        this.ctx.lineTo(begin.x - 16, begin.y + 28); // l 16 28
+        this.ctx.lineTo(begin.x, begin.y); // l 16 -28
         this.ctx.closePath();
         this.ctx.fill();
     }
@@ -183,10 +183,10 @@ class PlayerComposer {
         this.ctx.beginPath();
         this.ctx.fillStyle = this.colors.spike;
 
-        this.ctx.moveTo(begin.x, begin.y); // M 8 2
-        this.ctx.lineTo(begin.x + 16, begin.y); // l 16 0
-        this.ctx.lineTo(begin.x + 8, begin.y - 14); // l -8 -14
-        this.ctx.lineTo(begin.x, begin.y); //l -8 14
+        this.ctx.moveTo(begin.x, begin.y); // M 16 4
+        this.ctx.lineTo(begin.x + 32, begin.y); // l 32 0
+        this.ctx.lineTo(begin.x + 16, begin.y - 28); // l -16 -28
+        this.ctx.lineTo(begin.x, begin.y); //l -16 28
         this.ctx.closePath();
         this.ctx.fill();
     }
@@ -195,10 +195,10 @@ class PlayerComposer {
         this.ctx.beginPath();
         this.ctx.fillStyle = this.colors.spike;
 
-        this.ctx.moveTo(begin.x, begin.y); // M 24 2
-        this.ctx.lineTo(begin.x + 16, begin.y); // l 16 0
-        this.ctx.lineTo(begin.x + 8, begin.y + 14); // l -8 14
-        this.ctx.lineTo(begin.x, begin.y); // l -8 -14
+        this.ctx.moveTo(begin.x, begin.y); // M 48 4
+        this.ctx.lineTo(begin.x + 32, begin.y); // l 32 0
+        this.ctx.lineTo(begin.x + 16, begin.y + 28); // l -16 28
+        this.ctx.lineTo(begin.x, begin.y); // l -16 -28
         this.ctx.closePath();
         this.ctx.fill();
     }
@@ -207,10 +207,10 @@ class PlayerComposer {
         this.ctx.beginPath();
         this.ctx.fillStyle = this.colors.spike;
 
-        this.ctx.moveTo(begin.x, begin.y); // M 24 30
-        this.ctx.lineTo(begin.x + 16, begin.y); // l 16 0
-        this.ctx.lineTo(begin.x + 8, begin.y - 14); // l -8 -14
-        this.ctx.lineTo(begin.x, begin.y); // l -8 14
+        this.ctx.moveTo(begin.x, begin.y); // M 48 60
+        this.ctx.lineTo(begin.x + 32, begin.y); // l 32 0
+        this.ctx.lineTo(begin.x + 16, begin.y - 28); // l -16 -28
+        this.ctx.lineTo(begin.x, begin.y); // l -16 28
         this.ctx.closePath();
         this.ctx.fill();
     }
@@ -219,10 +219,10 @@ class PlayerComposer {
         this.ctx.beginPath();
         this.ctx.fillStyle = this.colors.spike;
 
-        this.ctx.moveTo(begin.x, begin.y); // M 8 30
-        this.ctx.lineTo(begin.x - 16, begin.y); // l -16 0
-        this.ctx.lineTo(begin.x - 8, begin.y + 14); // l 8 14
-        this.ctx.lineTo(begin.x, begin.y); // l 8 -14
+        this.ctx.moveTo(begin.x, begin.y); // M 16 60
+        this.ctx.lineTo(begin.x - 32, begin.y); // l -32 0
+        this.ctx.lineTo(begin.x - 16, begin.y + 28); // l 16 28
+        this.ctx.lineTo(begin.x, begin.y); // l 16 -28
         this.ctx.closePath();
         this.ctx.fill();
     }
@@ -231,10 +231,10 @@ class PlayerComposer {
         this.ctx.beginPath();
         this.ctx.fillStyle = this.colors.spike;
 
-        this.ctx.moveTo(begin.x, begin.y); // M 8 30
-        this.ctx.lineTo(begin.x - 16, begin.y); // l -16 0
-        this.ctx.lineTo(begin.x - 8, begin.y - 14); // l 8 -14
-        this.ctx.lineTo(begin.x, begin.y); // l 8 14
+        this.ctx.moveTo(begin.x, begin.y); // M 16 60
+        this.ctx.lineTo(begin.x - 32, begin.y); // l -32 0
+        this.ctx.lineTo(begin.x - 16, begin.y - 28); // l 16 -28
+        this.ctx.lineTo(begin.x, begin.y); // l 16 28
         this.ctx.closePath();
         this.ctx.fill();
     }
@@ -245,11 +245,11 @@ class PlayerComposer {
         this.ctx.beginPath();
         this.ctx.fillStyle = this.colors.shield;
 
-        this.ctx.moveTo(begin.x, begin.y); // M 8 2
-        this.ctx.lineTo(begin.x - 8, begin.y + 14); // l -8 14
-        this.ctx.lineTo(begin.x - 10.4, begin.y + 12.5); // l -2.6 -1.5
-        this.ctx.lineTo(begin.x - 2.6, begin.y - 1.5); // l 8 -14
-        this.ctx.lineTo(begin.x, begin.y); // l 1.5 2.6
+        this.ctx.moveTo(begin.x, begin.y); // M 16 4
+        this.ctx.lineTo(begin.x - 16, begin.y + 28); // l -16 28
+        this.ctx.lineTo(begin.x - 21.2, begin.y + 25); // l -5.2 -3
+        this.ctx.lineTo(begin.x - 5.2, begin.y - 3); // l 16 -28
+        this.ctx.lineTo(begin.x, begin.y); // l 3 5.2
         this.ctx.closePath();
         this.ctx.fill();
     }
@@ -258,11 +258,11 @@ class PlayerComposer {
         this.ctx.beginPath();
         this.ctx.fillStyle = this.colors.shield;
 
-        this.ctx.moveTo(begin.x, begin.y); // M 8 2
-        this.ctx.lineTo(begin.x + 16, begin.y); // l 16 0
-        this.ctx.lineTo(begin.x + 16, begin.y - 3); // l 0 -3
-        this.ctx.lineTo(begin.x, begin.y - 3); // l -16 0
-        this.ctx.lineTo(begin.x, begin.y); // l 0 3
+        this.ctx.moveTo(begin.x, begin.y); // M 32 8
+        this.ctx.lineTo(begin.x + 32, begin.y); // l 32 0
+        this.ctx.lineTo(begin.x + 32, begin.y - 6); // l 0 -6
+        this.ctx.lineTo(begin.x, begin.y - 6); // l -32 0
+        this.ctx.lineTo(begin.x, begin.y); // l 0 6
         this.ctx.closePath();
         this.ctx.fill();
     }
@@ -271,11 +271,11 @@ class PlayerComposer {
         this.ctx.beginPath();
         this.ctx.fillStyle = this.colors.shield;
 
-        this.ctx.moveTo(begin.x, begin.y); // M 24 2
-        this.ctx.lineTo(begin.x + 2.6, begin.y - 1.5); // l 2.6 -1.5
-        this.ctx.lineTo(begin.x + 10.5, begin.y + 12.5); // l 8 14
-        this.ctx.lineTo(begin.x + 8, begin.y + 14); // l -2.6 1.5
-        this.ctx.lineTo(begin.x, begin.y); // l -8 -14
+        this.ctx.moveTo(begin.x, begin.y); // M 48 4
+        this.ctx.lineTo(begin.x + 5.2, begin.y - 3); // l 5.2 -3
+        this.ctx.lineTo(begin.x + 21.2, begin.y + 25); // l 16 28
+        this.ctx.lineTo(begin.x + 16, begin.y + 28); // l -5.2 3
+        this.ctx.lineTo(begin.x, begin.y); // l -16 -28
         this.ctx.closePath();
         this.ctx.fill();
     }
@@ -284,11 +284,11 @@ class PlayerComposer {
         this.ctx.beginPath();
         this.ctx.fillStyle = this.colors.shield;
 
-        this.ctx.moveTo(begin.x, begin.y); // M 24 30
-        this.ctx.lineTo(begin.x + 1.5, begin.y + 2.6); // l 1.5 2.6
-        this.ctx.lineTo(begin.x + 9.5, begin.y - 11.4); // l 8 -14
-        this.ctx.lineTo(begin.x + 8, begin.y - 14); // l -2.6 -1.5
-        this.ctx.lineTo(begin.x, begin.y); // l -8 14
+        this.ctx.moveTo(begin.x, begin.y); // M 48 60
+        this.ctx.lineTo(begin.x + 5.2, begin.y + 3); // l 5.2 3
+        this.ctx.lineTo(begin.x + 21.5, begin.y - 25); // l 16 -28
+        this.ctx.lineTo(begin.x + 16, begin.y - 28); // l -5.2 -3
+        this.ctx.lineTo(begin.x, begin.y); // l -16 28
         this.ctx.closePath();
         this.ctx.fill();
     }
@@ -297,11 +297,11 @@ class PlayerComposer {
         this.ctx.beginPath();
         this.ctx.fillStyle = this.colors.shield;
 
-        this.ctx.moveTo(begin.x, begin.y); // M 24 30
-        this.ctx.lineTo(begin.x, begin.y + 3); // l 0 3
-        this.ctx.lineTo(begin.x - 16, begin.y + 3); // l -16 0
-        this.ctx.lineTo(begin.x - 16, begin.y); // l 0 -3
-        this.ctx.lineTo(begin.x, begin.y); // l -16 0
+        this.ctx.moveTo(begin.x, begin.y); // M 48 60
+        this.ctx.lineTo(begin.x, begin.y + 6); // l 0 6
+        this.ctx.lineTo(begin.x - 32, begin.y + 6); // l -32 0
+        this.ctx.lineTo(begin.x - 32, begin.y); // l 0 -6
+        this.ctx.lineTo(begin.x, begin.y); // l -32 0
         this.ctx.closePath();
         this.ctx.fill();
     }
@@ -310,11 +310,11 @@ class PlayerComposer {
         this.ctx.beginPath();
         this.ctx.fillStyle = this.colors.shield;
 
-        this.ctx.moveTo(begin.x, begin.y); // M 8 30
-        this.ctx.lineTo(begin.x - 2.6, begin.y + 1.5); // l -2.6 1.5
-        this.ctx.lineTo(begin.x - 10.6, begin.y - 12.5); // l -8 -14
-        this.ctx.lineTo(begin.x - 8, begin.y - 14); // l 2.6 -1.5
-        this.ctx.lineTo(begin.x, begin.y); // l 8 14
+        this.ctx.moveTo(begin.x, begin.y); // M 16 60
+        this.ctx.lineTo(begin.x - 5.2, begin.y + 3); // l -5.2 3
+        this.ctx.lineTo(begin.x - 21.2, begin.y - 25); // l -16 -28
+        this.ctx.lineTo(begin.x - 16, begin.y - 28); // l 5.2 -3
+        this.ctx.lineTo(begin.x, begin.y); // l 16 28
         this.ctx.closePath();
         this.ctx.fill();
     }
@@ -395,18 +395,18 @@ class PlayerComposer {
         switch (newSide) {
             case 0:
             case 1:
-                // [16, 16] -> [8, 2]
-                return {x: center.x - 8, y: center.y - 14};
+                // [32, 32] -> [16, 4]
+                return {x: center.x - 16, y: center.y - 28};
             case 2:
-                // [16, 16] -> [24, 2]
-                return {x: center.x + 8, y: center.y - 14};
+                // [32, 32] -> [48, 4]
+                return {x: center.x + 16, y: center.y - 28};
             case 3:
             case 4:
-                // [16, 16] -> [24, 30]
-                return {x: center.x + 8, y: center.y + 14};
+                // [32, 32] -> [48, 60]
+                return {x: center.x + 16, y: center.y + 28};
             case 5:
-                // [16, 16] -> [8, 30]
-                return {x: center.x - 8, y: center.y + 14};
+                // [32, 32] -> [16, 60]
+                return {x: center.x - 16, y: center.y + 28};
             default:
                 return center;
         }
@@ -416,22 +416,22 @@ class PlayerComposer {
         switch (newSide) {
             case 0:
                 // [16, 16] -> [24, 30]
-                return {x: center.x - 32, y: center.y - 28};
+                return {x: center.x - 64, y: center.y - 56};
             case 1:
                 // [16, 16] -> [8, 30]
-                return {x: center.x + 8, y: center.y - 42};
+                return {x: center.x + 16, y: center.y - 84};
             case 2:
                 // [16, 16] -> [0, 16]
-                return {x: center.x + 40, y: center.y - 14};
+                return {x: center.x + 80, y: center.y - 28};
             case 3:
                 // [16, 16] -> [8, 2]
-                return {x: center.x + 32, y: center.y + 28};
+                return {x: center.x + 64, y: center.y + 56};
             case 4:
                 // [16, 16] -> [24, 2]
-                return {x: center.x - 8, y: center.y + 42};
+                return {x: center.x - 16, y: center.y + 84};
             case 5:
                 // [16, 16] -> [32, 16]
-                return {x: center.x - 40, y: center.y + 14};
+                return {x: center.x - 80, y: center.y + 28};
             default:
                 return center;
         }
@@ -450,17 +450,17 @@ class PlayerComposer {
 
         switch (childSide) {
             case 0:
-                return {x: currCenter.x - 24, y: currCenter.y - 14};
+                return {x: currCenter.x - 48, y: currCenter.y - 28};
             case 1:
-                return {x: currCenter.x, y: currCenter.y - 28};
+                return {x: currCenter.x, y: currCenter.y - 56};
             case 2:
-                return {x: currCenter.x + 24, y: currCenter.y - 14};
+                return {x: currCenter.x + 48, y: currCenter.y - 28};
             case 3:
-                return {x: currCenter.x + 24, y: currCenter.y + 14};
+                return {x: currCenter.x + 48, y: currCenter.y + 28};
             case 4:
-                return {x: currCenter.x, y: currCenter.y + 28};
+                return {x: currCenter.x, y: currCenter.y + 56};
             case 5:
-                return {x: currCenter.x - 24, y: currCenter.y + 14};
+                return {x: currCenter.x - 48, y: currCenter.y + 28};
         }
     }
 }

@@ -4,6 +4,7 @@ class MapComposer {
         this.ctx = mapCtx;
         this.minCtx = minCtx;
         this.useOffScreen = useOffScreen;
+        this.disableOffScreenBg = false;
     }
 
     /**
@@ -90,6 +91,7 @@ class MapComposer {
         if (!this.cached) return;
 
         if (this.useOffScreen) {
+            if (this.disableOffScreenBg) return;
             console.log(offset, this.cached.width, this.cached.height);
             // TODO: figure this out
             //       https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/putImageData

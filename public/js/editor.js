@@ -10,33 +10,13 @@ class Editor {
     }
 
     /*
-     * Scales all the centers to the real pixel ratio
-     */
-    initCenters() {
-        // console.log('focus before', this.focus);
-        this.focus.x = this.focus.x * PIXEL_SCALE;
-        this.focus.y = this.focus.y * PIXEL_SCALE;
-        // console.log('focus after', this.focus);
-        // console.log('centers before', this.centers);
-        for (let i = 0; i < this.centers.length; i++) {
-            if (this.centers[i] !== undefined) {
-                // console.log('centers[i] before', this.centers[i]);
-                this.centers[i].x = this.centers[i].x * PIXEL_SCALE;
-                this.centers[i].y = this.centers[i].y * PIXEL_SCALE;
-                // console.log('centers[i] after', this.centers[i]);
-            }
-        }
-        // console.log('centers after', this.centers);
-    }
-
-    /*
      * Checks if this.focus is within the hexagon coordinates or not
      * (approximates to the circle within)
      * @param center - the center of the hexagon we're checking
      * @returns {Boolean} whether the element is within the hexagon
      */
     isInHexagon(center) {
-        return this.calcDistance(this.focus, center) <= 8;
+        return this.calcDistance(this.focus, center) <= 16;
     }
 
     /*
@@ -47,7 +27,10 @@ class Editor {
     removePart() {
         if (!this.centers || !this.focus) throw "At least one parameter is undefined";
 
-        this.initCenters();
+        this.focus = {
+            x: this.focus.x * 2,
+            y: this.focus.y * 2,
+        };
 
         let bestDistance = Infinity;
         let counter = 0;
@@ -63,7 +46,7 @@ class Editor {
             counter = i;
         }
 
-        if (bestDistance * PIXEL_SCALE > 100 * PIXEL_SCALE) {
+        if (bestDistance > 200 * PIXEL_SCALE) {
             return console.warn("Clicked too far from player");
         }
 
@@ -84,7 +67,10 @@ class Editor {
         if (!this.centers || !this.focus) {
             throw "At least one parameter is undefined";
         }
-        this.initCenters();
+        this.focus = {
+            x: this.focus.x * 2,
+            y: this.focus.y * 2,
+        };
 
         let face;
         let bestDistance = Infinity;
@@ -105,7 +91,7 @@ class Editor {
             counter = i;
         }
 
-        if (bestDistance > 100 * PIXEL_SCALE) {
+        if (bestDistance > 200 * PIXEL_SCALE) {
             return console.warn("Clicked too far from player");
         }
 
@@ -137,17 +123,17 @@ class Editor {
      */
     checkFace(focus, center) {
         if (focus.y <= center.y) {
-            if (focus.x >= center.x + 8) {
+            if (focus.x >= center.x + 16) {
                 return 2;
-            } else if (focus.x < center.x + 8 && focus.x > center.x - 8) {
+            } else if (focus.x < center.x + 16 && focus.x > center.x - 16) {
                 return 1;
             } else {
                 return 0;
             }
         } else {
-            if (focus.x >= center.x + 8) {
+            if (focus.x >= center.x + 16) {
                 return 3;
-            } else if (focus.x < center.x + 8 && focus.x > center.x - 8) {
+            } else if (focus.x < center.x + 16 && focus.x > center.x - 16) {
                 return 4;
             } else {
                 return 5;

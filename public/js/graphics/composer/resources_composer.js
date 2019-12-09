@@ -24,7 +24,7 @@ class ResourcesComposer {
             this.ctx.fillStyle = RESOURCES_FILL_COLOR;
             this.ctx.strokeStyle = RESOURCES_STROKE_COLOR;
 
-            this.ctx.arc(it.position.x, it.position.y, 6, 0, 360);
+            this.ctx.arc(it.position.x, it.position.y, 12, 0, 360);
 
             this.ctx.fill();
             this.ctx.stroke();

@@ -73,17 +73,17 @@ class Graphics {
 
         switch (childSide) {
             case 0:
-                return {x: currCenter.x - 24, y: currCenter.y - 14};
+                return {x: currCenter.x - 48, y: currCenter.y - 28};
             case 1:
-                return {x: currCenter.x, y: currCenter.y - 28};
+                return {x: currCenter.x, y: currCenter.y - 56};
             case 2:
-                return {x: currCenter.x + 24, y: currCenter.y - 14};
+                return {x: currCenter.x + 48, y: currCenter.y - 28};
             case 3:
-                return {x: currCenter.x + 24, y: currCenter.y + 14};
+                return {x: currCenter.x + 48, y: currCenter.y + 28};
             case 4:
-                return {x: currCenter.x, y: currCenter.y + 28};
+                return {x: currCenter.x, y: currCenter.y + 56};
             case 5:
-                return {x: currCenter.x - 24, y: currCenter.y + 14};
+                return {x: currCenter.x - 48, y: currCenter.y + 28};
         }
     }
 

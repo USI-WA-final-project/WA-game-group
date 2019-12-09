@@ -66,7 +66,7 @@ class App {
 	}
 
 	setupComposer(firstTime = false) {
-		const dpi = window.devicePixelRatio / 2;
+		const dpi = window.devicePixelRatio;
 		const height = +getComputedStyle(this.canvas).getPropertyValue("height").slice(0, -2);
 		const width = +getComputedStyle(this.canvas).getPropertyValue("width").slice(0, -2);
 
