@@ -158,6 +158,7 @@ class User {
             rotation: this.rotation,
             bodyparts: this.export_components(this.components),
             kills: this.kills,
+            resources: this.resources,
         }
     }
 

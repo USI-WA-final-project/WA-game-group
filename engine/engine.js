@@ -57,7 +57,6 @@ STORED_BODIES.forEach((body, idx) => {
         if (part === null) delete STORED_BODIES[idx][index];
     });
 });
-console.log(STORED_BODIES);
 const CHEATS_ENABLED = consts.CHEATS_ENABLED;
 const CHEATS = [{seq: [DIRECTION.UP, DIRECTION.DOWN,
                        DIRECTION.LEFT, DIRECTION.RIGHT, DIRECTION.LEFT, DIRECTION.RIGHT],
