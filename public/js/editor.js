@@ -13,10 +13,20 @@ class Editor {
      * Scales all the centers to the real pixel ratio
      */
     initCenters() {
+        // console.log('focus before', this.focus);
+        this.focus.x = this.focus.x * PIXEL_SCALE;
+        this.focus.y = this.focus.y * PIXEL_SCALE;
+        // console.log('focus after', this.focus);
+        // console.log('centers before', this.centers);
         for (let i = 0; i < this.centers.length; i++) {
-            this.centers[i].x = this.centers[i].x * PIXEL_SCALE;
-            this.centers[i].y = this.centers[i].y * PIXEL_SCALE;
+            if (this.centers[i] !== undefined) {
+                // console.log('centers[i] before', this.centers[i]);
+                this.centers[i].x = this.centers[i].x * PIXEL_SCALE;
+                this.centers[i].y = this.centers[i].y * PIXEL_SCALE;
+                // console.log('centers[i] after', this.centers[i]);
+            }
         }
+        // console.log('centers after', this.centers);
     }
 
     /*
@@ -36,6 +46,7 @@ class Editor {
      */
     removePart() {
         if (!this.centers || !this.focus) throw "At least one parameter is undefined";
+
         this.initCenters();
 
         let bestDistance = Infinity;
@@ -52,7 +63,7 @@ class Editor {
             counter = i;
         }
 
-        if (bestDistance > 100 * PIXEL_SCALE) {
+        if (bestDistance * PIXEL_SCALE > 100 * PIXEL_SCALE) {
             return console.warn("Clicked too far from player");
         }
 
@@ -70,7 +81,9 @@ class Editor {
      * Must be between 0 and 5
      */
     findFace() {
-        if (!this.centers || !this.focus) throw "At least one parameter is undefined";
+        if (!this.centers || !this.focus) {
+            throw "At least one parameter is undefined";
+        }
         this.initCenters();
 
         let face;
@@ -79,16 +92,20 @@ class Editor {
         let closest;
 
         for (let i = 0; i < this.centers.length; i++) {
-            if (this.centers[i] === -1 || this.centers[i] === undefined) continue;
+            if (this.centers[i] === -1 || this.centers[i] === undefined) {
+                continue;
+            }
 
             let currentDist = this.calcDistance(this.focus, this.centers[i]);
-            if (currentDist > bestDistance) continue;
+            if (currentDist > bestDistance) {
+                continue;
+            }
             bestDistance = currentDist;
             closest = this.centers[i];
             counter = i;
         }
 
-        if (bestDistance * PIXEL_SCALE > 100 * PIXEL_SCALE) {
+        if (bestDistance > 100 * PIXEL_SCALE) {
             return console.warn("Clicked too far from player");
         }
 
