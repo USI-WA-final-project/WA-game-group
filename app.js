@@ -80,8 +80,8 @@ io.on('connection', function(socket){
 
     //Register user in DB and engine
     socket.on('registerUser', function(user) {
-        player = engine.info(engine.create()); //TODO initialize trunk with color and username
-        player.username = user; //TODO remove that when done and update dust
+        let color = Math.floor(Math.random() * 8);
+        player = engine.create({ username: user, color: color});
 
         database.addPlayer(player)
         .then(function(result) {
@@ -122,12 +122,12 @@ io.on('connection', function(socket){
                 if (Math.abs(adjustedX) < RENDER_DISTANCE && 
                     Math.abs(adjustedY) < RENDER_DISTANCE) {
                     let player = {
-                        color: el.color,
+                        color: el.custom.color,
                         health: el.bodyparts[0].health,
                         rotation: el.rotation,
                         kills: el.kills,
                         resources: el.resources,
-                        //TODO update to match player trunk model
+                        username: el.custom.username,
                         components: el.bodyparts.map(function(item) {
                             let newItem = Object.assign({}, item);
                             switch(item.type) {
@@ -296,7 +296,7 @@ io.on('connection', function(socket){
     });
 
     socket.on('disconnect', function(){
-        console.log('Client disconnected', player.id, '-', player.username);
+        console.log('Client disconnected');
         engine.remove(player.id);
     });
 });
