@@ -293,7 +293,7 @@ class Engine {
             count++;
         } while (!ok && count < 20);
         if (count > 20) console.log('no free space found');
-        return usr;
+        return usr.export();
     }
 
     /**
