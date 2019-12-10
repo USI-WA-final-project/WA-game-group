@@ -98,7 +98,7 @@ var database = {
      * (either game over or disconnection)
      * @param {Number} id The player id
      * @param {Number} score The total score
-     * @returns true on success, false otherwise
+     * @returns the player object on success, null otherwise
      */
     terminatePlayer: function(id, score) {
         const filter = { id: id };
@@ -110,7 +110,7 @@ var database = {
 
             return found[0].save().then(function(saved) {
                 console.log('[DB] Archived player', saved.id, '-', saved.username);
-                return true;
+                return found[0];
             }).catch(function(err) {
                 console.log("[DB]", err.message);
                 return false;
