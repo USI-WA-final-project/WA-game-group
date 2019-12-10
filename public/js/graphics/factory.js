@@ -6,8 +6,8 @@
 class GraphicsFactory {
 
     static provideImplementation() {
-        // return new DefaultImpl();
-        return this.isOffscreenCanvasSupported() ? new WorkersImpl() : new DefaultImpl();
+        return new DefaultImpl();
+        // return this.isOffscreenCanvasSupported() ? new WorkersImpl() : new DefaultImpl();
     }
 
     static isOffscreenCanvasSupported() {
