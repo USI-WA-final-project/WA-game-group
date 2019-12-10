@@ -63,7 +63,7 @@ class DefaultImpl extends Graphics {
             this.composer.player.build(it.components, color, it.position);
         });
 
-        this.composer.resources.draw(this.offset, resources);
+        this.composer.resources.draw(this.center, resources);
     }
 
     /**
