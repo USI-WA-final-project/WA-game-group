@@ -4,7 +4,6 @@ class MapComposer {
         this.ctx = mapCtx;
         this.minCtx = minCtx;
         this.useOffScreen = useOffScreen;
-        this.disableOffScreenBg = false;
     }
 
     /**
@@ -91,21 +90,11 @@ class MapComposer {
         if (!this.cached) return;
 
         if (this.useOffScreen) {
-            if (this.disableOffScreenBg) return;
-            console.log(offset, this.cached.width, this.cached.height);
-            // TODO: figure this out
-            //       https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/putImageData
-            this.ctx.putImageData(
-                this.cached,
-                0, // dest start x
-                0, // dest start y
-                offset.x, // src start x
-                offset.y, // src start y
-                canvasW - offset.x, // dest end x
-                canvasH - offset.y // dest end y
-            );
+            this.ctx.putImageData(this.cached, -offset.x, -offset.y,
+                offset.x, offset.y, canvasW, canvasH);
         } else {
-            this.ctx.drawImage(this.cached, offset.x, offset.y, canvasW, canvasH, 0, 0, canvasW, canvasH);
+            this.ctx.drawImage(this.cached, offset.x, offset.y,
+                canvasW, canvasH, 0, 0, canvasW, canvasH);
         }
     }
 

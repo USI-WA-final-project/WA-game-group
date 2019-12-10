@@ -7,7 +7,7 @@ importScripts(
 const instance = {};
 
 function assertReady() {
-    if (instance.ctx && instance.composer) return true;
+    if (instance.ctx && instance.composer && instance.world) return true;
 
     console.warn("Worker has not been initialized");
     return false;
@@ -61,6 +61,7 @@ function drawMinMap(playerPosition, resources) {
     instance.composer.map.drawMiniMap(
         instance.world.width,
         instance.world.height,
+        playerPosition,
         resources
     )
 }
@@ -89,7 +90,7 @@ function clearCanvas() {
 onmessage = function (e) {
     switch (e.data.action) {
         case "setup":
-            setupCanvas(e.data.canvas, e.data.world);
+            setupCanvas(e.data.canvas, e.data.minCanvas, e.data.world);
             break;
         case "update":
             updateCanvas(e.data.canvasSize);
