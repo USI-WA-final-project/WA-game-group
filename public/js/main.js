@@ -220,16 +220,17 @@ function init(name) {
             app.drawMap(data);
         });
 
-        socket.on('gameOver', function() {
+        socket.on('gameOver', function(data) {
             app.gameOver();
-            dust.render('gameover', {result: []}, function(err, out) {
+            console.log("FINAL SCORE", data.score);
+            dust.render('gameover', {}, function(err, out) {
                 //console.log(err);
                 document.body.innerHTML = out;
                 if (localStorage.getItem('playback') == "true") {
                     document.getElementById("over").play();
                 }
                 //Add score to game over page 
-                document.getElementById("final_score").innerHTML = "Score: 5";
+                document.getElementById("final_score").innerHTML = "Score: " + Math.floor(data.score);
             });
         });
     });
