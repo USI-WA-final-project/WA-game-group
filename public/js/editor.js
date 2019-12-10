@@ -10,13 +10,23 @@ class Editor {
     }
 
     /*
+     * Scales all the centers to the device pixel ratio
+     */
+    initCenters() {
+        // console.log('focus before', this.focus);
+        this.focus.x = this.focus.x * PIXEL_SCALE;
+        this.focus.y = this.focus.y * PIXEL_SCALE;
+        // console.log('focus after', this.focus);
+    }
+
+    /*
      * Checks if this.focus is within the hexagon coordinates or not
      * (approximates to the circle within)
      * @param center - the center of the hexagon we're checking
      * @returns {Boolean} whether the element is within the hexagon
      */
     isInHexagon(center) {
-        return this.calcDistance(this.focus, center) <= 16;
+        return this.calcDistance(this.focus, center) <= 8;
     }
 
     /*
@@ -27,10 +37,7 @@ class Editor {
     removePart() {
         if (!this.centers || !this.focus) throw "At least one parameter is undefined";
 
-        this.focus = {
-            x: this.focus.x * 2,
-            y: this.focus.y * 2,
-        };
+        this.initCenters();
 
         let bestDistance = Infinity;
         let counter = 0;
@@ -46,7 +53,8 @@ class Editor {
             counter = i;
         }
 
-        if (bestDistance > 200 * PIXEL_SCALE) {
+        if (bestDistance > 100 * PIXEL_SCALE) {
+            console.log('best', bestDistance);
             return console.warn("Clicked too far from player");
         }
 
@@ -67,10 +75,7 @@ class Editor {
         if (!this.centers || !this.focus) {
             throw "At least one parameter is undefined";
         }
-        this.focus = {
-            x: this.focus.x * 2,
-            y: this.focus.y * 2,
-        };
+        this.initCenters();
 
         let face;
         let bestDistance = Infinity;
@@ -91,7 +96,8 @@ class Editor {
             counter = i;
         }
 
-        if (bestDistance > 200 * PIXEL_SCALE) {
+        if (bestDistance > 100 * PIXEL_SCALE) {
+            console.log('best', bestDistance);
             return console.warn("Clicked too far from player");
         }
 
@@ -123,17 +129,17 @@ class Editor {
      */
     checkFace(focus, center) {
         if (focus.y <= center.y) {
-            if (focus.x >= center.x + 16) {
+            if (focus.x >= center.x + 8) {
                 return 2;
-            } else if (focus.x < center.x + 16 && focus.x > center.x - 16) {
+            } else if (focus.x < center.x + 8 && focus.x > center.x - 8) {
                 return 1;
             } else {
                 return 0;
             }
         } else {
-            if (focus.x >= center.x + 16) {
+            if (focus.x >= center.x + 8) {
                 return 3;
-            } else if (focus.x < center.x + 16 && focus.x > center.x - 16) {
+            } else if (focus.x < center.x + 8 && focus.x > center.x - 8) {
                 return 4;
             } else {
                 return 5;
