@@ -5,7 +5,7 @@
     </audio>
     <div class="error">
         <h1 class="page_header">Game Over</h1>
-        <h3 id="final_score">Score: 0</h3>
+        <h3 id="final_score">Score:</h3>
         <img src="/img/error.png">
         <button onClick="window.location.reload();">Play Again</button>
     </div>

@@ -59,7 +59,7 @@ var database = {
             id: player.id,
             color: player.color,
             username: player.username,
-            spawnPos: player.spawnPos
+            spawnPos: { x: player.position.x, y: player.position.y }
         });
 
         return newPlayer.save().then(function(saved) {
@@ -97,8 +97,8 @@ var database = {
      * Marks a player as inactive 
      * (either game over or disconnection)
      * @param {Number} id The player id
-     * @param {Number} score The total score
-     * @returns true on success, false otherwise
+     * @param {Number} score The partial score (resources + kills)
+     * @returns the player object on success, null otherwise
      */
     terminatePlayer: function(id, score) {
         const filter = { id: id };
@@ -106,11 +106,11 @@ var database = {
         return Player.find(filter).then(function(found) {
             found[0].dateEnded = Date.now();
             found[0].active = false;
-            found[0].score = score;
+            found[0].score = score + (found[0].dateEnded - found[0].dateStarted) / 1000;
 
             return found[0].save().then(function(saved) {
                 console.log('[DB] Archived player', saved.id, '-', saved.username);
-                return true;
+                return found[0];
             }).catch(function(err) {
                 console.log("[DB]", err.message);
                 return false;
@@ -192,7 +192,7 @@ var database = {
 
     /**
      * Adds a moment to the database
-     * @param {*} moment The moment to add
+     * @param {Object} moment The moment to add
      * @returns A promise 
      */
     addMoment: function(moment) {
@@ -203,8 +203,8 @@ var database = {
 
     /**
      * Updates a moment
-     * @param {*} id The id of the moment to update
-     * @param {*} data The data to update
+     * @param {Number} id The id of the moment to update
+     * @param {Object} data The data to update
      * @returns A promise
      */
     updateMoment: function (id, data) {
@@ -219,7 +219,7 @@ var database = {
 
     /**
      * Removes a moment
-     * @param {*} id The id of the moment to remove
+     * @param {Number} id The id of the moment to remove
      */
     removeMoment: function (id) {
         Moment.findById(id)

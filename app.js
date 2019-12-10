@@ -68,12 +68,7 @@ const io = require('socket.io')(server);
 io.on('connection', function(socket){
     console.log('Client connected');
 
-    let player = {
-        id: null,
-        username: null,
-        color: null, 
-        spawnPos: {}
-    };
+    let player;
 
     app.locals.playerColors = playerColors;
 
@@ -85,13 +80,8 @@ io.on('connection', function(socket){
 
     //Register user in DB and engine
     socket.on('registerUser', function(user) {
-        let playerInfo = engine.info(engine.create());
-        player.id = playerInfo.id;
-        player.username = user;
-        player.color = playerInfo.color;
-        player.spawnPos.x = playerInfo.position.x;
-        player.spawnPos.y = playerInfo.position.y;
-        player.score = playerInfo.score;
+        player = engine.info(engine.create()); //TODO initialize trunk with color and username
+        player.username = user; //TODO remove that when done and update dust
 
         database.addPlayer(player)
         .then(function(result) {
@@ -103,31 +93,41 @@ io.on('connection', function(socket){
         engine.register(player.id, function(data) {
             if (data == null) {
                 //Either game over or disconnection
-                database.terminatePlayer(player.id, player.score)
+                return database.terminatePlayer(player.id, player.score)
                 .then(function(result) {
-                    if (!result) {
+                    if (result == null) {
                         console.log("Error terminating player");
+                    } else {
+                        socket.emit('gameOver', { 
+                            score: result.score
+                        });
                     }
+                    return;
                 });
-                socket.emit('gameOver');
-                return;
             }
     
             //Player position in the world
             let x = data.position.x;
-            let y = data.position.y;            
+            let y = data.position.y;
+            
+            //Update score
+            player.score = data.kills + data.resources;
     
             let players = [];
     
-            worldState.players.forEach(function(el) {            
-                if (Math.abs(el.position.x - x) < RENDER_DISTANCE && 
-                    Math.abs(el.position.y - y) < RENDER_DISTANCE) {
+            worldState.players.forEach(function(el) {    
+                let adjustedX = el.position.x - x;
+                let adjustedY = el.position.y - y;
+
+                if (Math.abs(adjustedX) < RENDER_DISTANCE && 
+                    Math.abs(adjustedY) < RENDER_DISTANCE) {
                     let player = {
                         color: el.color,
                         health: el.bodyparts[0].health,
                         rotation: el.rotation,
                         kills: el.kills,
                         resources: el.resources,
+                        //TODO update to match player trunk model
                         components: el.bodyparts.map(function(item) {
                             let newItem = Object.assign({}, item);
                             switch(item.type) {
@@ -153,45 +153,40 @@ io.on('connection', function(socket){
                     //Only send relative positions of the other players
                     if (el.id != player.id) {
                         player.position = {
-                            x: el.position.x - x,
-                            y: el.position.y - y
+                            x: adjustedX,
+                            y: adjustedY
                         }
                     }
     
                     players.push(player);
                 }            
             });
+
+            app.locals.players = players;
     
             let resources = [];
     
             worldState.resources.forEach(function(el) {
-                if (Math.abs(el.position.x - x) < RENDER_DISTANCE && 
-                    Math.abs(el.position.y - y) < RENDER_DISTANCE) {
+                let adjustedX = el.position.x - x;
+                let adjustedY = el.position.y - y;
+
+                if (Math.abs(adjustedX) < RENDER_DISTANCE && 
+                    Math.abs(adjustedY) < RENDER_DISTANCE) {
                     let resource = {
                         amount: el.amount,
                         position: {
-                            x: el.position.x - x,
-                            y: el.position.y - y
+                            x: adjustedX,
+                            y: adjustedY
                         }
                     }
                     resources.push(resource);
                 }
             });
     
-            let structures = [];
-    
-            /* worldState.structures.forEach(function(el) {
-                if (Math.abs(el.position.x - x) < RENDER_DISTANCE && 
-                    Math.abs(el.position.y - y) < RENDER_DISTANCE) {
-                    structures.push(el);
-                }
-            }); */
-    
             let serializedData = {
                 playerPosition: { x: x, y: y },
                 players: players,
-                resources: resources,
-                //structures: structures
+                resources: resources
             };
     
             socket.emit('drawWorld', serializedData);
