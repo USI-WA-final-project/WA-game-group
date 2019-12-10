@@ -7,7 +7,7 @@ const TICK_RATE = 30;
 const WORLD_WIDTH = 3000;
 const WORLD_HEIGHT = 3000;
 const MOVE_SPEED = 0.5;
-const MAX_MOVE_SPEED = 2;
+const MAX_MOVE_SPEED = 3;
 const MOVE_SPEED_LOSS = 0.25;
 const MAX_HEALTH = consts.MAX_HEALTH;
 const RESOURCE_DENSITY = 2;
@@ -379,6 +379,8 @@ class Engine {
      * @property bodyparts {bodypart[]} the bodyparts of this player
      * @property position {{x: number, y: number}} the coordinates of the position of this player
      * @property kills {number} the number of kills this player made.
+     * @property size {number} An upper bound to the size of this player.
+     *           Specifically, the radius of the circle which completely envelops the player (with a bit of give)
      * @property custom {*} A value given by the caller at creation. Usually an object containing custom fields.
      */
 
