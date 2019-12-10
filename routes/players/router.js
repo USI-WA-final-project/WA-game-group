@@ -9,13 +9,13 @@ const database = require('../../database.js');
 //Display all players
 router.get('/', function(req, res) {
     let arr = req.app.locals.players;
-    console.log(arr);
 
-    if (req.accepts("html")) {
-        for (let i = 0; i < arr.length; i++) {
-            arr[i].playerColor = req.app.locals.playerColors[arr[i].color].core;
-            arr[i].score = arr[i].kills + arr[i].resources;
-        }
+    for (let i = 0; i < arr.length; i++) {
+        arr[i].playerColor = req.app.locals.playerColors[arr[i].color].core;
+        arr[i].score = arr[i].kills + arr[i].resources;
+    }
+
+    if (req.accepts("html")) {        
         res.render("players", { result: arr });
     } else if (req.accepts("json")){
         res.json(arr);

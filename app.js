@@ -68,7 +68,7 @@ const io = require('socket.io')(server);
 io.on('connection', function(socket){
     console.log('Client connected');
 
-    let player;
+    let player = { id: -1 };
 
     app.locals.playerColors = playerColors;
 
