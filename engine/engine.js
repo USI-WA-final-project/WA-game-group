@@ -485,6 +485,9 @@ class Engine {
                 switch (action.action) {
                     case ACTION.DESTROY:
                         user.update(null);
+                        if (user.resources > 0) {
+                            this._resources.push({position: {x: user.x, y: user.y}, amount: user.resources / 2});
+                        }
                         this._users.remove(user.id);
                         break;
                     default:
