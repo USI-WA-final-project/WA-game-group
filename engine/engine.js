@@ -10,7 +10,7 @@ const MOVE_SPEED = 0.5;
 const MAX_MOVE_SPEED = 2;
 const MOVE_SPEED_LOSS = 0.25;
 const MAX_HEALTH = consts.MAX_HEALTH;
-const RESOURCE_DENSITY = 4;
+const RESOURCE_DENSITY = 2;
 const BODYPART_TYPE = consts.BODYPART_TYPE;
 const MAX_ROTATION_ITERATIONS = 100;
 
@@ -271,12 +271,11 @@ class Engine {
      * creates a new user and returns its ID
      * @returns {player} an object representing the newly created player
      */
-    create() {
+    create(extern) {
         let x = Math.ceil(Math.random() * WORLD_WIDTH);
         let y = Math.ceil(Math.random() * WORLD_HEIGHT);
 
-        let id =  this._users.add(x, y);
-        let usr = this._users.find(id);
+        let usr =  this._users.add(x, y, extern);
 
         let ok = true;
         let count = 0;
@@ -294,7 +293,7 @@ class Engine {
             count++;
         } while (!ok && count < 20);
         if (count > 20) console.log('no free space found');
-        return id;
+        return usr;
     }
 
     /**
@@ -376,11 +375,11 @@ class Engine {
      * A player
      * @typedef {Object} player
      * @property id {playerid} the id of this player
-     * @property color {number} the color of this player (0-8)
      * @property rotation {number} the angle in radians at which this player is rotated
      * @property bodyparts {bodypart[]} the bodyparts of this player
      * @property position {{x: number, y: number}} the coordinates of the position of this player
      * @property kills {number} the number of kills this player made.
+     * @property custom {*} A value given by the caller at creation. Usually an object containing custom fields.
      */
 
     /**

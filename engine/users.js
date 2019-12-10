@@ -22,13 +22,10 @@ class Users {
     }
     get _newId() {return this._id++};
 
-    add(x, y) {
-        let newId = this._newId;
-        this._users.push(new User(
-            newId,
-            x, y
-        ));
-        return newId;
+    add(x, y, extern) {
+        let new_user = new User(this._newId, x, y, extern);
+        this._users.push(new_user);
+        return new_user;
     }
 
     remove(id) {
@@ -61,7 +58,7 @@ class Users {
 module.exports = Users;
 
 class User {
-    constructor(id, x, y) {
+    constructor(id, x, y, extern) {
         this.id = id;
         this.nextActions = [];
 
@@ -74,8 +71,10 @@ class User {
         // noinspection JSUnusedGlobalSymbols
         this.movedH = false;
 
+        this.extern = extern;
+
         this.callbacks = [];
-        this.color = Math.floor(Math.random() * 8);
+        // this.color = Math.floor(Math.random() * 8);
 
         this.components = [
             {
@@ -154,11 +153,12 @@ class User {
                 x: this.x,
                 y: this.y
             },
-            color: this.color,
+            // color: this.color,
             rotation: this.rotation,
             bodyparts: this.export_components(this.components),
             kills: this.kills,
             resources: this.resources,
+            custom: this.extern,
         }
     }
 
