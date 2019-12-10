@@ -68,12 +68,7 @@ const io = require('socket.io')(server);
 io.on('connection', function(socket){
     console.log('Client connected');
 
-    let player = {
-        id: null,
-        username: null,
-        color: null, 
-        spawnPos: {}
-    };
+    let player;
 
     app.locals.playerColors = playerColors;
 
@@ -85,13 +80,8 @@ io.on('connection', function(socket){
 
     //Register user in DB and engine
     socket.on('registerUser', function(user) {
-        let playerInfo = engine.info(engine.create());
-        player.id = playerInfo.id;
-        player.username = user;
-        player.color = playerInfo.color;
-        player.spawnPos.x = playerInfo.position.x;
-        player.spawnPos.y = playerInfo.position.y;
-        player.score = playerInfo.score;
+        player = engine.info(engine.create()); //TODO initialize trunk with color and username
+        player.username = user; //TODO remove that when done and update dust
 
         database.addPlayer(player)
         .then(function(result) {
@@ -109,7 +99,7 @@ io.on('connection', function(socket){
                         console.log("Error terminating player");
                     } else {
                         socket.emit('gameOver', { 
-                            score: result.score + (result.dateEnded - result.dateStarted) / 1000
+                            score: result.score
                         });
                     }
                     return;
@@ -137,6 +127,7 @@ io.on('connection', function(socket){
                         rotation: el.rotation,
                         kills: el.kills,
                         resources: el.resources,
+                        //TODO update to match player trunk model
                         components: el.bodyparts.map(function(item) {
                             let newItem = Object.assign({}, item);
                             switch(item.type) {
@@ -170,6 +161,8 @@ io.on('connection', function(socket){
                     players.push(player);
                 }            
             });
+
+            app.locals.players = players;
     
             let resources = [];
     

@@ -1,6 +1,6 @@
 {#result}
     <div class="players_item">
-        <div class="badge" style="background-color: {playerColor}">#</div>
+        <div class="badge" style="background-color: {playerColor}">{score}</div>
         <div class="player_info">
             <h2>@{username}</h2>
             {?active}
