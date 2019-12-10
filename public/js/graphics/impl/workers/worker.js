@@ -78,7 +78,11 @@ function drawPlayers(players, colors) {
 function drawResources(resources) {
     if (!assertReady()) return;
 
-    instance.composer.resources.draw(resources);
+    const center = {
+        x: instance.canvas.width / 2,
+        y: instance.canvas.height / 2
+    };
+    instance.composer.resources.draw(center, resources);
 }
 
 function clearCanvas() {
