@@ -4,8 +4,8 @@ const Users = require('./users');
 const consts = require('./common_constants');
 
 const TICK_RATE = 30;
-const WORLD_WIDTH = 1000;
-const WORLD_HEIGHT = 1000;
+const WORLD_WIDTH = 3000;
+const WORLD_HEIGHT = 3000;
 const MOVE_SPEED = 0.5;
 const MAX_MOVE_SPEED = 2;
 const MOVE_SPEED_LOSS = 0.25;
