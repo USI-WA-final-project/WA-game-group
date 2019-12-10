@@ -18,18 +18,7 @@ class DefaultImpl extends Graphics {
         this.ctx = mapCanvas.getContext("2d");
         this.minCtx = minCanvas.getContext("2d");
 
-        const center = {
-            x: mapCanvas.width / 2,
-            y: mapCanvas.height / 2
-        };
-
-        this.composer = {
-            map: new MapComposer(this.ctx, this.minCtx, false),
-            player: new PlayerComposer(this.ctx, center),
-            resources: new ResourcesComposer(this.ctx)
-        };
-
-        this.composer.map.prepare(this.world.width, this.world.height, mapCanvas.width, mapCanvas.height);
+        this.updateCanvas(mapCanvas.width, mapCanvas.height);
     }
 
     /**
@@ -44,6 +33,19 @@ class DefaultImpl extends Graphics {
     updateCanvas(width, height) {
         this.canvas.setAttribute("width", width);
         this.canvas.setAttribute("height", height);
+
+        this.center = {
+            x: width / 2,
+            y: height / 2
+        };
+
+        this.composer = {
+            map: new MapComposer(this.ctx, this.minCtx, false),
+            player: new PlayerComposer(this.ctx, this.center),
+            resources: new ResourcesComposer(this.ctx)
+        };
+
+        this.composer.map.prepare(this.world.width, this.world.height, width, height);
     }
 
     /**
@@ -61,7 +63,7 @@ class DefaultImpl extends Graphics {
             this.composer.player.build(it.components, color, it.position);
         });
 
-        this.composer.resources.draw(resources);
+        this.composer.resources.draw(this.offset, resources);
     }
 
     /**

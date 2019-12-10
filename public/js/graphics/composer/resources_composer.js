@@ -17,14 +17,14 @@ class ResourcesComposer {
      *
      * @param resources A list of points {{x: Number, y: Number}}
      */
-    draw(resources) {
+    draw(originPoint, resources) {
         //console.log(resources);
         resources.forEach((it) => {
             this.ctx.beginPath();
             this.ctx.fillStyle = RESOURCES_FILL_COLOR;
             this.ctx.strokeStyle = RESOURCES_STROKE_COLOR;
 
-            this.ctx.arc(it.position.x, it.position.y, 12, 0, 360);
+            this.ctx.arc(originPoint.x + it.position.x, originPoint.y + it.position.y, 12, 0, 360);
 
             this.ctx.fill();
             this.ctx.stroke();
