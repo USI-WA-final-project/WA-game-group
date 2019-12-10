@@ -159,7 +159,7 @@ class User {
             kills: this.kills,
             resources: this.resources,
             custom: this.extern,
-            size: this.size(),
+            size: this.size,
         }
     }
 
