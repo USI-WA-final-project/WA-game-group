@@ -57,8 +57,8 @@ var database = {
     addPlayer: function(player) {
         let newPlayer = new Player({
             id: player.id,
-            color: player.color,
-            username: player.username,
+            color: player.custom.color,
+            username: player.custom.username,
             spawnPos: { x: player.position.x, y: player.position.y }
         });
 
@@ -135,11 +135,11 @@ var database = {
             if (newPlayer.id != undefined && newPlayer.id != old.id) {
                 old.id = newPlayer.id;
             }
-            if (newPlayer.color != undefined && newPlayer.color != old.color) {
-                old.color = newPlayer.color;
+            if (newPlayer.color != undefined && newPlayer.color != old.custom.color) {
+                old.custom.color = newPlayer.color;
             }
-            if (newPlayer.username != undefined && newPlayer.username != old.username) {
-                old.username = newPlayer.username;
+            if (newPlayer.username != undefined && newPlayer.username != old.custom.username) {
+                old.custom.username = newPlayer.username;
             }
             if (newPlayer.spawnPos.x != undefined && newPlayer.spawnPos.x != old.spawnPos.x) {
                 old.spawnPos.x = newPlayer.spawnPos.x;
