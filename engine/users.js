@@ -25,7 +25,7 @@ class Users {
     add(x, y, extern) {
         let new_user = new User(this._newId, x, y, extern);
         this._users.push(new_user);
-        return new_user;
+        return new_user.export();
     }
 
     remove(id) {
