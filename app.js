@@ -103,6 +103,12 @@ io.on('connection', function(socket){
     let moveStatus = -1;
 
     socket.emit('worldData', { 
+        upgradesCosts: { 
+            cell: engine.BODYPART_COST[engine.BODYPART_TYPE.CELL], 
+            spike: engine.BODYPART_COST[engine.BODYPART_TYPE.SPIKE], 
+            shield: engine.BODYPART_COST[engine.BODYPART_TYPE.SHIELD], 
+            bounce: engine.BODYPART_COST[engine.BODYPART_TYPE.BOUNCE]
+        },
         colors: playerColors,
         width: engine.WORLD_WIDTH, 
         height: engine.WORLD_HEIGHT 
@@ -264,7 +270,7 @@ io.on('connection', function(socket){
                 type = engine.BODYPART_TYPE.BOUNCE;
             break;
             default:
-                console.log("Invalid type", data, "player", player.id, "-", player.username);
+                console.log("Invalid type", data, "player", player.id, "-", player.custom.username);
                 socket.emit("attachError", { type: data.type, message: "Invalid type " + data.type });
                 return;
         }
@@ -275,13 +281,13 @@ io.on('connection', function(socket){
         player.bodyparts = playerData.bodyparts;
 
         if (data.part < 0 || player.bodyparts[data.part] === undefined) {
-            console.log("Invalid part", data, "player", player.id, "-", player.username);
+            console.log("Invalid part", data, "player", player.id, "-", player.custom.username);
             socket.emit("attachError", { type: data.type, message: "Invalid part " + data.part });
             return;
         }
 
         if (data.face < 0 || data.face > 5) {
-            console.log("Invalid face", data, "player", player.id, "-", player.username);
+            console.log("Invalid face", data, "player", player.id, "-", player.custom.username);
             socket.emit("attachError", { type: data.type, message: "Invalid face " + data.face });
             return;
         }
@@ -289,7 +295,7 @@ io.on('connection', function(socket){
         res = engine.attach(player.id, type, data.part, data.face);
 
         if (res != 0) {
-            console.log("Error (code", res, ") attaching part", data, "player", player.id, "-", player.username);
+            console.log("Error (code", res, ") attaching part", data, "player", player.id, "-", player.custom.username);
             socket.emit("attachError", { type: data.type, message: "Invalid attach (code " + res + ")" });
         }
     });
@@ -301,7 +307,7 @@ io.on('connection', function(socket){
         player.bodyparts = playerData.bodyparts;
 
         if (data.part <= 0 || player.bodyparts[data.part] === undefined) {
-            console.log("Invalid part remove", data, "player", player.id, "-", player.username);
+            console.log("Invalid part remove", data, "player", player.id, "-", player.custom.username);
             socket.emit("removeError", { message: "Invalid part " + data.part });
             return;
         }
