@@ -89,7 +89,6 @@ function convertDirection(direction) {
         case 7:
             return engine.DIRECTION.UP_LEFT;
         default:
-            console.log("Impossible direction", direction);
             return null;
     }
 }
@@ -101,6 +100,7 @@ io.on('connection', function(socket){
     console.log('Client connected');
 
     let player = { id: -1 };
+    let moveStatus = -1;
 
     socket.emit('worldData', { 
         colors: playerColors,
@@ -222,6 +222,12 @@ io.on('connection', function(socket){
             };
     
             socket.emit('drawWorld', serializedData);
+
+            //Move player (if applicable)
+            let dirEnum = convertDirection(moveStatus);
+            if (dirEnum != null) {
+                engine.move(player.id, dirEnum);
+            }
         });
     });
 
@@ -234,16 +240,11 @@ io.on('connection', function(socket){
     });
 
     socket.on('startMove', function(direction) {
-        let dirEnum = convertDirection(direction);
-        if (dirEnum != null) {
-            setInterval(function() { 
-                engine.move(player.id, dirEnum); 
-            }, engine.TICK_RATE);
-        }
+        moveStatus = direction;
     });
 
-    socket.on('endMove', function() {
-        clearInterval();
+    socket.on('stopMove', function() {
+        moveStatus = -1;
     });
 
     socket.on('attachPart', function(data) {
