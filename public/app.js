@@ -63,6 +63,10 @@ class App {
 		window.addEventListener('resize', (e) => {
 			this.setupComposer(false);
 		});
+
+		this.canvas.addEventListener('mouseleave', (e) => {
+			this.keys = {};
+		});
 	}
 
 	setupComposer(firstTime = false) {
@@ -171,7 +175,7 @@ class App {
 			//this.minCtx.drawImage(this.miniMap, 0, 0);
 		}
 
-		this.move();
+		//this.move();
 
 		for (let i = 0; i < data.players.length; i++) {
 			const it = data.players[i];
@@ -307,6 +311,7 @@ class App {
 		//wasd
 		if (this.movementKeys.includes(e.code)) {
 			this.keys[e.code] = true;
+			this.chooseMv();
 		}
 
 		if (this.editKeys.includes(e.code)) {
@@ -330,49 +335,45 @@ class App {
 		}
 	}
 
-	move() {
+	chooseMv() {
 		//WD DS SA AW
+		let dir = undefined;
 		if (this.keys["KeyW"] &&
 			this.keys["KeyD"]) {
-			socket.emit('move', 1);
-		}
-
-		if (this.keys["KeyD"] &&
+			dir = 1;
+		} else if (this.keys["KeyD"] &&
 			this.keys["KeyS"]) {
-			socket.emit('move', 3);
-		}
-
-		if (this.keys["KeyS"] &&
+			dir = 3;
+		} else if (this.keys["KeyS"] &&
 			this.keys["KeyA"]) {
-			socket.emit('move', 5);
-		}
-
-		if (this.keys["KeyA"] &&
+			dir = 5;
+		} else if (this.keys["KeyA"] &&
 			this.keys["KeyW"]) {
-			socket.emit('move',7);
+			dir = 7;
+		} else if (this.keys["KeyW"]) {
+			dir = 0;
+		} else if (this.keys["KeyD"]) {
+			dir = 2;
+		} else if (this.keys["KeyS"]) {
+			dir = 4;
+		} else if (this.keys["KeyA"]) {
+			dir = 6;
+		} else {
+			dir = -1;
 		}
-
-		// W A S D
-		if (this.keys["KeyW"]) {
-			socket.emit('move', 0);
+		if (dir != -1) {
+			socket.emit("startMove", dir);
+		} else {
+			socket.emit('stopMove');
 		}
-
-		if (this.keys["KeyD"]) {
-			socket.emit('move',2);
-		}
-
-		if (this.keys["KeyS"]) {
-			socket.emit('move', 4);
-		}
-
-		if (this.keys["KeyA"]) {
-			socket.emit('move', 6);
-		}
+		//console.log(this.keys,dir, this.keys["KeyW"], this.keys["KeyD"]);
 	}
 
 	onKeyUp(e) {
 		this.keys[e.code] = undefined;
+		this.chooseMv();
 	}
+
 
 	setName(name) {
 		localStorage.setItem('user_name', name);

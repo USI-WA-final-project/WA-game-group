@@ -1,13 +1,13 @@
 .minimap {
-    display: block;
-    margin: auto;
-    height: 100%;
-    width: 200px;
+    position: absolute;
+    bottom: 0;
+    right:0;
+    padding: 1em;
+    width: 300px;
 }
 
 .minimap img {
-    max-width: 300px;
-    max-height: 200px;
+   
 }
 
 #canvas {

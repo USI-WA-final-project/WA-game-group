@@ -44,6 +44,6 @@
     </div>
 
     <div class="editor-element" id="remove">
-        <canvas id="minimap" class="minimap"></canvas>
+       
     </div>
 </div>

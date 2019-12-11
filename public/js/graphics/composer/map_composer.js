@@ -103,19 +103,19 @@ class MapComposer {
         const height = this.minCtx.canvas.height;
         const offsetX = (width - height) / 2;
 
-        const viewRay = (height / worldW) * 100;
+        const viewRay = (height / worldW) * 400;
 
         const posX = (height / worldW) * playerPosition.x;
         const posY = (height / worldH) * playerPosition.y;
 
         this.minCtx.clearRect(0, 0, width, height);
 
-        this.minCtx.fillStyle = "#f1f2f3";
+        this.minCtx.fillStyle = "rgba(0, 0, 0, 0.5)";
         this.minCtx.fillRect(offsetX, 0, height, height);
 
         // Player
         this.minCtx.beginPath();
-        this.minCtx.fillStyle = "#3b4043";
+        this.minCtx.fillStyle = "#ff0000";
         this.minCtx.strokeStyle = "#121314";
 
         this.minCtx.arc(offsetX + posX, posY, 3, 0, 360);
@@ -136,7 +136,7 @@ class MapComposer {
             let distance = Math.sqrt(Math.pow(posX - x, 2) + Math.pow(posY - y, 2));
             if (distance <= viewRay) {
                 this.minCtx.beginPath();
-                this.minCtx.fillStyle = "#8c9096";
+                this.minCtx.fillStyle = "#f1f2f3";
                 this.minCtx.arc(x, y, 2, 0, 360);
                 this.minCtx.fill();
                 this.minCtx.closePath();

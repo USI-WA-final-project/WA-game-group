@@ -86,4 +86,5 @@
         Found a bug? Open an issue on <a href="https://github.com/USI-WA-final-project/WA-game-group/issues">GitHub</a>
         <img class="back" src="img/back.svg" alt="back">
     </div>
+    <canvas id="minimap" class="minimap"></canvas>
 {> "partials/footer" /}

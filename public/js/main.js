@@ -117,7 +117,7 @@ function moveCursorToEnd(el) {
     if (localStorage.getItem('user_name') != undefined) {
         input_name.value = localStorage.getItem('user_name');
     } else {
-        input_name.value = "Ajax";
+        input_name.value = "ajax";
     }
 
     if (typeof el.selectionStart == "number") {
@@ -136,7 +136,7 @@ function startGame(e) {
         let bg = document.querySelector(".hero");
         let user_name = "ajax";
 
-        if (name != "" && /\S/.test(name)) {
+        if (name != "" && /\S/.test(name) && name.length < 14) {
             user_name = name;
         }
 
