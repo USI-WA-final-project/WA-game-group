@@ -17,6 +17,7 @@
 
 <!--
      <div class="editor-element" id="bounce">
+        <p>15</p>
         <img src="img/bouncer.svg">
         <p>Bouncer</p>
     </div>
@@ -38,12 +39,5 @@
     <div class="editor-element" id="camera">
         <img src="img/imgur.svg">
         <p>Save moment</p>
-    </div>
-
-    <div class="editor-divider">
-    </div>
-
-    <div class="editor-element" id="remove">
-       
     </div>
 </div>

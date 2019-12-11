@@ -188,7 +188,8 @@ function init(name) {
 
     socket.on('worldData', function(data) {
         const app = new App({ canvas: 'canvas',
-                              worldSize: { w: data.width, h: data.height },
+                              world: { w: data.width, h: data.height, cost_cell: data.upgradesCosts.cell,
+                                        cost_spike: data.upgradesCosts.spike, cost_shield: data.upgradesCosts.shield },
                               inputs: { cell: 'cell', spike: 'spike', shield: 'shield', bounce: 'bounce',
                                         cancel: 'cancel', remove: 'remove', camera: 'camera' },
                               info: {cell: 'info_cells', spike: 'info_spikes', shield: 'info_shields', time: 'info_time',

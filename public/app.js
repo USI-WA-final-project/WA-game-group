@@ -9,14 +9,16 @@ class App {
 			throw new Error("It should be a canvas");
 		}
 
-		this.worldW = object.worldSize.w;
-		this.worldH = object.worldSize.h;
+		this.worldW = object.world.w;
+		this.worldH = object.world.h;
 
 		this.graphics = GraphicsFactory.provideImplementation();
 		this.graphics.setWorldSize(this.worldW, this.worldH);
 
 		//graphic interface
 		this.setupComposer(true);
+		console.log(object.world.cell, object.world.spike, object.world.shield);
+		this.costs = {cell: object.world.cost_cell, spike: object.world.cost_spike, shield: object.world.cost_shield, bounce: 1,}
 
 		//array keys movement
 		this.movementKeys = ["KeyW", "KeyD", "KeyS", "KeyA"];
@@ -133,7 +135,7 @@ class App {
 				this.cellEdited.part = this.editor.counter;
 
 				if (this.cellEdited.type != undefined && this.cellEdited.face != undefined) {
-					//console.log(this.cellEdited.type, this.editor.counter, this.cellEdited.face);
+					//console.log(this.cellEdited.type, this.cellEdited.part, this.cellEdited.face);
 					socket.emit('attachPart', { type: this.cellEdited.type,
 												part: this.cellEdited.part,
 												face: this.cellEdited.face });
@@ -180,7 +182,8 @@ class App {
 		for (let i = 0; i < data.players.length; i++) {
 			const it = data.players[i];
 			if (it.position.x !== 0 || it.position.y !== 0) continue;
-			const info_plr = {life: it.health, kills: it.kills, res: it.resources, score: it.resources + it.kills,};
+			let score = this.computeScore(it);
+			const info_plr = {life: it.health, kills: it.kills, res: it.resources, score: score,};
 
 			this.playerBody = it.components;
 			this.updateInfo(this.playerBody, info_plr);
@@ -190,6 +193,30 @@ class App {
 			break;
 		}
 		this.graphics.drawContents(data.players, this.playerColors, data.resources);
+	}
+
+	computeScore(plr) {
+		let score = 0;
+		plr.components.forEach((el) => {
+			if (el != undefined) {
+				switch (el.type) {
+					case 0:
+						score += this.costs.cell;
+						break;
+					case 1:
+						score += this.costs.spike;
+						break;
+					case 2:
+						score += this.costs.shield;
+						break;
+					case 3:
+						score += this.costs.bounce;
+				}
+			}
+		});
+
+		score = score + plr.kills + plr.resources;
+		return score;
 	}
 
 	setCenters(components) {
@@ -265,6 +292,7 @@ class App {
 	enableInput() {
 		this.canvas.focus();
 		document.addEventListener('keydown', this.onKeyDown.bind(this));
+		document.addEventListener('keyup', this.onKeyUp.bind(this));
 		//inputs
 		this.cell.addEventListener('click', function(){
 			this.setEditor('cell');
@@ -292,7 +320,6 @@ class App {
 
 		this.canvas.addEventListener('click', this.setFace.bind(this));
 
-		document.addEventListener('keyup', this.onKeyUp.bind(this));
 	}
 
 	disableInput() {
@@ -304,6 +331,8 @@ class App {
 		this.spike.removeEventListener('click', this.setEditor);
 		this.shield.removeEventListener('click', this.setEditor);
 		//this.bounce.removeEventListener('click', this.setFace);
+		this.camera.removeEventListener('click', this.snapshot);
+		this.cancel.removeEventListener('click', this.setEditCancel);
 	}
 
 	onKeyDown(e) {
@@ -361,6 +390,7 @@ class App {
 		} else {
 			dir = -1;
 		}
+
 		if (dir != -1) {
 			socket.emit("startMove", dir);
 		} else {
