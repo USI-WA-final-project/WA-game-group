@@ -11,6 +11,7 @@ const MAX_MOVE_SPEED = 3;
 const MOVE_SPEED_LOSS = 0.25;
 const MAX_HEALTH = consts.MAX_HEALTH;
 const RESOURCE_DENSITY = 2;
+const NATURAL_RESOURCE_AMOUNT = 5;
 const BODYPART_TYPE = consts.BODYPART_TYPE;
 const BODYPART_COST = consts.BODYPART_COST;
 const MAX_ROTATION_ITERATIONS = 100;
@@ -424,7 +425,8 @@ class Engine {
     /**
      * Registers a callback for subscription to the world
      * @param cb {function({players: player[]})} the callback that will be called every tick with information
-     *                                           about the world. Currently only an array with all the players.
+     *        about the world. Currently an array with all the players and an array with all the resources.
+     *        Callback is called every tick *before* the individual user callbacks.
      */
     register_global(cb) {
         this._callbacks.push(cb);
@@ -434,11 +436,13 @@ class Engine {
     tick() {
         this._tick_num++;
 
+        // spawn new resources
         if (this._resources.length < RESOURCE_DENSITY * WORLD_WIDTH * WORLD_HEIGHT / (1000 * 1000)) {
             this._resources.push({position: {x: Math.random() * WORLD_WIDTH, y: Math.random() * WORLD_HEIGHT},
-                amount: 5});
+                amount: NATURAL_RESOURCE_AMOUNT});
         }
 
+        // tick users
         this._users.forEach(user => {
             user.tick_reset();
 
@@ -515,6 +519,7 @@ class Engine {
 
         });
 
+        // update clients
         this._callbacks.forEach(cb => {
             let plrs_array = [];
             this._users.forEach(plr => {
