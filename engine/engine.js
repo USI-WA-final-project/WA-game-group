@@ -337,6 +337,7 @@ class Engine {
             }
             user.resources -= BODYPART_COST[type];
             ret = user.grow(part, face, type);
+            if (ret < 0) user.resources += BODYPART_COST[type];
         });
         return ret;
     }
