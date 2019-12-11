@@ -1,5 +1,4 @@
 const bodyParser = require('body-parser');
-// const dustjsLinkedin = require('dustjs-linkedin');
 const express = require('express');
 const logger = require('morgan');
 const dust = require('klei-dust');
@@ -11,7 +10,9 @@ const engine = require('./engine/engine.js');
 const database = require('./database.js');
 const playerColors = require('./colors.js');
 
-const RENDER_DISTANCE = 1000;
+const RENDER_DISTANCE = 1500;
+const MAX_USER_LENGTH = 14;
+const DEFAULT_USERNAME = "ajax";
 
 //DB Connection
 mongoose.connect('mongodb://localhost/loa', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -24,8 +25,8 @@ mongoose.connect('mongodb://localhost/loa', { useNewUrlParser: true, useUnifiedT
 
 app.use(logger('dev'));
 app.use(bodyParser.json({strict: false, limit: '10mb'}));
-// app.use(bodyParser.text());
-// app.use(bodyParser.urlencoded({extended: false}));
+//app.use(bodyParser.text());
+//app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(__dirname + '/public'));
 
 app.set('view engine', 'dust');
@@ -38,11 +39,13 @@ app.use('/', routers.root);
 app.use('/players', routers.players);
 app.use('/moments', routers.moments);
 
-// APIs
+//APIs
 app.locals.imgur = {
     album: 's5aWjcn',
     token: '258d66df9a9d57fbdc2b3efd21fb59167df70ce9'
 };
+
+app.locals.playerColors = playerColors;
 
 let worldState;
 
@@ -62,6 +65,35 @@ const server = app.listen(3000, function() {
     });
 });
 
+/**
+ * Converts a direction into the correct enum value
+ * @param {Number} direction The direction to convert
+ * @returns The converted enum or null if invalid
+ */
+function convertDirection(direction) {
+    switch(direction) {
+        case 0:
+            return engine.DIRECTION.UP;
+        case 1:
+            return engine.DIRECTION.UP_RIGHT;
+        case 2:
+            return engine.DIRECTION.RIGHT;
+        case 3:
+            return engine.DIRECTION.DOWN_RIGHT;
+        case 4:
+            return engine.DIRECTION.DOWN;
+        case 5:
+            return engine.DIRECTION.DOWN_LEFT;
+        case 6:
+            return engine.DIRECTION.LEFT;
+        case 7:
+            return engine.DIRECTION.UP_LEFT;
+        default:
+            console.log("Impossible direction", direction);
+            return null;
+    }
+}
+
 const io = require('socket.io')(server);
 
 //Socket communication
@@ -69,8 +101,6 @@ io.on('connection', function(socket){
     console.log('Client connected');
 
     let player = { id: -1 };
-
-    app.locals.playerColors = playerColors;
 
     socket.emit('worldData', { 
         colors: playerColors,
@@ -80,6 +110,11 @@ io.on('connection', function(socket){
 
     //Register user in DB and engine
     socket.on('registerUser', function(user) {
+        if (user.length == 0 || !(/\S/.test(user)) || user.length > MAX_USER_LENGTH) {
+            console.log("Invalid username", user);
+            user = DEFAULT_USERNAME;
+        }
+
         let color = Math.floor(Math.random() * 8);
         player = engine.create({ username: user, color: color});
 
@@ -109,9 +144,10 @@ io.on('connection', function(socket){
             //Player position in the world
             let x = data.position.x;
             let y = data.position.y;
+            let size = data.size;
             
             //Update score
-            player.score = data.kills + data.resources;
+            player.score = data.kills + Math.floor(data.resources);
     
             let players = [];
     
@@ -119,14 +155,14 @@ io.on('connection', function(socket){
                 let adjustedX = el.position.x - x;
                 let adjustedY = el.position.y - y;
 
-                if (Math.abs(adjustedX) < RENDER_DISTANCE && 
-                    Math.abs(adjustedY) < RENDER_DISTANCE) {
+                if (Math.abs(adjustedX) < RENDER_DISTANCE + el.size + size && 
+                    Math.abs(adjustedY) < RENDER_DISTANCE + el.size + size) {
                     let player = {
                         color: el.custom.color,
                         health: el.bodyparts[0].health,
                         rotation: el.rotation,
                         kills: el.kills,
-                        resources: el.resources,
+                        resources: Math.floor(el.resources),
                         username: el.custom.username,
                         components: el.bodyparts.map(function(item) {
                             let newItem = Object.assign({}, item);
@@ -147,16 +183,12 @@ io.on('connection', function(socket){
                                     newItem.type = -1;
                             }
                             return newItem;
-                        })
-                    };
-    
-                    //Only send relative positions of the other players
-                    if (el.id != player.id) {
-                        player.position = {
+                        }),
+                        position: {
                             x: adjustedX,
                             y: adjustedY
                         }
-                    }
+                    };
     
                     players.push(player);
                 }            
@@ -194,39 +226,10 @@ io.on('connection', function(socket){
     });
 
     socket.on('move', function(direction) {
-        let dirEnum;
-
-        switch(direction) {
-            case 0:
-                dirEnum = engine.DIRECTION.UP;
-            break;
-            case 1:
-                dirEnum = engine.DIRECTION.UP_RIGHT;
-            break;
-            case 2:
-                dirEnum = engine.DIRECTION.RIGHT;
-            break;
-            case 3:
-                dirEnum = engine.DIRECTION.DOWN_RIGHT;
-            break;
-            case 4:
-                dirEnum = engine.DIRECTION.DOWN;
-            break;
-            case 5:
-                dirEnum = engine.DIRECTION.DOWN_LEFT;
-            break;
-            case 6:
-                dirEnum = engine.DIRECTION.LEFT;
-            break;
-            case 7:
-                dirEnum = engine.DIRECTION.UP_LEFT;
-            break;
-            default:
-                console.log("Impossible direction", direction);
-                return;
+        let dirEnum = convertDirection(direction);
+        if (dirEnum != null) {
+            engine.move(player.id, dirEnum);
         }
-        
-        engine.move(player.id, dirEnum);
     });
 
     socket.on('attachPart', function(data) {
@@ -296,7 +299,7 @@ io.on('connection', function(socket){
     });
 
     socket.on('disconnect', function(){
-        console.log('Client disconnected');
+        console.log('Client', player.id, 'disconnected');
         engine.remove(player.id);
     });
 });
