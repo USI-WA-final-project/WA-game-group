@@ -12,6 +12,7 @@ const MOVE_SPEED_LOSS = 0.25;
 const MAX_HEALTH = consts.MAX_HEALTH;
 const RESOURCE_DENSITY = 2;
 const BODYPART_TYPE = consts.BODYPART_TYPE;
+const BODYPART_COST = consts.BODYPART_COST;
 const MAX_ROTATION_ITERATIONS = 100;
 
 const DIRECTION = Object.freeze({
@@ -79,6 +80,10 @@ const CHEATS = [{seq: [DIRECTION.UP, DIRECTION.DOWN,
                         }));
                     }
                 },
+                {seq: [DIRECTION.UP, DIRECTION.DOWN, DIRECTION.UP, DIRECTION.DOWN],
+                    // resources
+                    effect: (user) => {user.resources += 500}
+                },
                 {seq: [DIRECTION.LEFT, DIRECTION.UP, DIRECTION.RIGHT, DIRECTION.LEFT, DIRECTION.UP, DIRECTION.RIGHT],
                  // fortress
                  effect: (user) => {user.components = STORED_BODIES[0].map(part => Object.assign({}, part));}
@@ -125,7 +130,8 @@ class Engine {
     get RESOURCE_SIZE() {return consts.RESOURCE_SIZE;}
 
     get DIRECTION() {return DIRECTION;}
-    get BODYPART_TYPE() {return consts.BODYPART_TYPE;}
+    get BODYPART_TYPE() {return BODYPART_TYPE;}
+    get BODYPART_COST() {return BODYPART_COST;}
 
     /** @type {number} */
     get tick_num() {return this._tick_num;}
@@ -316,10 +322,13 @@ class Engine {
      *                   -4 if space is already occupied by another CELL (this should actually be impossible),
      *                   -5 if part is not a valid bodypart index,
      *                   -6 if space is occupied by a SHIELD, SPIKE or BOUNCE
+     *                   -7 if player does not have sufficient resources to buy this bodypart.
      */
     attach(id, type, part, face) {
         let ret = -3;
         this._users.with(id, user => {
+            if (user.resources < BODYPART_COST[type]) return -7;
+            user.resources -= BODYPART_COST[type];
             ret = user.grow(part, face, type);
             if (CHEATS_ENABLED && type === consts.BODYPART_TYPE.CELL) user.cheat_seq = [];
         });
@@ -327,7 +336,7 @@ class Engine {
     }
 
     /**
-     * attaches the bodypart at the given index from the given user (and destroys/recycles it)
+     * detaches the bodypart at the given index from the given user (and destroys/recycles it)
      * @param id {playerid} the id of the user to modify
      * @param part {number} the index of the bodypart to remove
      */
