@@ -120,7 +120,7 @@ class User {
                 case BODYPART_TYPE.SPIKE:
                     break;
                 default:
-                    console.err('unknown bodypart type encountered: ', component.type);
+                    console.error('unknown bodypart type encountered: ', component.type);
             }
         })
     }
@@ -290,7 +290,7 @@ class User {
                 });
                 break;
             default:
-                console.err('invalid bodypart type');
+                console.error('invalid bodypart type');
         }
 
         this.components[part].faces[face] = idx;
@@ -319,7 +319,7 @@ class User {
             case BODYPART_TYPE.SHIELD:
                 break;
             default:
-                console.err('unknown bodypart encountered: ', component.type);
+                console.error('unknown bodypart encountered: ', component.type);
         }
         return false;
     }
@@ -408,7 +408,7 @@ class User {
             let mother_pos = this.rel_pos(user.x, user.y, mother.coords.up, mother.coords.fwd, mother.coords.bwd);
             let face = user.components[bodypart.body].faces.findIndex(part => part === index);
             if (face === -1) {
-                console.err('Corrupted body: bodypart is not a child of its mother');
+                console.error('Corrupted body: bodypart is not a child of its mother');
                 pos = mother_pos;
                 size = CELL_INNER_RADIUS;
             }

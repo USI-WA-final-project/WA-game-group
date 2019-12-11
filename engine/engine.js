@@ -45,7 +45,7 @@ const STORED_BODIES = STORED_BODIES_RAW.map(body => {
                 part.type = BODYPART_TYPE.BOUNCE;
                 break;
             default:
-                console.err('Stored bodies corrupt');
+                console.error('Stored bodies corrupt');
         }
         return part;
     });
@@ -292,7 +292,7 @@ class Engine {
             }
             count++;
         } while (!ok && count < 20);
-        if (count > 20) console.err('no free space found');
+        if (count > 20) console.error('no free space found');
         return usr.export();
     }
 
@@ -492,7 +492,7 @@ class Engine {
                         this._users.remove(user.id);
                         break;
                     default:
-                        console.err('Unknown action encountered: ', action);
+                        console.error('Unknown action encountered: ', action);
                 }
             });
 
