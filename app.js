@@ -225,11 +225,25 @@ io.on('connection', function(socket){
         });
     });
 
+    //Legacy system - TODO remove when upgraded
     socket.on('move', function(direction) {
         let dirEnum = convertDirection(direction);
         if (dirEnum != null) {
             engine.move(player.id, dirEnum);
         }
+    });
+
+    socket.on('startMove', function(direction) {
+        let dirEnum = convertDirection(direction);
+        if (dirEnum != null) {
+            setInterval(function() { 
+                engine.move(player.id, dirEnum); 
+            }, engine.TICK_RATE);
+        }
+    });
+
+    socket.on('endMove', function() {
+        clearInterval();
     });
 
     socket.on('attachPart', function(data) {
