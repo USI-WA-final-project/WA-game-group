@@ -256,7 +256,7 @@ class User {
                 newComponent.coords = newcoords;
 
                 this.components.forEach((component, index) => {
-                    if (component.type !== BODYPART_TYPE.CELL) return;
+                    if (component.type !== BODYPART_TYPE.CELL) return 0;
                     if (component.coords.up === newComponent.coords.up - 1
                      && component.coords.fwd === newComponent.coords.fwd + 1
                      && component.coords.bwd === newComponent.coords.bwd) {
