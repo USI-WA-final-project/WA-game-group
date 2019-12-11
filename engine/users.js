@@ -2,6 +2,7 @@
 
 const consts = require('./common_constants');
 const BODYPART_TYPE = consts.BODYPART_TYPE;
+const BODYPART_COST = consts.BODYPART_COST;
 const MAX_HEALTH = consts.MAX_HEALTH;
 const MAX_INFLATE = consts.MAX_INFLATE;
 const INFLATE_RATE = consts.INFLATE_RATE;
@@ -297,7 +298,7 @@ class User {
         return 0;
     }
 
-    damage(part, amt) {
+    damage(part, amt, res_processor) {
         let component = this.components[part];
         // noinspection FallThroughInSwitchStatementJS
         switch(component.type) {
@@ -313,7 +314,7 @@ class User {
             case BODYPART_TYPE.CELL:
                 component.health -= amt;
                 if (component.health <= 0) {
-                    return this.shrink(part);
+                    return this.shrink(part, res_processor);
                 }
                 break;
             case BODYPART_TYPE.SHIELD:
@@ -324,13 +325,20 @@ class User {
         return false;
     }
 
-    shrink(part) {
+    shrink(part, resource_processor) {
         if (part === 0) {
             this.act({action: ACTION.DESTROY});
+            this.components[0].faces.forEach(neighbor => {
+                if (neighbor === -1) return;
+                this.shrink(neighbor, resource_processor);
+            });
             return true;
         }
         this.todo.push(() => {
             if (!this.components[part]) return;
+            if (this.components[part].type === BODYPART_TYPE.CELL) {
+                resource_processor(BODYPART_COST[BODYPART_TYPE.CELL], this.components[part]);
+            }
             delete this.components[part];
             this.components.forEach(component => {
                 if (component.type !== BODYPART_TYPE.CELL) return;
@@ -345,6 +353,9 @@ class User {
             this.mark(0);
             this.components.forEach((component, index) => {
                 if (!component.isVisited) {
+                    if (component.type === BODYPART_TYPE.CELL) {
+                        resource_processor(BODYPART_COST[component.type], component);
+                    }
                     delete this.components[index];
                 }
             });
@@ -482,7 +493,7 @@ class User {
         return collides;
     }
 
-    collide_with_user(user) {
+    collide_with_user(user, res_proc) {
 
         if (this.distance_to_user(user) > this.size + user.size) return false;
 
@@ -493,8 +504,8 @@ class User {
                 let other_hitbox = this.get_hitbox(user, other_bodypart, other_index);
                 if (hitbox.size + other_hitbox.size > this.distance(hitbox.pos.x, hitbox.pos.y,
                                                                     other_hitbox.pos.x, other_hitbox.pos.y)) {
-                    this.collide(index, user, other_index);
-                    user.collide(other_index, this, index);
+                    this.collide(index, user, other_index, res_proc);
+                    user.collide(other_index, this, index, res_proc);
                     collides = true;
                 }
             })
@@ -502,14 +513,14 @@ class User {
         return collides;
     }
 
-    collide(part, other, other_part) {
+    collide(part, other, other_part, res_proc) {
         if (this.components[part].type === BODYPART_TYPE.SPIKE) {
-            if (other.damage(other_part, SPIKE_DMG)) {
+            if (other.damage(other_part, SPIKE_DMG, (res, part) => {res_proc(res, other, part)})) {
                 this.kills++;
             }
         }
         if (other.components[other_part].type === BODYPART_TYPE.SPIKE) {
-            if (this.damage(part, SPIKE_DMG)) {
+            if (this.damage(part, SPIKE_DMG, (res, part) => {res_proc(res, this, part)})) {
                 other.kills++;
             }
         }

@@ -308,6 +308,7 @@ class Engine {
      */
     remove(id) {
         this._users.with(id, usr => {
+            usr.shrink(0, res => {usr.resources += res});
             usr.act({action: ACTION.DESTROY})
         })
     }
@@ -327,10 +328,14 @@ class Engine {
     attach(id, type, part, face) {
         let ret = -3;
         this._users.with(id, user => {
-            if (user.resources < BODYPART_COST[type]) return -7;
+            if (CHEATS_ENABLED && type === consts.BODYPART_TYPE.CELL) user.cheat_seq = [];
+
+            if (user.resources < BODYPART_COST[type]) {
+                ret =  -7;
+                return;
+            }
             user.resources -= BODYPART_COST[type];
             ret = user.grow(part, face, type);
-            if (CHEATS_ENABLED && type === consts.BODYPART_TYPE.CELL) user.cheat_seq = [];
         });
         return ret;
     }
@@ -342,7 +347,7 @@ class Engine {
      */
     detach(id, part) {
         this._users.with(id, user => {
-            user.shrink(part);
+            user.shrink(part, res => {user.resources += res});
         })
     }
 
@@ -458,10 +463,13 @@ class Engine {
                 let blocked = false;
                 this._users.forEach(other_user => {
                     if (other_user.id === user.id) return;
-                    if (user.collide_with_user(other_user)) blocked = true;
-                    // This doesn't work, unfortunately. It would be nice to skip unnecessary collision check
-                    // but unfortunately they *are* necessary - it is possible to collide with multiple people at once.
-                    // blocked = blocked || (other_user.id !== user.id && user.collide_with_user(other_user));
+                    let resource_processor = (res, user, part) => {
+                        this._resources.push(
+                            {   position: user.rel_pos(user.x, user.y, part.coords.up, part.coords.fwd, part.coords.bwd),
+                                amount: res
+                            });
+                    };
+                    if (user.collide_with_user(other_user, resource_processor)) blocked = true;
                 });
 
                 // collide with resources
