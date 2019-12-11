@@ -73,7 +73,6 @@ function doJSONRequest(method, url, headers, data){
 function searchPlayers() {
 	let name = document.querySelector("input[name=search_player]").value;
 
-
 	doJSONRequest('GET', '/players/search?name='+name, {})
 	.then((data) => {
 		dust.render("partials/players_partial", {result: data}, function(err, out) {

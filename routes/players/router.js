@@ -32,15 +32,17 @@ router.get('/search', function(req, res) {
 
     //get the filtered data from Mongodb
     database.getPlayersByFilter(filter).then(function(found) {
+        for (let i = 0; i < found.length; i++) {
+            found[i].playerColor = req.app.locals.playerColors[found[i].color].core;
+        }
+
         if (req.accepts("html")) {
-            for (let i = 0; i < found.length; i++) {
-                found[i].playerColor = req.app.locals.playerColors[found[i].color].core;
-            }
             res.render("players", { result: found });
         } else {
             res.json(found);
         }
     }).catch(function(err) {
+        console.log(err)
         res.status(500).end();
     });
 });

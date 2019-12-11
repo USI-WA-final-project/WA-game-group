@@ -41,7 +41,7 @@ var database = {
      * @returns An array of player objects
      */
     getPlayersByFilter: function(filter) {
-        return Player.find(filter).then(function(found) {
+        return Player.find(filter).lean().then(function(found) {
             return found;
         }).catch(function(err) {
             console.log("[DB]", err.message);
