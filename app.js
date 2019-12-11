@@ -12,6 +12,7 @@ const database = require('./database.js');
 const playerColors = require('./colors.js');
 
 const RENDER_DISTANCE = 1000;
+const MAX_USER_LENGTH = 14;
 
 //DB Connection
 mongoose.connect('mongodb://localhost/loa', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -44,6 +45,8 @@ app.locals.imgur = {
     token: '258d66df9a9d57fbdc2b3efd21fb59167df70ce9'
 };
 
+app.locals.playerColors = playerColors;
+
 let worldState;
 
 //Server start-up
@@ -70,8 +73,6 @@ io.on('connection', function(socket){
 
     let player = { id: -1 };
 
-    app.locals.playerColors = playerColors;
-
     socket.emit('worldData', { 
         colors: playerColors,
         width: engine.WORLD_WIDTH, 
@@ -80,6 +81,12 @@ io.on('connection', function(socket){
 
     //Register user in DB and engine
     socket.on('registerUser', function(user) {
+        if (user.length == 0 || user.length > MAX_USER_LENGTH) {
+            socket.emit("usernameError");
+            console.log("Invalid username", user);
+            return;
+        }
+
         let color = Math.floor(Math.random() * 8);
         player = engine.create({ username: user, color: color});
 
@@ -111,7 +118,7 @@ io.on('connection', function(socket){
             let y = data.position.y;
             
             //Update score
-            player.score = data.kills + data.resources;
+            player.score = data.kills + Math.floor(data.resources);
     
             let players = [];
     
@@ -126,7 +133,7 @@ io.on('connection', function(socket){
                         health: el.bodyparts[0].health,
                         rotation: el.rotation,
                         kills: el.kills,
-                        resources: el.resources,
+                        resources: Math.floor(el.resources),
                         username: el.custom.username,
                         components: el.bodyparts.map(function(item) {
                             let newItem = Object.assign({}, item);
