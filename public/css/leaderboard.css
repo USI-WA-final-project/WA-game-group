@@ -42,23 +42,21 @@
 /** Search Bar **/
 
 .search-box {
-    transform: translate(-50%, -50%);
     height: 40px;
     border-radius: 40px;
     padding: 10px;
     background: #262626;
-    position: absolute;
-    left: 50%;
-    top: 20%;
+    margin: auto;
+    width: fit-content;
 }
 
-.search-box:hover > .search-input {
-    width: 240px;
-    padding: 0 6px;
+.search-box:hover > .search-input, .open {
+    width: 240px !important;
+    padding: 0 6px !important;
 }
 
-.search-box:hover > .search-btn {
-    background: white;
+.search-box:hover > .search-btn, .white {
+    background: white !important;
 }
 
 .search-btn {

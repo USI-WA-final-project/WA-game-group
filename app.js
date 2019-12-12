@@ -51,6 +51,7 @@ app.locals.imgur = {
 };
 
 app.locals.playerColors = playerColors;
+app.locals.players = [];
 
 let worldState;
 

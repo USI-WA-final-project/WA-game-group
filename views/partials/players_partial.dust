@@ -9,5 +9,5 @@
         </div>
     </div>
 {:else}
-    <div style="margin:20px;">Nobody played so far</div>
+    <div style="margin:20px;">No results</div>
 {/result}

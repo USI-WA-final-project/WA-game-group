@@ -73,6 +73,14 @@ function doJSONRequest(method, url, headers, data){
 function searchPlayers() {
 	let name = document.querySelector("input[name=search_player]").value;
 
+	if (name != "") {
+		document.querySelector("input[name=search_player]").classList.add('open');
+		document.querySelector(".search-btn").classList.add('white');
+	} else {
+		document.querySelector("input[name=search_player]").classList.remove('open');
+		document.querySelector(".search-btn").classList.remove('white');
+	}
+
 	doJSONRequest('GET', '/players/search?name='+name, {})
 	.then((data) => {
 		dust.render("partials/players_partial", {result: data}, function(err, out) {

@@ -3,47 +3,46 @@
 
 const express = require('express');
 const router = express.Router();
-
-const database = require('../../database.js');
+//const database = require('../../database.js');
 
 //Display all players
 router.get('/', function(req, res) {
-    let arr = req.app.locals.players;
+    let colors = req.app.locals.playerColors;
+    let players = req.app.locals.players.sort(function(a, b) { return b.score - a.score; });
 
-    for (let i = 0; i < arr.length; i++) {
-        arr[i].playerColor = req.app.locals.playerColors[arr[i].color].core;
+    for (let i = 0; i < players.length; i++) {
+        players[i].playerColor = colors[players[i].color].core;
     }
 
     if (req.accepts("html")) {        
-        res.render("players", { result: arr });
+        res.render("players", { result: players });
     } else if (req.accepts("json")){
-        res.json(arr);
+        res.json(players);
     } else {
         res.status(406).end();    //Not acceptable
     }     
 });
 
+//Filter players by username
 router.get('/search', function(req, res) {
-    const filter = {};
-    if (req.query.name) {
-        filter.username = {'$regex': req.query.name, '$options': 'i'};
+    let colors = req.app.locals.playerColors;
+    let players = req.app.locals.players.sort(function(a, b) { return b.score - a.score; });
+
+    for (let i = 0; i < players.length; i++) {
+        players[i].playerColor = colors[players[i].color].core;
     }
 
-    //get the filtered data from Mongodb
-    database.getPlayersByFilter(filter).then(function(found) {
-        for (let i = 0; i < found.length; i++) {
-            found[i].playerColor = req.app.locals.playerColors[found[i].color].core;
-        }
-
-        if (req.accepts("html")) {
-            res.render("players", { result: found });
-        } else {
-            res.json(found);
-        }
-    }).catch(function(err) {
-        console.log(err)
-        res.status(500).end();
+    let filtered = players.filter(function(el) {
+        return el.username.includes(req.query.name);
     });
+
+    if (req.accepts("html")) {        
+        res.render("players", { result: filtered });
+    } else if (req.accepts("json")){
+        res.json(filtered);
+    } else {
+        res.status(406).end();    //Not acceptable
+    }
 });
 
 /** router for /players */
