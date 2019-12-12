@@ -26,7 +26,7 @@ class Editor {
      * @returns {Boolean} whether the element is within the hexagon
      */
     isInHexagon(center) {
-        return this.calcDistance(this.focus, center) <= 8;
+        return this.calcDistance(this.focus, center) <= 16;
     }
 
     /*
