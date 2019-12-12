@@ -99,7 +99,7 @@ const io = require('socket.io')(server);
 io.on('connection', function(socket){
     console.log('Client connected');
 
-    let player = { id: -1 };
+    let player = { id: -1, score: 0 };
     let moveStatus = -1;
 
     socket.emit('worldData', { 
@@ -122,7 +122,7 @@ io.on('connection', function(socket){
         }
 
         let color = Math.floor(Math.random() * 8);
-        player = engine.create({ username: user, color: color});
+        player = engine.create({ username: user, color: color });
 
         database.addPlayer(player)
         .then(function(result) {
@@ -151,15 +151,24 @@ io.on('connection', function(socket){
             let x = data.position.x;
             let y = data.position.y;
             let size = data.size;
-            
-            //Update score
-            player.score = data.kills + Math.floor(data.resources);
     
             let players = [];
     
             worldState.players.forEach(function(el) {    
                 let adjustedX = el.position.x - x;
                 let adjustedY = el.position.y - y;
+
+                let score = el.kills + Math.floor(el.resources);
+
+                if (el.bodyparts.length > 1) {
+                    el.bodyparts.forEach(function(part) {
+                        score += engine.BODYPART_COST[part];
+                    });
+                }
+
+                if (el.id == player.id) {
+                    player.score = score;
+                }
 
                 if (Math.abs(adjustedX) < RENDER_DISTANCE + el.size + size && 
                     Math.abs(adjustedY) < RENDER_DISTANCE + el.size + size) {
@@ -170,6 +179,7 @@ io.on('connection', function(socket){
                         kills: el.kills,
                         resources: Math.floor(el.resources),
                         username: el.custom.username,
+                        score: score,
                         components: el.bodyparts.map(function(item) {
                             let newItem = Object.assign({}, item);
                             switch(item.type) {
@@ -220,9 +230,34 @@ io.on('connection', function(socket){
                     resources.push(resource);
                 }
             });
+
+            let playerParts = {
+                cells: 0,
+                spikes: 0,
+                shields: 0,
+                bounces: 0
+            };
+
+            data.bodyparts.forEach(function(part) {
+                switch(part) {
+                    case engine.BODYPART_TYPE.CELL:
+                        playerParts.cells += 1;
+                    break;
+                    case engine.BODYPART_TYPE.SPIKE:
+                        playerParts.spikes += 1;
+                    break;
+                    case engine.BODYPART_TYPE.SHIELD:
+                        playerParts.shields += 1;
+                    break;
+                    case engine.BODYPART_TYPE.BOUNCE:
+                        playerParts.bounces += 1;
+                    break;
+                }
+            });
     
             let serializedData = {
                 playerPosition: { x: x, y: y },
+                playerParts: playerParts,
                 players: players,
                 resources: resources
             };
@@ -235,14 +270,6 @@ io.on('connection', function(socket){
                 engine.move(player.id, dirEnum);
             }
         });
-    });
-
-    //Legacy system - TODO remove when upgraded
-    socket.on('move', function(direction) {
-        let dirEnum = convertDirection(direction);
-        if (dirEnum != null) {
-            engine.move(player.id, dirEnum);
-        }
     });
 
     socket.on('startMove', function(direction) {
@@ -295,7 +322,7 @@ io.on('connection', function(socket){
         res = engine.attach(player.id, type, data.part, data.face);
 
         if (res != 0) {
-            console.log("Error (code", res, ") attaching part", data, "player", player.id, "-", player.custom.username);
+            console.log("[ENGINE] Error (code", res, ") attaching part", data, "player", player.id, "-", player.custom.username);
             socket.emit("attachError", { type: data.type, message: "Invalid attach (code " + res + ")" });
         }
     });
