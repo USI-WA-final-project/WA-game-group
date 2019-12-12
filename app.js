@@ -10,9 +10,16 @@ const engine = require('./engine/engine.js');
 const database = require('./database.js');
 const playerColors = require('./colors.js');
 
+require('./models/Player');
+const Player = mongoose.model('Player');
+
 const RENDER_DISTANCE = 1500;
 const MAX_USER_LENGTH = 14;
 const DEFAULT_USERNAME = "ajax";
+const NUM_COLORS = 8;
+
+const SERVER_PORT = 3000;
+const PURGE_DB_RESTART = true;
 
 //DB Connection
 mongoose.connect('mongodb://localhost/loa', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -25,8 +32,6 @@ mongoose.connect('mongodb://localhost/loa', { useNewUrlParser: true, useUnifiedT
 
 app.use(logger('dev'));
 app.use(bodyParser.json({strict: false, limit: '10mb'}));
-//app.use(bodyParser.text());
-//app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(__dirname + '/public'));
 
 app.set('view engine', 'dust');
@@ -50,16 +55,22 @@ app.locals.playerColors = playerColors;
 let worldState;
 
 //Server start-up
-const server = app.listen(3000, function() {
+const server = app.listen(SERVER_PORT, function() {
     console.log('Express server listening on port', server.address().port);
     engine.init();
 
-    //Clear the database - TODO remove in production
-    mongoose.connection.collections['players'].drop(function(err) {
-        console.log('DB cleared');
-    });
+    if (PURGE_DB_RESTART) {
+        //Clear the database
+        Player.deleteMany({}, function(err) {
+            if (err) {
+                console.log('[DB]', err);
+            } else {
+                console.log('DB cleared');
+            }
+        });
+    }
 
-    //Retrieve whole world data once per tick
+    //Retrieve whole world state once per tick
     engine.register_global(function(data) {
         worldState = data;
     });
@@ -121,7 +132,7 @@ io.on('connection', function(socket){
             user = DEFAULT_USERNAME;
         }
 
-        let color = Math.floor(Math.random() * 8);
+        let color = Math.floor(Math.random() * NUM_COLORS);
         player = engine.create({ username: user, color: color });
 
         database.addPlayer(player)
@@ -158,16 +169,16 @@ io.on('connection', function(socket){
                 let adjustedX = el.position.x - x;
                 let adjustedY = el.position.y - y;
 
-                let score = el.kills + Math.floor(el.resources);
+                let scoreNum = el.kills + Math.floor(el.resources);
 
                 if (el.bodyparts.length > 1) {
                     el.bodyparts.forEach(function(part) {
-                        score += engine.BODYPART_COST[part];
+                        scoreNum += engine.BODYPART_COST[part];
                     });
                 }
 
                 if (el.id == player.id) {
-                    player.score = score;
+                    player.score = scoreNum;
                 }
 
                 if (Math.abs(adjustedX) < RENDER_DISTANCE + el.size + size && 
@@ -179,7 +190,7 @@ io.on('connection', function(socket){
                         kills: el.kills,
                         resources: Math.floor(el.resources),
                         username: el.custom.username,
-                        score: score,
+                        score: scoreNum,
                         components: el.bodyparts.map(function(item) {
                             let newItem = Object.assign({}, item);
                             switch(item.type) {
@@ -239,7 +250,7 @@ io.on('connection', function(socket){
             };
 
             data.bodyparts.forEach(function(part) {
-                switch(part) {
+                switch(part.type) {
                     case engine.BODYPART_TYPE.CELL:
                         playerParts.cells += 1;
                     break;
