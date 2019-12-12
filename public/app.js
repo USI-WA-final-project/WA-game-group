@@ -17,7 +17,6 @@ class App {
 
 		//graphic interface
 		this.setupComposer(true);
-		console.log(object.world.cell, object.world.spike, object.world.shield);
 		this.costs = {cell: object.world.cost_cell, spike: object.world.cost_spike, shield: object.world.cost_shield, bounce: 1,}
 
 		//array keys movement
@@ -25,7 +24,7 @@ class App {
 
 		//array keys chose edit
 		this.editKeys = ["Digit1", "Digit2", "Digit3", "Digit4"];
-
+ 
 		//current movement key
 		this.keys = {};
 
@@ -66,8 +65,9 @@ class App {
 			this.setupComposer(false);
 		});
 
-		this.canvas.addEventListener('mouseleave', (e) => {
+		window.addEventListener('mouseleave', (e) => {
 			this.keys = {};
+			socket.emit('stopMove');
 		});
 	}
 
@@ -182,8 +182,9 @@ class App {
 		for (let i = 0; i < data.players.length; i++) {
 			const it = data.players[i];
 			if (it.position.x !== 0 || it.position.y !== 0) continue;
-			let score = this.computeScore(it);
-			const info_plr = {life: it.health, kills: it.kills, res: it.resources, score: score,};
+			const info_plr = {life: it.health, kills: it.kills, res: it.resources, 
+							  score: it.score, cell: data.playerParts.cells, spike: data.playerParts.spikes,
+							  shield: data.playerParts.shields, bounce: data.playerParts.bounces };
 
 			this.playerBody = it.components;
 			this.updateInfo(this.playerBody, info_plr);
@@ -193,30 +194,6 @@ class App {
 			break;
 		}
 		this.graphics.drawContents(data.players, this.playerColors, data.resources);
-	}
-
-	computeScore(plr) {
-		let score = 0;
-		plr.components.forEach((el) => {
-			if (el != undefined) {
-				switch (el.type) {
-					case 0:
-						score += this.costs.cell;
-						break;
-					case 1:
-						score += this.costs.spike;
-						break;
-					case 2:
-						score += this.costs.shield;
-						break;
-					case 3:
-						score += this.costs.bounce;
-				}
-			}
-		});
-
-		score = score + plr.kills + plr.resources;
-		return score;
 	}
 
 	setCenters(components) {
@@ -257,30 +234,14 @@ class App {
 	}
 
 	updateInfo(elems, plr) {
-		let info = {cell: 0, spike: 0, shield: 0 };
 		let factor = 60000;
 		let currentTime = new Date(Date.now() - this.valueTime.getTime() + factor * this.valueTime.getTimezoneOffset());
-
-		elems.forEach((part) => {
-			if (part != undefined) {
-				if (part.type == 0) {
-					info.cell++;
-				}
-
-				if (part.type == 1) {
-					info.spike++;
-				}
-
-				if (part.type == 2) {
-					info.shield++;
-				}
-			}
-		});
+		
 		this.life.style.background = "-webkit-linear-gradient(left, green "+plr.life+"%, white "+(100 - plr.life)+"%)";
 
-		this.infoCell.innerHTML = info.cell + "&nbsp;";
-		this.infoSpike.innerHTML = info.spike + "&nbsp;";
-		this.infoShield.innerHTML = info.shield + "&nbsp;";
+		this.infoCell.innerHTML = plr.cell + "&nbsp;";
+		this.infoSpike.innerHTML = plr.spike + "&nbsp;";
+		this.infoShield.innerHTML = plr.shield + "&nbsp;";
 		this.infoKills.innerHTML = plr.kills + "&nbsp;";
 		this.infoRes.innerHTML = plr.res + "&nbsp;";
 		this.infoScore.innerHTML = plr.score + "&nbsp;";
@@ -356,7 +317,7 @@ class App {
 					type = 'shield';
 					break;
 				case 'Digit4':
-					type = 'bounce';
+					type = 'remove';
 					break;
 			}
 
@@ -390,7 +351,7 @@ class App {
 		} else {
 			dir = -1;
 		}
-
+		
 		if (dir != -1) {
 			socket.emit("startMove", dir);
 		} else {
