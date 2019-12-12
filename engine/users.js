@@ -365,6 +365,7 @@ class User {
     }
 
     clean_components() {
+        // I think it's still broken... don't use it for now
         let map = {};
 
         let cleaned = [];

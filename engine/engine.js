@@ -10,7 +10,7 @@ const MOVE_SPEED = 0.5;
 const MAX_MOVE_SPEED = 3;
 const MOVE_SPEED_LOSS = 0.25;
 const MAX_HEALTH = consts.MAX_HEALTH;
-const RESOURCE_DENSITY = 2;
+const RESOURCE_DENSITY = 3;
 const NATURAL_RESOURCE_AMOUNT = 5;
 const BODYPART_TYPE = consts.BODYPART_TYPE;
 const BODYPART_COST = consts.BODYPART_COST;
@@ -81,6 +81,10 @@ const CHEATS = [{seq: [DIRECTION.UP, DIRECTION.DOWN,
                         }));
                     }
                 },
+                { // clean bodyparts
+                    seq: [DIRECTION.LEFT, DIRECTION.DOWN, DIRECTION.LEFT, DIRECTION.DOWN],
+                    effect: (user) => { user.clean_components(); }
+                },
                 {seq: [DIRECTION.UP, DIRECTION.DOWN, DIRECTION.UP, DIRECTION.DOWN],
                     // resources
                     effect: (user) => {user.resources += 500}
@@ -90,8 +94,12 @@ const CHEATS = [{seq: [DIRECTION.UP, DIRECTION.DOWN,
                  effect: (user) => {user.components = STORED_BODIES[0].map(part => Object.assign({}, part));}
                 },
                 {seq: [DIRECTION.LEFT, DIRECTION.DOWN, DIRECTION.RIGHT, DIRECTION.LEFT, DIRECTION.DOWN, DIRECTION.RIGHT],
-                 // onion
-                 effect: (user) => {user.components = STORED_BODIES[3].map(part => Object.assign({}, part))}
+                    // onion
+                    effect: (user) => {user.components = STORED_BODIES[3].map(part => Object.assign({}, part))}
+                },
+                {seq: [DIRECTION.RIGHT, DIRECTION.DOWN, DIRECTION.LEFT, DIRECTION.RIGHT, DIRECTION.DOWN, DIRECTION.LEFT],
+                    // snowflake
+                    effect: (user) => {user.components = STORED_BODIES[4].map(part => Object.assign({}, part))}
                 },
 ];
 const CHEATS_MAX_SIZE = 16;
@@ -507,6 +515,8 @@ class Engine {
             actions.forEach(action => {
                 switch (action.action) {
                     case ACTION.DESTROY:
+                        if (user.destroyed) return;
+                        user.destroyed = true;
                         user.update(null);
                         if (user.resources > 0) {
                             this._resources.push({position: {x: user.x, y: user.y}, amount: user.resources / 2});
