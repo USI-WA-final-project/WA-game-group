@@ -9,8 +9,10 @@ const INFLATE_RATE = consts.INFLATE_RATE;
 const REGEN_RATE = consts.REGEN_RATE;
 const SPIKE_DMG = consts.SPIKE_DMG;
 const ACTION = consts.ACTION;
-const RESOURCE_SIZE = consts.RESOURCE_SIZE;
 const MINING_RATE = consts.MINING_RATE;
+const RESOURCE_SIZE_STEP = consts.RESOURCE_SIZE_STEP;
+const RESOURCE_SIZE_MIN = consts.RESOURCE_SIZE_MIN;
+const RESOURCE_SIZE_MAX = consts.RESOURCE_SIZE_MAX;
 
 const CELL_INNER_RADIUS = 28;
 
@@ -476,12 +478,13 @@ class User {
     };
 
     collide_with_resource(res) {
-        if (this.distance(this.x, this.y, res.position.x, res.position.y) > this.size + RESOURCE_SIZE) return false;
+        let res_size = Math.max(res.amount / RESOURCE_SIZE_STEP + RESOURCE_SIZE_MIN, RESOURCE_SIZE_MAX);
+        if (this.distance(this.x, this.y, res.position.x, res.position.y) > this.size + res_size) return false;
 
         let collides = false;
         this.components.forEach((bodypart, index) => {
             let hitbox = this.get_hitbox(this, bodypart, index);
-            let other_hitbox = {pos: {x: res.position.x, y: res.position.y}, size: RESOURCE_SIZE};
+            let other_hitbox = {pos: {x: res.position.x, y: res.position.y}, size: res_size};
             if (hitbox.size + other_hitbox.size > this.distance(hitbox.pos.x, hitbox.pos.y,
                 other_hitbox.pos.x, other_hitbox.pos.y)) {
                 collides = true;

@@ -136,7 +136,11 @@ class Engine {
      *  @type {number} */
     get RESOURCE_DENSITY() {return RESOURCE_DENSITY;}
     /** @type {number} */
-    get RESOURCE_SIZE() {return consts.RESOURCE_SIZE;}
+    get RESOURCE_SIZE_STEP() {return consts.RESOURCE_SIZE_STEP;}
+    /** @type {number} */
+    get RESOURCE_SIZE_MIN() {return consts.RESOURCE_SIZE_MIN;}
+    /** @type {number} */
+    get RESOURCE_SIZE_MAX() {return consts.RESOURCE_SIZE_MAX;}
 
     get DIRECTION() {return DIRECTION;}
     get BODYPART_TYPE() {return BODYPART_TYPE;}
