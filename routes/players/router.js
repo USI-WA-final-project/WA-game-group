@@ -12,7 +12,6 @@ router.get('/', function(req, res) {
 
     for (let i = 0; i < arr.length; i++) {
         arr[i].playerColor = req.app.locals.playerColors[arr[i].color].core;
-        arr[i].score = arr[i].kills + arr[i].resources;
     }
 
     if (req.accepts("html")) {        

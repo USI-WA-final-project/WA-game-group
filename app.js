@@ -10,9 +10,16 @@ const engine = require('./engine/engine.js');
 const database = require('./database.js');
 const playerColors = require('./colors.js');
 
+require('./models/Player');
+const Player = mongoose.model('Player');
+
 const RENDER_DISTANCE = 1500;
 const MAX_USER_LENGTH = 14;
 const DEFAULT_USERNAME = "ajax";
+const NUM_COLORS = 8;
+
+const SERVER_PORT = 3000;
+const PURGE_DB_RESTART = true;
 
 //DB Connection
 mongoose.connect('mongodb://localhost/loa', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -25,8 +32,6 @@ mongoose.connect('mongodb://localhost/loa', { useNewUrlParser: true, useUnifiedT
 
 app.use(logger('dev'));
 app.use(bodyParser.json({strict: false, limit: '10mb'}));
-//app.use(bodyParser.text());
-//app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(__dirname + '/public'));
 
 app.set('view engine', 'dust');
@@ -50,16 +55,22 @@ app.locals.playerColors = playerColors;
 let worldState;
 
 //Server start-up
-const server = app.listen(3000, function() {
+const server = app.listen(SERVER_PORT, function() {
     console.log('Express server listening on port', server.address().port);
     engine.init();
 
-    //Clear the database - TODO remove in production
-    mongoose.connection.collections['players'].drop(function(err) {
-        console.log('DB cleared');
-    });
+    if (PURGE_DB_RESTART) {
+        //Clear the database
+        Player.deleteMany({}, function(err) {
+            if (err) {
+                console.log('[DB]', err);
+            } else {
+                console.log('DB cleared');
+            }
+        });
+    }
 
-    //Retrieve whole world data once per tick
+    //Retrieve whole world state once per tick
     engine.register_global(function(data) {
         worldState = data;
     });
@@ -99,7 +110,7 @@ const io = require('socket.io')(server);
 io.on('connection', function(socket){
     console.log('Client connected');
 
-    let player = { id: -1 };
+    let player = { id: -1, score: 0 };
     let moveStatus = -1;
 
     socket.emit('worldData', { 
@@ -121,8 +132,8 @@ io.on('connection', function(socket){
             user = DEFAULT_USERNAME;
         }
 
-        let color = Math.floor(Math.random() * 8);
-        player = engine.create({ username: user, color: color});
+        let color = Math.floor(Math.random() * NUM_COLORS);
+        player = engine.create({ username: user, color: color });
 
         database.addPlayer(player)
         .then(function(result) {
@@ -151,9 +162,6 @@ io.on('connection', function(socket){
             let x = data.position.x;
             let y = data.position.y;
             let size = data.size;
-            
-            //Update score
-            player.score = data.kills + Math.floor(data.resources);
     
             let players = [];
     
@@ -161,15 +169,28 @@ io.on('connection', function(socket){
                 let adjustedX = el.position.x - x;
                 let adjustedY = el.position.y - y;
 
+                let scoreNum = el.kills + Math.floor(el.resources);
+
+                if (el.bodyparts.length > 1) {
+                    el.bodyparts.forEach(function(part) {
+                        scoreNum += engine.BODYPART_COST[part.type];
+                    });
+                }
+
+                if (el.id == player.id) {
+                    player.score = scoreNum;
+                }
+
                 if (Math.abs(adjustedX) < RENDER_DISTANCE + el.size + size && 
                     Math.abs(adjustedY) < RENDER_DISTANCE + el.size + size) {
-                    let player = {
+                    let newPlayer = {
                         color: el.custom.color,
                         health: el.bodyparts[0].health,
                         rotation: el.rotation,
                         kills: el.kills,
                         resources: Math.floor(el.resources),
                         username: el.custom.username,
+                        score: scoreNum,
                         components: el.bodyparts.map(function(item) {
                             let newItem = Object.assign({}, item);
                             switch(item.type) {
@@ -196,7 +217,7 @@ io.on('connection', function(socket){
                         }
                     };
     
-                    players.push(player);
+                    players.push(newPlayer);
                 }            
             });
 
@@ -220,9 +241,34 @@ io.on('connection', function(socket){
                     resources.push(resource);
                 }
             });
+
+            let playerParts = {
+                cells: 0,
+                spikes: 0,
+                shields: 0,
+                bounces: 0
+            };
+
+            data.bodyparts.forEach(function(part) {
+                switch(part.type) {
+                    case engine.BODYPART_TYPE.CELL:
+                        playerParts.cells += 1;
+                    break;
+                    case engine.BODYPART_TYPE.SPIKE:
+                        playerParts.spikes += 1;
+                    break;
+                    case engine.BODYPART_TYPE.SHIELD:
+                        playerParts.shields += 1;
+                    break;
+                    case engine.BODYPART_TYPE.BOUNCE:
+                        playerParts.bounces += 1;
+                    break;
+                }
+            });
     
             let serializedData = {
                 playerPosition: { x: x, y: y },
+                playerParts: playerParts,
                 players: players,
                 resources: resources
             };
@@ -235,14 +281,6 @@ io.on('connection', function(socket){
                 engine.move(player.id, dirEnum);
             }
         });
-    });
-
-    //Legacy system - TODO remove when upgraded
-    socket.on('move', function(direction) {
-        let dirEnum = convertDirection(direction);
-        if (dirEnum != null) {
-            engine.move(player.id, dirEnum);
-        }
     });
 
     socket.on('startMove', function(direction) {
@@ -295,7 +333,7 @@ io.on('connection', function(socket){
         res = engine.attach(player.id, type, data.part, data.face);
 
         if (res != 0) {
-            console.log("Error (code", res, ") attaching part", data, "player", player.id, "-", player.custom.username);
+            console.log("[ENGINE] Error (code", res, ") attaching part", data, "player", player.id, "-", player.custom.username);
             socket.emit("attachError", { type: data.type, message: "Invalid attach (code " + res + ")" });
         }
     });

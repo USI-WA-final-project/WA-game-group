@@ -421,7 +421,17 @@ class App {
 	}
 
 	snapshot() {
-		const src = this.canvas.toDataURL('image/jpeg');
+		var plain = new Image();
+		plain.src = this.canvas.toDataURL('image/jpeg');
+
+		var watermark = new Image();
+		watermark.src = "/img/logo.svg";
+
+		var context = this.canvas.getContext('2d');
+		context.drawImage(plain, 0, 0, 100, 100);
+		context.drawImage(watermark, 200, 1500, 400, 90);
+
+		var src = context.canvas.toDataURL('image/jpeg');
 
 		this.doJSONRequest("POST", "/moments/upload", {src: src})
 		.then((result) => {
