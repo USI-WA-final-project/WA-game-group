@@ -169,13 +169,11 @@ io.on('connection', function(socket){
                 let adjustedX = el.position.x - x;
                 let adjustedY = el.position.y - y;
 
-                let scoreNum = el.kills + Math.floor(el.resources);
+                let scoreNum = el.kills + Math.floor(el.resources) - engine.BODYPART_COST[engine.BODYPART_TYPE.CELL];
 
-                if (el.bodyparts.length > 1) {
-                    el.bodyparts.forEach(function(part) {
-                        scoreNum += engine.BODYPART_COST[part.type];
-                    });
-                }
+                el.bodyparts.forEach(function(part) {
+                    scoreNum += engine.BODYPART_COST[part.type];
+                });
 
                 if (el.id == player.id) {
                     player.score = scoreNum;
