@@ -173,7 +173,7 @@ io.on('connection', function(socket){
 
                 if (el.bodyparts.length > 1) {
                     el.bodyparts.forEach(function(part) {
-                        scoreNum += engine.BODYPART_COST[part];
+                        scoreNum += engine.BODYPART_COST[part.type];
                     });
                 }
 
@@ -183,7 +183,7 @@ io.on('connection', function(socket){
 
                 if (Math.abs(adjustedX) < RENDER_DISTANCE + el.size + size && 
                     Math.abs(adjustedY) < RENDER_DISTANCE + el.size + size) {
-                    let player = {
+                    let newPlayer = {
                         color: el.custom.color,
                         health: el.bodyparts[0].health,
                         rotation: el.rotation,
@@ -217,7 +217,7 @@ io.on('connection', function(socket){
                         }
                     };
     
-                    players.push(player);
+                    players.push(newPlayer);
                 }            
             });
 
