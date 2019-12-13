@@ -7,7 +7,7 @@
                 &nbsp;
                 {kills} <img src="/img/knife-blood.svg" class="imgSmallData"> 
                 {resources} <img src="/img/money.svg" class="imgSmallData"> 
-                {parts} <img src="/img/cell.svg" class="imgSmallData">
+                {parts} <img src="/img/bodyparts.svg" class="imgSmallData">
             </p>
         </div>
     </div>
