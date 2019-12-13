@@ -7,7 +7,7 @@ const router = express.Router();
 
 //Display all players
 router.get('/', function(req, res) {
-    let colors = req.app.locals.playerColors;
+    let colors = req.app.locals.worldData.colors;
     let players = req.app.locals.players.sort(function(a, b) { return b.score - a.score; });
 
     for (let i = 0; i < players.length; i++) {
@@ -25,7 +25,7 @@ router.get('/', function(req, res) {
 
 //Filter players by username
 router.get('/search', function(req, res) {
-    let colors = req.app.locals.playerColors;
+    let colors = req.app.locals.worldData.colors;
     let players = req.app.locals.players.sort(function(a, b) { return b.score - a.score; });
 
     for (let i = 0; i < players.length; i++) {

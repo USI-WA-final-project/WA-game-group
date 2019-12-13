@@ -3,16 +3,19 @@
     <div class="editor-element" id="cell">
         <img src="img/cell.svg">
         <p>Cell</p>
+        <p class="costLabel">Cost: {worldData.upgradesCosts.cell}</p>
     </div>
 
     <div class="editor-element" id="spike">
         <img src="img/spike.svg" id="spike-edit">
         <p>Spike</p>
+        <p class="costLabel">Cost: {worldData.upgradesCosts.spike}</p>
     </div>
 
     <div class="editor-element" id="shield">
         <img src="img/shield.svg" id="shield-edit">
         <p>Shield</p>
+        <p class="costLabel">Cost: {worldData.upgradesCosts.shield}</p>
     </div>
 
 <!--
@@ -20,6 +23,7 @@
         <p>15</p>
         <img src="img/bouncer.svg">
         <p>Bouncer</p>
+        <p class="costLabel">Cost: {worldData.upgradesCosts.bounce}</p>
     </div>
 -->
 
