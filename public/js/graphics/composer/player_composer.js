@@ -338,7 +338,7 @@ class PlayerComposer {
     }
 
     drawHexagonChild(obj, index, side, perkBegin, cellBegin, center) {
-        if (index < 0) return;
+        if (index < 0 || !obj[index]) return;
         const type = obj[index].type;
 
         if (type === CHILD_TYPE_FREE) return;
