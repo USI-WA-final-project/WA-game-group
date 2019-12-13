@@ -67,7 +67,7 @@ input:checked ~ .personal {
 }
 
 #life {
-    width: 100%;
+    width: 55%;
     background: -webkit-linear-gradient(left, green 100%);
     background: linear-gradient(left, green 100%);
     padding-top: 10px;
@@ -89,7 +89,7 @@ input:checked ~ .personal {
 }
 
 #stats img {
-    padding: 2px 15px 2px 2px;
+    padding: 2px 10px 2px 2px;
     max-width: 24px;
 }
 
