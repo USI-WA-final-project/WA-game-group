@@ -31,6 +31,12 @@ class App {
 		//player structure
 		this.playerBody = undefined;
 
+		//player resources
+		this.res = 0;
+
+		//allow editor
+		this.allow = { cell: false, spike: false, shield: false, };
+
 		//editor
 		this.editor = undefined;
 
@@ -182,9 +188,11 @@ class App {
 		for (let i = 0; i < data.players.length; i++) {
 			const it = data.players[i];
 			if (it.position.x !== 0 || it.position.y !== 0) continue;
+			this.res = it.resources;
 			const info_plr = {life: it.health, kills: it.kills, res: it.resources, 
 							  score: it.score, cell: data.playerParts.cells, spike: data.playerParts.spikes,
 							  shield: data.playerParts.shields, bounce: data.playerParts.bounces };
+			this.allowEditor(it.resources);
 
 			this.playerBody = it.components;
 			this.updateInfo(this.playerBody, info_plr);
@@ -194,6 +202,32 @@ class App {
 			break;
 		}
 		this.graphics.drawContents(data.players, this.playerColors, data.resources);
+	}
+
+	allowEditor(res) {
+		if (res >= this.costs.cell) {
+			this.allow.cell = true;
+			this.cell.style.opacity = "1";
+		} else {
+			//color
+			this.cell.style.opacity = "0.4";
+		}
+
+		if (res >= this.costs.spike) {
+			this.allow.spike = true;
+			this.spike.style.opacity = "1";
+		} else {
+			//color
+			this.spike.style.opacity = "0.4";
+		}
+
+		if (res >= this.costs.shield) {
+			this.allow.shield = true;
+			this.shield.style.opacity = "1";
+		} else {
+			//color
+			this.shield.style.opacity = "0.4";
+		}
 	}
 
 	setCenters(components) {
@@ -256,15 +290,21 @@ class App {
 		document.addEventListener('keyup', this.onKeyUp.bind(this));
 		//inputs
 		this.cell.addEventListener('click', function(){
-			this.setEditor('cell');
+			if (this.allow.cell) {
+				this.setEditor('cell');
+			} 
 		}.bind(this));
 
 		this.spike.addEventListener('click', function(){
-			this.setEditor('spike');
+			if (this.allow.spike) {
+				this.setEditor('spike');
+			} 
 		}.bind(this));
 
 		this.shield.addEventListener('click', function(){
-			this.setEditor('shield');
+			if (this.allow.shield) {
+				this.setEditor('shield');
+			}
 		}.bind(this));
 
 		this.removeParts.addEventListener('click', function() {
