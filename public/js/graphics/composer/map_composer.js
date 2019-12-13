@@ -98,42 +98,40 @@ class MapComposer {
         }
     }
 
-    drawMiniMap(worldW, worldH, playerPosition, resources) {
-        const width = this.minCtx.canvas.width;
-        const height = this.minCtx.canvas.height;
-        const offsetX = (width - height) / 2;
+    drawMiniMap(worldW, worldH, playerColor, playerPosition, resources) {
+        const size = this.minCtx.canvas.height;
+        const offsetX = (this.minCtx.canvas.width - size);
+        this.minCtx.canvas.height = size;
 
-        const viewRay = (height / worldW) * 400;
+        const viewRay = (size / worldW) * 500;
 
-        const posX = (height / worldW) * playerPosition.x;
-        const posY = (height / worldH) * playerPosition.y;
+        const posX = (size / worldW) * playerPosition.x;
+        const posY = (size / worldH) * playerPosition.y;
 
-        this.minCtx.clearRect(0, 0, width, height);
+        this.minCtx.clearRect(0, 0, size, size);
 
-        this.minCtx.fillStyle = "rgba(0, 0, 0, 0.5)";
-        this.minCtx.fillRect(offsetX, 0, height, height);
+        this.minCtx.fillStyle = "rgba(0, 0, 0, 0.3)";
+        this.minCtx.fillRect(offsetX, 0, size, size);
 
         // Player
         this.minCtx.beginPath();
-        this.minCtx.fillStyle = "#ff0000";
-        this.minCtx.strokeStyle = "#121314";
+        this.minCtx.fillStyle = playerColor;
 
-        this.minCtx.arc(offsetX + posX, posY, 3, 0, 360);
+        this.minCtx.arc(offsetX + posX, posY, 5, 0, 360);
         this.minCtx.fill();
-        this.minCtx.stroke();
         this.minCtx.closePath();
 
         this.minCtx.beginPath();
-        this.minCtx.strokeStyle = "#121314";
+        this.minCtx.strokeStyle = playerColor;
         this.minCtx.arc(offsetX + posX, posY, viewRay, 0, 360);
 
         this.minCtx.stroke();
         this.minCtx.closePath();
 
         resources.forEach((it) => {
-            let x = offsetX + posX + (width / worldW) * it.position.x;
-            let y = posY + (height / worldH) * it.position.y;
-            let distance = Math.sqrt(Math.pow(posX - x, 2) + Math.pow(posY - y, 2));
+            let x = offsetX + posX + (size / worldW) * it.position.x;
+            let y = posY + (size / worldH) * it.position.y;
+            let distance = Math.sqrt(Math.pow(offsetX + posX - x, 2) + Math.pow(posY - y, 2));
             if (distance <= viewRay) {
                 this.minCtx.beginPath();
                 this.minCtx.fillStyle = "#f1f2f3";

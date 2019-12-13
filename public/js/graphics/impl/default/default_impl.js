@@ -56,11 +56,14 @@ class DefaultImpl extends Graphics {
      * @param resources All the resources
      */
     drawContents(players, playerColors, resources) {
-        this.composer.map.drawMiniMap(this.world.width, this.world.height, this.offset, resources);
-
         players.forEach((it) => {
             const color = playerColors[it.color];
             this.composer.player.build(it.components, color, it.position);
+
+            if (it.position.x === 0 && it.position.y === 0) {
+                // It's a-me, Mario
+                this.composer.map.drawMiniMap(this.world.width, this.world.height, color.core, this.offset, resources);
+            }
         });
 
         this.composer.resources.draw(this.center, resources);

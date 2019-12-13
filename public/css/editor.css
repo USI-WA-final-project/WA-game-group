@@ -5,6 +5,7 @@
     position: absolute;
     bottom: 0;
     left: 0;
+    z-index: 73;
 }
 
 .editor-bar {

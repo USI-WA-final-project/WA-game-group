@@ -3,11 +3,7 @@
     bottom: 0;
     right:0;
     padding: 1em;
-    width: 300px;
-}
-
-.minimap img {
-   
+    height: 200px;
 }
 
 #canvas {
