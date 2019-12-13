@@ -76,9 +76,7 @@ class WorkersImpl extends Graphics {
      * Clear the canvas
      */
     clearCanvas() {
-        this.worker.postMessage({
-            action: "clear"
-        });
+        // Do nothing
     }
 
     /**

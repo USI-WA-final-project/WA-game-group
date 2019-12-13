@@ -55,23 +55,28 @@ function drawWorld(offset) {
     );
 }
 
-function drawMinMap(playerPosition, resources) {
+function drawMinMap(playerPosition, playerColor, resources) {
     if (!assertReady()) return;
 
     instance.composer.map.drawMiniMap(
         instance.world.width,
         instance.world.height,
+        playerColor,
         playerPosition,
         resources
     )
 }
 
-function drawPlayers(players, colors) {
+function drawPlayers(players, colors, bgOffset, resources) {
     if (!assertReady()) return;
 
     players.forEach((it) => {
         const color = colors[it.color];
         instance.composer.player.build(it.components, color, it.position);
+
+        if (it.position.x === 0 && it.position.y === 0) {
+            drawMinMap(bgOffset, color, resources);
+        }
     });
 }
 
@@ -100,13 +105,10 @@ onmessage = function (e) {
             updateCanvas(e.data.canvasSize);
             break;
         case "contents":
-            drawWorld(e.data.bgOffset);
-            drawMinMap(e.data.bgOffset, e.data.resources);
-            drawPlayers(e.data.players, e.data.playerColors);
-            drawResources(e.data.resources);
-            break;
-        case "clear":
             clearCanvas();
+            drawWorld(e.data.bgOffset);
+            drawPlayers(e.data.players, e.data.playerColors, e.data.bgOffset, e.data.resources);
+            drawResources(e.data.resources);
             break;
         default:
             console.warn("Unknown data: " + e.data);
