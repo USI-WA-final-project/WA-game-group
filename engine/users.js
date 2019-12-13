@@ -478,7 +478,7 @@ class User {
     };
 
     collide_with_resource(res) {
-        let res_size = Math.max(res.amount / RESOURCE_SIZE_STEP + RESOURCE_SIZE_MIN, RESOURCE_SIZE_MAX);
+        let res_size = Math.min(res.amount / RESOURCE_SIZE_STEP + RESOURCE_SIZE_MIN, RESOURCE_SIZE_MAX);
         if (this.distance(this.x, this.y, res.position.x, res.position.y) > this.size + res_size) return false;
 
         let collides = false;
