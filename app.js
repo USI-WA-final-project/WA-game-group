@@ -50,7 +50,18 @@ app.locals.imgur = {
     token: '258d66df9a9d57fbdc2b3efd21fb59167df70ce9'
 };
 
-app.locals.playerColors = playerColors;
+app.locals.worldData = {
+    upgradesCosts: { 
+        cell: engine.BODYPART_COST[engine.BODYPART_TYPE.CELL], 
+        spike: engine.BODYPART_COST[engine.BODYPART_TYPE.SPIKE], 
+        shield: engine.BODYPART_COST[engine.BODYPART_TYPE.SHIELD], 
+        bounce: engine.BODYPART_COST[engine.BODYPART_TYPE.BOUNCE]
+    },
+    colors: playerColors,
+    width: engine.WORLD_WIDTH, 
+    height: engine.WORLD_HEIGHT 
+};
+
 app.locals.players = [];
 
 let worldState;
@@ -114,17 +125,7 @@ io.on('connection', function(socket){
     let player = { id: -1, score: 0 };
     let moveStatus = -1;
 
-    socket.emit('worldData', { 
-        upgradesCosts: { 
-            cell: engine.BODYPART_COST[engine.BODYPART_TYPE.CELL], 
-            spike: engine.BODYPART_COST[engine.BODYPART_TYPE.SPIKE], 
-            shield: engine.BODYPART_COST[engine.BODYPART_TYPE.SHIELD], 
-            bounce: engine.BODYPART_COST[engine.BODYPART_TYPE.BOUNCE]
-        },
-        colors: playerColors,
-        width: engine.WORLD_WIDTH, 
-        height: engine.WORLD_HEIGHT 
-    });
+    socket.emit('worldData', app.locals.worldData);
 
     //Register user in DB and engine
     socket.on('registerUser', function(user) {
@@ -171,9 +172,11 @@ io.on('connection', function(socket){
                 let adjustedY = el.position.y - y;
 
                 let scoreNum = el.kills + Math.floor(el.resources) - engine.BODYPART_COST[engine.BODYPART_TYPE.CELL];
+                let partsNum = 0;
 
                 el.bodyparts.forEach(function(part) {
                     scoreNum += engine.BODYPART_COST[part.type];
+                    partsNum++;
                 });
 
                 if (el.id == player.id) {
@@ -190,6 +193,7 @@ io.on('connection', function(socket){
                         resources: Math.floor(el.resources),
                         username: el.custom.username,
                         score: scoreNum,
+                        parts: partsNum,
                         components: el.bodyparts.map(function(item) {
                             let newItem = Object.assign({}, item);
                             switch(item.type) {

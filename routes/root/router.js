@@ -4,13 +4,13 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    // TODO: send something
-    res.render('index');
+    let worldData = res.app.locals.worldData;
+    
+    res.render('index', { worldData });
     res.end();
 });
 
 router.get('/help', (req, res) => {
-    // TODO: send something
     res.render('help_page');
     res.end();
 });

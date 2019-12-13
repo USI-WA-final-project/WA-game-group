@@ -62,3 +62,8 @@
     background-color: var(--white-very-dark);
     outline: none;
 }
+
+.costLabel {
+    font-size: 13px !important;
+    margin: 5px;
+}

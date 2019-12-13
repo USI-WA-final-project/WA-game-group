@@ -54,12 +54,13 @@ class PlayerComposer {
 
     /* Hexagon */
 
-    initHexagon(index, isCore = false) {
+    initHexagon(index, health, isCore = false) {
         if (this.visited[index] !== STATUS_TO_VISIT) return false;
         this.visited[index] = STATUS_VISITING;
 
         this.ctx.beginPath();
-        this.ctx.fillStyle = isCore ? this.colors.cell.core : this.colors.cell.child;
+        const color = isCore ? this.colors.cell.core : this.colors.cell.child;
+        this.ctx.fillStyle = this.withAlpha(color, health);
         return true;
     }
 
@@ -72,7 +73,7 @@ class PlayerComposer {
     }
 
     drawHexagon0(obj, index, begin, center, isCore = false) {
-        if (!this.initHexagon(index, isCore)) return;
+        if (!this.initHexagon(index, obj[index].health, isCore)) return;
 
         this.ctx.moveTo(begin.x, begin.y); // M 16 4
         this.ctx.lineTo(begin.x - 16, begin.y + 28); // l -16 28
@@ -96,7 +97,7 @@ class PlayerComposer {
     }
 
     drawHexagon1(obj, index, begin, center) {
-        if (!this.initHexagon(index)) return;
+        if (!this.initHexagon(index, obj[index].health)) return;
 
         this.ctx.moveTo(begin.x, begin.y); // M 48 4
         this.ctx.lineTo(begin.x - 32, begin.y); // l -32 0
@@ -110,7 +111,7 @@ class PlayerComposer {
     }
 
     drawHexagon2(obj, index, begin, center) {
-        if (!this.initHexagon(index)) return;
+        if (!this.initHexagon(index, obj[index].health)) return;
 
         this.ctx.moveTo(begin.x, begin.y); // M 64 32
         this.ctx.lineTo(begin.x - 16, begin.y - 28); // l -16 -28
@@ -124,7 +125,7 @@ class PlayerComposer {
     }
 
     drawHexagon3(obj, index, begin, center) {
-        if (!this.initHexagon(index)) return;
+        if (!this.initHexagon(index, obj[index].health)) return;
 
         this.ctx.moveTo(begin.x, begin.y); // M 48 60
         this.ctx.lineTo(begin.x + 16, begin.y - 28); // l 32 -28
@@ -138,7 +139,7 @@ class PlayerComposer {
     }
 
     drawHexagon4(obj, index, begin, center) {
-        if (!this.initHexagon(index)) return;
+        if (!this.initHexagon(index, obj[index].health)) return;
 
         this.ctx.moveTo(begin.x, begin.y); // M 16 60
         this.ctx.lineTo(begin.x + 32, begin.y); // l 32 0
@@ -152,7 +153,7 @@ class PlayerComposer {
     }
 
     drawHexagon5(obj, index, begin, center) {
-        if (!this.initHexagon(index)) return;
+        if (!this.initHexagon(index, obj[index].health)) return;
 
         this.ctx.moveTo(begin.x, begin.y); // M 0 32
         this.ctx.lineTo(begin.x + 16, begin.y + 28); // l 16 28
@@ -462,5 +463,17 @@ class PlayerComposer {
             case 5:
                 return {x: currCenter.x - 48, y: currCenter.y + 28};
         }
+    }
+
+    /**
+     * Convert an rrggbb color to a
+     * semi-transparent version of it.
+     *
+     * @param color The original color
+     * @param transparency The transparency [100 .. 0]
+     */
+    withAlpha(color, transparency) {
+        const a = Math.round((transparency * 2) + 0.55).toString(16);
+        return `${color}${a}`;
     }
 }
