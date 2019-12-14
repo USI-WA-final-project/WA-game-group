@@ -224,7 +224,7 @@ var database = {
     removeMoment: function (id) {
         return Moment.findById(id)
             .then((item) => {
-                return item.remove();
+                item.remove();
             }); 
     }
 };

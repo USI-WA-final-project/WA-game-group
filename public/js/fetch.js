@@ -101,9 +101,9 @@ function removeImage(e) {
 		doJSONRequest('GET', '/moments', {})
 		.then((data) => {
 			console.log("DATA1", data);
-			dust.render("moments", {result: data}, function(err, out) {
+			dust.render("partials/fav_partial", {result: data}, function(err, out) {
 				console.log("OUT", out);
-				document.body.innerHTML = out;
+				document.getElementById('gallery').innerHTML = out;
 			});
 		});
 	});

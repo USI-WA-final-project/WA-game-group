@@ -4,7 +4,7 @@
 <div id="popup" class="hidden">
 	<button><img src="img/back.svg"/></button><div class="infos"></div><img id="new_img" src=""></div>
 <article id="gallery" class="momentstyle">
-
-{>"partials/fav_partial.dust" _id=_id name=name dataURL=dataURL list="true" /}            
+	{>"partials/fav_partial.dust" _id=_id name=name dataURL=dataURL list="true" /}
+</article>           
 
 {>"partials/footer" /}
