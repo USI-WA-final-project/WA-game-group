@@ -104,6 +104,10 @@ function removeImage(e) {
 			dust.render("partials/fav_partial", {result: data}, function(err, out) {
 				console.log("OUT", out);
 				document.getElementById('gallery').innerHTML = out;
+				
+				document.querySelectorAll("button[type=delete]").forEach((x) => {
+		            x.addEventListener('click', removeImage);
+		        });
 			});
 		});
 	});
