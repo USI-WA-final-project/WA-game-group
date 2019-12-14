@@ -37,6 +37,7 @@ app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'dust');
 app.set('views', __dirname + '/views');
 app.engine('dust', dust.dust);
+dust.helper = require('dustjs-helpers');
 
 //Routers initialization
 const routers = require(__dirname + '/routes/routers');
