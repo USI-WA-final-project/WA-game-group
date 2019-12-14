@@ -27,7 +27,7 @@ class ResourcesComposer {
                 sat = it.amount - 235 / 500;
                 radius = 28;
             }
-            this.ctx.fillStyle = "rgba(238, 226, 221, 1)";
+            this.ctx.fillStyle = "rgba(238, 226, 221, "+sat+")";
             this.ctx.strokeStyle = RESOURCES_STROKE_COLOR;
             this.ctx.arc(originPoint.x + it.position.x, originPoint.y + it.position.y, radius, 0, 360);
 
