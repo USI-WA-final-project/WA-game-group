@@ -18,7 +18,7 @@
             <div class="controls"><img src="img/money.svg"> is the amount of resources you have available.</div>
         </div>
         <p>Also, you can check the leaderboard, take snapshots of your adventure (which will be automatically uploaded on 
-        <a href="https://imgur.com/user/thelegendofajax/posts">ImgUR</a> and 
-        <a href="https://twitter.com/legendofajax">Twitter</a>). You can exchange your resources with stuff and kits useful to build your player armor and make it stronger. Use the bottom-right map to locate yourself through the whole world.</p>
+        <a href="https://imgur.com/user/thelegendofajax/posts" target="_blank">ImgUR</a> and 
+        <a href="https://twitter.com/legendofajax" target="_blank">Twitter</a>). You can exchange your resources with stuff and kits useful to build your player armor and make it stronger. Use the bottom-right map to locate yourself through the whole world.</p>
         <p>For any question about the game and FAQs, you can check the Help page.</p>
-        <p>Have you found a bug? Open an issue on <a href="https://github.com/USI-WA-final-project/WA-game-group/issues">GitHub</a></p>
+        <p>Have you found a bug? Open an issue on <a href="https://github.com/USI-WA-final-project/WA-game-group/issues" target="_blank">GitHub</a></p>
