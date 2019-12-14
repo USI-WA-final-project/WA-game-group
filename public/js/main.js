@@ -145,6 +145,8 @@ function startGame(e) {
             document.getElementById("audio_game").play();
         }
 
+        document.getElementById("findus").classList.toggle("hidden");
+
         document.getElementById("editor").classList.toggle("hidden");
 
         document.getElementById("usname").innerHTML = "@" + user_name;

@@ -15,20 +15,20 @@
     border-radius: 8px;
     box-shadow: -1px 2px 7.5px 0 rgba(0, 0, 0, 0.3);
     background-color: #ffffff;
-    padding: 1rem;
+    padding: 0.8rem;
 }
 
 .editor-divider {
     background-color: var(--white-very-dark);
     width: 2px;
-    height: 6rem;
+    height: 8rem;
     margin: auto 0;
 }
 
 .editor-element {
     display: flex;
     flex-direction: column;
-    padding: 1rem;
+    padding: 0.7rem;
     border: 3px solid transparent;
 }
 
@@ -49,6 +49,7 @@
 .editor-element:hover {
     background: var(--white-dark);
     cursor: pointer;
+    border-radius: 8px;
 }
 
 /** Editor button status classes **/
