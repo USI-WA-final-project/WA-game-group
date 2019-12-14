@@ -50,6 +50,12 @@ router.post("/imgur/:id", async (req, res) => {
     res.end();
 });
 
+router.post("/twitter/:id", async (req, res) => {
+    const id = req.params.id;
+    await upload(req, res, TwitterProvider, id);
+    res.end();
+});
+
 router.patch("/:id", async (req, res) => {
     const id = req.params.id;
 

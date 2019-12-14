@@ -5,6 +5,8 @@ const querystring = require("querystring");
 
 const MomentsProvider = require("./provider");
 
+var media_id;
+
 class TwitterProvider extends MomentsProvider {
 
     constructor() {
@@ -20,8 +22,26 @@ class TwitterProvider extends MomentsProvider {
      */
 
     async upload(req, item, data) {
-        const request = await fetch("https://upload.twitter.com/1.1/media_data=" + item.src + "/upload.json?media_category=tweet_image", {
-            method: 'POST'
+        const request = await fetch("https://upload.twitter.com/1.1/media/upload.json?media_category=tweet_image", {
+            method: 'POST',
+            headers: this.getAuthHeaders(req),
+            body.media_ids: item.src.replace('data:image/jpeg;base64,', '')
+        });
+
+        const result = await request.json();
+        console.log(result);
+        if (!this.validateResult(result)) {
+            console.error(JSON.stringify(result));
+            return false;
+        }
+
+        return true;
+    }
+
+    async post(req, item, data) {
+        const request = await fetch("https://api.twitter.com/1.1/statuses/update.json?status=The Legend of Ajax&media_ids=" + req.body.media_ids, {
+            method: 'POST',
+            headers: this.getAuthHeaders(req),
         });
 
         const result = await request.json();
