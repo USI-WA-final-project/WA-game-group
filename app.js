@@ -319,6 +319,12 @@ io.on('connection', function(socket){
         let playerData = engine.info(player.id);
         if (playerData == null) return;
 
+        //Check if player has enough resources to build
+        if (playerData.resources < engine.BODYPART_COST[type]) {
+            console.log("Not enough res to build", data, "player", player.id, "-", player.custom.username);
+            socket.emit("moneyError", { type: data.type, message: "Not enough money for " + data.part });
+        }
+
         player.bodyparts = playerData.bodyparts;
 
         if (data.part < 0 || player.bodyparts[data.part] === undefined) {

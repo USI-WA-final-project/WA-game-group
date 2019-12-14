@@ -1,0 +1,30 @@
+Client-server communication
+
+Client -> server
+
+- registerUser: necessary to start the game. Contains user information, registers the user in the engine
+
+- startMove: start moving the player in the given direction (or change direction)
+
+- stopMove: stop any movement
+
+- attachPart: attach a new part
+
+- removePart: remove an existing part
+
+- rotatePlayer: rotate the player
+
+
+Server -> client
+
+- worldData: send the data necessary to build the world (size, colors, etc.)
+
+- gameOver: notifies the client that the player died, along with the score
+
+- drawWorld: each tick, send the updated world to the client for drawing
+
+- attachError: emitted when an invalid part attachment is requested
+
+- moneyError: emitted if the user hasn't enough money to purchase a part
+
+- removeError: emitted when an invalid part removal is required
