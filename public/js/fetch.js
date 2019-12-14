@@ -91,18 +91,18 @@ function searchPlayers() {
 }
 
 function removeImage(e) {
-	console.log("Delete Image: ", e.target.parentNode.id);
+	// console.log("Delete Image: ", e.target.parentNode.id);
 
 	let id = e.target.parentNode.id;
 
 	doJSONRequest('DELETE', '/moments/'+id, {})
 	.then((data) => {
-		console.log("DATA", data);
+		// console.log("DATA", data);
 		doJSONRequest('GET', '/moments', {})
 		.then((data) => {
-			console.log("DATA1", data);
+			// console.log("DATA1", data);
 			dust.render("partials/fav_partial", {result: data}, function(err, out) {
-				console.log("OUT", out);
+				// console.log("OUT", out);
 				document.getElementById('gallery').innerHTML = out;
 				
 				document.querySelectorAll("button[type=delete]").forEach((x) => {

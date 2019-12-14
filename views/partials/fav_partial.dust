@@ -3,13 +3,7 @@
 	<h1>{name}</h1>
 	<img class="photography" src="{src}"/>
 
-	<form action="/moments/{_id}?_method=PUT" method="POST">
-		<input type="hidden" name="dataURL" value="{dataURL}"><br>
-		<label for="name">Name: </label>
-		<input type="text" name="name" value="{name}"><br>
-	 	<button type="submit">Save</button>
-	</form>
-	 	<button type="delete">Delete</button>
+	<button type="delete">Delete</button>
 	 	
 </div>
 {:else}
