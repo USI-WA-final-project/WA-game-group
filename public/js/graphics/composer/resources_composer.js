@@ -22,12 +22,13 @@ class ResourcesComposer {
         resources.forEach((it) => {
             this.ctx.beginPath();
             let sat = 1;
+            let radius = Math.floor(it.amount/10)+5;
             if (it.amount > 235) {
                 sat = it.amount - 235 / 500;
+                radius = 28;
             }
             this.ctx.fillStyle = "rgba(238, 226, 221, 1)";
             this.ctx.strokeStyle = RESOURCES_STROKE_COLOR;
-            let radius = Math.floor(it.amount/10)+5;
             this.ctx.arc(originPoint.x + it.position.x, originPoint.y + it.position.y, radius, 0, 360);
 
             this.ctx.fill();

@@ -12,4 +12,6 @@
 	 	<button type="delete">Delete</button>
 	 	
 </div>
+{:else}
+<p>You haven't taken shoots so far.</p>
 {/result}
