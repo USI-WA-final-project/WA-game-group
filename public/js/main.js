@@ -19,6 +19,7 @@ btn_back.forEach((el) => {
         document.querySelectorAll(".menu_enter").forEach((el) => {
             if (el.id != "menu_enter" ) {
                 el.classList.add("hidden");
+                el.classList.remove("opened");
             } else {
                 el.classList.remove("hidden");
             }
@@ -73,6 +74,7 @@ window.onload = () => {
                     el.classList.add("hidden");
                 } else {
                     el.classList.remove("hidden");
+                    el.classList.add("opened");
                 }
             });
         };

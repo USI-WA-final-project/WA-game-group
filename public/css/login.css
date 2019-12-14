@@ -16,6 +16,10 @@
     background: #fff;
 }
 
+.opened {
+    top: 5vh;
+}
+
 .menu_enter #logo {
     max-width: 100%;
 }
