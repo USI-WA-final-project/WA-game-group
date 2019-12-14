@@ -411,8 +411,18 @@ class App {
 		socket.emit('registerUser',  name);
 	}
 
-	displayAttachError(data) {
-
+	displayAttachError(type, data) {
+		switch (type){
+			case 'attach':
+				//TODO this.graphics.showError("data.msg")
+				break;
+			case 'money':
+				//TODO this.graphics.showError("data.msg")
+				break;
+			case 'remove':
+				//TODO this.graphics.showError("data.msg")
+				break;
+		}
 	}
 
 	gameOver() {
@@ -441,9 +451,9 @@ class App {
 			return this.doJSONRequest("POST", "/moments/imgur/" + item._id);
 		})
 		.then((result) => {
-			console.log("Uploaded on imgur:", result);
+			//console.log("Uploaded on imgur:", result);
 		})
-		.catch(console.error);
+		.catch(/*console.error*/);
 	}
 
 	doJSONRequest(method, url, body) {

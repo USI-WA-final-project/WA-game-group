@@ -213,7 +213,17 @@ function init(name) {
 
         socket.on('attachError', function(msg){
             //console.log(msg);
-            app.displayAttachError(msg);
+            app.displayAttachError('attach',msg);
+        });
+
+        socket.on('moneyError', function(msg){
+            //console.log(msg);
+            app.displayAttachError('money', msg);
+        });
+
+        socket.on('removeError', function(msg){
+            //console.log(msg);
+            app.displayAttachError('remove', msg);
         });
 
         socket.on('drawWorld', function(data) {
