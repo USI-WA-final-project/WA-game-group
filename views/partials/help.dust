@@ -1,11 +1,14 @@
 <h1 style="font-variant: small-caps;">Rules and Commands</h1>
+        <p><b style="font-variant: small-caps;">IMPORTANT!</b> For a better game experience, we encourage you to set your browser full-screen while playing.</p>
         <p>The goal of this game is to collect as many resources as you can. To achieve this, You have to deal with other strong challengers who aim to the same goal. You can build your armor by holding spikes, shields and enforcing your defense and attack power by adding more cells surrounding you. Write a name, click Play and then start the game.</p>
+        <h3>Commands</h3>
         <div>
-            <div class="controls"><img src="img/w.svg" alt="w" width="30" height="30"> Move Forward</div>
-            <div class="controls"><img src="img/a.svg" alt="a" width="30" height="30"> Move Left</div>
-            <div class="controls"><img src="img/s.svg" alt="s" width="30" height="30"> Move Backward</div>
-            <div class="controls"><img src="img/d.svg" alt="d" width="30" height="30"> Move Right</div>
+            <div class="controls">Press <img src="img/w.svg" alt="w" width="30" height="30"> to move Forward</div>
+            <div class="controls">Press <img src="img/a.svg" alt="a" width="30" height="30"> to move Left</div>
+            <div class="controls">Press <img src="img/s.svg" alt="s" width="30" height="30"> to move Backward</div>
+            <div class="controls">Press <img src="img/d.svg" alt="d" width="30" height="30"> to move Right</div>
         </div>
+        <h3>In-game menu</h3>
         <p>By clicking on the in-game menu under your @Username, you can check your stats.</p>
         <div id="info">
             <div class="controls"><img src="img/leaderboard.svg"> is your current score.</div>
@@ -17,8 +20,12 @@
             <div class="controls"><img src="img/time.svg"> is the time elapsed since you clicked Play.</div>
             <div class="controls"><img src="img/money.svg"> is the amount of resources you have available.</div>
         </div>
-        <p>Also, you can check the leaderboard, take snapshots of your adventure (which will be automatically uploaded on 
+        <p>Also, you can check the leaderboard, and fold the snapshots taken during your adventure.</p>
+        <h3>The Editor</h3>
+        <p>On the bottom-left of your game screen, there is an edito bar, where ou can exchange your resources with stuff and kits useful to build your player armor and make it stronger. You can also remove tools that you think you don't need anymore by clicking on button Remove and then on the piece you want to remove.</p>
+        <p>You can also take some snapshots (which will be automatically uploaded on 
         <a href="https://imgur.com/user/thelegendofajax/posts" target="_blank">ImgUR</a> and 
-        <a href="https://twitter.com/legendofajax" target="_blank">Twitter</a>). You can exchange your resources with stuff and kits useful to build your player armor and make it stronger. Use the bottom-right map to locate yourself through the whole world.</p>
+        <a href="https://twitter.com/legendofajax" target="_blank">Twitter</a>), and you can check them later on the Share your Moment option in the in-game menu. Use the bottom-right map to locate yourself through the whole world.</p>
+        <h3>FAQ</h3>
         <p>For any question about the game and FAQs, you can check the Help page.</p>
         <p>Have you found a bug? Open an issue on <a href="https://github.com/USI-WA-final-project/WA-game-group/issues" target="_blank">GitHub</a></p>

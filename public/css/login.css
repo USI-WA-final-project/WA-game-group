@@ -17,7 +17,10 @@
 }
 
 .opened {
-    top: 5vh;
+    top: 2vh;
+    width: 85%;
+    right: calc(3% + 15px);
+    left: calc(3% + 15px);
 }
 
 .menu_enter #logo {
@@ -92,6 +95,11 @@
 #findus li {
     list-style-type: none;
     margin: 10px;
+}
+
+#findus li:hover {
+    transition: transform .2s;
+    transform: scale(1.2);
 }
 
 #logo_input {
