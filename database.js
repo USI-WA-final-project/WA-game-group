@@ -197,7 +197,8 @@ var database = {
      */
     addMoment: function(moment) {
         return Moment({
-            src: moment.src
+            src: moment.src,
+            name: moment.name
         }).save();
     },
 

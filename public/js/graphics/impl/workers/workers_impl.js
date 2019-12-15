@@ -73,17 +73,20 @@ class WorkersImpl extends Graphics {
     }
 
     /**
+     *
+     */
+    requestSnapshot(callback) {
+        this.worker.onmessage = (e) => {
+            if (e.data.action !== "snapshotResult") return;
+            callback(e.data.result);
+        };
+        this.worker.postMessage({action: "snapshot"})
+    }
+
+    /**
      * Clear the canvas
      */
     clearCanvas() {
         // Do nothing
-    }
-
-    /**
-     * Get canvas context for drawing.
-     * This <b>MUST</b> never be called from app.js
-     */
-    getContext() {
-        this.canvas.getContext("2d");
     }
 }

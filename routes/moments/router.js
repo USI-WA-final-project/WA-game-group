@@ -78,6 +78,7 @@ router.patch("/:id", async (req, res) => {
 
 router.post("/upload", async (req, res) => {
     const src = req.body.src;
+    const name = req.body.name;
     if (!src) {
         res.writeHead(400, "application/json");
         res.write(JSON.stringify({success: false, message: "Missing src parameter"}));
@@ -86,9 +87,11 @@ router.post("/upload", async (req, res) => {
     }
 
     try {
-        const saved = await database.addMoment({src: src});
+        const saved = await database.addMoment({
+            src: src,
+            name: name
+        });
         res.writeHead(200, "application/json");
-        console.log("HELLO", JSON.stringify({success: true, data: saved}));
         res.write(JSON.stringify({success: true, data: saved}));
     } catch (e) {
         console.error(e);

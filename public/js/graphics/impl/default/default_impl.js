@@ -85,10 +85,12 @@ class DefaultImpl extends Graphics {
     }
 
     /**
-     * Get canvas context for drawing.
-     * This <b>MUST</b> never be called from app.js
+     * Take a snapshot of the world for sharing
+     *
+     * @param callback: Callback to be executed once a snapshot has been acquired
      */
-    getContext() {
-        this.canvas.getContext("2d");
+    requestSnapshot(callback) {
+        const snapshot = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+        callback(snapshot);
     }
 }

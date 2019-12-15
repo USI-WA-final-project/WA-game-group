@@ -96,6 +96,16 @@ function clearCanvas() {
     instance.ctx.clearRect(0, 0, instance.canvas.width, instance.canvas.height);
 }
 
+function takeSnapshot() {
+    if (!assertReady()) return;
+
+    const data = instance.ctx.getImageData(0, 0, instance.canvas.width, instance.canvas.height);
+    self.postMessage({
+        action: "snapshotResult",
+        result: data
+    });
+}
+
 onmessage = function (e) {
     switch (e.data.action) {
         case "setup":
@@ -109,6 +119,12 @@ onmessage = function (e) {
             drawWorld(e.data.bgOffset);
             drawPlayers(e.data.players, e.data.playerColors, e.data.bgOffset, e.data.resources);
             drawResources(e.data.resources);
+            break;
+        case "snapshot":
+            takeSnapshot();
+            break;
+        case "snapshotResult":
+            // Ignore
             break;
         default:
             console.warn("Unknown data: " + e.data);

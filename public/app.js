@@ -24,7 +24,7 @@ class App {
 
 		//array keys chose edit
 		this.editKeys = ["Digit1", "Digit2", "Digit3", "Digit4"];
- 
+
 		//current movement key
 		this.keys = {};
 
@@ -189,7 +189,7 @@ class App {
 			const it = data.players[i];
 			if (it.position.x !== 0 || it.position.y !== 0) continue;
 			this.res = it.resources;
-			const info_plr = {life: it.health, kills: it.kills, res: it.resources, 
+			const info_plr = {life: it.health, kills: it.kills, res: it.resources,
 							  score: it.score, cell: data.playerParts.cells, spike: data.playerParts.spikes,
 							  shield: data.playerParts.shields, bounce: data.playerParts.bounces };
 			this.allowEditor(it.resources);
@@ -270,7 +270,7 @@ class App {
 	updateInfo(elems, plr) {
 		let factor = 60000;
 		let currentTime = new Date(Date.now() - this.valueTime.getTime() + factor * this.valueTime.getTimezoneOffset());
-		
+
 		this.life.style.background = "-webkit-linear-gradient(left, green "+plr.life+"%, white "+(100 - plr.life)+"%)";
 
 		this.infoCell.innerHTML = plr.cell + "&nbsp;";
@@ -292,13 +292,13 @@ class App {
 		this.cell.addEventListener('click', function(){
 			if (this.allow.cell) {
 				this.setEditor('cell');
-			} 
+			}
 		}.bind(this));
 
 		this.spike.addEventListener('click', function(){
 			if (this.allow.spike) {
 				this.setEditor('spike');
-			} 
+			}
 		}.bind(this));
 
 		this.shield.addEventListener('click', function(){
@@ -391,7 +391,7 @@ class App {
 		} else {
 			dir = -1;
 		}
-		
+
 		if (dir != -1) {
 			socket.emit("startMove", dir);
 		} else {
@@ -422,38 +422,31 @@ class App {
 	}
 
 	snapshot() {
-		/*
-		 * ⚠️ CRIME SCENE - DO NOT CROSS ⚠️
-		 * 🚨 This unlawful code has been found guilty of trespass by the Private Property Police 🚔 🚨
-		 *
-		 *    This code was caught trying to access and use the private
-		 *    class members of Graphics.
-		 *
-		 *    Tank you JavaScript.
-		 *    All MEMbErs aRe EquAL, buT sOMe memBeRS aRe mORe eQUaL tHAn oTHerS
+		this.graphics.requestSnapshot((data) => {
+			const name = localStorage.getItem("user_name");
 
-		var plain = new Image();
-		plain.src = this.canvas.toDataURL('image/jpeg');
+			const snapCanvas = document.createElement("canvas");
+			snapCanvas.width = this.canvas.width;
+			snapCanvas.height = this.canvas.height;
+			const snapCtx = snapCanvas.getContext("2d");
+			snapCtx.putImageData(data, 0, 0);
+			snapCtx.font = "90px Inter";
+			snapCtx.fillText("legendofajax.fun", 100, snapCanvas.height - 100);
 
-		var watermark = new Image();
-		watermark.src = "/img/logo.svg";
-
-		var context = this.canvas.getContext('2d');
-		context.drawImage(plain, 0, 0, 100, 100);
-		context.drawImage(watermark, 200, 1500, 400, 90);
-
-		var src = context.canvas.toDataURL('image/jpeg');
-
-		this.doJSONRequest("POST", "/moments/upload", {src: src})
-		.then((result) => {
-			const item = result.data;
-			// TODO: move to the "/moments" page when we have more APIs
-			return this.doJSONRequest("POST", "/moments/imgur/" + item._id);
-		})
-		.then((result) => {
-			//console.log("Uploaded on imgur:", result);
-		})
-		*/
+			const src = snapCanvas.toDataURL("image/jpeg");
+			this.doJSONRequest("POST", "/moments/upload", {
+				src: src,
+				name: `${name} (${this.getDate()})`
+			}).then((result) => {
+				if (result.success) {
+					this.notify({message: "The moment has been saved."});
+				} else {
+					this.notify({message: "Failed to save the moment"});
+				}
+			}).catch((e) => {
+				this.notify({message: e.message});
+			})
+		});
 	}
 
 	doJSONRequest(method, url, body) {
@@ -476,5 +469,17 @@ class App {
 				(result.status === 200 ? result.json() : {success: false, code: result.status}));
 	}
 
+	getDate() {
+		const padTen = (num) => {
+			return num < 10 ? "0" + num : num;
+		};
 
+		const date = new Date();
+		const year = date.getFullYear();
+		let month = padTen(date.getMonth() + 1);
+		let day = padTen(date.getDate());
+		let hours = padTen(date.getHours());
+		let minutes = padTen(date.getMinutes());
+		return `${year}-${month}-${day} ${hours}:${minutes}`;
+	}
 }

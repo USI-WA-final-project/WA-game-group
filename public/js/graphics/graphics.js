@@ -57,10 +57,11 @@ class Graphics {
     }
 
     /**
-     * Get canvas context for drawing.
-     * This <b>MUST</b> never be called from app.js
+     * Take a snapshot of the world for sharing
+     *
+     * @param callback: Callback to be executed once a snapshot has been acquired
      */
-    getContext() {
+    requestSnapshot(callback) {
         throw "This function has not been implemented";
     }
 
