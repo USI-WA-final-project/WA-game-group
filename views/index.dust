@@ -80,9 +80,9 @@
             </div>
         </div>
         <div id="findus">
-            <li><a href="https://www.facebook.com/thelegendofajax/" target="_blank"><img src="img/facebook.jpg" width="30px"></a></li>
-            <li><a href="https://twitter.com/legendofajax" target="_blank"><img src="img/twitter.png" width="30px"></a></li>
-            <li><a href="https://imgur.com/user/thelegendofajax/posts" target="_blank"><img src="img/imgur.png" width="30px"></a></li>
+            <li><a href="https://www.facebook.com/thelegendofajax/" target="_blank"><img src="img/logo-facebook.svg" width="24px"></a></li>
+            <li><a href="https://twitter.com/legendofajax" target="_blank"><img src="img/logo-twitter.svg" width="24px"></a></li>
+            <li><a href="https://imgur.com/user/thelegendofajax/posts" target="_blank"><img src="img/logo-imgur.svg" width="24px"></a></li>
         </div>
     </div>
     <div id="menu_rules" class="menu_enter hidden">
