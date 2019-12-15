@@ -102,7 +102,7 @@ class Editor {
         }
 
         this.counter = counter;
-        console.log(counter, this.focus);
+        //console.log(counter, this.focus);
         face = this.checkFace(this.focus, closest);
         return face;
     }
