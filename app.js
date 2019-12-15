@@ -315,7 +315,7 @@ io.on('connection', function(socket){
                 console.log("Invalid type", data, "player", player.id, "-", player.custom.username);
                 socket.emit("notifyUser", {
                     type: data.type,
-                    message: `Invalid part type: ${data.type}`
+                    message: 'Invalid part type'
                 });
                 return;
         }
@@ -328,7 +328,7 @@ io.on('connection', function(socket){
             console.error("Not enough res to build", data, "player", player.id, "-", player.custom.username);
             socket.emit("notifyUser", {
                 type: data.type,
-                message: `You don't have enough resources to build a ${data.part}.`
+                message: 'Not enough resources to build this'
             });
         }
 
@@ -338,7 +338,7 @@ io.on('connection', function(socket){
             console.error("Invalid part", data, "player", player.id, "-", player.custom.username);
             socket.emit("notifyUser", {
                 type: data.type,
-                message: `Invalid body part: ${data.part}`
+                message: 'Invalid body part selected'
             });
             return;
         }
@@ -347,7 +347,7 @@ io.on('connection', function(socket){
             console.error("Invalid face", data, "player", player.id, "-", player.custom.username);
             socket.emit("notifyUser", {
                 type: data.type,
-                message: "Please click closer to place the new body part."
+                message: 'Please click closer to place this part'
             });
             return;
         }
@@ -358,7 +358,7 @@ io.on('connection', function(socket){
             console.error("[ENGINE] Error (code", res, ") attaching part", data, "player", player.id, "-", player.custom.username);
             socket.emit("notifyUser", {
                 type: data.type,
-                message: `Unable to attach this part (error code ${res}).`
+                message: 'Cannot attach this part here'
             });
         }
     });
@@ -373,9 +373,9 @@ io.on('connection', function(socket){
             console.error("Invalid part remove", data, "player", player.id, "-", player.custom.username);
 
             if (data.part) {
-                // Don't notify invalid face / this cell
+                //Don't notify invalid face / this cell
                 socket.emit("notifyUser", {
-                    message: `Couldn't remove part ${data.part}`
+                    message: 'Cannot remove this part'
                 });
             }
             return;
