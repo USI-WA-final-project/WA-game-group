@@ -54,8 +54,8 @@ class Editor {
         }
 
         if (bestDistance > 100 * PIXEL_SCALE) {
-            console.log('best', bestDistance);
-            return console.warn("Clicked too far from player");
+            console.warn(`Clicked too far (${bestDistance})`);
+            return -1;
         }
 
         this.counter = counter;
@@ -97,8 +97,8 @@ class Editor {
         }
 
         if (bestDistance > 100 * PIXEL_SCALE) {
-            console.log('best', bestDistance);
-            return console.warn("Clicked too far from player");
+            console.warn(`Clicked too far (${bestDistance})`);
+            return -1;
         }
 
         this.counter = counter;

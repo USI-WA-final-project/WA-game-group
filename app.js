@@ -241,7 +241,7 @@ io.on('connection', function(socket){
                             x: adjustedX,
                             y: adjustedY
                         }
-                    }
+                    };
                     resources.push(resource);
                 }
             });
@@ -313,7 +313,10 @@ io.on('connection', function(socket){
             break;
             default:
                 console.log("Invalid type", data, "player", player.id, "-", player.custom.username);
-                socket.emit("attachError", { type: data.type, message: "Invalid type " + data.type });
+                socket.emit("notifyUser", {
+                    type: data.type,
+                    message: `Invalid part type: ${data.type}`
+                });
                 return;
         }
 
@@ -322,29 +325,41 @@ io.on('connection', function(socket){
 
         //Check if player has enough resources to build
         if (playerData.resources < engine.BODYPART_COST[type]) {
-            console.log("Not enough res to build", data, "player", player.id, "-", player.custom.username);
-            socket.emit("moneyError", { type: data.type, message: "Not enough money for " + data.part });
+            console.error("Not enough res to build", data, "player", player.id, "-", player.custom.username);
+            socket.emit("notifyUser", {
+                type: data.type,
+                message: `You don't have enough resources to build a ${data.part}.`
+            });
         }
 
         player.bodyparts = playerData.bodyparts;
 
         if (data.part < 0 || player.bodyparts[data.part] === undefined) {
-            console.log("Invalid part", data, "player", player.id, "-", player.custom.username);
-            socket.emit("attachError", { type: data.type, message: "Invalid part " + data.part });
+            console.error("Invalid part", data, "player", player.id, "-", player.custom.username);
+            socket.emit("notifyUser", {
+                type: data.type,
+                message: `Invalid body part: ${data.part}`
+            });
             return;
         }
 
         if (data.face < 0 || data.face > 5) {
-            console.log("Invalid face", data, "player", player.id, "-", player.custom.username);
-            socket.emit("attachError", { type: data.type, message: "Invalid face " + data.face });
+            console.error("Invalid face", data, "player", player.id, "-", player.custom.username);
+            socket.emit("notifyUser", {
+                type: data.type,
+                message: "Please click closer to place the new body part."
+            });
             return;
         }
 
         res = engine.attach(player.id, type, data.part, data.face);
 
-        if (res != 0) {
-            console.log("[ENGINE] Error (code", res, ") attaching part", data, "player", player.id, "-", player.custom.username);
-            socket.emit("attachError", { type: data.type, message: "Invalid attach (code " + res + ")" });
+        if (res !== 0) {
+            console.error("[ENGINE] Error (code", res, ") attaching part", data, "player", player.id, "-", player.custom.username);
+            socket.emit("notifyUser", {
+                type: data.type,
+                message: `Unable to attach this part (error code ${res}).`
+            });
         }
     });
 
@@ -355,8 +370,14 @@ io.on('connection', function(socket){
         player.bodyparts = playerData.bodyparts;
 
         if (data.part <= 0 || player.bodyparts[data.part] === undefined) {
-            console.log("Invalid part remove", data, "player", player.id, "-", player.custom.username);
-            socket.emit("removeError", { message: "Invalid part " + data.part });
+            console.error("Invalid part remove", data, "player", player.id, "-", player.custom.username);
+
+            if (data.part) {
+                // Don't notify invalid face / this cell
+                socket.emit("notifyUser", {
+                    message: `Couldn't remove part ${data.part}`
+                });
+            }
             return;
         }
 

@@ -5,6 +5,10 @@
  */
 class Graphics {
 
+    constructor() {
+        this.notificationComposer = new NotificationComposer();
+    }
+
     /**
      * Set a canvas.
      *
@@ -58,6 +62,15 @@ class Graphics {
      */
     getContext() {
         throw "This function has not been implemented";
+    }
+
+    /**
+     * Publish a notification
+     *
+     * @param message The message of the notification
+     */
+    notify(message) {
+        this.notificationComposer.notify(message)
     }
 
     /**

@@ -12,6 +12,10 @@
     <audio id="audio_game" loop>
         <source src="media/audio_game.mp3" type="audio/mpeg">
     </audio>
+    <div id="notification">
+        <img src="img/notification.svg">
+        <span id="notification_text">Hello there</span>
+    </div>
     <canvas id="canvas" tabindex="1"></canvas>
 
     <div id="stats" class="hidden sidebar">

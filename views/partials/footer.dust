@@ -1,4 +1,5 @@
     <script src="/js/graphics/composer/map_composer.js"></script>
+    <script src="/js/graphics/composer/notification_composer.js"></script>
     <script src="/js/graphics/composer/player_composer.js"></script>
     <script src="/js/graphics/composer/resources_composer.js"></script>
     <script src="/js/graphics/graphics.js"></script>

@@ -411,18 +411,8 @@ class App {
 		socket.emit('registerUser',  name);
 	}
 
-	displayAttachError(type, data) {
-		switch (type){
-			case 'attach':
-				//TODO this.graphics.showError("data.msg")
-				break;
-			case 'money':
-				//TODO this.graphics.showError("data.msg")
-				break;
-			case 'remove':
-				//TODO this.graphics.showError("data.msg")
-				break;
-		}
+	notify(data) {
+		this.graphics.notify(data.message);
 	}
 
 	gameOver() {
@@ -432,6 +422,16 @@ class App {
 	}
 
 	snapshot() {
+		/*
+		 * ⚠️ CRIME SCENE - DO NOT CROSS ⚠️
+		 * 🚨 This unlawful code has been found guilty of trespass by the Private Property Police 🚔 🚨
+		 *
+		 *    This code was caught trying to access and use the private
+		 *    class members of Graphics.
+		 *
+		 *    Tank you JavaScript.
+		 *    All MEMbErs aRe EquAL, buT sOMe memBeRS aRe mORe eQUaL tHAn oTHerS
+
 		var plain = new Image();
 		plain.src = this.canvas.toDataURL('image/jpeg');
 
@@ -453,7 +453,7 @@ class App {
 		.then((result) => {
 			//console.log("Uploaded on imgur:", result);
 		})
-		.catch(/*console.error*/);
+		*/
 	}
 
 	doJSONRequest(method, url, body) {

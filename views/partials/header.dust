@@ -40,6 +40,7 @@
     <link rel="stylesheet" href="/css/login.css">
     <link rel="stylesheet" href="/css/map.css">
     <link rel="stylesheet" href="/css/moments.css">
+    <link rel="stylesheet" href="/css/notification.css">
     <link rel="stylesheet" href="/css/sidebar.css">
     <link rel="stylesheet" href="/css/style.css">
 </head>
