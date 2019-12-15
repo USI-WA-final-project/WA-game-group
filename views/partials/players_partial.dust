@@ -5,9 +5,9 @@
             <h2>@{username}</h2>
             <p style="margin-top:5px;">
                 &nbsp;
-                {kills} <img src="/img/kills.svg" class="imgSmallData">
+                {kills} <img src="/img/kills.svg" class="imgSmallData"> 
                 {resources} <img src="/img/money.svg" class="imgSmallData"> 
-                {parts} <img src="/img/bodyparts.svg" class="imgSmallData">
+                {parts} <img src="/img/bodyparts.svg" class="imgSmallData"> 
                 {score} <img src="/img/score.svg" class="imgSmallData">
             </p>
         </div>
@@ -15,3 +15,20 @@
 {:else}
     <div style="margin:20px;">No results</div>
 {/result}
+
+{?olds}
+    <h2 style="margin:50px 0 20px 20px;">Past high scores</h2>
+{/olds}
+
+{#olds}
+    <div class="players_item">
+        <div class="badge" style="background-color: {playerColor}">{@math key=$idx method="add" operand="1"/}</div>
+        <div class="player_info">
+            <h2>@{username}</h2>
+            <p style="margin-top:5px;">
+                &nbsp;
+                {score} <img src="/img/score.svg" class="imgSmallData"> 
+            </p>
+        </div>
+    </div>
+{/olds}

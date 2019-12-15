@@ -106,7 +106,7 @@ var database = {
         return Player.find(filter).then(function(found) {
             found[0].dateEnded = Date.now();
             found[0].active = false;
-            found[0].score = score + (found[0].dateEnded - found[0].dateStarted) / 1000;
+            found[0].score = Math.floor(score + (found[0].dateEnded - found[0].dateStarted) / 1000);
 
             return found[0].save().then(function(saved) {
                 console.log('[DB] Archived player', saved.id, '-', saved.username);

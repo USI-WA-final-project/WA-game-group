@@ -8,6 +8,9 @@
         <img src="/img/search.png" style="width: 30px; height: 30px">
     </a>
 </div>
+
+<h2 style="margin:0 0 20px 20px;">Current players</h2>
+
 <div id="players">
     {>"partials/players_partial" /}
 </div>
