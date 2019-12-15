@@ -40,7 +40,7 @@
                 <div class="personal_item"><img src="img/spike.svg"><div id="info_spikes">0&nbsp;</div>spikes</div>
                 <div><img src="img/shield.svg"><div id="info_shields">0&nbsp;</div>shields</div>
                 <div><img src="img/time.svg"><div id="info_time">00:00</div></div>
-                <div><img src="img/knife-blood.svg"><div id="info_killed">0&nbsp;</div>killed</div>
+                <div><img src="img/kills.svg"><div id="info_killed">0&nbsp;</div>killed</div>
                 <hr>
                 <a href="/players" target="blank" style="color: #333; text-decoration: none;">
                     <div class="tools"><img src="img/leaderboard.svg">Leaderboard</div>

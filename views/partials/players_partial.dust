@@ -5,7 +5,7 @@
             <h2>@{username}</h2>
             <p style="margin-top:5px;">
                 &nbsp;
-                {kills} <img src="/img/knife-blood.svg" class="imgSmallData"> 
+                {kills} <img src="/img/kills.svg" class="imgSmallData">
                 {resources} <img src="/img/money.svg" class="imgSmallData"> 
                 {parts} <img src="/img/bodyparts.svg" class="imgSmallData">
                 {score} <img src="/img/score.svg" class="imgSmallData">
