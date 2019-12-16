@@ -32,6 +32,12 @@ let socket = undefined;
 let angle = 0;
 let inGame = false;
 
+window.onbeforeunload = function() {
+        if (window.location.pathname == "/") {
+            return "You can not refresh the page";
+        }
+    }
+
 window.onload = () => {
     //main page
     if (window.location.pathname == "/players") {
