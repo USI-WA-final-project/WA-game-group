@@ -4,6 +4,7 @@
     right:0;
     padding: 1em;
     height: 200px;
+    clip: rect(0px,432px,220px,216px);
 }
 
 #canvas {
