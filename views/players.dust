@@ -9,6 +9,16 @@
     </a>
 </div>
 
+<div style="margin:0 0  20px 20px;">
+	<h2>Sort by:</h2>
+	<select>
+		<option value="score">Score</option>
+		<option value="kills">Kills</option>
+		<option value="parts">Parts</option>
+		<option value="resources">Resources</option>
+	</select>
+</div>
+
 <h2 style="margin:0 0 20px 20px;">Current players</h2>
 
 <div id="players">

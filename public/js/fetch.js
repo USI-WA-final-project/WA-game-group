@@ -72,6 +72,9 @@ function doJSONRequest(method, url, headers, data){
 
 function searchPlayers() {
 	let name = document.querySelector("input[name=search_player]").value;
+	let query = '/players/search?name='+name;
+
+	const select = document.querySelector("select");
 
 	if (name != "") {
 		document.querySelector("input[name=search_player]").classList.add('open');
@@ -81,7 +84,20 @@ function searchPlayers() {
 		document.querySelector(".search-btn").classList.remove('white');
 	}
 
-	doJSONRequest('GET', '/players/search?name='+name, {})
+	if (select.value == "kills") {
+		query += "&kills=1"
+	}
+
+	if (select.value == "resources") {
+		query += "&resources=1"
+	}
+
+	if (select.value == "parts") {
+		query += "&parts=1"
+	}
+
+	//console.log(query);
+	doJSONRequest('GET', query, {})
 	.then((data) => {
 		dust.render("partials/players_partial", { result: data.result, olds: data.olds }, function(err, out) {
 			document.getElementById("players").innerHTML = out;
