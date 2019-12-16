@@ -358,11 +358,16 @@ class Engine {
      * detaches the bodypart at the given index from the given user (and destroys/recycles it)
      * @param id {playerid} the id of the user to modify
      * @param part {number} the index of the bodypart to remove
+     * @return -1 if user does not exist. -2 if user does not have part at index part. 0 otherwise.
      */
     detach(id, part) {
+        let ret = -1;
         this._users.with(id, user => {
+            ret = 0;
+            if (!user.components.parts[part]) ret = -2;
             user.shrink(part, res => {user.resources += res});
-        })
+        });
+        return ret;
     }
 
     /**
