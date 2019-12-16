@@ -33,7 +33,7 @@ let angle = 0;
 let inGame = false;
 
 window.onbeforeunload = function() {
-        if (window.location.pathname == "/") {
+        if (window.location.pathname == "/" && inGame) {
             return "You can not refresh the page";
         }
     }
@@ -262,6 +262,7 @@ function init(name) {
     });
 
     socket.on('reconnect', function(msg){
+       inGame = false;
        location.reload();
     });
 
