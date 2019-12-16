@@ -25,7 +25,7 @@
             <hr>
             <div id="minimal">
                 <img src="img/score.svg" style="margin-left: 10px"><span id="info_score">0</span>
-                <img src="img/money.svg" style="margin-left: 45px"><div id="info_res">0&nbsp;</div>¶
+                <img src="img/money.svg" style="margin-left: 45px"><div id="info_res">0&nbsp;</div>
             </div>
             <div style="display: flex; margin-right:auto; margin-top:10px; flex-direction: row;">
                 <img src="img/heart-rate.svg" width="24" height="20" style="margin-left: 26px;">
