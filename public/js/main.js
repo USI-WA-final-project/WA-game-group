@@ -40,8 +40,9 @@ window.onbeforeunload = function() {
 
 window.onload = () => {
     //main page
-    if (window.location.pathname == "/players") {
+    if (window.location.pathname.includes("/players")) {
         document.querySelector("input[name=search_player]").addEventListener('keyup', searchPlayers);
+        document.querySelector("select").addEventListener('change', searchPlayers);
     }
 
     if (window.location.pathname == "/") {
@@ -231,6 +232,7 @@ function init(name) {
         });
 
         socket.on('gameOver', function(data) {
+            inGame = false;
             app.gameOver();
             console.log("FINAL SCORE", data.score);
             dust.render('gameover', {}, function(err, out) {

@@ -167,6 +167,7 @@ io.on('connection', function(socket){
             let size = data.size;
     
             let players = [];
+            let renderedPlayers = [];
     
             worldState.players.forEach(function(el) {    
                 let adjustedX = el.position.x - x;
@@ -184,45 +185,47 @@ io.on('connection', function(socket){
                     player.score = scoreNum;
                 }
 
-                if (Math.abs(adjustedX) < RENDER_DISTANCE + el.size + size && 
-                    Math.abs(adjustedY) < RENDER_DISTANCE + el.size + size) {
-                    let newPlayer = {
-                        color: el.custom.color,
-                        health: el.bodyparts[0].health,
-                        rotation: el.rotation,
-                        kills: el.kills,
-                        resources: Math.floor(el.resources),
-                        username: el.custom.username,
-                        score: scoreNum,
-                        parts: partsNum,
-                        components: el.bodyparts.map(function(item) {
-                            let newItem = Object.assign({}, item);
-                            switch(item.type) {
-                                case engine.BODYPART_TYPE.CELL:
-                                    newItem.type = 0;
-                                break;
-                                case engine.BODYPART_TYPE.SPIKE:
-                                    newItem.type = 1;
-                                break;
-                                case engine.BODYPART_TYPE.SHIELD:
-                                    newItem.type = 2;
-                                break;
-                                case engine.BODYPART_TYPE.BOUNCE:
-                                    newItem.type = 3;
-                                break;
-                                default:
-                                    newItem.type = -1;
-                            }
-                            return newItem;
-                        }),
-                        position: {
-                            x: adjustedX,
-                            y: adjustedY
+                let newPlayer = {
+                    color: el.custom.color,
+                    health: el.bodyparts[0].health,
+                    rotation: el.rotation,
+                    kills: el.kills,
+                    resources: Math.floor(el.resources),
+                    username: el.custom.username,
+                    score: scoreNum,
+                    parts: partsNum,
+                    components: el.bodyparts.map(function(item) {
+                        let newItem = Object.assign({}, item);
+                        switch(item.type) {
+                            case engine.BODYPART_TYPE.CELL:
+                                newItem.type = 0;
+                            break;
+                            case engine.BODYPART_TYPE.SPIKE:
+                                newItem.type = 1;
+                            break;
+                            case engine.BODYPART_TYPE.SHIELD:
+                                newItem.type = 2;
+                            break;
+                            case engine.BODYPART_TYPE.BOUNCE:
+                                newItem.type = 3;
+                            break;
+                            default:
+                                newItem.type = -1;
                         }
-                    };
-    
-                    players.push(newPlayer);
-                }            
+                        return newItem;
+                    }),
+                    position: {
+                        x: adjustedX,
+                        y: adjustedY
+                    }
+                };
+
+                if (Math.abs(adjustedX) < RENDER_DISTANCE + el.size + size && 
+                    Math.abs(adjustedY) < RENDER_DISTANCE + el.size + size) {    
+                    renderedPlayers.push(newPlayer);
+                }
+                
+                players.push(newPlayer);
             });
 
             app.locals.players = players;
@@ -273,7 +276,7 @@ io.on('connection', function(socket){
             let serializedData = {
                 playerPosition: { x: x, y: y },
                 playerParts: playerParts,
-                players: players,
+                players: renderedPlayers,
                 resources: resources
             };
     
