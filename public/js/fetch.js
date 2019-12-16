@@ -83,9 +83,8 @@ function searchPlayers() {
 
 	doJSONRequest('GET', '/players/search?name='+name, {})
 	.then((data) => {
-		dust.render("partials/players_partial", {result: data}, function(err, out) {
-			document.getElementById("players").innerHTML = out;  
-
+		dust.render("partials/players_partial", { result: data.result, olds: data.olds }, function(err, out) {
+			document.getElementById("players").innerHTML = out;
 		});
 	});
 }

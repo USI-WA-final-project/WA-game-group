@@ -12,6 +12,7 @@
     <script src="/js/editor.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/dustjs-linkedin/dust-core.min.js"></script>
+    <script src="/js/dust-helpers.js"></script>
     <script src="/js/views.js"></script>
     </body>
 </html>

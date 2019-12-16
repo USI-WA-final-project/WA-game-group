@@ -46,7 +46,6 @@ router.get('/search', function(req, res) {
     });
 
     database.getPlayersByFilter({ username: {'$regex': user, '$options': 'i'}, active: false }).then(function(data) {
-        console.log(data);
         let olds = data.sort(function(a, b) { return b.score - a.score; });
 
         for (let i = 0; i < olds.length; i++) {
@@ -56,7 +55,7 @@ router.get('/search', function(req, res) {
         if (req.accepts("html")) {        
             res.render("players", { result: filtered, olds: olds });
         } else if (req.accepts("json")){
-            res.json(filtered);
+            res.json({ result: filtered, olds: olds });
         } else {
             res.status(406).end();    //Not acceptable
         } 
