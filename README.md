@@ -1,12 +1,17 @@
-# WA-game-group
-Repository for Legend of Ajax, Web Atelier final project
+# The Legend of Ajax ![alt text](https://raw.githubusercontent.com/USI-WA-final-project/WA-game-group/master/public/img/favicon-16x16.png "The Legend of Ajax")
+
+Build your character, collect resources and battle for victory!
+
+An innovative browser game developed by six students for the Web Atelier course at USI, Lugano.
 
 ## Official website
 
-[legendofajax.fun](https://legendofajax.fun)
+[https://legendofajax.fun](https://legendofajax.fun)
 
-## Resources
+## Follow us on social media!
 
-[Game design document](https://docs.google.com/document/d/1o-foFETXKbwM9E_wdpiyqWEL3Dz24hhskt_AqfoLJKU/edit?usp=sharing)
+[Facebook](https://www.facebook.com/thelegendofajax/)
 
-[Milestones slides](https://docs.google.com/presentation/d/1bjb4oSuYbQodm62XOgVv1tcolbe34xpZI4Cf5l7b1Mg/edit?usp=sharing)
+[imgur](https://imgur.com/user/thelegendofajax/posts)
+
+[Twitter](https://twitter.com/legendofajax)

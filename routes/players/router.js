@@ -9,7 +9,6 @@ const database = require('../../database.js');
 router.get('/', function(req, res) {
     let colors = req.app.locals.worldData.colors;
     let players = req.app.locals.players.sort(function(a, b) { return b.score - a.score; });
-    console.log(players);
 
     for (let i = 0; i < players.length; i++) {
         players[i].playerColor = colors[players[i].color].core;
