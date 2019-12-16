@@ -2,9 +2,6 @@
 <div id="{_id}">
 	<h1>{name}</h1>
 	<img class="photography" src="{src}"/>
-
-	<button type="delete">Delete</button>
-	 	
 </div>
 {:else}
 <p>You haven't taken shoots so far.</p>
