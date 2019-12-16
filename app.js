@@ -12,6 +12,8 @@ const playerColors = require('./colors.js');
 
 require('./models/Player');
 const Player = mongoose.model('Player');
+require('./models/Moment');
+const Moment = mongoose.model('Moment');
 
 const RENDER_DISTANCE = 1500;
 const MAX_USER_LENGTH = 14;
@@ -19,7 +21,8 @@ const DEFAULT_USERNAME = "ajax";
 const NUM_COLORS = 8;
 
 const SERVER_PORT = 3000;
-const PURGE_DB_RESTART = true;
+const PURGE_PLAYERS = false;
+const PURGE_MOMENTS = false;
 
 //DB Connection
 mongoose.connect('mongodb://localhost/loa', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -72,13 +75,22 @@ const server = app.listen(SERVER_PORT, function() {
     console.log('Express server listening on port', server.address().port);
     engine.init();
 
-    if (PURGE_DB_RESTART) {
-        //Clear the database
+    if (PURGE_PLAYERS) {
         Player.deleteMany({}, function(err) {
             if (err) {
                 console.log('[DB]', err);
             } else {
-                console.log('DB cleared');
+                console.log('[DB] Cleared players');
+            }
+        });
+    }
+
+    if (PURGE_MOMENTS) {
+        Moment.deleteMany({}, function(err) {
+            if (err) {
+                console.log('[DB]', err);
+            } else {
+                console.log('[DB] Cleared moments');
             }
         });
     }
