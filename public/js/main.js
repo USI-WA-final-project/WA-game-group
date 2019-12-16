@@ -231,6 +231,7 @@ function init(name) {
         });
 
         socket.on('gameOver', function(data) {
+            inGame = false;
             app.gameOver();
             console.log("FINAL SCORE", data.score);
             dust.render('gameover', {}, function(err, out) {
