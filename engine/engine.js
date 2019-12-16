@@ -364,7 +364,7 @@ class Engine {
         let ret = -1;
         this._users.with(id, user => {
             ret = 0;
-            if (!user.components.parts[part]) ret = -2;
+            if (!user.components[part]) ret = -2;
             user.shrink(part, res => {user.resources += res});
         });
         return ret;

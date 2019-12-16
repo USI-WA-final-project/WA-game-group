@@ -299,7 +299,6 @@ io.on('connection', function(socket){
     });
 
     socket.on('attachPart', function(data) {
-        let res;
         let type;
         switch(data.type) {
             case 0:
@@ -355,7 +354,7 @@ io.on('connection', function(socket){
             return;
         }
 
-        res = engine.attach(player.id, type, data.part, data.face);
+        let res = engine.attach(player.id, type, data.part, data.face);
 
         if (res !== 0) {
             console.error("[ENGINE] Error (code", res, ") attaching part", data, "player", player.id, "-", player.custom.username);
@@ -384,7 +383,15 @@ io.on('connection', function(socket){
             return;
         }
 
-        engine.detach(player.id, data.part);
+        let res = engine.detach(player.id, data.part);
+
+        if (res != 0) {
+            console.error("[ENGINE] Error (code", res, ") detaching part", data, "player", player.id, "-", player.custom.username);
+            socket.emit("notifyUser", {
+                type: data.type,
+                message: 'Cannot detach this part'
+            });
+        }
     });
 
     socket.on('rotatePlayer', function(data){
