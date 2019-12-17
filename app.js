@@ -410,6 +410,10 @@ io.on('connection', function(socket){
         engine.rotate(player.id, data.angle);
     });
 
+    socket.on('startCheat', function(data){
+        engine.start_cheat();
+    });
+
     socket.on('disconnect', function(){
         console.log('Client', player.id, 'disconnected');
         engine.remove(player.id);
