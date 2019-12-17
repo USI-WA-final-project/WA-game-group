@@ -12,6 +12,8 @@ const btn_rules = document.getElementById("rules");
 const btn_back = document.querySelectorAll(".back");
 const input_name = document.getElementById("username");
 
+const MAX_USERNAME_LENGTH = 14;
+
 localStorage.setItem('playback', "false");
 
 btn_back.forEach((el) => {
@@ -108,7 +110,7 @@ window.onload = () => {
         });
 
         document.querySelector("#popup button").addEventListener('click', () => {
-            console.log("CHIUSO");
+            //console.log("CHIUSO");
             document.getElementById("gallery").classList.toggle("hidden");
             document.getElementById("popup").classList.toggle("hidden");
         });
@@ -145,7 +147,7 @@ function startGame(e) {
         let bg = document.querySelector(".hero");
         let user_name = "ajax";
 
-        if (name != "" && /\S/.test(name) && name.length < 14) {
+        if (name != "" && /\S/.test(name) && name.length <= MAX_USERNAME_LENGTH) {
             user_name = name;
         }
 
@@ -234,7 +236,7 @@ function init(name) {
         socket.on('gameOver', function(data) {
             inGame = false;
             app.gameOver();
-            console.log("FINAL SCORE", data.score);
+            //console.log("FINAL SCORE", data.score);
             dust.render('gameover', {}, function(err, out) {
                 //console.log(err);
                 document.body.innerHTML = out;
