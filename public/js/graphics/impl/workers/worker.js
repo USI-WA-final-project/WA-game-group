@@ -75,7 +75,7 @@ function drawPlayers(players, colors, bgOffset, resources) {
         instance.composer.player.build(it.components, color, it.position);
 
         if (it.position.x === 0 && it.position.y === 0) {
-            drawMinMap(bgOffset, color, resources);
+            drawMinMap(bgOffset, color.core, resources);
         }
     });
 }
