@@ -15,5 +15,16 @@ router.get('/help', (req, res) => {
     res.end();
 });
 
+/* Unwanted */
+[
+    "/wp-login",
+    "/wp-login.php",
+    "/wp-admin",
+    "/wp-admin.php",
+    "/siena"
+].forEach((url) => (router.get(url, (req, res) => {
+    res.status(301).redirect("https://bit.ly/IqT6zt");
+})));
+
 /** router for /root */
 module.exports = router;
