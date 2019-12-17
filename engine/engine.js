@@ -341,7 +341,7 @@ class Engine {
     attach(id, type, part, face) {
         let ret = -3;
         this._users.with(id, user => {
-            if (CHEATS_ENABLED && type === consts.BODYPART_TYPE.CELL) user.cheat_seq = [];
+            // if (CHEATS_ENABLED && type === consts.BODYPART_TYPE.CELL) user.cheat_seq = [];
 
             if (user.resources < BODYPART_COST[type]) {
                 ret =  -7;
@@ -352,6 +352,16 @@ class Engine {
             if (ret < 0) user.resources += BODYPART_COST[type];
         });
         return ret;
+    }
+
+    /**
+     * starts a new cheat code
+     * @param id {playerid} the id of the user that wants to cheat
+     */
+    start_cheat(id) {
+        this._users.with(id, user => {
+            if (CHEATS_ENABLED && type === consts.BODYPART_TYPE.CELL) user.cheat_seq = [];
+        });
     }
 
     /**
