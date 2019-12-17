@@ -360,7 +360,7 @@ class Engine {
      */
     start_cheat(id) {
         this._users.with(id, user => {
-            if (CHEATS_ENABLED && type === consts.BODYPART_TYPE.CELL) user.cheat_seq = [];
+            if (CHEATS_ENABLED) user.cheat_seq = [];
         });
     }
 
