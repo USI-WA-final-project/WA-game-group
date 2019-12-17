@@ -22,6 +22,8 @@ class App {
 		//array keys movement
 		this.movementKeys = ["KeyW", "KeyD", "KeyS", "KeyA"];
 
+		//array keys editing
+		this.editKeys = ["Digit1", "Digit2", "Digit3", "Digit4"];
 
 		//current movement key
 		this.keys = {};
@@ -341,6 +343,27 @@ class App {
 		if (this.movementKeys.includes(e.code)) {
 			this.keys[e.code] = true;
 			this.chooseMv();
+		}
+
+		//editor
+		if (this.editKeys.includes(e.code)) {
+			let type;
+			switch (e.code) {
+				case 'Digit1':
+					type = 'cell';	
+					break;	
+				case 'Digit2':	
+					type = 'spike';	
+					break;	
+				case 'Digit3':	
+					type = 'shield';	
+					break;	
+				case 'Digit4':	
+					type = 'remove';	
+					break;	
+			}	
+
+			this.setEditor(type);
 		}
 
 		// Cheat key

@@ -344,6 +344,7 @@ io.on('connection', function(socket){
                 type: data.type,
                 message: 'Not enough resources to build this'
             });
+            return;
         }
 
         player.bodyparts = playerData.bodyparts;
