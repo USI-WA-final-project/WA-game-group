@@ -60,6 +60,7 @@
     padding: 4px 20px;
     border: none;
     border-bottom: 1px solid rgba(59, 64, 67, 1);
+    max-width: calc(100% - 40px);
 }
 
 #menu_enter div {
@@ -104,6 +105,7 @@
 
 #logo_input {
     transition: 300ms ease-out;
+    margin: 0 10px;
 }
 
 #audio_menu:hover {

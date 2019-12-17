@@ -1,3 +1,7 @@
+.players_header {
+    padding: 20px;
+}
+
 .momentstyle {
     display: flex;
     flex-wrap: wrap;
@@ -8,12 +12,12 @@
 .momentstyle div {
     text-align: center;
     margin: 10px;
-    width: 310px;
+    width: calc(33% - 20px);
+    word-break: break-all;
 }
 
 .momentstyle img {
-    width: 300px;
-    height: 200px;
+    width: 100%;
     border-radius: 10px;
     border: 3px solid transparent;
 }
@@ -25,13 +29,12 @@
 
 #popup {
     position: absolute;
-    margin-left: auto;
-    margin-right: auto;
+    margin: auto;
     top: 25vh;
     left: 0;
     right: 0;
     background-color: #f1f2f3;
-    max-width: 500px;
+    max-width: 90%;
     border-radius: 10px;
 }
 
@@ -56,4 +59,5 @@
 .infos {
     position: absolute;
     top: 5px;
+    left: 10px;
 }
