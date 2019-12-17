@@ -142,7 +142,7 @@ io.on('connection', function(socket){
 
     //Register user in DB and engine
     socket.on('registerUser', function(user) {
-        if (user.length == 0 || !(/\S/.test(user)) || user.length > MAX_USER_LENGTH) {
+        if (user.length == 0 || !(/\S/.test(user)) || user.length >= MAX_USER_LENGTH) {
             console.log("Invalid username", user);
             user = DEFAULT_USERNAME;
         }
