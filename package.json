@@ -2,7 +2,11 @@
   "name": "legend-of-ajax",
   "version": "1.0.0",
   "description": "Legend of Ajax, Web Atelier final project",
-  "license": "Apache-2.0",
+  "license": "GPL-3.0",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/USI-WA-final-project/WA-game-group.git"
+  },
   "main": "app.js",
   "scripts": {
     "start": "yarn run dustc; nodemon",
