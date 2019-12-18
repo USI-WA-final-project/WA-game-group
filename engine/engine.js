@@ -67,7 +67,7 @@ const CHEATS = [{seq: [DIRECTION.UP, DIRECTION.DOWN,
                 },
                 {seq: [DIRECTION.LEFT, DIRECTION.UP, DIRECTION.RIGHT, DIRECTION.DOWN],
                     // initial
-                 effect: (user) => {user.components = STORED_BODIES[2].map(part => Object.assign({}, part))}
+                 effect: (user) => {user.resources = 0; user.components = STORED_BODIES[2].map(part => Object.assign({}, part))}
                 },
                 { // log user
                     seq: [DIRECTION.LEFT, DIRECTION.DOWN, DIRECTION.RIGHT, DIRECTION.UP],
