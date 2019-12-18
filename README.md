@@ -4,11 +4,15 @@ Build your character, collect resources and battle for victory!
 
 An innovative browser game developed by six students for the Web Atelier course at USI, Lugano.
 
-## Official website
+### Official website
 
 [https://legendofajax.fun](https://legendofajax.fun)
 
-## Follow us on social media!
+### Gameplay demo
+
+[Youtube video](https://youtu.be/pu-7xPSx81U)
+
+### Follow us on social media!
 
 [Facebook](https://www.facebook.com/thelegendofajax/)
 
