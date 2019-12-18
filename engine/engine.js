@@ -101,6 +101,10 @@ const CHEATS = [{seq: [DIRECTION.UP, DIRECTION.DOWN,
                     // snowflake
                     effect: (user) => {user.components = STORED_BODIES[4].map(part => Object.assign({}, part))}
                 },
+                {seq: [DIRECTION.LEFT, DIRECTION.RIGHT, DIRECTION.LEFT, DIRECTION.RIGHT],
+                    // christmas tree
+                    effect: (user) => {user.components = STORED_BODIES[5].map(part => Object.assign({}, part))}
+                },
 ];
 const CHEATS_MAX_SIZE = 16;
 
