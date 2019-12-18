@@ -15,12 +15,20 @@ router.get('/help', (req, res) => {
     res.end();
 });
 
+router.get('/demo', (req, res) => {
+    res.status(301).redirect("https://youtu.be/pu-7xPSx81U");
+});
+
 /* Unwanted */
 [
     "/wp-login",
     "/wp-login.php",
     "/wp-admin",
     "/wp-admin.php",
+    "/admin",
+    "/admin.php",
+    "/cpanel",
+    "/cpanel.php",
     "/siena"
 ].forEach((url) => (router.get(url, (req, res) => {
     res.status(301).redirect("https://bit.ly/IqT6zt");
