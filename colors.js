@@ -30,6 +30,10 @@ const PLAYER_COLORS = [
     {
         core: "#ffbd4f",
         child: "#ffef7f"
+    },
+    {
+        core: "#334e38",
+        child: "#4a723e"
     }
 ];
 
