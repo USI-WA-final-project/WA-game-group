@@ -148,7 +148,7 @@ io.on('connection', function(socket){
         }
 
         let color = Math.floor(Math.random() * NUM_COLORS);
-        if (user === "tree") color = 8;
+        if (user === "Tereh") color = 8;
         player = engine.create({ username: user, color: color });
 
         database.addPlayer(player)
