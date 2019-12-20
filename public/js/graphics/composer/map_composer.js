@@ -103,7 +103,7 @@ class MapComposer {
         const offsetX = (this.minCtx.canvas.width - size);
         this.minCtx.canvas.height = size;
 
-        const viewRay = (size / worldW) * 500;
+        const viewRay = (size / worldW) * 1300;
 
         const posX = (size / worldW) * playerPosition.x;
         const posY = (size / worldH) * playerPosition.y;

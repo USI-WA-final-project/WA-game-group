@@ -164,7 +164,10 @@ function startGame(e) {
 
         document.getElementById("editor").classList.toggle("hidden");
 
-        document.getElementById("usname").innerHTML = "@" + user_name;
+        document.getElementById("usname").innerHTML = "@" + user_name
+            .replace(/&/gm, "&amp;")
+            .replace(/</gm, "&lt;")
+            .replace(/>/gm, "&gt;");
         menu_enter.parentNode.removeChild(menu_enter);
         document.getElementById("stats").classList.toggle("hidden");
         document.getElementById("more").addEventListener('click', () => {
