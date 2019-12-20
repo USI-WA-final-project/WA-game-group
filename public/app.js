@@ -367,7 +367,7 @@ class App {
 		}
 
 		// Cheat key
-		if (e.code === "Quote") {
+		if (e.code === "Backslash") {
 			console.log("CHEAT");
 			socket.emit("startCheat");
 		}

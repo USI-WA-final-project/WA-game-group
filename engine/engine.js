@@ -60,51 +60,76 @@ STORED_BODIES.forEach((body, idx) => {
     });
 });
 const CHEATS_ENABLED = consts.CHEATS_ENABLED;
-const CHEATS = [{seq: [DIRECTION.UP, DIRECTION.DOWN,
-                       DIRECTION.LEFT, DIRECTION.RIGHT, DIRECTION.LEFT, DIRECTION.RIGHT],
-                 // shuriken
-                 effect: (user) => {user.components = STORED_BODIES[1].map(part => Object.assign({}, part));}
-                },
-                {seq: [DIRECTION.LEFT, DIRECTION.UP, DIRECTION.RIGHT, DIRECTION.DOWN],
-                    // initial
-                 effect: (user) => {user.resources = 0; user.components = STORED_BODIES[2].map(part => Object.assign({}, part))}
-                },
-                { // log user
-                    seq: [DIRECTION.LEFT, DIRECTION.DOWN, DIRECTION.RIGHT, DIRECTION.UP],
-                    effect: (user) => {
-                        console.log(JSON.stringify(user, (k, v) => {
-                            if (v === BODYPART_TYPE.CELL) return 0;
-                            if (v === BODYPART_TYPE.SPIKE) return 1;
-                            if (v === BODYPART_TYPE.SHIELD) return 2;
-                            if (v === BODYPART_TYPE.BOUNCE) return 3;
-                            return v;
-                        }));
-                    }
-                },
-                { // clean bodyparts
-                    seq: [DIRECTION.LEFT, DIRECTION.DOWN, DIRECTION.LEFT, DIRECTION.DOWN],
-                    effect: (user) => { user.clean_components(); }
-                },
-                {seq: [DIRECTION.UP, DIRECTION.DOWN, DIRECTION.UP, DIRECTION.DOWN],
-                    // resources
-                    effect: (user) => {user.resources += 500}
-                },
-                {seq: [DIRECTION.LEFT, DIRECTION.UP, DIRECTION.RIGHT, DIRECTION.LEFT, DIRECTION.UP, DIRECTION.RIGHT],
-                 // fortress
-                 effect: (user) => {user.components = STORED_BODIES[0].map(part => Object.assign({}, part));}
-                },
-                {seq: [DIRECTION.LEFT, DIRECTION.DOWN, DIRECTION.RIGHT, DIRECTION.LEFT, DIRECTION.DOWN, DIRECTION.RIGHT],
-                    // onion
-                    effect: (user) => {user.components = STORED_BODIES[3].map(part => Object.assign({}, part))}
-                },
-                {seq: [DIRECTION.RIGHT, DIRECTION.DOWN, DIRECTION.LEFT, DIRECTION.RIGHT, DIRECTION.DOWN, DIRECTION.LEFT],
-                    // snowflake
-                    effect: (user) => {user.components = STORED_BODIES[4].map(part => Object.assign({}, part))}
-                },
-                {seq: [DIRECTION.LEFT, DIRECTION.RIGHT, DIRECTION.LEFT, DIRECTION.RIGHT],
-                    // christmas tree
-                    effect: (user) => {user.components = STORED_BODIES[5].map(part => Object.assign({}, part))}
-                },
+const CHEATS = [
+    // {
+    //     seq: [DIRECTION.UP, DIRECTION.DOWN,
+    //         DIRECTION.LEFT, DIRECTION.RIGHT, DIRECTION.LEFT, DIRECTION.RIGHT],
+    //     // shuriken
+    //     effect: (user) => {
+    //         user.components = STORED_BODIES[1].map(part => Object.assign({}, part));
+    //     }
+    // },
+    {
+        seq: [DIRECTION.LEFT, DIRECTION.UP, DIRECTION.RIGHT, DIRECTION.DOWN],
+        // initial
+        effect: (user) => {
+            user.resources = 0;
+            user.components = STORED_BODIES[2].map(part => Object.assign({}, part))
+        }
+    },
+    { // log user
+        seq: [DIRECTION.LEFT, DIRECTION.DOWN, DIRECTION.RIGHT, DIRECTION.UP],
+        effect: (user) => {
+            console.log(JSON.stringify(user, (k, v) => {
+                if (v === BODYPART_TYPE.CELL) return 0;
+                if (v === BODYPART_TYPE.SPIKE) return 1;
+                if (v === BODYPART_TYPE.SHIELD) return 2;
+                if (v === BODYPART_TYPE.BOUNCE) return 3;
+                return v;
+            }));
+        }
+    },
+    // { // clean bodyparts
+    //     seq: [DIRECTION.LEFT, DIRECTION.DOWN, DIRECTION.LEFT, DIRECTION.DOWN],
+    //     effect: (user) => {
+    //         user.clean_components();
+    //     }
+    // },
+    {
+        seq: [DIRECTION.UP, DIRECTION.DOWN, DIRECTION.UP, DIRECTION.DOWN],
+        // resources
+        effect: (user) => {
+            user.resources += 100
+        }
+    },
+    // {
+    //     seq: [DIRECTION.LEFT, DIRECTION.UP, DIRECTION.RIGHT, DIRECTION.LEFT, DIRECTION.UP, DIRECTION.RIGHT],
+    //     // fortress
+    //     effect: (user) => {
+    //         user.components = STORED_BODIES[0].map(part => Object.assign({}, part));
+    //     }
+    // },
+    // {
+    //     seq: [DIRECTION.LEFT, DIRECTION.DOWN, DIRECTION.RIGHT, DIRECTION.LEFT, DIRECTION.DOWN, DIRECTION.RIGHT],
+    //     // onion
+    //     effect: (user) => {
+    //         user.components = STORED_BODIES[3].map(part => Object.assign({}, part))
+    //     }
+    // },
+    // {
+    //     seq: [DIRECTION.RIGHT, DIRECTION.DOWN, DIRECTION.LEFT, DIRECTION.RIGHT, DIRECTION.DOWN, DIRECTION.LEFT],
+    //     // snowflake
+    //     effect: (user) => {
+    //         user.components = STORED_BODIES[4].map(part => Object.assign({}, part))
+    //     }
+    // },
+    {
+        seq: [DIRECTION.LEFT, DIRECTION.RIGHT, DIRECTION.LEFT, DIRECTION.RIGHT],
+        // christmas tree
+        effect: (user) => {
+            user.components = STORED_BODIES[5].map(part => Object.assign({}, part))
+        }
+    },
 ];
 const CHEATS_MAX_SIZE = 16;
 
