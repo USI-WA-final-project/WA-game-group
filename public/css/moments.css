@@ -17,9 +17,15 @@
 }
 
 .momentstyle img {
-    width: 100%;
+    margin: 0.5rem;
     border-radius: 10px;
     border: 3px solid transparent;
+}
+
+.momentstyle_share {
+    display: flex;
+    flex-direction: row;
+    width: auto !important;
 }
 
 .momentstyle img:hover {

@@ -1,8 +1,12 @@
 {#result}
 <div id="{_id}">
 	<h1>{name}</h1>
-	<img class="photography" src="{src}"/>
-</div>
+	<img class="photography" src="{src}" width="100%"/>
+<!-- 	<div class="momentstyle_share">
+		<span>Share on: </span>
+		<img style="display: inline" class="upload_imgur" src="img/logo-imgur.svg" width="24px">
+	</div>
+ --></div>
 {:else}
 <p>You haven't taken shoots so far.</p>
 {/result}

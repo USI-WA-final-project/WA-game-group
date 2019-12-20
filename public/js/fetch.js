@@ -127,3 +127,48 @@ function removeImage(e) {
 		});
 	});
 }
+
+function uploadImgur(e) {
+	const id = e.target.parentNode.parentNode.id;
+
+	doJSONRequest('POST', '/moments/imgur/' + id, {}, {})
+	.then((data) => {
+		console.log("DATA", data);
+		// doJSONRequest('GET', '/moments', {})
+		// .then((data) => {
+		// 	// console.log("DATA1", data);
+		// 	dust.render("partials/fav_partial", {result: data}, function(err, out) {
+		// 		// console.log("OUT", out);
+		// 		document.getElementById('gallery').innerHTML = out;
+				
+		// 		document.querySelectorAll("button[type=delete]").forEach((x) => {
+		//             x.addEventListener('click', removeImage);
+		//         });
+		// 	});
+		// });
+	}).catch(console.error);
+
+}
+
+function uploadTwitter(e) {
+	const id = e.target.parentNode.parentNode.id;
+
+	console.log("Hello");
+		doJSONRequest('POST', '/moments/twitter/' + id, {}, {})
+	.then((data) => {
+		console.log("DATA", data);
+		// doJSONRequest('GET', '/moments', {})
+		// .then((data) => {
+		// 	// console.log("DATA1", data);
+		// 	dust.render("partials/fav_partial", {result: data}, function(err, out) {
+		// 		// console.log("OUT", out);
+		// 		document.getElementById('gallery').innerHTML = out;
+				
+		// 		document.querySelectorAll("button[type=delete]").forEach((x) => {
+		//             x.addEventListener('click', removeImage);
+		//         });
+		// 	});
+		// });
+	}).catch(console.error);
+
+}
