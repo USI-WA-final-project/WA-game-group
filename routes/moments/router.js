@@ -7,6 +7,7 @@ const router = express.Router();
 const database = require("../../database.js");
 
 const ImgurProvider = require("./imgur");
+const TwitterProvider = require("./twitter");
 
 function sizeOf(base64) {
     return Buffer.from(base64.substring(base64.indexOf(",") + 1)).length;

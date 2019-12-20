@@ -105,6 +105,7 @@ window.onload = () => {
                 document.querySelector("#popup div").innerHTML = "<h3>" + e.target.parentNode.childNodes[0].innerHTML + "</h3>";
                 document.getElementById("gallery").classList.toggle("hidden");
                 document.getElementById("popup").classList.toggle("hidden");
+
             });
 
         });
@@ -118,10 +119,13 @@ window.onload = () => {
         document.querySelectorAll("button[type=delete]").forEach((x) => {
             x.addEventListener('click', removeImage);
         });
-
+        document.querySelectorAll(".upload_imgur").forEach((x) => {
+            x.addEventListener('click', uploadImgur);
+        });
     }
 
 }
+
 
 //pos starting cursor
 function moveCursorToEnd(el) {
@@ -248,6 +252,8 @@ function init(name) {
             });
         });
     });
+
+
 
     socket.on('connect_error', function(msg){
         //render error
