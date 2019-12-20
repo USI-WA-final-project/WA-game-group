@@ -329,6 +329,8 @@ class User {
 
     shrink(part, resource_processor) {
         if (part === 0) {
+            if (this.components[0].dead) return false;
+            this.components[0].dead = true;
             this.act({action: ACTION.DESTROY});
             this.components[0].faces.forEach(neighbor => {
                 if (neighbor === -1) return;
