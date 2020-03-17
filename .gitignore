@@ -6,3 +6,4 @@ Thumbs.db
 restart.json
 serverLog.txt
 public/js/views.js
+data/
