@@ -25,7 +25,7 @@ const PURGE_PLAYERS = false;
 const PURGE_MOMENTS = false;
 
 //DB Connection
-mongoose.connect('mongodb://localhost/loa', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://mongo/loa', { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => {
     console.log('Database connection successful');
 })
