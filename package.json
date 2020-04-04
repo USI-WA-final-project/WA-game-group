@@ -4,8 +4,8 @@
   "description": "Legend of Ajax, Web Atelier final project",
   "license": "GPL-3.0",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/USI-WA-final-project/WA-game-group.git"
+    "type": "git",
+    "url": "https://github.com/USI-WA-final-project/WA-game-group.git"
   },
   "main": "app.js",
   "scripts": {
@@ -18,8 +18,8 @@
     "dustjs-linkedin": "^2.7.5",
     "express": "^4.17.1",
     "klei-dust": "^1.0.0",
-    "mongoose": "^5.7.12",
-    "morgan": "^1.9.1",
+    "mongoose": "^5.9.7",
+    "morgan": "^1.10.0",
     "node-fetch": "^2.6.0",
     "nodemon": "^2.0.2",
     "querystring": "^0.2.0",
