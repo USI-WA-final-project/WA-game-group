@@ -6,7 +6,7 @@ An innovative browser game developed by six students for the Web Atelier course 
 
 ### Official website
 
-[https://legendofajax.fun](https://legendofajax.fun)
+[https://loa.soulsbros.ch](https://loa.soulsbros.ch)
 
 ### Gameplay demo
 
